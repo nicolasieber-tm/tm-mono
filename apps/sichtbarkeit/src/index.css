@@ -1,0 +1,7 @@
+@import "@tm/tokens/css";
+
+/* Sichtbarkeit brand color override: Amber/Gold */
+:root {
+  --primary: 38 90% 55%;
+  --primary-foreground: 240 6% 10%;
+}

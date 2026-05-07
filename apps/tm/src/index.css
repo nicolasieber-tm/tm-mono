@@ -1,0 +1,6 @@
+@import "@tm/tokens/css";
+
+/* TM brand color override: Indigo */
+:root {
+  --primary: 230 70% 35%;
+}

@@ -1,0 +1,21 @@
+{
+  "name": "@tm/tokens",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./tailwind.preset.ts",
+    "./css": "./index.css"
+  },
+  "files": [
+    "tailwind.preset.ts",
+    "index.css"
+  ],
+  "dependencies": {
+    "lenis": "^1.3.0"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^3.4.0",
+    "tailwindcss-animate": "^1.0.7"
+  }
+}

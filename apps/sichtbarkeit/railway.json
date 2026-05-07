@@ -1,0 +1,16 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "apps/sichtbarkeit/Dockerfile"
+  },
+  "deploy": {
+    "watchPatterns": [
+      "apps/sichtbarkeit/**",
+      "packages/**",
+      "package.json",
+      "bun.lock",
+      "bunfig.toml"
+    ]
+  }
+}

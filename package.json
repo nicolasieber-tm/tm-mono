@@ -1,0 +1,17 @@
+{
+  "name": "tm-mono",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:auron": "bun --filter @tm/auron dev",
+    "dev:tm": "bun --filter @tm/tm dev",
+    "dev:sichtbarkeit": "bun --filter @tm/sichtbarkeit dev",
+    "build:auron": "bun --filter @tm/auron build",
+    "build:tm": "bun --filter @tm/tm build",
+    "build:sichtbarkeit": "bun --filter @tm/sichtbarkeit build"
+  }
+}
