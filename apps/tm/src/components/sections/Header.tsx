@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import logo from "@/assets/logo.png";
 
 const nav = [
   { label: "Leistungen", href: "#leistungen" },
@@ -20,7 +19,19 @@ export const Header = () => {
           href="#"
           className="flex items-center gap-2 font-semibold tracking-tight"
         >
-          <img src={logo} alt="Trending Media Logo" className="h-7 w-auto" />
+          <span className="relative inline-flex h-9 w-9 items-center justify-center rounded-full">
+            <span className="absolute inset-0 rounded-full accent-gradient-anim" />
+            <span
+              className="relative inline-flex h-[calc(100%-3px)] w-[calc(100%-3px)] items-center justify-center rounded-full"
+              style={{ backgroundColor: "hsl(var(--c-bg))" }}
+            >
+              <img
+                src="/logo-weiss.png"
+                alt="Trending Media"
+                className="h-5 w-5 object-contain"
+              />
+            </span>
+          </span>
           <span>Trending Media</span>
         </a>
 
