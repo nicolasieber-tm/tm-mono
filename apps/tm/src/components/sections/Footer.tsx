@@ -55,7 +55,7 @@ export const Footer = () => {
             Building the{" "}
             <span className="not-italic font-light c-text-70">future</span>{" "}
             of{" "}
-            <span className="not-italic font-light c-text-70">SME</span>{" "}
+            <span className="not-italic font-light c-text-70">KMU</span>{" "}
             digitalization.
           </p>
         </div>
