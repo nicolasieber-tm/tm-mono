@@ -33,11 +33,11 @@ const products: Product[] = [
     domain: "auron.trendingmedia.ch",
     status: "Live",
     accent: {
-      from: "#34d4a4",
-      to: "#1f9d8f",
-      glow: "rgba(52,212,164,0.45)",
-      soft: "rgba(52,212,164,0.12)",
-      text: "#5ee0b8",
+      from: "#ffb454",
+      to: "#ff7a3c",
+      glow: "rgba(255,160,80,0.45)",
+      soft: "rgba(255,160,80,0.12)",
+      text: "#ffb86b",
     },
   },
   {
@@ -50,11 +50,11 @@ const products: Product[] = [
     domain: "oneclick-office.ch",
     status: "Live",
     accent: {
-      from: "#ffb454",
-      to: "#ff7a3c",
-      glow: "rgba(255,160,80,0.45)",
-      soft: "rgba(255,160,80,0.12)",
-      text: "#ffb86b",
+      from: "#89aacc",
+      to: "#4e85bf",
+      glow: "rgba(137,170,204,0.45)",
+      soft: "rgba(137,170,204,0.12)",
+      text: "#a8c2dc",
     },
   },
   {
