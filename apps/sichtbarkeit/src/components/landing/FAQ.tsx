@@ -1,4 +1,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionBackdrop } from "@/components/SectionBackdrop";
+import { useSectionMode, modeToClass } from "@/lib/theme";
 
 const faqs = [
   {
@@ -28,24 +31,44 @@ const faqs = [
 ];
 
 export const FAQ = () => {
+  const mode = useSectionMode("faq");
   return (
-    <section id="faq" className="bg-gradient-soft py-20 md:py-28">
-      <div className="container max-w-3xl">
-        <div className="text-center">
-          <p className="mb-3 text-sm font-medium uppercase tracking-wider text-primary">FAQ</p>
-          <h2 className="text-3xl sm:text-4xl">Häufige Fragen</h2>
-        </div>
+    <section
+      id="faq"
+      className={`cosmic ${modeToClass(mode)} relative overflow-hidden py-24 md:py-32`}
+    >
+      <SectionBackdrop seed={8} />
+      <div className="relative container-tight max-w-3xl">
+        <Reveal>
+          <div className="text-center">
+            <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.32em] c-text-55">
+              · FAQ ·
+            </p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light c-text leading-[1.05]">
+              Häufige{" "}
+              <span className="font-display italic font-normal c-text-95">Fragen</span>
+            </h2>
+          </div>
+        </Reveal>
 
-        <Accordion type="single" collapsible className="mt-12 w-full">
-          {faqs.map((f, i) => (
-            <AccordionItem key={i} value={`item-${i}`} className="border-b border-border">
-              <AccordionTrigger className="py-5 text-left text-base font-medium hover:no-underline">
-                {f.q}
-              </AccordionTrigger>
-              <AccordionContent className="pb-5 text-muted-foreground">{f.a}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        <Reveal delay={100}>
+          <Accordion type="single" collapsible className="mt-14 w-full">
+            {faqs.map((f, i) => (
+              <AccordionItem
+                key={i}
+                value={`item-${i}`}
+                className="border-b c-border-soft"
+              >
+                <AccordionTrigger className="py-5 text-left text-base c-text font-medium hover:no-underline hover:c-text-95">
+                  {f.q}
+                </AccordionTrigger>
+                <AccordionContent className="pb-5 c-text-70 leading-relaxed">
+                  {f.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </Reveal>
       </div>
     </section>
   );

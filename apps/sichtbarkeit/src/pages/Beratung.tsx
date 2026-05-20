@@ -201,7 +201,7 @@ const Beratung = () => {
       <Navbar />
       <main>
         <section className="border-b border-border bg-gradient-soft py-16 md:py-20">
-          <div className="container max-w-3xl">
+          <div className="container-tight max-w-3xl">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1 text-xs font-medium text-muted-foreground">
               <span className="h-1.5 w-1.5 rounded-full bg-primary" />
               Kostenlose Beratung · Unverbindlich
@@ -234,7 +234,7 @@ const Beratung = () => {
         </section>
 
         <section className="py-16 md:py-20">
-          <div className="container max-w-2xl">
+          <div className="container-tight max-w-2xl">
             {!submitted ? (
               <div className="rounded-2xl border border-border bg-card p-6 shadow-card sm:p-10">
                 <div className="mb-8">

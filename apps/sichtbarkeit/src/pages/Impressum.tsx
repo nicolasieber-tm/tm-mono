@@ -6,7 +6,7 @@ const Impressum = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="container py-16 md:py-24">
+      <main className="container-tight py-16 md:py-24">
         <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">
           ← Zurück zur Startseite
         </Link>

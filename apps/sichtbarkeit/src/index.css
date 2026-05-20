@@ -1,7 +1,430 @@
-@import "@tm/tokens/css";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap');
 
-/* Sichtbarkeit brand color override: Amber/Gold */
-:root {
-  --primary: 38 90% 55%;
-  --primary-foreground: 240 6% 10%;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Sichtbarkeit — Cosmic design system, violet accent.
+   All HSL. */
+
+@layer base {
+  :root {
+    --background: 218 12% 11%;
+    --foreground: 0 0% 100%;
+
+    --card: 218 10% 14%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 218 10% 14%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 262 83% 68%;            /* violet-400 #a78bfa */
+    --primary-foreground: 218 12% 11%;
+
+    --secondary: 218 14% 18%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 218 14% 18%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 262 83% 58%;             /* violet-500 */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 100% / 0.08;
+    --input: 218 14% 22%;
+    --ring: 262 83% 68%;
+
+    --radius: 1rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    border-color: rgb(255 255 255 / 0.08);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
+    background-color: hsl(218 12% 11%);
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-semibold tracking-tight;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .container-tight {
+    @apply mx-auto w-full max-w-6xl px-6;
+  }
+}
+
+/* ---------- Cosmic design system (scoped) ---------- */
+.cosmic {
+  --c-bg: 218 12% 11%;
+  --c-surface: 218 10% 14%;
+  --c-surface-2: 218 14% 9%;
+  --c-fg: 255 255 255;
+  font-family: "Inter", system-ui, sans-serif;
+  background-color: hsl(var(--c-bg));
+  color: rgb(var(--c-fg));
+}
+
+.cosmic.cosmic-light {
+  --c-bg: 40 14% 96%;
+  --c-surface: 0 0% 100%;
+  --c-surface-2: 40 8% 98%;
+  --c-fg: 12 12 14;
+}
+
+.cosmic.cosmic-softdark {
+  --c-bg: 218 12% 11%;
+  --c-surface: 218 10% 14%;
+  --c-surface-2: 218 14% 9%;
+  --c-fg: 255 255 255;
+}
+
+/* Helpers — surfaces */
+.cosmic .c-bg { background-color: hsl(var(--c-bg)); }
+.cosmic .c-surface { background-color: hsl(var(--c-surface)); }
+.cosmic .c-surface-2 { background-color: hsl(var(--c-surface-2)); }
+
+/* Helpers — foreground text */
+.cosmic .c-text { color: rgb(var(--c-fg)); }
+.cosmic .c-text-95 { color: rgb(var(--c-fg) / 0.95); }
+.cosmic .c-text-85 { color: rgb(var(--c-fg) / 0.85); }
+.cosmic .c-text-70 { color: rgb(var(--c-fg) / 0.70); }
+.cosmic .c-text-55 { color: rgb(var(--c-fg) / 0.55); }
+.cosmic .c-text-45 { color: rgb(var(--c-fg) / 0.45); }
+.cosmic .c-text-35 { color: rgb(var(--c-fg) / 0.35); }
+
+/* Helpers — translucent fills */
+.cosmic .c-fill-2 { background-color: rgb(var(--c-fg) / 0.02); }
+.cosmic .c-fill-3 { background-color: rgb(var(--c-fg) / 0.03); }
+.cosmic .c-fill-4 { background-color: rgb(var(--c-fg) / 0.04); }
+.cosmic .c-fill-6 { background-color: rgb(var(--c-fg) / 0.06); }
+.cosmic .c-fill-8 { background-color: rgb(var(--c-fg) / 0.08); }
+
+/* Helpers — borders */
+.cosmic .c-border-faint { border-color: rgb(var(--c-fg) / 0.06); }
+.cosmic .c-border { border-color: rgb(var(--c-fg) / 0.08); }
+.cosmic .c-border-soft { border-color: rgb(var(--c-fg) / 0.1); }
+.cosmic .c-border-strong { border-color: rgb(var(--c-fg) / 0.15); }
+.cosmic .c-border-stronger { border-color: rgb(var(--c-fg) / 0.2); }
+
+.cosmic .c-line { background-color: rgb(var(--c-fg) / 0.15); }
+.cosmic .c-line-soft { background-color: rgb(var(--c-fg) / 0.1); }
+
+/* Liquid-glass footer */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.02);
+  background-blend-mode: luminosity;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: none;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(255, 255, 255, 0.15) 20%,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0.15) 80%,
+    rgba(255, 255, 255, 0.45) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Card ring */
+.cosmic .c-card-ring {
+  position: relative;
+  isolation: isolate;
+}
+.cosmic .c-card-ring::before,
+.cosmic .c-card-ring::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+.cosmic .c-card-ring::before {
+  background: rgb(var(--c-fg) / 0.08);
+}
+.cosmic .c-card-ring::after {
+  background: linear-gradient(
+    90deg,
+    var(--card-accent-from, #a78bfa) 0%,
+    var(--card-accent-to, #7c3aed) 50%,
+    var(--card-accent-from, #a78bfa) 100%
+  );
+  background-size: 200% 200%;
+  animation: cosmic-gradient-shift 6s ease infinite;
+  opacity: 0;
+}
+.cosmic .c-card-ring:hover::after {
+  opacity: 1;
+}
+.cosmic .c-card-ring {
+  transition: box-shadow 0.45s ease, transform 0.45s ease;
+}
+.cosmic .c-card-ring:hover {
+  box-shadow:
+    0 0 0 1px var(--card-accent-glow, rgba(167, 139, 250, 0.35)),
+    0 12px 40px -8px var(--card-accent-glow, rgba(167, 139, 250, 0.45));
+}
+
+/* Card lift — static thin ring; subtle lift + drop-shadow on hover.
+   Pairs with cards whose hover personality lives in the icon, not the border. */
+.cosmic .c-card-lift {
+  position: relative;
+  isolation: isolate;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+.cosmic .c-card-lift::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  background: rgb(var(--c-fg) / 0.08);
+  z-index: 0;
+}
+.cosmic .c-card-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 50px -18px rgb(0 0 0 / 0.5);
+}
+
+/* Icon halo — radial wash that grows and pulses behind an icon on group hover */
+.cosmic .c-icon-halo {
+  position: absolute;
+  inset: -40%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  background: radial-gradient(
+    circle,
+    var(--card-accent-glow, rgba(167, 139, 250, 0.5)) 0%,
+    transparent 65%
+  );
+  z-index: 0;
+}
+.group:hover .c-icon-halo {
+  opacity: 1;
+  animation: c-icon-halo-pulse 2.4s ease-in-out infinite;
+}
+@keyframes c-icon-halo-pulse {
+  0%, 100% { opacity: 0.7; }
+  50%      { opacity: 1; }
+}
+
+/* Icon float — subtle lift + scale of the icon itself on group hover */
+.cosmic .c-icon-float {
+  transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1),
+              filter 0.55s ease;
+  will-change: transform, filter;
+}
+.group:hover .c-icon-float {
+  transform: translateY(-2px) scale(1.08);
+  filter: brightness(1.15);
+}
+
+/* Grid backdrop */
+.cosmic .c-grid-bg {
+  background-image:
+    linear-gradient(rgb(var(--c-fg) / 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--c-fg) / 0.04) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.cosmic .font-display {
+  font-family: "Instrument Serif", serif;
+}
+
+.cosmic .font-mono {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* Hero grid floor */
+.cosmic .grid-floor {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 75vh;
+  perspective: 600px;
+  perspective-origin: 50% 0%;
+  pointer-events: none;
+  mask-image: linear-gradient(to top, black 0%, black 30%, transparent 95%);
+  -webkit-mask-image: linear-gradient(to top, black 0%, black 30%, transparent 95%);
+}
+
+.cosmic .grid-svg {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  top: -20%;
+  bottom: -20%;
+  width: 140%;
+  height: 140%;
+  transform: rotateX(62deg);
+  transform-origin: 50% 100%;
+  opacity: 0.9;
+}
+
+
+@keyframes cosmic-pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(96, 200, 130, 0.55); }
+  50%      { opacity: 0.55; box-shadow: 0 0 0 6px rgba(96, 200, 130, 0); }
+}
+
+.cosmic .pulse-dot {
+  animation: cosmic-pulse-dot 2s ease-in-out infinite;
+}
+
+.cosmic .vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%);
+}
+
+.cosmic .accent-gradient {
+  background: linear-gradient(90deg, #a78bfa 0%, #7c3aed 100%);
+}
+
+.cosmic .accent-gradient-anim {
+  background: linear-gradient(90deg, #a78bfa 0%, #7c3aed 50%, #a78bfa 100%);
+  background-size: 200% 200%;
+  animation: cosmic-gradient-shift 6s ease infinite;
+}
+
+@keyframes cosmic-gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes cosmic-scroll-down {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+
+.cosmic .animate-scroll-down {
+  animation: cosmic-scroll-down 1.8s ease-in-out infinite;
+}
+
+@keyframes cosmic-role-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.cosmic .animate-role-fade {
+  animation: cosmic-role-fade-in 0.45s ease-out;
+}
+
+@keyframes cosmic-blur-in {
+  from { opacity: 0; filter: blur(10px); transform: translateY(20px); }
+  to { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+
+@keyframes cosmic-name-reveal {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.cosmic .blur-in {
+  animation: cosmic-blur-in 1s ease-out both;
+}
+
+.cosmic .name-reveal {
+  animation: cosmic-name-reveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.1s;
+}
+
+@keyframes atmos-drift {
+  0%   { transform: translate(-50%, -50%) translate3d(0, 0, 0); }
+  50%  { transform: translate(-50%, -50%) translate3d(2%, -3%, 0); }
+  100% { transform: translate(-50%, -50%) translate3d(0, 0, 0); }
+}
+
+.atmos-drift {
+  animation: atmos-drift linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atmos-drift { animation: none; }
+}
+
+/* Process: traveling water-drop */
+@keyframes process-dot-travel {
+  0%   { left: -10%; opacity: 0; }
+  10%  { left: 0%;   opacity: 1; }
+  90%  { left: 100%; opacity: 1; }
+  100% { left: 110%; opacity: 0; }
+}
+.cosmic .process-dot {
+  animation: process-dot-travel 16s linear infinite;
+}
+
+@keyframes process-icon-pulse {
+  0%    { opacity: 0;    filter: brightness(0.85) saturate(1);    transform: scale(1);     animation-timing-function: linear; }
+  4%    { opacity: 0;    filter: brightness(0.85) saturate(1);    transform: scale(1);     animation-timing-function: cubic-bezier(0.33, 0, 0.45, 1); }
+  6%    { opacity: 1;    filter: brightness(1.65) saturate(1.3);  transform: scale(1.13);  animation-timing-function: cubic-bezier(0.32, 0, 0.5, 1); }
+  10%   { opacity: 0.90; filter: brightness(1.45) saturate(1.2);  transform: scale(1.10);  animation-timing-function: cubic-bezier(0.4, 0, 0.5, 1); }
+  16%   { opacity: 0.70; filter: brightness(1.25) saturate(1.15); transform: scale(1.07);  animation-timing-function: cubic-bezier(0.4, 0, 0.55, 1); }
+  24%   { opacity: 0.45; filter: brightness(1.10) saturate(1.08); transform: scale(1.04);  animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1); }
+  34%   { opacity: 0.22; filter: brightness(0.98) saturate(1.03); transform: scale(1.02);  animation-timing-function: cubic-bezier(0.45, 0, 0.7, 1); }
+  46%   { opacity: 0.08; filter: brightness(0.90) saturate(1);    transform: scale(1.005); animation-timing-function: cubic-bezier(0.5, 0, 0.8, 1); }
+  58%   { opacity: 0;    filter: brightness(0.85) saturate(1);    transform: scale(1);     animation-timing-function: linear; }
+  100%  { opacity: 0;    filter: brightness(0.85) saturate(1);    transform: scale(1); }
+}
+.cosmic .process-icon-glow {
+  animation: process-icon-pulse 16s linear infinite both;
+  will-change: opacity, filter, transform;
 }

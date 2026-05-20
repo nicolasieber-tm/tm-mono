@@ -1,74 +1,73 @@
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const links = [
-  { href: "/#leistungen", label: "Leistungen" },
-  { href: "/#ablauf", label: "Ablauf" },
-  { href: "/#faq", label: "FAQ" },
-  { href: "/#kontakt", label: "Kontakt" },
+const NAV = [
+  { label: "Ausgangslage", href: "#ausgangslage" },
+  { label: "Lösung", href: "#leistungen" },
+  { label: "Ablauf", href: "#ablauf" },
+  { label: "FAQ", href: "#faq" },
 ];
 
 export const Navbar = () => {
-  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 100);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
-      <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-primary-foreground font-bold">
-            K
+    <nav className="cosmic cosmic-softdark fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 md:pt-6 px-4 pointer-events-none">
+      <div
+        className={`pointer-events-auto inline-flex items-center rounded-full border c-border-soft backdrop-blur-xl px-2 py-2 transition-shadow ${
+          scrolled ? "shadow-lg shadow-black/40" : ""
+        }`}
+        style={{ backgroundColor: "hsl(var(--c-surface) / 0.85)" }}
+      >
+        <Link to="/" className="group relative flex items-center justify-center" aria-label="Trending Media">
+          <span className="relative inline-flex h-9 w-9 items-center justify-center rounded-full">
+            <span className="absolute inset-0 rounded-full accent-gradient-anim" />
+            <span
+              className="relative inline-flex h-[calc(100%-3px)] w-[calc(100%-3px)] items-center justify-center rounded-full"
+              style={{ backgroundColor: "hsl(var(--c-bg))" }}
+            >
+              <img src="/logo-weiss.png" alt="Trending Media" className="h-5 w-5 object-contain" />
+            </span>
           </span>
-          <span className="font-semibold tracking-tight">KMU Web Studio</span>
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {l.label}
-            </a>
-          ))}
-        </nav>
+        <span className="hidden sm:block w-px h-5 c-line-soft mx-1" />
 
-        <div className="hidden md:block">
-          <Button asChild size="sm">
-            <Link to="/beratung">Termin buchen</Link>
-          </Button>
-        </div>
-
-        <button
-          className="md:hidden"
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Menü öffnen"
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
-      </div>
-
-      {open && (
-        <div className="border-t border-border bg-background md:hidden">
-          <div className="container flex flex-col gap-4 py-4">
-            {links.map((l) => (
+        <ul className="hidden sm:flex items-center">
+          {NAV.map((item) => (
+            <li key={item.href}>
               <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="text-sm text-muted-foreground"
+                href={item.href}
+                className="text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 c-text-55 hover:c-text hover:c-fill-6 transition-colors"
               >
-                {l.label}
+                {item.label}
               </a>
-            ))}
-            <Button asChild size="sm" className="w-full">
-              <Link to="/beratung" onClick={() => setOpen(false)}>Termin buchen</Link>
-            </Button>
-          </div>
-        </div>
-      )}
-    </header>
+            </li>
+          ))}
+        </ul>
+
+        <span className="hidden sm:block w-px h-5 c-line-soft mx-1" />
+
+        <Link
+          to="/beratung"
+          className="group/cta relative inline-flex items-center rounded-full text-xs sm:text-sm c-text"
+        >
+          <span className="absolute inset-[-2px] rounded-full opacity-0 group-hover/cta:opacity-100 transition-opacity accent-gradient-anim" />
+          <span
+            className="relative inline-flex items-center gap-1.5 rounded-full px-3 sm:px-4 py-1.5 sm:py-2"
+            style={{ backgroundColor: "hsl(var(--c-surface))" }}
+          >
+            Beratung
+            <span className="inline-block translate-y-[-1px]">↗</span>
+          </span>
+        </Link>
+      </div>
+    </nav>
   );
 };
