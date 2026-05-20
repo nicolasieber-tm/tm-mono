@@ -216,11 +216,11 @@ const services: Service[] = [
     bullets: ["Landingpages", "SEO-Foundation", "Conversion-Tracking"],
     span: "md:col-span-7",
     accent: {
-      from: "#34d4a4",
-      to: "#1f9d8f",
-      glow: "rgba(52,212,164,0.4)",
-      soft: "rgba(52,212,164,0.14)",
-      text: "#5ee0b8",
+      from: "#b18cff",
+      to: "#e260d8",
+      glow: "rgba(177,140,255,0.4)",
+      soft: "rgba(177,140,255,0.14)",
+      text: "#c9a8ff",
     },
   },
 ];
