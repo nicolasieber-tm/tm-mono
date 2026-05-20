@@ -1,4 +1,3 @@
-import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { ProblemMirror } from "@/components/sections/ProblemMirror";
 import { Services } from "@/components/sections/Services";
@@ -9,12 +8,11 @@ import { Contact } from "@/components/sections/Contact";
 import { Team } from "@/components/sections/Team";
 import { FAQ } from "@/components/sections/FAQ";
 import { Footer } from "@/components/sections/Footer";
-import { Reveal } from "@tm/motion";
+import { Reveal } from "@/components/ui/reveal";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <div className="min-h-screen">
       <main>
         <Hero />
         <Reveal><ProblemMirror /></Reveal>

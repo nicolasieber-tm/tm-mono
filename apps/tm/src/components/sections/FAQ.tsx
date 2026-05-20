@@ -4,6 +4,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useSectionMode, modeToClass } from "@/lib/theme";
+import { SectionBackdrop } from "@/components/SectionBackdrop";
 
 const faqs = [
   {
@@ -12,7 +14,7 @@ const faqs = [
   },
   {
     q: "Was kostet ein typisches Projekt?",
-    a: "Das hängt stark vom Umfang ab. Eine Prozessautomatisierung beginnt im niedrigen vierstelligen Bereich, individuelle Software bewegt sich je nach Tiefe im fünfstelligen Bereich. Nach dem Erstgespräch erhalten Sie einen konkreten, fixen Rahmen, keine offenen Stundenpakete.",
+    a: "Das hängt stark vom Umfang ab. Eine Prozessautomatisierung beginnt im niedrigen vierstelligen Bereich, individuelle Software bewegt sich je nach Tiefe im fünfstelligen Bereich. Nach dem Erstgespräch erhalten Sie einen konkreten, fixen Rahmen — keine offenen Stundenpakete.",
   },
   {
     q: "Wie lange dauert die Umsetzung?",
@@ -20,7 +22,7 @@ const faqs = [
   },
   {
     q: "Für welche Branchen arbeiten Sie?",
-    a: "Schwerpunkt sind Schweizer KMU im Dienstleistungs-, Handwerks- und Servicebereich. Branchenwissen ist hilfreich, aber nicht entscheidend, unser Vorgehen funktioniert überall dort, wo manuelle Abläufe digitalisiert werden sollen.",
+    a: "Schwerpunkt sind Schweizer KMU im Dienstleistungs-, Handwerks- und Servicebereich. Branchenwissen ist hilfreich, aber nicht entscheidend — unser Vorgehen funktioniert überall dort, wo manuelle Abläufe digitalisiert werden sollen.",
   },
   {
     q: "Wo werden meine Daten gespeichert?",
@@ -28,39 +30,64 @@ const faqs = [
   },
   {
     q: "Was, wenn Standard-Software bereits reicht?",
-    a: "Dann sagen wir das. Wir bauen nicht zwanghaft eigene Software, sondern empfehlen das, was im Alltag am besten passt, auch wenn das eine bestehende Lösung wie Bexio, HubSpot oder Microsoft 365 ist.",
+    a: "Dann sagen wir das. Wir bauen nicht zwanghaft eigene Software, sondern empfehlen das, was im Alltag am besten passt — auch wenn das eine bestehende Lösung wie Bexio, HubSpot oder Microsoft 365 ist.",
   },
   {
     q: "Begleiten Sie uns auch nach dem Go-Live?",
-    a: "Ja. Wir bleiben Ansprechpartner für Wartung, Weiterentwicklung und Support. Aus einem Projekt soll ein dauerhaft funktionierender Prozess werden, kein einmaliges Liefern und Verschwinden.",
+    a: "Ja. Wir bleiben Ansprechpartner für Wartung, Weiterentwicklung und Support. Aus einem Projekt soll ein dauerhaft funktionierender Prozess werden — kein einmaliges Liefern und Verschwinden.",
   },
 ];
 
 export const FAQ = () => {
+  const mode = useSectionMode("faq");
+
   return (
-    <section id="faq" className="py-16 md:py-24 bg-secondary/40">
-      <div className="container">
-        <div className="grid gap-16 md:grid-cols-[1fr_1.4fr] md:items-start">
+    <section
+      id="faq"
+      className={`cosmic ${modeToClass(mode)} relative isolate py-20 md:py-32 c-bg`}
+    >
+      <SectionBackdrop seed={8} />
+      <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
+        <div className="grid gap-12 md:gap-16 md:grid-cols-[1fr_1.4fr] md:items-start">
+          {/* Sticky header */}
           <div className="md:sticky md:top-24">
-            <p className="text-sm font-medium text-primary">FAQ</p>
-            <h2 className="mt-3 text-4xl md:text-5xl font-semibold tracking-tight">
-              Antworten auf
+            <div className="flex items-center gap-3 mb-6">
+              <span className="block w-8 h-px c-line" />
+              <span className="font-mono text-[10px] md:text-[11px] c-text-55 uppercase tracking-[0.3em]">
+                FAQ &middot; {String(faqs.length).padStart(2, "0")} Fragen
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] tracking-[-0.02em] c-text">
+              Antworten auf{" "}
+              <span className="font-display italic font-normal c-text-95">
+                häufige
+              </span>
               <br />
-              häufige Fragen.
+              Fragen.
             </h2>
-            <p className="mt-6 text-base text-muted-foreground leading-relaxed">
+            <p className="mt-6 text-base md:text-lg c-text-55 leading-relaxed font-light">
               Was viele KMU-Geschäftsführer:innen vor dem Erstgespräch wissen
-              wollen. Fehlt etwas? Schreiben Sie uns, wir antworten persönlich.
+              wollen. Fehlt etwas? Schreiben Sie uns — wir antworten persönlich.
             </p>
           </div>
 
+          {/* Accordion */}
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((f, i) => (
-              <AccordionItem key={i} value={`item-${i}`}>
-                <AccordionTrigger className="text-left text-base font-medium">
-                  {f.q}
+              <AccordionItem
+                key={i}
+                value={`item-${i}`}
+                className="c-border-faint border-b"
+              >
+                <AccordionTrigger className="text-left text-base md:text-lg font-light c-text py-5 md:py-6 hover:no-underline">
+                  <span className="flex items-baseline gap-4">
+                    <span className="font-mono text-[10px] c-text-45 tabular-nums shrink-0 mt-1">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span>{f.q}</span>
+                  </span>
                 </AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground leading-relaxed">
+                <AccordionContent className="text-sm md:text-[15px] c-text-55 leading-relaxed font-light pl-10 pb-6">
                   {f.a}
                 </AccordionContent>
               </AccordionItem>

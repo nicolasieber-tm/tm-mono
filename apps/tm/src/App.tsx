@@ -4,6 +4,7 @@ import { SmoothScroll, HashScrollHandler } from "@tm/motion";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/lib/theme";
 import Index from "./pages/Index.tsx";
 import Imprint from "./pages/Imprint.tsx";
 import NotFound from "./pages/NotFound.tsx";
@@ -14,22 +15,24 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <SmoothScroll>
-        <BrowserRouter>
-          <HashScrollHandler />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/impressum" element={<Imprint />} />
-            <Route path="/datenschutz" element={<Privacy />} />
-            <Route path="/selbstcheck" element={<Selbstcheck />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </SmoothScroll>
-    </TooltipProvider>
+    <ThemeProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <SmoothScroll>
+          <BrowserRouter>
+            <HashScrollHandler />
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/impressum" element={<Imprint />} />
+              <Route path="/datenschutz" element={<Privacy />} />
+              <Route path="/selbstcheck" element={<Selbstcheck />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </SmoothScroll>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
