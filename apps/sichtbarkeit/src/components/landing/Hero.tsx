@@ -128,7 +128,7 @@ export const Hero = () => {
       </div>
 
       {/* Hero content */}
-      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center">
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 pt-24 pb-32 sm:pt-28 sm:pb-24 text-center">
         <div className="blur-in flex items-center gap-3 mb-8">
           <span className="block h-px w-6 c-line" />
           <span className="font-mono text-[10px] md:text-[11px] c-text-55 uppercase tracking-[0.32em]">
@@ -137,7 +137,7 @@ export const Hero = () => {
           <span className="block h-px w-6 c-line" />
         </div>
 
-        <h1 className="name-reveal text-4xl sm:text-5xl md:text-7xl lg:text-[7.5rem] font-light leading-[1.05] sm:leading-[0.95] tracking-[-0.03em] sm:tracking-[-0.04em] c-text mb-2 max-w-5xl">
+        <h1 className="name-reveal text-[2.5rem] xs:text-4xl sm:text-5xl md:text-7xl lg:text-[7.5rem] font-light leading-[1.08] sm:leading-[0.95] tracking-[-0.02em] sm:tracking-[-0.04em] c-text mb-2 max-w-5xl">
           Eine Website, die
           <span className="font-display italic font-normal c-text-95"> Vertrauen </span>
           schafft
@@ -149,7 +149,7 @@ export const Hero = () => {
         </h1>
 
         <p
-          className="blur-in text-lg md:text-xl c-text-70 max-w-2xl mt-10 mb-4 font-light leading-relaxed"
+          className="blur-in text-base sm:text-lg md:text-xl c-text-70 max-w-2xl mt-8 sm:mt-10 mb-4 font-normal sm:font-light leading-relaxed"
           style={{ animationDelay: "0.4s" }}
         >
           Viele KMU verlieren täglich Anfragen, weil ihre Website veraltet wirkt, auf dem
@@ -157,7 +157,7 @@ export const Hero = () => {
         </p>
 
         <p
-          className="blur-in text-sm md:text-base c-text-45 max-w-xl leading-relaxed mb-12 font-light"
+          className="blur-in text-sm md:text-base c-text-45 max-w-xl leading-relaxed mb-10 sm:mb-12 font-normal sm:font-light"
           style={{ animationDelay: "0.55s" }}
         >
           Wir sorgen dafür, dass Ihr Unternehmen online so professionell auftritt, wie Sie
@@ -196,7 +196,7 @@ export const Hero = () => {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3">
+      <div className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex-col items-center gap-3">
         <span className="font-mono text-[10px] c-text-35 uppercase tracking-[0.3em]">Scroll</span>
         <div className="relative w-px h-12 overflow-hidden c-line-soft">
           <span className="absolute inset-x-0 top-0 h-1/2 animate-scroll-down accent-gradient" />
