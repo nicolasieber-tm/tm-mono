@@ -137,7 +137,7 @@ export const Hero = () => {
           <span className="block h-px w-6 c-line" />
         </div>
 
-        <h1 className="name-reveal text-5xl md:text-7xl lg:text-[7.5rem] font-light leading-[0.95] tracking-[-0.04em] c-text mb-2 max-w-5xl">
+        <h1 className="name-reveal text-4xl sm:text-5xl md:text-7xl lg:text-[7.5rem] font-light leading-[1.05] sm:leading-[0.95] tracking-[-0.03em] sm:tracking-[-0.04em] c-text mb-2 max-w-5xl">
           Eine Website, die
           <span className="font-display italic font-normal c-text-95"> Vertrauen </span>
           schafft

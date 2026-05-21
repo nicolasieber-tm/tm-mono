@@ -109,7 +109,7 @@ export const Contact = () => {
               <iframe
                 src={`${CAL_URL}?embed=true&theme=light`}
                 title="Erstgespräch buchen"
-                className="w-full h-[560px] md:h-[640px] bg-white"
+                className="w-full h-[480px] sm:h-[560px] md:h-[640px] bg-white"
                 loading="lazy"
               />
             </div>

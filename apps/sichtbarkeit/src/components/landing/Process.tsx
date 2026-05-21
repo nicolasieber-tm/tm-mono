@@ -102,7 +102,7 @@ export const Process = () => {
 
           {/* Vertical rail (mobile) */}
           <div
-            className="md:hidden absolute left-[27px] top-0 bottom-0 w-px"
+            className="md:hidden absolute left-7 top-0 bottom-0 w-px"
             style={{ backgroundColor: railFill }}
             aria-hidden
           />

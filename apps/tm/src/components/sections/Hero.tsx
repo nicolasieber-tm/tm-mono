@@ -258,7 +258,7 @@ export const Hero = () => {
           <span className="block h-px w-6 c-line" />
         </div>
 
-        <h1 className="name-reveal text-6xl md:text-8xl lg:text-[9rem] font-light leading-[0.92] tracking-[-0.04em] c-text mb-2">
+        <h1 className="name-reveal text-5xl sm:text-6xl md:text-8xl lg:text-[9rem] font-light leading-[0.92] tracking-[-0.04em] c-text mb-2">
           Trending
           <span className="font-display italic font-normal c-text-95">
             {" "}Media

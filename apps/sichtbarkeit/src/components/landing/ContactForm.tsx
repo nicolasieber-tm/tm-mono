@@ -20,7 +20,7 @@ const FIELD_IDS = {
 const inputClass =
   "w-full rounded-xl border c-border-soft bg-transparent c-fill-2 px-4 py-3 text-sm c-text placeholder:c-text-35 outline-none transition-all focus:c-border-stronger focus:ring-2 focus:ring-[#a78bfa]/40";
 
-const labelClass = "block font-mono text-[10px] uppercase tracking-[0.22em] c-text-55 mb-2";
+const labelClass = "block font-mono text-[11px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.22em] c-text-55 mb-2";
 
 export const ContactForm = () => {
   const mode = useSectionMode("contact");

@@ -61,7 +61,7 @@ export const BrowserMockup = ({ variant = "modern", className, label }: BrowserM
               <div className="h-8 w-24 rounded-lg border c-border-soft" />
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-3 pt-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 pt-4">
             <div
               className="aspect-[4/3] rounded-xl"
               style={{ background: "linear-gradient(135deg, rgba(167,139,250,0.22), rgba(124,58,237,0.10))" }}
