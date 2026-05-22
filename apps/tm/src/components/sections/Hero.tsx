@@ -215,14 +215,14 @@ export const Hero = () => {
             </span>
           </a>
 
-          <span className="hidden sm:block w-px h-5 c-line-soft mx-1" />
+          <span className="hidden sm:block w-px h-5 c-line-soft mx-2" />
 
-          <ul className="hidden sm:flex items-center">
+          <ul className="hidden sm:flex items-center gap-1 md:gap-2">
             {NAV.map((item) => (
               <li key={item.href}>
                 <a
                   href={item.href}
-                  className="text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 c-text-55 hover:c-text hover:c-fill-6 transition-colors"
+                  className="text-xs sm:text-sm rounded-full px-4 sm:px-5 md:px-6 py-1.5 sm:py-2 c-text-55 hover:c-text hover:c-fill-6 transition-colors"
                 >
                   {item.label}
                 </a>
@@ -230,7 +230,7 @@ export const Hero = () => {
             ))}
           </ul>
 
-          <span className="hidden sm:block w-px h-5 c-line-soft mx-1" />
+          <span className="hidden sm:block w-px h-5 c-line-soft mx-2" />
 
           <a
             href={CAL_URL}
