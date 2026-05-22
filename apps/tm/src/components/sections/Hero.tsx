@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Menu, X } from "lucide-react";
 import { CAL_URL } from "@/lib/links";
 import { useSectionMode, modeToClass } from "@/lib/theme";
 
@@ -95,6 +96,16 @@ export const Hero = () => {
   const [roleIndex, setRoleIndex] = useState(0);
   const [scrolled, setScrolled] = useState(false);
   const [time, setTime] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -236,8 +247,41 @@ export const Hero = () => {
               <span className="inline-block translate-y-[-1px]">↗</span>
             </span>
           </a>
+
+          <button
+            type="button"
+            aria-label={menuOpen ? "Menü schliessen" : "Menü öffnen"}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((v) => !v)}
+            className="sm:hidden ml-1 inline-flex h-9 w-9 items-center justify-center rounded-full c-text"
+            style={{ backgroundColor: "hsl(var(--c-surface))" }}
+          >
+            {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
         </div>
       </nav>
+
+      {/* Mobile menu panel */}
+      {menuOpen && (
+        <div
+          className="fixed inset-x-4 top-[72px] z-40 sm:hidden rounded-2xl border c-border-soft backdrop-blur-xl p-2"
+          style={{ backgroundColor: "hsl(var(--c-surface) / 0.95)" }}
+        >
+          <ul className="flex flex-col">
+            {NAV.map((item) => (
+              <li key={item.href}>
+                <a
+                  href={item.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="block rounded-xl px-4 py-3 text-sm c-text-70 hover:c-text hover:c-fill-6 transition-colors"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Corner readouts */}
       <div className="hidden md:flex absolute top-6 left-6 z-10 items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] c-text-45">

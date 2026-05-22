@@ -437,8 +437,8 @@ body { background-color: hsl(218 12% 11%); }
 }
 
 @keyframes cosmic-role-fade-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .cosmic .animate-role-fade {
@@ -448,6 +448,20 @@ body { background-color: hsl(218 12% 11%); }
 @keyframes cosmic-blur-in {
   from { opacity: 0; filter: blur(10px); transform: translateY(20px); }
   to { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+
+/* Mobile: skip blur/transform animations to keep text crisp (no GPU layer
+   promotion → preserves subpixel antialiasing). */
+@media (max-width: 640px) {
+  .cosmic .blur-in {
+    animation: none;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+  .cosmic .animate-role-fade {
+    animation: none;
+  }
 }
 
 @keyframes cosmic-name-reveal {
