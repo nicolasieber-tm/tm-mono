@@ -44,7 +44,7 @@ export const Team = () => {
         {/* Header */}
         <div className="max-w-2xl mx-auto text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-6">
-            <span className="block w-8 h-px c-line" />
+            <span className="hidden sm:block w-8 h-px c-line" />
             <span className="font-mono text-[10px] md:text-[11px] c-text-55 uppercase tracking-[0.3em]">
               Über uns &middot; 03 Co-Founder
             </span>

@@ -29,7 +29,7 @@ export const Contact = () => {
           {/* Left: CTA content */}
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <span className="block w-8 h-px c-line" />
+              <span className="hidden sm:block w-8 h-px c-line" />
               <span className="font-mono text-[10px] md:text-[11px] c-text-55 uppercase tracking-[0.3em]">
                 Kontakt &middot; 30 Min unverbindlich
               </span>

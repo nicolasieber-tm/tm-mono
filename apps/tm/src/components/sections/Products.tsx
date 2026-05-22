@@ -90,7 +90,7 @@ export const Products = () => {
         <div className="flex flex-col items-center text-center gap-6 mb-16">
           <div className="max-w-xl">
             <div className="flex items-center justify-center gap-3 mb-6">
-              <span className="block w-8 h-px c-line" />
+              <span className="hidden sm:block w-8 h-px c-line" />
               <span className="font-mono text-[10px] md:text-[11px] c-text-55 uppercase tracking-[0.3em]">
                 Eigene Produkte &middot; 03 Live
               </span>

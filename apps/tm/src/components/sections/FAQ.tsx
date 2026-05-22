@@ -52,7 +52,7 @@ export const FAQ = () => {
           {/* Sticky header */}
           <div className="md:sticky md:top-24">
             <div className="flex items-center gap-3 mb-6">
-              <span className="block w-8 h-px c-line" />
+              <span className="hidden sm:block w-8 h-px c-line" />
               <span className="font-mono text-[10px] md:text-[11px] c-text-55 uppercase tracking-[0.3em]">
                 FAQ &middot; {String(faqs.length).padStart(2, "0")} Fragen
               </span>
