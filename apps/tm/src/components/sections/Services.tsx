@@ -181,7 +181,7 @@ const services: Service[] = [
     title: "KI & Automatisierung mit Substanz",
     description:
       "Wir integrieren KI dort, wo sie konkret Mehrwert schafft: vom internen Assistenten bis zur automatisierten Verarbeitung wiederkehrender Aufgaben.",
-    bullets: ["Custom GPTs", "RAG-Systeme", "n8n / Make"],
+    bullets: ["KI-Assistent", "RAG-Systeme", "Personalisierte Agents"],
     span: "md:col-span-5",
     accent: {
       from: "#b18cff",
@@ -213,7 +213,7 @@ const services: Service[] = [
     title: "Web & Landingpages",
     description:
       "Performante Webauftritte, die Sichtbarkeit in Anfragen verwandeln — mit klarer Conversion-Logik statt Pixel-Spielerei.",
-    bullets: ["Landingpages", "SEO-Foundation", "Conversion-Tracking"],
+    bullets: ["Landingpages", "SEO-Foundation", "Conversion-Tracking", "Direkte Terminbuchung"],
     span: "md:col-span-7",
     accent: {
       from: "#b18cff",
