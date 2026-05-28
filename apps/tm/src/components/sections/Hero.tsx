@@ -208,9 +208,11 @@ export const Hero = () => {
                 className="relative inline-flex h-[calc(100%-3px)] w-[calc(100%-3px)] items-center justify-center rounded-full"
                 style={{ backgroundColor: "hsl(var(--c-bg))" }}
               >
-                <span className="font-mono text-[11px] font-medium tracking-tight c-text">
-                  TM
-                </span>
+                <img
+                  src="/logo-weiss.png"
+                  alt="Trending Media"
+                  className="h-5 w-5 object-contain"
+                />
               </span>
             </span>
           </a>
