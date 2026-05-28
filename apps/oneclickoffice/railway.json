@@ -1,0 +1,16 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "apps/oneclickoffice/Dockerfile"
+  },
+  "deploy": {
+    "watchPatterns": [
+      "apps/oneclickoffice/**",
+      "packages/**",
+      "package.json",
+      "bun.lock",
+      "bunfig.toml"
+    ]
+  }
+}

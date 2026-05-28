@@ -10,8 +10,10 @@
     "dev:auron": "bun --filter @tm/auron dev",
     "dev:tm": "bun --filter @tm/tm dev",
     "dev:sichtbarkeit": "bun --filter @tm/sichtbarkeit dev",
+    "dev:oneclickoffice": "bun --filter @tm/oneclickoffice dev",
     "build:auron": "bun --filter @tm/auron build",
     "build:tm": "bun --filter @tm/tm build",
-    "build:sichtbarkeit": "bun --filter @tm/sichtbarkeit build"
+    "build:sichtbarkeit": "bun --filter @tm/sichtbarkeit build",
+    "build:oneclickoffice": "bun --filter @tm/oneclickoffice build"
   }
 }
