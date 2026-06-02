@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import { Linkedin, Github, Mail, MapPin } from "lucide-react";
-import { CONTACT_EMAIL } from "@/lib/links";
+import { MapPin } from "lucide-react";
 import { useSectionMode, modeToClass } from "@/lib/theme";
 
 const productLinks = [
@@ -100,7 +99,7 @@ export const Footer = () => {
               </div>
               <div className="mt-3 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
                 <MapPin className="h-3 w-3" strokeWidth={1.5} />
-                Zürich · CH
+                Solothurn · CH
               </div>
             </div>
 
@@ -118,28 +117,6 @@ export const Footer = () => {
               © {new Date().getFullYear()} Trending Media · Made with care in
               Switzerland
             </p>
-            <div className="flex items-center gap-5">
-              <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/45">
-                Folgen:
-              </span>
-              <div className="flex items-center gap-3">
-                <SocialIcon href={`mailto:${CONTACT_EMAIL}`} label="Email">
-                  <Mail className="h-4 w-4" strokeWidth={1.5} />
-                </SocialIcon>
-                <SocialIcon
-                  href="https://www.linkedin.com/company/trending-media"
-                  label="LinkedIn"
-                >
-                  <Linkedin className="h-4 w-4" strokeWidth={1.5} />
-                </SocialIcon>
-                <SocialIcon
-                  href="https://github.com/trending-media"
-                  label="GitHub"
-                >
-                  <Github className="h-4 w-4" strokeWidth={1.5} />
-                </SocialIcon>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -180,24 +157,4 @@ const FooterCol = ({
       ))}
     </ul>
   </div>
-);
-
-const SocialIcon = ({
-  href,
-  label,
-  children,
-}: {
-  href: string;
-  label: string;
-  children: React.ReactNode;
-}) => (
-  <a
-    href={href}
-    aria-label={label}
-    target={href.startsWith("mailto:") ? undefined : "_blank"}
-    rel="noopener noreferrer"
-    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:bg-white/10 hover:text-white hover:border-white/30"
-  >
-    {children}
-  </a>
 );
