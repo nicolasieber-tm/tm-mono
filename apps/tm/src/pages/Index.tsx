@@ -217,7 +217,7 @@ const Index = () => {
 
       <section className="ap-sec alt">
         <div className="wide">
-          <Shead k="Diagnose" h="Kennen Sie diese Reibungsverluste?" intro="Punkte, die wir in fast jedem Erstgespräch hören — kein Zeichen schlechter Organisation, sondern von Werkzeugen, die nicht mitgewachsen sind." />
+          <Shead k="Diagnose" h="Kommt Ihnen das bekannt vor?" intro="Punkte, die wir in fast jedem Erstgespräch hören — kein Zeichen schlechter Organisation, sondern von Werkzeugen, die nicht mitgewachsen sind." />
           <div className="ap-grid c4 reveal">
             {PAINS.map((p) => (
               <div className="ap-card" key={p.title}>
