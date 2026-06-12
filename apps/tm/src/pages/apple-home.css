@@ -59,6 +59,21 @@ body.ap-light { background: #fdfbf8; }
 .ap-hero .acts a.p:hover { filter: brightness(1.08); }
 .ap-hero .acts a.s { color: var(--accent); font-size: 1.02rem; }
 .ap-hero .acts a.s:hover { text-decoration: underline; }
+.ap-hero .ap-reassure { margin-top: 14px; font-size: .9rem; color: var(--muted2); font-weight: 500; }
+
+/* trust bar — sits in the hero gap above the diagnosis section */
+.ap-hero .ap-trust { margin-top: 88px; display: flex; flex-wrap: wrap; justify-content: center; align-items: stretch;
+  gap: 14px 44px; max-width: 920px; margin-left: auto; margin-right: auto; }
+.ap-hero .ap-trust .t-item { display: flex; align-items: center; gap: 12px; text-align: left; }
+.ap-hero .ap-trust .t-item svg { color: var(--accent); flex: none; }
+.ap-hero .ap-trust .t-item .t-logo { width: 22px; height: 22px; object-fit: contain; flex: none; }
+.ap-hero .ap-trust .t-txt { display: flex; flex-direction: column; line-height: 1.25; }
+.ap-hero .ap-trust .t-txt b { font-size: .98rem; font-weight: 600; color: var(--fg); letter-spacing: -.01em; }
+.ap-hero .ap-trust .t-txt span { font-size: .82rem; color: var(--muted); }
+@media (max-width: 720px) {
+  .ap-hero .ap-trust { margin-top: 56px; gap: 18px 28px; }
+  .ap-hero .ap-trust .t-item { flex: 0 0 calc(50% - 14px); }
+}
 
 .ap-sec { padding: 100px 0; scroll-margin-top: 90px; }
 .ap-sec.alt { background: var(--bg-alt); }
