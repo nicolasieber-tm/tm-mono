@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Trending Media — Bold Hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #050608;
+    --surface: rgba(255,255,255,0.04);
+    --fg: #ffffff;
+    --accent: #4e85bf;
+    --accent-2: #89aacc;
+    --accent-hot: #6ea8e6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ---------------- HERO ---------------- */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    isolation: isolate;
+  }
+
+  /* layered backdrop */
+  .bg-layer { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+
+  .glow-top {
+    position: absolute;
+    top: -45vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 130vw;
+    height: 100vh;
+    background: radial-gradient(ellipse at center,
+      rgba(78,133,191,0.45) 0%,
+      rgba(78,133,191,0.14) 32%,
+      transparent 62%);
+    filter: blur(30px);
+  }
+
+  .glow-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.5;
+    will-change: transform;
+  }
+  .glow-blob.a {
+    width: 50vw; height: 50vw;
+    left: -10vw; top: 20vh;
+    background: radial-gradient(circle, rgba(110,168,230,0.5), transparent 70%);
+    animation: drift1 18s ease-in-out infinite;
+  }
+  .glow-blob.b {
+    width: 42vw; height: 42vw;
+    right: -8vw; top: 8vh;
+    background: radial-gradient(circle, rgba(137,170,204,0.4), transparent 70%);
+    animation: drift2 22s ease-in-out infinite;
+  }
+  @keyframes drift1 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(6%,-5%) scale(1.12); }
+  }
+  @keyframes drift2 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(-5%,6%) scale(0.92); }
+  }
+
+  /* fine grid */
+  .grid-overlay {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, black 30%, transparent 80%);
+  }
+
+  /* grain */
+  .grain {
+    position: absolute; inset: 0;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.8'/></svg>");
+  }
+
+  .vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 38%, rgba(0,0,0,0.6) 100%);
+  }
+  .fade-bottom {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 28vh;
+    background: linear-gradient(to top, var(--bg) 0%, transparent 100%);
+  }
+
+  /* ---------------- NAV ---------------- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    padding: 18px 16px;
+  }
+  .nav-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(10,12,16,0.72);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: box-shadow .3s ease;
+  }
+  .nav-pill.scrolled { box-shadow: 0 10px 40px -10px rgba(0,0,0,0.7); }
+  .nav-logo {
+    position: relative;
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 36px; width: 36px;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .nav-logo::before {
+    content: ""; position: absolute; inset: 0; border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent-2), var(--accent), var(--accent-2));
+    background-size: 200% 200%;
+    animation: shift 6s ease infinite;
+  }
+  .nav-logo img {
+    position: relative; height: 20px; width: 20px; object-fit: contain;
+    z-index: 1;
+  }
+  .nav-logo span.inner {
+    position: absolute; inset: 3px; border-radius: 999px; background: var(--bg);
+    z-index: 0;
+  }
+  .nav-divider { width: 1px; height: 20px; background: rgba(255,255,255,0.1); margin: 0 6px; }
+  .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+  .nav-links a {
+    display: inline-block;
+    padding: 8px 18px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    border-radius: 999px;
+    transition: color .2s, background .2s;
+  }
+  .nav-links a:hover { color: #fff; background: rgba(255,255,255,0.06); }
+  .nav-cta {
+    position: relative;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 18px;
+    font-size: 14px; font-weight: 600;
+    color: var(--bg);
+    text-decoration: none;
+    border-radius: 999px;
+    background: #fff;
+    transition: transform .2s;
+  }
+  .nav-cta:hover { transform: translateY(-1px); }
+  @media (max-width: 720px) { .nav-links, .nav-divider { display: none; } }
+
+  /* ---------------- READOUTS ---------------- */
+  .readout {
+    position: absolute; z-index: 10;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.42);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .readout.tl { top: 24px; left: 28px; }
+  .readout.tr { top: 24px; right: 28px; }
+  .dot {
+    width: 7px; height: 7px; border-radius: 999px; background: #60c882;
+    box-shadow: 0 0 0 0 rgba(96,200,130,0.55);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(96,200,130,0.55); }
+    50% { box-shadow: 0 0 0 6px rgba(96,200,130,0); }
+  }
+  @media (max-width: 860px) { .readout { display: none; } }
+
+  /* ---------------- CONTENT ---------------- */
+  .content {
+    position: relative; z-index: 10;
+    flex: 1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+  }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 12px;
+    margin-bottom: 34px;
+    opacity: 0; animation: fade .9s ease-out .1s forwards;
+  }
+  .eyebrow .line { width: 26px; height: 1px; background: rgba(255,255,255,0.22); }
+  .eyebrow span {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+
+  h1 {
+    font-weight: 800;
+    font-size: clamp(3.2rem, 11vw, 10.5rem);
+    line-height: 0.86;
+    letter-spacing: -0.045em;
+    margin-bottom: 8px;
+  }
+  h1 .l1 { display: block; opacity: 0; animation: rise 1s cubic-bezier(.22,1,.36,1) .15s forwards; }
+  h1 .l2 {
+    display: block;
+    background: linear-gradient(100deg, #fff 0%, var(--accent-2) 40%, var(--accent-hot) 70%, #fff 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rise 1s cubic-bezier(.22,1,.36,1) .28s forwards, shine 6s ease-in-out 1.2s infinite;
+    opacity: 0;
+  }
+  h1 .serif { font-family: "Instrument Serif", serif; font-weight: 400; font-style: italic; letter-spacing: -0.01em; }
+
+  @keyframes rise { from { opacity:0; transform: translateY(60px); } to { opacity:1; transform: translateY(0); } }
+  @keyframes shine { 0%,100% { background-position: 0% center; } 50% { background-position: 200% center; } }
+  @keyframes fade { from { opacity:0; } to { opacity:1; } }
+  @keyframes shift { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+
+  .sub {
+    font-size: clamp(1.05rem, 2.4vw, 1.5rem);
+    font-weight: 400;
+    color: rgba(255,255,255,0.72);
+    max-width: 640px;
+    margin: 30px auto 0;
+    line-height: 1.45;
+    opacity: 0; animation: fade .9s ease-out .55s forwards;
+  }
+  .sub .rotate {
+    display: inline-grid; text-align: center; vertical-align: baseline;
+    min-width: 11ch;
+  }
+  .sub .rotate b {
+    grid-area: 1 / 1;
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 600;
+    color: var(--accent-hot);
+  }
+  .sub .rotate b.ghost { visibility: hidden; }
+
+  .lede {
+    font-size: clamp(0.9rem, 1.6vw, 1rem);
+    color: rgba(255,255,255,0.45);
+    max-width: 520px;
+    margin: 18px auto 0;
+    line-height: 1.6;
+    opacity: 0; animation: fade .9s ease-out .65s forwards;
+  }
+
+  .cta-row {
+    display: inline-flex; flex-wrap: wrap; gap: 14px; justify-content: center;
+    margin-top: 44px;
+    opacity: 0; animation: fade .9s ease-out .78s forwards;
+  }
+  .btn {
+    position: relative;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 16px 30px;
+    font-size: 15px; font-weight: 600;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .btn-primary {
+    color: var(--bg);
+    background: #fff;
+    box-shadow: 0 0 0 0 rgba(110,168,230,0);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px) scale(1.015);
+    box-shadow: 0 16px 40px -10px rgba(110,168,230,0.6);
+  }
+  .btn-ghost {
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.02);
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.4); transform: translateY(-2px); }
+
+  .micro {
+    margin-top: 28px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(255,255,255,0.38);
+    opacity: 0; animation: fade .9s ease-out .9s forwards;
+  }
+
+  /* trust marquee */
+  .trust {
+    position: relative; z-index: 10;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 22px 0;
+    opacity: 0; animation: fade .9s ease-out 1s forwards;
+  }
+  .trust-track {
+    display: flex; gap: 64px;
+    width: max-content;
+    animation: marquee 28s linear infinite;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.32);
+    white-space: nowrap;
+  }
+  .trust-track span { display: inline-flex; align-items: center; gap: 12px; }
+  .trust-track span::before { content: "→"; color: var(--accent-hot); }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .trust-mask {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  }
+
+  /* scroll indicator */
+  .scroll-ind {
+    position: absolute; bottom: 92px; left: 50%; transform: translateX(-50%);
+    z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .scroll-ind span {
+    font-family: "JetBrains Mono", monospace; font-size: 10px;
+    letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.35);
+  }
+  .scroll-ind .bar { position: relative; width: 1px; height: 46px; background: rgba(255,255,255,0.1); overflow: hidden; }
+  .scroll-ind .bar::after {
+    content: ""; position: absolute; inset-inline: 0; top: 0; height: 50%;
+    background: linear-gradient(var(--accent-2), var(--accent));
+    animation: scrolldown 1.8s ease-in-out infinite;
+  }
+  @keyframes scrolldown { 0%{transform:translateY(-100%);} 100%{transform:translateY(200%);} }
+  @media (max-width: 860px) { .scroll-ind { display: none; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: .001s !important; animation-iteration-count: 1 !important; }
+  }
+</style>
+</head>
+<body>
+  <section class="hero">
+    <!-- backdrop -->
+    <div class="bg-layer">
+      <div class="glow-top"></div>
+      <div class="glow-blob a"></div>
+      <div class="glow-blob b"></div>
+      <div class="grid-overlay"></div>
+      <div class="grain"></div>
+      <div class="vignette"></div>
+      <div class="fade-bottom"></div>
+    </div>
+
+    <!-- nav -->
+    <nav>
+      <div class="nav-pill" id="navPill">
+        <a class="nav-logo" href="#" aria-label="Trending Media">
+          <span class="inner"></span>
+          <img src="logo-weiss.png" alt="Trending Media" />
+        </a>
+        <span class="nav-divider"></span>
+        <ul class="nav-links">
+          <li><a href="#leistungen">Leistungen</a></li>
+          <li><a href="#vorgehen">Vorgehen</a></li>
+          <li><a href="#produkte">Produkte</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+        <span class="nav-divider"></span>
+        <a class="nav-cta" href="https://cal.com/nicolasieber/beratungsgespraech" target="_blank" rel="noopener">Erstgespräch ↗</a>
+      </div>
+    </nav>
+
+    <!-- readouts -->
+    <div class="readout tl"><span class="dot"></span><span id="clock">Live · CH-SO · --:--:--</span></div>
+    <div class="readout tr">v.26 / Digitalisierung</div>
+
+    <!-- content -->
+    <div class="content">
+      <div class="eyebrow">
+        <span class="line"></span>
+        <span>Digitalisierungspartner · Schweizer KMU</span>
+        <span class="line"></span>
+      </div>
+
+      <h1>
+        <span class="l1">Wir bauen</span>
+        <span class="l2">die <span class="serif">Software</span>,<br>die wirkt.</span>
+      </h1>
+
+      <p class="sub">
+        Massgeschneiderte
+        <span class="rotate">
+          <b id="role">KI-Lösungen</b>
+          <b class="ghost">Automationen</b>
+        </span>
+        für Schweizer KMU.
+      </p>
+
+      <p class="lede">
+        Wir analysieren Ihren Betrieb dort, wo im Alltag Reibung entsteht — und bauen daraus
+        Lösungen, die im Tagesgeschäft tatsächlich wirken.
+      </p>
+
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://cal.com/nicolasieber/beratungsgespraech" target="_blank" rel="noopener">
+          Erstgespräch buchen →
+        </a>
+        <a class="btn btn-ghost" href="#selbstcheck">Selbstcheck starten ↗</a>
+      </div>
+
+      <p class="micro">30 Min · unverbindlich · ehrliche Einschätzung</p>
+    </div>
+
+    <!-- scroll indicator -->
+    <div class="scroll-ind">
+      <span>Scroll</span>
+      <div class="bar"></div>
+    </div>
+
+    <!-- trust marquee -->
+    <div class="trust">
+      <div class="trust-mask">
+        <div class="trust-track" id="track">
+          <span>Software-Entwicklung</span>
+          <span>KI &amp; Automationen</span>
+          <span>Prozessoptimierung</span>
+          <span>Landingpages</span>
+          <span>Terminbuchung</span>
+          <span>Schweizer Hosting</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script>
+  // live clock (Europe/Zurich)
+  const clock = document.getElementById('clock');
+  function tick() {
+    const t = new Intl.DateTimeFormat('de-CH', {
+      hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Europe/Zurich'
+    }).format(new Date());
+    clock.textContent = 'Live · CH-SO · ' + t;
+  }
+  tick(); setInterval(tick, 1000);
+
+  // rotating role word
+  const roles = ['KI-Lösungen', 'Automationen', 'Prozesse', 'Landingpages', 'Software'];
+  let ri = 0;
+  const role = document.getElementById('role');
+  setInterval(() => {
+    ri = (ri + 1) % roles.length;
+    role.style.opacity = 0;
+    setTimeout(() => { role.textContent = roles[ri]; role.style.opacity = 1; }, 200);
+  }, 2200);
+  role.style.transition = 'opacity .25s ease';
+
+  // nav shadow on scroll
+  const pill = document.getElementById('navPill');
+  addEventListener('scroll', () => {
+    pill.classList.toggle('scrolled', scrollY > 80);
+  }, { passive: true });
+
+  // duplicate marquee for seamless loop
+  const track = document.getElementById('track');
+  track.innerHTML += track.innerHTML;
+</script>
+</body>
+</html>

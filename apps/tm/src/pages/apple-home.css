@@ -46,7 +46,7 @@ body.ap-light { background: #fdfbf8; }
 .ap-mobile.open { display: flex; }
 .ap-mobile a { padding: 13px 16px; border-radius: 12px; color: var(--fg); font-size: .98rem; }
 .ap-mobile a:hover { background: rgba(0,0,0,.05); }
-@media (max-width: 820px) { .ap-pill .links { display: none; } .ap-burger { display: inline-flex; } }
+@media (max-width: 820px) { .ap-pill .links { display: none; } .ap-pill .cta { display: none; } .ap-burger { display: inline-flex; } }
 
 .ap-hero { padding: 150px 0 45px; text-align: center; position: relative; overflow: hidden; }
 .ap-hero .wrap { position: relative; z-index: 1; }
@@ -73,6 +73,9 @@ body.ap-light { background: #fdfbf8; }
 @media (max-width: 720px) {
   .ap-hero .ap-trust { margin-top: 56px; gap: 18px 28px; }
   .ap-hero .ap-trust .t-item { flex: 0 0 calc(50% - 14px); }
+  /* trust elements are airy (no cards), so tighten the gap to the diagnosis section on mobile */
+  .ap-hero { padding-bottom: 16px; }
+  .ap-hero + .ap-sec { padding-top: 72px; }
 }
 
 .ap-sec { padding: 100px 0; scroll-margin-top: 90px; }
