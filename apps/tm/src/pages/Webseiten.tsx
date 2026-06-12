@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./apple-home.css";
 import "./webseiten.css";
+import { CalEmbed } from "@/components/CalEmbed";
 
-const CAL = "https://cal.com/nicolasieber/beratungsgespraech";
 const MAIL = "info@trendingmedia.ch";
 
 /* ---- inline stroke icons ---- */
@@ -407,7 +407,7 @@ const Webseiten = () => {
             </div>
             <div className="ap-cal">
               <div className="bar"><i /><i /><i /><span>cal.com / Erstgespräch</span></div>
-              <iframe src={`${CAL}?embed=true&theme=light`} title="Erstgespräch buchen" loading="lazy" />
+              <CalEmbed className="ap-cal-host" />
             </div>
           </div>
         </div>

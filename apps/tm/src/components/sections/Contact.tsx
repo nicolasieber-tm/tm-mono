@@ -8,6 +8,7 @@ import {
 import { CAL_URL, CONTACT_EMAIL } from "@/lib/links";
 import { useSectionMode, modeToClass } from "@/lib/theme";
 import { SectionBackdrop } from "@/components/SectionBackdrop";
+import { CalEmbed } from "@/components/CalEmbed";
 
 const guarantees = [
   { Icon: CalendarCheck, text: "Termin direkt im Kalender wählen" },
@@ -106,12 +107,7 @@ export const Contact = () => {
                   cal.com / Erstgespräch
                 </span>
               </div>
-              <iframe
-                src={`${CAL_URL}?embed=true&theme=light`}
-                title="Erstgespräch buchen"
-                className="w-full h-[480px] sm:h-[560px] md:h-[640px] bg-white"
-                loading="lazy"
-              />
+              <CalEmbed className="h-[480px] sm:h-[560px] md:h-[640px] bg-white" />
             </div>
           </div>
         </div>
