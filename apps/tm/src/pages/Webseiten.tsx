@@ -253,7 +253,7 @@ const Webseiten = () => {
 
       <nav className="ap-nav">
         <div className={`ap-pill${scrolled ? " scrolled" : ""}`}>
-          <a className="b" href="#top"><span className="dot" />Webseiten</a>
+          <a className="b" href="#top"><img className="brandmark" src="/Webseiten_logo.png" alt="" />Webseiten</a>
           <div className="links">
             <a href="#problem">Diagnose</a>
             <a href="#leistungen">Leistungen</a>
