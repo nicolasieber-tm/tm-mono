@@ -30,6 +30,7 @@ body.ap-light { background: #fdfbf8; }
 .ap-pill.scrolled { box-shadow: 0 14px 40px -14px rgba(60,40,20,.3); }
 .ap-pill .b { display: inline-flex; align-items: center; gap: 9px; font-weight: 600; font-size: .95rem; color: var(--fg); padding: 6px 8px; }
 .ap-pill .b .dot { width: 18px; height: 18px; border-radius: 50%; background: var(--grad); box-shadow: 0 0 10px rgba(255,138,60,.45); flex: none; }
+.ap-pill .b .brandmark { width: 20px; height: 20px; object-fit: contain; flex: none; }
 .ap-pill .links { display: flex; align-items: center; gap: 2px; margin: 0 2px; }
 .ap-pill .links a { font-size: .85rem; color: var(--muted); padding: 8px 13px; border-radius: 980px; transition: color .2s, background .2s; }
 .ap-pill .links a:hover { color: var(--fg); background: rgba(0,0,0,.05); }

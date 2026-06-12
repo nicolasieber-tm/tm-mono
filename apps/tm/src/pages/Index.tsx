@@ -184,7 +184,7 @@ const Index = () => {
 
       <nav className="ap-nav">
         <div className={`ap-pill${scrolled ? " scrolled" : ""}`}>
-          <a className="b" href="#top"><span className="dot" />Trending Media</a>
+          <a className="b" href="#top"><img className="brandmark" src="/logo-schwarz.png" alt="" />Trending Media</a>
           <div className="links">
             <a href="#leistungen">Leistungen</a>
             <a href="#vorgehen">Vorgehen</a>
