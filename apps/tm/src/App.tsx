@@ -10,6 +10,7 @@ import Imprint from "./pages/Imprint.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Privacy from "./pages/Privacy.tsx";
 import Selbstcheck from "./pages/Selbstcheck.tsx";
+import Webseiten from "./pages/Webseiten.tsx";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
               <Route path="/impressum" element={<Imprint />} />
               <Route path="/datenschutz" element={<Privacy />} />
               <Route path="/selbstcheck" element={<Selbstcheck />} />
+              <Route path="/webseiten" element={<Webseiten />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

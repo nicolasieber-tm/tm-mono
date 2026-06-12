@@ -1,0 +1,54 @@
+/* =================================================================
+   Webseiten / Landingpages — product landing page.
+   Reuses the Apple-style system from apple-home.css (imported first),
+   then re-skins it purple-forward and adds a few page-specific blocks.
+   Scoped under .ap.ap-web — imported AFTER apple-home.css so the
+   variable overrides win on equal specificity.
+   ================================================================= */
+
+/* purple-forward skin — same family as the vivid homepage, product accent */
+.ap-web {
+  --accent: #8b5cf6; --accent-fg: #fff;
+  --grad: linear-gradient(105deg,#b18bff,#8b5cf6 36%,#7b3fe4 62%,#5b8def 100%);
+  --illoBg: linear-gradient(150deg,#f1ecff,#efe7ff 55%,#e9f0fd);
+  --illoColor: #8b5cf6;
+  --icBg: rgba(139,92,246,.12);
+  --prodHero: linear-gradient(135deg,#9d6bff,#7b3fe4);
+}
+
+/* purple-forward hero glow (overrides the tri-color vivid glow) */
+.ap-web .ap-hero::before {
+  background:
+    radial-gradient(40% 50% at 16% 22%,rgba(157,107,255,.34),transparent 60%),
+    radial-gradient(40% 50% at 84% 16%,rgba(91,141,237,.28),transparent 60%),
+    radial-gradient(46% 56% at 52% 52%,rgba(123,63,228,.24),transparent 60%);
+}
+
+/* trim the oversized hero bottom padding so the stats band sits close */
+.ap-web .ap-hero { padding: 150px 0 120px; }
+
+/* ---- stats / promise band ---- */
+.ap-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+@media (max-width: 760px) { .ap-stats { grid-template-columns: 1fr 1fr; } }
+.ap-stats .st { background: var(--card); border: 1px solid var(--border); border-radius: 18px;
+  padding: 26px 22px; box-shadow: var(--shadow); text-align: center; }
+.ap-sec.alt .ap-stats .st { background: var(--cardAlt); }
+.ap-stats .st b { display: block; font-size: clamp(1.7rem,3.4vw,2.2rem); font-weight: 700; letter-spacing: -.02em; line-height: 1;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.ap-stats .st span { display: block; margin-top: 8px; font-size: .85rem; line-height: 1.4; color: var(--muted); }
+
+/* ---- package cards ---- */
+.ap-card.pkg { position: relative; }
+.ap-card.pkg .feat { margin: 18px 0 0; display: flex; flex-direction: column; gap: 10px; }
+.ap-card.pkg .feat li { list-style: none; display: flex; gap: 10px; align-items: flex-start;
+  font-size: .92rem; line-height: 1.45; color: var(--muted); }
+.ap-card.pkg .feat li svg { flex: none; margin-top: 2px; }
+.ap-card.pkg .pkg-foot { margin-top: auto; padding-top: 22px; }
+.ap-card.pkg .pkg-foot .pr { font-size: .82rem; color: var(--muted2); margin-bottom: 12px; }
+.ap-card.pkg .pkg-foot a { display: inline-flex; align-items: center; gap: 6px;
+  font-weight: 600; color: var(--accent); font-size: .95rem; }
+.ap-card.pkg.pop::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.6px;
+  background: var(--grad); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+.ap-card.pkg .badge { position: absolute; top: 20px; right: 20px; font-size: .68rem; font-weight: 600; letter-spacing: .02em;
+  color: #fff; background: var(--accent); padding: 4px 11px; border-radius: 980px; }

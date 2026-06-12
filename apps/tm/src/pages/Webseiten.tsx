@@ -207,7 +207,7 @@ function FaqItem({ f, open, onToggle }: { f: { q: string; a: string }; open: boo
   );
 }
 
-const Index = () => {
+const Webseiten = () => {
   const rootRef = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -441,7 +441,7 @@ const Index = () => {
               <h4>Mehr</h4>
               <a className="fl" href="#pakete">Pakete</a>
               <a className="fl" href="#faq">FAQ</a>
-              <a className="fl" href="https://trendingmedia.ch">Trending Media</a>
+              <Link className="fl" to="/">Trending Media</Link>
             </div>
             <div>
               <h4>Kontakt</h4>
@@ -463,4 +463,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Webseiten;
