@@ -1,21 +1,18 @@
 import { ReactNode, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../pages/apple-home.css";
+import "../../pages/webseiten.css";
 import "../../pages/legal.css";
 
 const MAIL = "info@trendingmedia.ch";
 
-type LegalPageLayoutProps = {
+type LegalLayoutProps = {
   title: string;
   intro?: string;
   children: ReactNode;
 };
 
-export const LegalPageLayout = ({
-  title,
-  intro,
-  children,
-}: LegalPageLayoutProps) => {
+export const LegalLayout = ({ title, intro, children }: LegalLayoutProps) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -32,17 +29,18 @@ export const LegalPageLayout = ({
   }, []);
 
   return (
-    <div className="ap ap-vivid">
+    <div className="ap ap-vivid ap-web">
       <nav className="ap-nav">
         <div className={`ap-pill${scrolled ? " scrolled" : ""}`}>
           <Link className="b" to="/">
-            <img className="brandmark" src="/logo-schwarz.png" alt="" />
+            <img className="brandmark" src="/Webseiten_logo.png" alt="" />
             Trending Media
           </Link>
           <div className="links">
+            <a href="/#problem">Diagnose</a>
             <a href="/#leistungen">Leistungen</a>
             <a href="/#vorgehen">Vorgehen</a>
-            <a href="/#produkte">Produkte</a>
+            <a href="/#pakete">Pakete</a>
             <a href="/#faq">FAQ</a>
           </div>
           <a className="cta" href="/#kontakt">Erstgespräch</a>
@@ -50,9 +48,10 @@ export const LegalPageLayout = ({
         </div>
       </nav>
       <div className={`ap-mobile${mobileOpen ? " open" : ""}`}>
+        <a href="/#problem" onClick={() => setMobileOpen(false)}>Diagnose</a>
         <a href="/#leistungen" onClick={() => setMobileOpen(false)}>Leistungen</a>
         <a href="/#vorgehen" onClick={() => setMobileOpen(false)}>Vorgehen</a>
-        <a href="/#produkte" onClick={() => setMobileOpen(false)}>Produkte</a>
+        <a href="/#pakete" onClick={() => setMobileOpen(false)}>Pakete</a>
         <a href="/#faq" onClick={() => setMobileOpen(false)}>FAQ</a>
         <a href="/#kontakt" onClick={() => setMobileOpen(false)}>Erstgespräch</a>
       </div>
@@ -73,19 +72,19 @@ export const LegalPageLayout = ({
           <div className="grid">
             <div>
               <h4>Trending Media</h4>
-              <p style={{ maxWidth: "30ch", lineHeight: 1.6 }}>Digitalisierungspartner für Schweizer KMU. Strategie, Software und Umsetzung — aus Praxis, für Praxis.</p>
+              <p style={{ maxWidth: "30ch", lineHeight: 1.6 }}>Webseiten und Landingpages für Schweizer KMU — gebaut, um Sichtbarkeit in Anfragen zu verwandeln.</p>
             </div>
             <div>
-              <h4>Produkte</h4>
-              <a className="fl" href="https://auron.trendingmedia.ch">AURON</a>
-              <a className="fl" href="https://landingpage.oneclick-office.ch">OneClick Office</a>
-              <a className="fl" href="https://sichtbarkeit.trendingmedia.ch">Landingpages</a>
+              <h4>Leistungen</h4>
+              <a className="fl" href="/#leistungen">Landingpages</a>
+              <a className="fl" href="/#leistungen">Websites</a>
+              <a className="fl" href="/#leistungen">SEO &amp; Sichtbarkeit</a>
             </div>
             <div>
-              <h4>Unternehmen</h4>
-              <a className="fl" href="/#leistungen">Leistungen</a>
-              <a className="fl" href="/#vorgehen">Vorgehen</a>
-              <a className="fl" href="/#team">Team</a>
+              <h4>Mehr</h4>
+              <a className="fl" href="/#pakete">Pakete</a>
+              <a className="fl" href="/#faq">FAQ</a>
+              <a className="fl" href="https://trendingmedia.ch">Trending Media</a>
             </div>
             <div>
               <h4>Kontakt</h4>
@@ -104,19 +103,5 @@ export const LegalPageLayout = ({
         </div>
       </footer>
     </div>
-  );
-};
-
-type LegalSectionProps = {
-  title: string;
-  children: ReactNode;
-};
-
-export const LegalSection = ({ title, children }: LegalSectionProps) => {
-  return (
-    <section>
-      <h2>{title}</h2>
-      {children}
-    </section>
   );
 };

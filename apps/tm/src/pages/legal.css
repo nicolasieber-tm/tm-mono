@@ -1,0 +1,28 @@
+/* =================================================================
+   Legal / content pages (Impressum, Datenschutz) — Apple style.
+   Scoped under the .ap wrapper; inherits skin tokens (--accent etc.).
+   ================================================================= */
+.ap-legal-wrap { padding: 132px 0 96px; }
+.ap-legal { max-width: 760px; margin: 0 auto; }
+
+.ap-legal .back { display: inline-block; font-size: .9rem; color: var(--muted); margin-bottom: 30px; transition: color .2s; }
+.ap-legal .back:hover { color: var(--fg); }
+
+.ap-legal > h1 { font-size: clamp(2.4rem,5.5vw,3.6rem); line-height: 1.06; letter-spacing: -.035em; font-weight: 700; color: var(--fg); }
+.ap-legal > .lead { margin-top: 18px; font-size: 1.18rem; line-height: 1.55; color: var(--muted); max-width: 62ch; }
+
+.ap-legal-body { margin-top: 44px; }
+.ap-legal-body section { padding: 28px 0; border-top: 1px solid var(--border); }
+.ap-legal-body section:first-child { border-top: 0; padding-top: 4px; }
+.ap-legal-body h2 { font-size: 1.45rem; font-weight: 600; letter-spacing: -.02em; color: var(--fg); margin-bottom: 14px; }
+.ap-legal-body h3 { font-size: 1.12rem; font-weight: 600; color: var(--fg); margin: 20px 0 8px; }
+.ap-legal-body p { font-size: 1rem; line-height: 1.7; color: var(--muted); }
+.ap-legal-body p + p { margin-top: 14px; }
+.ap-legal-body ul { margin-top: 12px; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.ap-legal-body li { position: relative; padding-left: 20px; font-size: 1rem; line-height: 1.6; color: var(--muted); }
+.ap-legal-body li::before { content: ""; position: absolute; left: 3px; top: .62em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+.ap-legal-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.ap-legal-body a:hover { filter: brightness(1.08); }
+.ap-legal-body strong, .ap-legal-body b, .ap-legal-body .font-semibold { color: var(--fg); font-weight: 600; }
+
+@media (max-width: 720px) { .ap-legal-wrap { padding: 104px 0 72px; } }

@@ -1,18 +1,8 @@
-import { Navbar } from "@/components/landing/Navbar";
-import { Footer } from "@/components/landing/Footer";
-import { Link } from "react-router-dom";
+import { LegalLayout } from "@/components/legal/LegalLayout";
 
 const Impressum = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <main className="container-tight py-16 md:py-24">
-        <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">
-          ← Zurück zur Startseite
-        </Link>
-        <h1 className="mt-6 text-4xl font-semibold tracking-tight md:text-5xl">Impressum</h1>
-
-        <div className="mt-10 space-y-8 text-base leading-relaxed text-foreground/90">
+    <LegalLayout title="Impressum">
           <section>
             <p className="font-semibold">Trending Media KLG</p>
             <p>Hasenmattweg 35</p>
@@ -77,10 +67,7 @@ const Impressum = () => {
           </section>
 
           <p className="text-sm text-muted-foreground">Quelle: SwissAnwalt</p>
-        </div>
-      </main>
-      <Footer />
-    </div>
+    </LegalLayout>
   );
 };
 
