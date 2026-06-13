@@ -3,8 +3,8 @@ import { LegalPageLayout, LegalSection } from "@/components/legal/LegalPageLayou
 const Privacy = () => {
   return (
     <LegalPageLayout
-      title="Datenschutzerklaerung"
-      intro="Diese Datenschutzerklaerung beschreibt, wie Trending Media KLG personenbezogene Daten im Zusammenhang mit dieser Website bearbeitet."
+      title="Datenschutzerklärung"
+      intro="Diese Datenschutzerklärung beschreibt, wie Trending Media KLG personenbezogene Daten im Zusammenhang mit dieser Website bearbeitet."
     >
       <LegalSection title="Verantwortliche Stelle">
         <p>
@@ -39,7 +39,7 @@ const Privacy = () => {
           Daten. Die Betreiber dieser Seiten nehmen den Schutz Ihrer
           persoenlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen
           Daten vertraulich und entsprechend der gesetzlichen
-          Datenschutzvorschriften sowie dieser Datenschutzerklaerung.
+          Datenschutzvorschriften sowie dieser Datenschutzerklärung.
         </p>
         <p>
           In Zusammenarbeit mit unseren Hosting-Providern bemuehen wir uns, die
@@ -107,7 +107,7 @@ const Privacy = () => {
         <p>
           Nach Massgabe des Art. 13 DSGVO teilen wir Ihnen die
           Rechtsgrundlagen unserer Datenverarbeitungen mit. Sofern die
-          Rechtsgrundlage in der Datenschutzerklaerung nicht genannt wird, gilt
+          Rechtsgrundlage in der Datenschutzerklärung nicht genannt wird, gilt
           Folgendes: Die Rechtsgrundlage fuer die Einholung von Einwilligungen
           ist Art. 6 Abs. 1 lit. a und Art. 7 DSGVO, die Rechtsgrundlage fuer
           die Verarbeitung zur Erfuellung unserer Leistungen und Durchfuehrung
@@ -162,7 +162,7 @@ const Privacy = () => {
         </p>
       </LegalSection>
 
-      <LegalSection title="Datenschutzerklaerung fuer Cookies">
+      <LegalSection title="Datenschutzerklärung fuer Cookies">
         <p>
           Diese Website verwendet Cookies. Cookies sind Textdateien, die Daten
           von besuchten Websites oder Domains enthalten und von einem Browser
@@ -205,7 +205,7 @@ const Privacy = () => {
         </p>
       </LegalSection>
 
-      <LegalSection title="Datenschutzerklaerung fuer SSL-/TLS-Verschluesselung">
+      <LegalSection title="Datenschutzerklärung fuer SSL-/TLS-Verschluesselung">
         <p>
           Diese Website nutzt aus Gruenden der Sicherheit und zum Schutz der
           Uebertragung vertraulicher Inhalte eine SSL-/TLS-Verschluesselung.
@@ -217,7 +217,7 @@ const Privacy = () => {
         </p>
       </LegalSection>
 
-      <LegalSection title="Datenschutzerklaerung fuer Server-Log-Files">
+      <LegalSection title="Datenschutzerklärung fuer Server-Log-Files">
         <p>
           Der Provider dieser Website erhebt und speichert automatisch
           Informationen in so genannten Server-Log-Files, die Ihr Browser
@@ -242,7 +242,7 @@ const Privacy = () => {
         </p>
       </LegalSection>
 
-      <LegalSection title="Datenschutzerklaerung fuer Kontaktformular">
+      <LegalSection title="Datenschutzerklärung fuer Kontaktformular">
         <p>
           Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden
           Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort
@@ -286,7 +286,7 @@ const Privacy = () => {
         </p>
       </LegalSection>
 
-      <LegalSection title="Datenschutzerklaerung fuer Google Analytics">
+      <LegalSection title="Datenschutzerklärung fuer Google Analytics">
         <p>
           Diese Website benutzt Google Analytics, einen Webanalysedienst der
           Google Ireland Limited. Ueber die gewonnenen Statistiken koennen wir
@@ -337,9 +337,9 @@ const Privacy = () => {
 
       <LegalSection title="Aenderungen">
         <p>
-          Wir koennen diese Datenschutzerklaerung jederzeit ohne
+          Wir koennen diese Datenschutzerklärung jederzeit ohne
           Vorankuendigung anpassen. Es gilt die jeweils aktuelle, auf unserer
-          Website publizierte Fassung. Soweit die Datenschutzerklaerung Teil
+          Website publizierte Fassung. Soweit die Datenschutzerklärung Teil
           einer Vereinbarung mit Ihnen ist, werden wir Sie im Falle einer
           Aktualisierung ueber die Aenderung per E-Mail oder auf andere
           geeignete Weise informieren.
