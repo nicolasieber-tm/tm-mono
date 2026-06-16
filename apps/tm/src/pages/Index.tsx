@@ -63,25 +63,25 @@ const PAINS = [
 const SERVICES = [
   { illo: "workflow", tag: "Operations", title: "Prozesse digitalisieren", desc: "Wir machen sichtbar, wo in Ihrem Alltag Aufwand entsteht. Zettel, Excel-Listen und Medienbrüche ersetzen wir durch saubere digitale Abläufe.", chips: ["Prozess-Audit", "Integration", "Change Management"] },
   { illo: "brain", tag: "Intelligence", title: "KI & Automatisierung mit Substanz", desc: "Wir integrieren KI dort, wo sie konkret Mehrwert schafft: vom internen Assistenten bis zur automatisierten Verarbeitung wiederkehrender Aufgaben.", chips: ["KI-Assistent", "RAG", "Agents"] },
-  { illo: "code", tag: "Engineering", title: "Massgeschneiderte Software", desc: "Wenn Standard-Software nicht passt, bauen wir genau das Werkzeug, das in Ihrem Betrieb fehlt — stabil, wartbar und zum Mitwachsen gemacht.", chips: ["Web-Apps", "Datenbanken", "APIs"] },
-  { illo: "web", tag: "Reach", title: "Web & Landingpages", desc: "Performante Webauftritte, die Sichtbarkeit in Anfragen verwandeln — mit klarer Conversion-Logik statt Pixel-Spielerei.", chips: ["Landingpages", "SEO", "Terminbuchung"] },
+  { illo: "code", tag: "Engineering", title: "Massgeschneiderte Software", desc: "Wenn Standard-Software nicht passt, bauen wir genau das Werkzeug, das in Ihrem Betrieb fehlt, stabil, wartbar und zum Mitwachsen gemacht.", chips: ["Web-Apps", "Datenbanken", "APIs"] },
+  { illo: "web", tag: "Reach", title: "Web & Landingpages", desc: "Performante Webauftritte, die Sichtbarkeit in Anfragen verwandeln, mit klarer Conversion-Logik statt Pixel-Spielerei.", chips: ["Landingpages", "SEO", "Terminbuchung"] },
 ];
 const PROCESS = [
   { t: "Zuhören", d: "Wir sprechen mit Geschäftsführung, Mitarbeitenden und wo es Sinn macht auch mit Ihren Kunden. Ziel: ein ehrliches Bild davon, wo im Alltag wirklich Aufwand entsteht." },
   { t: "Analysieren", d: "Wir identifizieren Medienbrüche, manuelle Doppelarbeit und Reibungsverluste. Statt Buzzwords liefern wir eine konkrete Liste der grössten Hebel." },
-  { t: "Entwickeln", d: "Wir entscheiden gemeinsam, was Standard-Software löst, was eigene Software braucht und wo KI tatsächlich Mehrwert schafft — nicht weil es im Trend liegt." },
+  { t: "Entwickeln", d: "Wir entscheiden gemeinsam, was Standard-Software löst, was eigene Software braucht und wo KI tatsächlich Mehrwert schafft, nicht weil es im Trend liegt." },
   { t: "Umsetzen", d: "Wir bauen, integrieren und rollen aus. Danach bleiben wir Ansprechpartner, damit aus dem Projekt ein dauerhaft funktionierender Prozess wird." },
 ];
 const PILLARS = [
-  { r: "I", t: "Wir starten beim Alltag, nicht bei der Technologie.", d: "Bevor wir über Software sprechen, verstehen wir, wo im Tagesgeschäft Zeit verloren geht — im Büro, vor Ort, im Kundenkontakt." },
+  { r: "I", t: "Wir starten beim Alltag, nicht bei der Technologie.", d: "Bevor wir über Software sprechen, verstehen wir, wo im Tagesgeschäft Zeit verloren geht: im Büro, vor Ort, im Kundenkontakt." },
   { r: "II", t: "Wir denken wie Unternehmer.", d: "Wir betreiben selbst Produkte am Markt. Deshalb wissen wir, was operativ funktioniert und was nur in Slides gut aussieht." },
   { r: "III", t: "Wir setzen auch um.", d: "Konzepte ohne Umsetzung helfen niemandem. Wir liefern Strategie, Software und Rollout aus einer Hand." },
 ];
 const REASONS = [
   { t: "KI dort, wo sie wirklich wirkt", d: "Wir setzen KI nicht als Buzzword ein, sondern dort, wo sie messbar Zeit spart oder bessere Entscheidungen ermöglicht." },
-  { t: "Strategie + Umsetzung in einer Hand", d: "Kein Ping-Pong zwischen Beratung, Agentur und IT. Wir analysieren, entwickeln und rollen aus — als ein Team." },
+  { t: "Strategie + Umsetzung in einer Hand", d: "Kein Ping-Pong zwischen Beratung, Agentur und IT. Wir analysieren, entwickeln und rollen aus, als ein Team." },
   { t: "Eigene Produkte im täglichen Einsatz", d: "Wir kennen die Realität von SaaS, Support und Skalierung, weil wir selbst Produkte am Markt betreiben." },
-  { t: "Praxis vor Theorie", d: "Jede Lösung wird daran gemessen, was sie im Alltag bewirkt: weniger Aufwand, weniger Fehler, mehr Umsatz — nicht hübschere Slides." },
+  { t: "Praxis vor Theorie", d: "Jede Lösung wird daran gemessen, was sie im Alltag bewirkt: weniger Aufwand, weniger Fehler, mehr Umsatz, nicht hübschere Slides." },
 ];
 const GUARANTEES = [
   { ic: "cal", t: "Termin direkt im Kalender wählen" },
@@ -90,12 +90,12 @@ const GUARANTEES = [
 ];
 const PRODUCTS = [
   { name: "AURON", logo: "/Auron_logo.png", color: "#ff7a3c", grad: "linear-gradient(135deg,#ff9a3c,#ff5e2c)", tag: "Handwerker und Bauunternehmen", domain: "auron.trendingmedia.ch", href: "https://auron.trendingmedia.ch", desc: "Intelligente Zeiterfassung für Handwerks- und Servicebetriebe. Entstanden aus dutzenden Gesprächen mit Betrieben, die ihre Stunden bisher auf Zetteln und in Excel verloren haben." },
-  { name: "OneClick Office", logo: "/oneclick-office_logo.png", color: "#2b9fd6", grad: "linear-gradient(135deg,#3bb0e6,#1f7fc0)", tag: "Coaches & Berater", domain: "oneclick-office.ch", href: "https://landingpage.oneclick-office.ch", desc: "Rechnungen, Spesen und Admin-Kram radikal vereinfacht — damit Coaches, Berater und kleine Unternehmen wieder die Arbeit machen, für die sie bezahlt werden." },
+  { name: "OneClick Office", logo: "/oneclick-office_logo.png", color: "#2b9fd6", grad: "linear-gradient(135deg,#3bb0e6,#1f7fc0)", tag: "Coaches & Berater", domain: "oneclick-office.ch", href: "https://landingpage.oneclick-office.ch", desc: "Rechnungen, Spesen und Admin-Kram radikal vereinfacht, damit Coaches, Berater und kleine Unternehmen wieder die Arbeit machen, für die sie bezahlt werden." },
   { name: "Landingpages", logo: "/Webseiten_logo.png", color: "#8b5cf6", grad: "linear-gradient(135deg,#9d6bff,#7b3fe4)", tag: "KMU & Dienstleister", domain: "sichtbarkeit.trendingmedia.ch", href: "https://sichtbarkeit.trendingmedia.ch", desc: "Hochkonvertierende Landingpages für KMU und lokale Dienstleister. Klarer Fokus: Sichtbarkeit, qualifizierte Anfragen und messbare Resultate." },
 ];
 const TEAM = [
   { name: "Nicola Sieber", role: "Strategy & Operations", img: "/team/nicola.png", desc: "Treibt Digitalisierungsprojekte mit klarem Fokus auf Effizienz voran. Übersetzt komplexe Abläufe in Prozesse, die im Alltag wirklich Zeit sparen." },
-  { name: "Timo Sieber", role: "Engineering & AI", img: "/team/timo.png", desc: "Entwickler und zertifizierter KI-Architekt. Verantwortet die Softwarearchitektur hinter unseren Lösungen — von der ersten Skizze bis zum produktiven System." },
+  { name: "Timo Sieber", role: "Engineering & AI", img: "/team/timo.png", desc: "Entwickler und zertifizierter KI-Architekt. Verantwortet die Softwarearchitektur hinter unseren Lösungen, von der ersten Skizze bis zum produktiven System." },
   { name: "Mika Sieber", role: "Customer Success", img: "/team/mika.png", desc: "Sorgt dafür, dass aus Kunden langfristige Partner werden. Erste Ansprechperson für Betreuung, Onboarding und laufende Zusammenarbeit." },
 ];
 const FAQS = [
@@ -104,7 +104,7 @@ const FAQS = [
   { q: "Wie lange dauert die Umsetzung?", a: "Erste produktive Resultate sind oft in 2 bis 6 Wochen sichtbar. Grössere Lösungen werden in klar definierten Etappen ausgerollt, damit Nutzen früh entsteht." },
   { q: "Für welche Branchen arbeiten Sie?", a: "Schwerpunkt sind Schweizer KMU im Dienstleistungs-, Handwerks- und Servicebereich. Unser Vorgehen funktioniert überall dort, wo manuelle Abläufe digitalisiert werden sollen." },
   { q: "Wo werden meine Daten gespeichert?", a: "Standardmässig in der Schweiz oder in der EU. Spezifische Anforderungen (CH-Hosting, on-premise, FINMA) berücksichtigen wir im Architektur-Entscheid." },
-  { q: "Was, wenn Standard-Software bereits reicht?", a: "Dann sagen wir das. Wir empfehlen das, was im Alltag am besten passt — auch wenn das eine bestehende Lösung wie Bexio, HubSpot oder Microsoft 365 ist." },
+  { q: "Was, wenn Standard-Software bereits reicht?", a: "Dann sagen wir das. Wir empfehlen das, was im Alltag am besten passt, auch wenn das eine bestehende Lösung wie Bexio, HubSpot oder Microsoft 365 ist." },
   { q: "Begleiten Sie uns auch nach dem Go-Live?", a: "Ja. Wir bleiben Ansprechpartner für Wartung, Weiterentwicklung und Support. Aus einem Projekt soll ein dauerhaft funktionierender Prozess werden." },
 ];
 
@@ -210,8 +210,8 @@ const Index = () => {
       <section className="ap-hero reveal" id="top">
         <div className="wrap">
           <div className="kick">Digitalisierung für Schweizer KMU</div>
-          <h1>Software, die <span className="g">wirklich wirkt</span>.</h1>
-          <p className="sub">Massgeschneidert. Intelligent. Gebaut für Ihren Alltag.</p>
+          <h1>Ihr Unternehmen, <span className="g">digital weitergedacht</span>.</h1>
+          <p className="sub">Mit individuellen digitalen Lösungen reduzieren wir manuellen Aufwand, verbinden Systeme und schaffen effizientere Abläufe.</p>
           <div className="acts">
             <a className="p" href="#kontakt">Erstgespräch buchen</a>
             <a className="s" href="#leistungen">Mehr erfahren ›</a>
@@ -241,7 +241,7 @@ const Index = () => {
 
       <section className="ap-sec alt">
         <div className="wide">
-          <Shead k="Diagnose" h="Kommt Ihnen das bekannt vor?" intro="Punkte, die wir in fast jedem Erstgespräch hören — kein Zeichen schlechter Organisation, sondern von Werkzeugen, die nicht mitgewachsen sind." />
+          <Shead k="Diagnose" h="Kommt Ihnen das bekannt vor?" intro="Punkte, die wir in fast jedem Erstgespräch hören, kein Zeichen schlechter Organisation, sondern von Werkzeugen, die nicht mitgewachsen sind." />
           <div className="ap-grid c4 reveal">
             {PAINS.map((p) => (
               <div className="ap-card" key={p.title}>
@@ -293,7 +293,7 @@ const Index = () => {
 
       <section className="ap-sec">
         <div className="wide">
-          <Shead k="Manifest" h="Kein Beratungshaus. Keine klassische Agentur." intro="Wir begleiten Unternehmen langfristig durch ihre Digitalisierung — mit echtem Verständnis für operative Abläufe." />
+          <Shead k="Manifest" h="Kein Beratungshaus. Keine klassische Agentur." intro="Wir begleiten Unternehmen langfristig durch ihre Digitalisierung, mit echtem Verständnis für operative Abläufe." />
           <div className="ap-grid c3 reveal" style={{ marginBottom: 20 }}>
             {PILLARS.map((p) => (
               <div className="ap-card" key={p.r}>
@@ -397,7 +397,7 @@ const Index = () => {
           <div className="grid">
             <div>
               <h4>Trending Media</h4>
-              <p style={{ maxWidth: "30ch", lineHeight: 1.6 }}>Digitalisierungspartner für Schweizer KMU. Strategie, Software und Umsetzung — aus Praxis, für Praxis.</p>
+              <p style={{ maxWidth: "30ch", lineHeight: 1.6 }}>Digitalisierungspartner für Schweizer KMU. Strategie, Software und Umsetzung. Aus Praxis, für Praxis.</p>
             </div>
             <div>
               <h4>Produkte</h4>

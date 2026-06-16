@@ -53,7 +53,7 @@ body.ap-light { background: #fdfbf8; }
 .ap-hero .kick { font-size: 1.1rem; font-weight: 600; color: var(--accent); margin-bottom: 14px; }
 .ap-hero h1 { font-size: clamp(2.8rem,7.5vw,5.6rem); line-height: 1.05; letter-spacing: -.035em; font-weight: 700; max-width: 15ch; margin: 0 auto; }
 .ap-hero h1 .g { background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-.ap-hero .sub { margin: 26px auto 0; font-size: clamp(1.15rem,2.4vw,1.6rem); line-height: 1.4; color: var(--muted); max-width: 30ch; font-weight: 400; }
+.ap-hero .sub { margin: 26px auto 0; font-size: clamp(1.15rem,2.4vw,1.6rem); line-height: 1.4; color: var(--muted); max-width: 52ch; font-weight: 400; }
 .ap-hero .acts { margin-top: 34px; display: flex; gap: 26px; justify-content: center; align-items: center; flex-wrap: wrap; }
 .ap-hero .acts a.p { background: var(--accent); color: var(--accent-fg); padding: 13px 26px; border-radius: 980px; font-size: 1.02rem; font-weight: 500; transition: filter .2s; }
 .ap-hero .acts a.p:hover { filter: brightness(1.08); }

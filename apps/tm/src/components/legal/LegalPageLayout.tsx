@@ -73,7 +73,7 @@ export const LegalPageLayout = ({
           <div className="grid">
             <div>
               <h4>Trending Media</h4>
-              <p style={{ maxWidth: "30ch", lineHeight: 1.6 }}>Digitalisierungspartner für Schweizer KMU. Strategie, Software und Umsetzung — aus Praxis, für Praxis.</p>
+              <p style={{ maxWidth: "30ch", lineHeight: 1.6 }}>Digitalisierungspartner für Schweizer KMU. Strategie, Software und Umsetzung. Aus Praxis, für Praxis.</p>
             </div>
             <div>
               <h4>Produkte</h4>
