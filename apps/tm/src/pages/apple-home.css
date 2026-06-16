@@ -156,6 +156,20 @@ body.ap-light { background: #fdfbf8; }
 .ap-cal .bar span { margin-left: 10px; font-size: .78rem; color: var(--muted2); }
 .ap-cal-host { height: 600px; background: #fff; }
 .ap-cal iframe { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
+
+/* Kontakt-Sektion: Vorschau-Karte, die in den /beratung-Flow führt */
+.ap-book { border-radius: 22px; background: var(--card); border: 1px solid var(--border); box-shadow: var(--shadow); padding: 30px; }
+.ap-book .ck { font-size: .85rem; font-weight: 600; color: var(--accent); }
+.ap-book h3 { margin-top: 8px; font-size: 1.5rem; line-height: 1.2; letter-spacing: -.02em; font-weight: 700; }
+.ap-book ol { margin: 22px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.ap-book ol li { display: flex; gap: 13px; align-items: center; font-size: 1rem; color: var(--fg); }
+.ap-book ol li .n { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: .82rem; font-weight: 600; color: #fff; background: var(--grad); }
+.ap-book ol li span.t { color: var(--muted); }
+.ap-book ol li b { font-weight: 600; }
+.ap-book .ap-book-cta { margin-top: 26px; display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--accent); color: var(--accent-fg); padding: 14px 28px; border-radius: 980px; font-weight: 500; font-size: 1.02rem; transition: filter .2s; }
+.ap-book .ap-book-cta:hover { filter: brightness(1.08); }
+.ap-book .ap-book-note { margin-top: 12px; text-align: center; font-size: .82rem; color: var(--muted2); font-weight: 500; }
+
 .ap-cta { text-align: center; }
 .ap-cta a { display: inline-block; background: var(--accent); color: var(--accent-fg); padding: 14px 30px; border-radius: 980px; font-weight: 500; margin-top: 40px; transition: filter .2s; }
 .ap-cta a:hover { filter: brightness(1.08); }
@@ -187,11 +201,11 @@ body.ap-light { background: #fdfbf8; }
   background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
 .ap-vivid .ap-hero .kick { color: #1b1a1e; }
 .ap-vivid .ap-hero .acts a.s { color: #1b1a1e; }
-.ap-vivid .ap-hero .acts a.p, .ap-vivid .ap-cta a {
+.ap-vivid .ap-hero .acts a.p, .ap-vivid .ap-cta a, .ap-vivid .ap-book .ap-book-cta {
   position: relative; color: #1b1a1e; font-weight: 600; background: transparent; border-radius: 980px;
   box-shadow: 0 8px 24px -14px rgba(120,70,200,.3); transition: transform .2s ease, box-shadow .2s ease; }
-.ap-vivid .ap-hero .acts a.p::before, .ap-vivid .ap-cta a::before {
+.ap-vivid .ap-hero .acts a.p::before, .ap-vivid .ap-cta a::before, .ap-vivid .ap-book .ap-book-cta::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 2px; background: var(--grad);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
-.ap-vivid .ap-hero .acts a.p:hover, .ap-vivid .ap-cta a:hover {
+.ap-vivid .ap-hero .acts a.p:hover, .ap-vivid .ap-cta a:hover, .ap-vivid .ap-book .ap-book-cta:hover {
   transform: translateY(-1px); filter: none; box-shadow: 0 14px 34px -16px rgba(120,70,200,.42); }

@@ -1,0 +1,88 @@
+/* =====================================================================
+   beratung.css — Vorqualifizierungs-Flow für /beratung
+   Erbt die Apple-Like Designsprache aus apple-home.css (Tokens via .ap).
+   NACH apple-home.css importieren. Nur Flow-spezifische Bausteine hier.
+   ===================================================================== */
+
+/* Schmaler, ruhiger Seitenkopf (kein voller Hero) */
+.ap .bf-head { padding: 130px 0 8px; text-align: center; }
+.ap .bf-head .kick { font-size: 1rem; font-weight: 600; color: var(--accent); margin-bottom: 12px; }
+.ap .bf-head h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.06; letter-spacing: -.03em; font-weight: 700; max-width: 18ch; margin: 0 auto; }
+.ap .bf-head .sub { margin: 18px auto 0; font-size: clamp(1.02rem, 2vw, 1.2rem); line-height: 1.5; color: var(--muted); max-width: 48ch; }
+.ap .bf-reassure { margin-top: 22px; display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; font-size: .85rem; color: var(--muted2); font-weight: 500; }
+.ap .bf-reassure span { display: inline-flex; align-items: center; gap: 7px; }
+
+/* Karte, die den Flow trägt */
+.ap .bf-shell { max-width: 640px; margin: 36px auto 0; padding: 0 24px; }
+.ap .bf-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; box-shadow: var(--shadow); padding: clamp(22px, 5vw, 40px); }
+
+/* Fortschritt */
+.ap .bf-progress { display: flex; align-items: center; justify-content: space-between; font-size: .78rem; font-weight: 600; color: var(--muted2); margin-bottom: 10px; }
+.ap .bf-track { height: 6px; width: 100%; border-radius: 980px; background: rgba(0,0,0,.06); overflow: hidden; }
+.ap .bf-fill { height: 100%; border-radius: 980px; background: var(--grad); transition: width .35s cubic-bezier(.4,0,.2,1); }
+
+/* Frage */
+.ap .bf-step { margin-top: 30px; }
+.ap .bf-q { font-size: clamp(1.4rem, 3.2vw, 1.9rem); line-height: 1.15; letter-spacing: -.02em; font-weight: 700; }
+.ap .bf-helper { margin-top: 8px; font-size: .92rem; color: var(--muted); }
+
+/* Antwort-Optionen */
+.ap .bf-opts { margin-top: 26px; display: grid; gap: 11px; }
+.ap .bf-opt {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  width: 100%; text-align: left; cursor: pointer;
+  padding: 16px 18px; border-radius: 14px; border: 1px solid var(--border);
+  background: var(--bg-alt); color: var(--fg); font-size: 1rem; font-weight: 500;
+  transition: border-color .18s, background .18s, transform .18s;
+}
+.ap .bf-opt:hover { border-color: var(--accent); transform: translateY(-1px); }
+.ap .bf-opt.sel { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 7%, var(--card)); }
+.ap .bf-tick {
+  display: grid; place-items: center; flex: none; width: 24px; height: 24px; border-radius: 50%;
+  border: 1px solid var(--border); color: transparent; transition: all .18s;
+}
+.ap .bf-opt.sel .bf-tick { border-color: var(--accent); background: var(--accent); color: var(--accent-fg); }
+
+/* Navigation unter den Schritten */
+.ap .bf-nav { margin-top: 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.ap .bf-back { display: inline-flex; align-items: center; gap: 7px; background: none; border: 0; cursor: pointer; font-size: .9rem; color: var(--muted); transition: color .18s; }
+.ap .bf-back:hover { color: var(--fg); }
+.ap .bf-back:disabled { opacity: .35; cursor: default; }
+.ap .bf-next { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; border: 0; padding: 12px 24px; border-radius: 980px; background: var(--accent); color: var(--accent-fg); font-size: .98rem; font-weight: 500; transition: filter .18s; }
+.ap .bf-next:hover { filter: brightness(1.08); }
+.ap .bf-next:disabled { opacity: .45; cursor: default; filter: none; }
+
+/* Kontaktformular */
+.ap .bf-form { margin-top: 26px; display: grid; gap: 16px; }
+.ap .bf-row { display: grid; gap: 16px; }
+@media (min-width: 560px) { .ap .bf-row.two { grid-template-columns: 1fr 1fr; } }
+.ap .bf-field { display: grid; gap: 7px; }
+.ap .bf-field label { font-size: .82rem; font-weight: 600; color: var(--fg); }
+.ap .bf-field input, .ap .bf-field textarea {
+  width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border);
+  background: var(--bg-alt); color: var(--fg); font: inherit; font-size: .98rem;
+  transition: border-color .18s, box-shadow .18s;
+}
+.ap .bf-field input:focus, .ap .bf-field textarea:focus {
+  outline: none; border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.ap .bf-field textarea { resize: vertical; min-height: 84px; }
+.ap .bf-fineprint { margin-top: 6px; text-align: center; font-size: .78rem; color: var(--muted2); }
+
+/* Skip-Ausgang */
+.ap .bf-skip { margin-top: 18px; text-align: center; font-size: .85rem; color: var(--muted2); }
+.ap .bf-skip button { background: none; border: 0; cursor: pointer; color: var(--accent); font: inherit; font-weight: 500; }
+.ap .bf-skip button:hover { text-decoration: underline; }
+
+/* Termin-Schritt: Cal-Embed */
+.ap .bf-cal { margin-top: 8px; }
+.ap .bf-cal .ap-cal-host { height: 680px; }
+.ap .bf-cal-foot { margin-top: 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: .85rem; color: var(--muted); }
+.ap .bf-cal-foot button, .ap .bf-cal-foot a { display: inline-flex; align-items: center; gap: 7px; background: none; border: 0; cursor: pointer; color: var(--muted); font: inherit; }
+.ap .bf-cal-foot button:hover, .ap .bf-cal-foot a:hover { color: var(--fg); }
+
+/* einfache Einblend-Animation pro Schritt */
+.ap .bf-fade { animation: bfFade .35s ease both; }
+@keyframes bfFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .ap .bf-fade { animation: none; } }

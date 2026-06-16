@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./apple-home.css";
-import { CalEmbed } from "@/components/CalEmbed";
 
 const MAIL = "info@trendingmedia.ch";
 
@@ -195,7 +194,7 @@ const Index = () => {
             <a href="#produkte">Produkte</a>
             <a href="#faq">FAQ</a>
           </div>
-          <a className="cta" href="#kontakt">Erstgespräch</a>
+          <Link className="cta" to="/beratung">Erstgespräch</Link>
           <button className="ap-burger" aria-label="Menü öffnen" onClick={() => setMobileOpen((o) => !o)}>≡</button>
         </div>
       </nav>
@@ -204,7 +203,7 @@ const Index = () => {
         <a href="#vorgehen" onClick={() => setMobileOpen(false)}>Vorgehen</a>
         <a href="#produkte" onClick={() => setMobileOpen(false)}>Produkte</a>
         <a href="#faq" onClick={() => setMobileOpen(false)}>FAQ</a>
-        <a href="#kontakt" onClick={() => setMobileOpen(false)}>Erstgespräch</a>
+        <Link to="/beratung" onClick={() => setMobileOpen(false)}>Erstgespräch</Link>
       </div>
 
       <section className="ap-hero reveal" id="top">
@@ -213,7 +212,7 @@ const Index = () => {
           <h1>Ihr Unternehmen, <span className="g">digital weitergedacht</span>.</h1>
           <p className="sub">Mit individuellen digitalen Lösungen reduzieren wir manuellen Aufwand, verbinden Systeme und schaffen effizientere Abläufe.</p>
           <div className="acts">
-            <a className="p" href="#kontakt">Erstgespräch buchen</a>
+            <Link className="p" to="/beratung">Erstgespräch buchen</Link>
             <a className="s" href="#leistungen">Mehr erfahren ›</a>
           </div>
           <div className="ap-reassure">100% kostenlos &amp; unverbindlich</div>
@@ -286,7 +285,7 @@ const Index = () => {
             ))}
           </div>
           <div className="ap-cta reveal" style={{ marginTop: 48 }}>
-            <a href="#kontakt">Erstgespräch buchen</a>
+            <Link to="/beratung">Erstgespräch buchen</Link>
           </div>
         </div>
       </section>
@@ -373,9 +372,16 @@ const Index = () => {
                 ))}
               </ul>
             </div>
-            <div className="ap-cal">
-              <div className="bar"><i /><i /><i /><span>cal.com / Erstgespräch</span></div>
-              <CalEmbed className="ap-cal-host" />
+            <div className="ap-book">
+              <div className="ck">In 30 Sekunden zum Termin</div>
+              <h3>Erst kurz vorbereiten, dann Termin wählen.</h3>
+              <ol>
+                <li><span className="n">1</span><span><b>Drei kurze Fragen</b> <span className="t">— zu Ihrem Anliegen</span></span></li>
+                <li><span className="n">2</span><span><b>Kontaktdaten</b> <span className="t">— für die Bestätigung</span></span></li>
+                <li><span className="n">3</span><span><b>Termin wählen</b> <span className="t">— Angaben liegen uns vor</span></span></li>
+              </ol>
+              <Link className="ap-book-cta" to="/beratung">Erstgespräch buchen →</Link>
+              <div className="ap-book-note">100% kostenlos &amp; unverbindlich</div>
             </div>
           </div>
         </div>
@@ -413,7 +419,7 @@ const Index = () => {
             </div>
             <div>
               <h4>Kontakt</h4>
-              <a className="fl" href="#kontakt">Erstgespräch</a>
+              <Link className="fl" to="/beratung">Erstgespräch</Link>
               <a className="fl" href={`mailto:${MAIL}`}>{MAIL}</a>
               <a className="fl" href="#kontakt">Solothurn · CH</a>
             </div>

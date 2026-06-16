@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, ClipboardCheck } from "lucide-react";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
-import { CAL_URL } from "@/lib/links";
 
 const Selbstcheck = () => {
   return (
@@ -42,10 +41,10 @@ const Selbstcheck = () => {
 
           <div className="mt-10 flex flex-col sm:flex-row gap-3">
             <Button asChild size="lg" className="group">
-              <a href={CAL_URL} target="_blank" rel="noopener noreferrer">
+              <Link to="/beratung">
                 Erstgespräch buchen
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </a>
+              </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
               <Link to="/">Zurück zur Startseite</Link>
