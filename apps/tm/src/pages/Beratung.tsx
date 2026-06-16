@@ -23,13 +23,20 @@ import "./beratung.css";
    Solange GOOGLE_FORM_ACTION leer ist, wird das Speichern übersprungen und
    der Flow springt trotzdem sauber zum Termin (Cal-Prefill funktioniert).
 --------------------------------------------------------------------- */
-const GOOGLE_FORM_ACTION = ""; // z. B. "https://docs.google.com/forms/d/e/FORM_ID/formResponse"
+const GOOGLE_FORM_ACTION =
+  "https://docs.google.com/forms/d/e/1FAIpQLSfcif488ldDg23zy1vem2LvotguMd5UC68j45G7FRDHX0w7TQ/formResponse";
 const FIELD_IDS = {
-  name: "",
-  firma: "",
-  email: "",
-  telefon: "",
-  details: "",
+  name: "entry.67346083",
+  firma: "entry.107026594",
+  email: "entry.1010276767",
+  telefon: "entry.2064035513",
+  // Die drei Multiple-Choice-Fragen als eigene Felder (zum Auswerten/Filtern).
+  // Die Optionstexte im Google Form müssen EXAKT den Strings in choiceSteps
+  // unten entsprechen, sonst verwirft Google die Antwort.
+  anliegen: "entry.25266318",
+  groesse: "entry.607213196",
+  zeitrahmen: "entry.1024525460",
+  nachricht: "entry.1533253865",
 } as const;
 
 type FormState = {
@@ -151,19 +158,18 @@ const Beratung = () => {
     setLoading(true);
 
     if (GOOGLE_FORM_ACTION && FIELD_IDS.name) {
-      const details = [
-        `Anliegen: ${state.anliegen || "—"}`,
-        `Grösse: ${state.groesse || "—"}`,
-        `Zeitrahmen: ${state.zeitrahmen || "—"}`,
-        state.nachricht ? `\nAnmerkung:\n${state.nachricht}` : "",
-      ].join("\n");
-
       const payload = new FormData();
       payload.append(FIELD_IDS.name, state.name);
       payload.append(FIELD_IDS.firma, state.firma);
       payload.append(FIELD_IDS.email, state.email);
-      if (FIELD_IDS.telefon) payload.append(FIELD_IDS.telefon, state.telefon);
-      payload.append(FIELD_IDS.details, details);
+      if (FIELD_IDS.telefon && state.telefon)
+        payload.append(FIELD_IDS.telefon, state.telefon);
+      if (FIELD_IDS.anliegen) payload.append(FIELD_IDS.anliegen, state.anliegen);
+      if (FIELD_IDS.groesse) payload.append(FIELD_IDS.groesse, state.groesse);
+      if (FIELD_IDS.zeitrahmen)
+        payload.append(FIELD_IDS.zeitrahmen, state.zeitrahmen);
+      if (FIELD_IDS.nachricht && state.nachricht)
+        payload.append(FIELD_IDS.nachricht, state.nachricht);
 
       try {
         await fetch(GOOGLE_FORM_ACTION, {
