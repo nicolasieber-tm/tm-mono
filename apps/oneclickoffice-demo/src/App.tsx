@@ -2,11 +2,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ActiveCompanyProvider } from "@/contexts/ActiveCompanyContext";
 import { LayoutChromeProvider } from "@/contexts/LayoutChromeContext";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import Landing from "./pages/Landing";
+import Danke from "./pages/Danke";
 import Login from "./pages/Login";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
@@ -32,12 +34,6 @@ import ErrorBoundary from "./components/ErrorBoundary";
 
 const queryClient = new QueryClient();
 
-// Intelligente Weiterleitung basierend auf Gerät
-const SmartRedirect = () => {
-  const isMobile = window.innerWidth < 768;
-  return <Navigate to={isMobile ? "/mobile/zeit" : "/dashboard"} replace />;
-};
-
 const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
@@ -49,9 +45,10 @@ const App = () => (
             <ActiveCompanyProvider>
               <LayoutChromeProvider>
               <Routes>
+              <Route path="/" element={<Landing />} />
+              <Route path="/danke" element={<Danke />} />
               <Route path="/login" element={<Login />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/" element={<SmartRedirect />} />
               <Route
                 path="/dashboard"
                 element={
