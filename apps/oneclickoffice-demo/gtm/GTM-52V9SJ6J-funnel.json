@@ -55,7 +55,7 @@
               }
             ]
           },
-          { "type": "TEMPLATE", "key": "measurementId", "value": "{{Const – GA4 Measurement ID}}" }
+          { "type": "TEMPLATE", "key": "measurementIdOverride", "value": "{{Const – GA4 Measurement ID}}" }
         ],
         "fingerprint": "0",
         "firingTriggerId": ["10"],
@@ -105,7 +105,7 @@
               }
             ]
           },
-          { "type": "TEMPLATE", "key": "measurementId", "value": "{{Const – GA4 Measurement ID}}" }
+          { "type": "TEMPLATE", "key": "measurementIdOverride", "value": "{{Const – GA4 Measurement ID}}" }
         ],
         "fingerprint": "0",
         "firingTriggerId": ["11"],
@@ -141,7 +141,7 @@
               }
             ]
           },
-          { "type": "TEMPLATE", "key": "measurementId", "value": "{{Const – GA4 Measurement ID}}" }
+          { "type": "TEMPLATE", "key": "measurementIdOverride", "value": "{{Const – GA4 Measurement ID}}" }
         ],
         "fingerprint": "0",
         "firingTriggerId": ["12"],
@@ -191,7 +191,7 @@
               }
             ]
           },
-          { "type": "TEMPLATE", "key": "measurementId", "value": "{{Const – GA4 Measurement ID}}" }
+          { "type": "TEMPLATE", "key": "measurementIdOverride", "value": "{{Const – GA4 Measurement ID}}" }
         ],
         "fingerprint": "0",
         "firingTriggerId": ["13"],
@@ -227,7 +227,7 @@
               }
             ]
           },
-          { "type": "TEMPLATE", "key": "measurementId", "value": "{{Const – GA4 Measurement ID}}" }
+          { "type": "TEMPLATE", "key": "measurementIdOverride", "value": "{{Const – GA4 Measurement ID}}" }
         ],
         "fingerprint": "0",
         "firingTriggerId": ["14"],
@@ -243,7 +243,7 @@
         "parameter": [
           { "type": "BOOLEAN", "key": "sendEcommerceData", "value": "false" },
           { "type": "TEMPLATE", "key": "eventName", "value": "lead_start" },
-          { "type": "TEMPLATE", "key": "measurementId", "value": "{{Const – GA4 Measurement ID}}" }
+          { "type": "TEMPLATE", "key": "measurementIdOverride", "value": "{{Const – GA4 Measurement ID}}" }
         ],
         "fingerprint": "0",
         "firingTriggerId": ["15"],
@@ -286,7 +286,7 @@
               }
             ]
           },
-          { "type": "TEMPLATE", "key": "measurementId", "value": "{{Const – GA4 Measurement ID}}" }
+          { "type": "TEMPLATE", "key": "measurementIdOverride", "value": "{{Const – GA4 Measurement ID}}" }
         ],
         "fingerprint": "0",
         "firingTriggerId": ["16"],
@@ -302,7 +302,7 @@
         "parameter": [
           { "type": "BOOLEAN", "key": "sendEcommerceData", "value": "false" },
           { "type": "TEMPLATE", "key": "eventName", "value": "lead_submit" },
-          { "type": "TEMPLATE", "key": "measurementId", "value": "{{Const – GA4 Measurement ID}}" }
+          { "type": "TEMPLATE", "key": "measurementIdOverride", "value": "{{Const – GA4 Measurement ID}}" }
         ],
         "fingerprint": "0",
         "firingTriggerId": ["17"],
