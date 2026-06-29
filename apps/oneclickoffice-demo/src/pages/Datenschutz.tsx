@@ -180,19 +180,83 @@ const Datenschutz = () => (
         </section>
 
         <section>
-          <h2 className="mb-2 text-xl font-bold text-text-primary">Cookies und Reichweitenmessung</h2>
+          <h2 className="mb-2 text-xl font-bold text-text-primary">
+            Cookies, Google Tag Manager und Google Analytics
+          </h2>
           <p className="mb-4">
-            Diese Website kann Cookies verwenden. Cookies sind kleine Textdateien, die auf Ihrem
-            Gerät gespeichert werden, um die Website funktionsfähig zu halten sowie deren Nutzung
+            Diese Website verwendet Cookies. Cookies sind kleine Textdateien, die auf Ihrem Gerät
+            gespeichert werden, um die Website funktionsfähig zu halten sowie deren Nutzung
             statistisch auszuwerten. Wir unterscheiden technisch notwendige Cookies, die für den
-            Betrieb erforderlich sind, sowie Statistik- und Marketing-Cookies, die der
-            Reichweitenmessung und der Auswertung von Werbekampagnen dienen.
+            Betrieb erforderlich sind, sowie Statistik-Cookies, die der Reichweitenmessung dienen
+            und ausschliesslich mit Ihrer Einwilligung gesetzt werden.
           </p>
+
+          <h3 className="mb-2 mt-6 font-bold text-text-primary">Google Tag Manager</h3>
+          <p className="mb-4">
+            Wir nutzen den Google Tag Manager (Container-ID GTM-52V9SJ6J), einen Dienst der Google
+            Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Der Google Tag Manager
+            ist ein organisatorisches Werkzeug, mit dem wir Mess- und Analyse-Tags verwalten und
+            ausspielen. Der Tag Manager selbst setzt keine Analyse-Cookies und speichert keine
+            personenbezogenen Daten; er sorgt lediglich für das Laden der nachfolgend beschriebenen
+            Dienste – und zwar erst gemäss Ihrer Einwilligung.
+          </p>
+
+          <h3 className="mb-2 mt-6 font-bold text-text-primary">Google Analytics 4</h3>
+          <p className="mb-4">
+            Zur Reichweitenmessung setzen wir Google Analytics 4 (GA4) ein, einen Dienst der Google
+            Ireland Limited. Mit Ihrer Einwilligung werden dabei Cookies gesetzt und unter anderem
+            folgende Daten verarbeitet:
+          </p>
+          <ul className="mb-4 list-disc space-y-2 pl-5">
+            <li>Seitenaufrufe und Verweildauer</li>
+            <li>verwendetes Gerät, Browser und Betriebssystem</li>
+            <li>ungefähre, anonymisierte Herkunft (Land/Region) sowie Herkunftsquelle (Referrer)</li>
+            <li>
+              Interaktionen mit der eingebetteten Live-Demo (z.&nbsp;B. Start, Fortschritt und
+              Abschluss der geführten Tour) sowie mit unseren Schaltflächen und dem
+              Anfrageformular (z.&nbsp;B. Klick auf einen Aufruf zur Handlung, Start und Absenden
+              der Anfrage)
+            </li>
+          </ul>
+          <p className="mb-4">
+            Diese Daten nutzen wir ausschliesslich in aggregierter Form, um zu verstehen, wie unsere
+            Website und die Demo genutzt werden, und um beides zu verbessern. Eine Identifizierung
+            Ihrer Person ist dabei nicht beabsichtigt.
+          </p>
+
+          <h3 className="mb-2 mt-6 font-bold text-text-primary">
+            Einwilligung und Google Consent Mode v2
+          </h3>
+          <p className="mb-4">
+            Das Setzen von Analyse-Cookies und die vollständige Auswertung erfolgen ausschliesslich
+            auf Grundlage Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO bzw. der entsprechenden
+            Bestimmungen des Schweizer DSG). Solange Sie nicht eingewilligt haben – oder wenn Sie
+            ablehnen – setzen wir den Google Consent Mode v2 ein: Es werden dann keine
+            Analyse-Cookies gespeichert, und an Google werden höchstens anonyme, cookielose Signale
+            übermittelt, die lediglich eine aggregierte, modellierte Statistik ohne Bezug zu Ihrer
+            Person ermöglichen.
+          </p>
+          <p className="mb-4">
+            Ihre Einwilligung ist freiwillig und kann jederzeit mit Wirkung für die Zukunft
+            widerrufen oder geändert werden – über den Link „Cookie-Einstellungen" am Seitenende.
+          </p>
+
+          <h3 className="mb-2 mt-6 font-bold text-text-primary">Datenübermittlung in die USA</h3>
           <p>
-            Soweit für die Auswertung von Werbekampagnen (z.B. über soziale Netzwerke wie Meta /
-            Facebook) Cookies oder vergleichbare Technologien eingesetzt werden, geschieht dies auf
-            Grundlage Ihrer Einwilligung. Sie können nicht notwendige Cookies jederzeit in Ihren
-            Browsereinstellungen deaktivieren.
+            Anbieter ist die Google Ireland Limited. Im Rahmen der Verarbeitung können Daten an die
+            Google LLC in den USA übermittelt werden. Diese Übermittlung erfolgt auf Grundlage
+            geeigneter Garantien, insbesondere der Standardvertragsklauseln der EU-Kommission sowie
+            – soweit anwendbar – des EU-US Data Privacy Framework. Weitere Informationen zur
+            Datenverarbeitung durch Google finden Sie in der{" "}
+            <a
+              href="https://policies.google.com/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent-deep hover:underline"
+            >
+              Datenschutzerklärung von Google
+            </a>
+            .
           </p>
         </section>
 
