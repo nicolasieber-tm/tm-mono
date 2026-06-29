@@ -30,17 +30,19 @@ const AhaTransition = () => (
       </ScrollReveal>
 
       <ScrollReveal delay={0.1}>
-        <div className="flex flex-wrap items-center justify-center gap-3 md:gap-5">
+        <div className="flex items-start justify-center gap-1.5 md:gap-5">
           {steps.map((step, i) => (
-            <div key={step.label} className="flex items-center gap-3 md:gap-5">
-              <div className="flex flex-col items-center gap-2">
+            <div key={step.label} className="flex items-start gap-1.5 md:gap-5">
+              <div className="flex w-[4.5rem] shrink-0 flex-col items-center gap-2 md:w-auto">
                 <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent-soft text-accent-deep">
                   <step.icon className="h-6 w-6" />
                 </span>
-                <span className="text-sm font-semibold text-text-primary">{step.label}</span>
+                <span className="text-xs font-semibold leading-tight text-text-primary md:text-sm">
+                  {step.label}
+                </span>
               </div>
               {i < steps.length - 1 && (
-                <ArrowRight className="h-5 w-5 text-text-muted" />
+                <ArrowRight className="mt-[18px] h-5 w-5 shrink-0 text-text-muted" />
               )}
             </div>
           ))}
