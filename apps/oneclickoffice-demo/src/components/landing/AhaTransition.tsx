@@ -36,6 +36,33 @@ const AhaTransition = () => (
           ))}
         </div>
       </ScrollReveal>
+
+      {/* Nur Mobile (md:hidden = ≤767px, gleicher Breakpoint wie die Live-Demo):
+          Handy-Besucher sehen in der Demo die Erfassung – hier zeigen wir, wie der
+          "1 Klick"-Abrechnungs-Moment am Desktop aussieht. */}
+      <ScrollReveal delay={0.15}>
+        <figure className="mx-auto mt-12 max-w-[420px] md:hidden">
+          <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-2xl shadow-slate-300/50">
+            <div className="flex items-center gap-2 border-b border-border bg-bg-elevated px-3 py-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
+              <span className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
+              <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
+              <div className="mx-auto max-w-[200px] flex-1 rounded-md border border-border bg-white px-2 py-0.5 text-center text-[11px] text-text-muted">
+                {aha.mobileShot.browserUrl}
+              </div>
+            </div>
+            <img
+              src={aha.mobileShot.src}
+              alt={aha.mobileShot.alt}
+              loading="lazy"
+              className="block w-full"
+            />
+          </div>
+          <figcaption className="mt-3 text-sm text-text-muted">
+            {aha.mobileShot.caption}
+          </figcaption>
+        </figure>
+      </ScrollReveal>
     </div>
   </section>
 );

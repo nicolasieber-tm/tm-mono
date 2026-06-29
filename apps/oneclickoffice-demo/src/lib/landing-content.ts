@@ -42,6 +42,14 @@ export const aha = {
   headline: "Jetzt verstehst du, wie OneClick Office funktioniert.",
   subheadline:
     "Genau dieser Ablauf spart dir jeden Monat den Admin-Tag: unterwegs erfassen, am Ende mit einem Klick abrechnen – ohne Excel, ohne Zettelwirtschaft, ohne Nachbearbeiten.",
+  // Nur Mobile: Am Handy zeigt die Live-Demo die Erfassung. Damit Handy-Besucher
+  // auch den Abrechnungs-Moment am PC sehen, blenden wir hier den Desktop-Screenshot ein.
+  mobileShot: {
+    caption: "Am Monatsende am PC: Klient & Monat wählen, ein Klick – Rechnungen fertig.",
+    src: "/abrechnung-desktop.png",
+    alt: "Rechnungen mit einem Klick generieren in der Desktop-Ansicht von OneClick Office",
+    browserUrl: "demo.oneclick-office.ch",
+  },
 } as const;
 
 export const cta = {
