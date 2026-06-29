@@ -9,6 +9,8 @@ import { LayoutChromeProvider } from "@/contexts/LayoutChromeContext";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import Landing from "./pages/Landing";
 import Danke from "./pages/Danke";
+import Impressum from "./pages/Impressum";
+import Datenschutz from "./pages/Datenschutz";
 import Login from "./pages/Login";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
@@ -33,6 +35,7 @@ import KlientenAkte from "./pages/KlientenAkte";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { TourProvider } from "./components/tour/TourProvider";
 import TourOverlay from "./components/tour/TourOverlay";
+import ConsentBanner from "./components/ConsentBanner";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +53,8 @@ const App = () => (
               <Routes>
               <Route path="/" element={<Landing />} />
               <Route path="/danke" element={<Danke />} />
+              <Route path="/impressum" element={<Impressum />} />
+              <Route path="/datenschutz" element={<Datenschutz />} />
               <Route path="/login" element={<Login />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route
@@ -226,6 +231,7 @@ const App = () => (
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <TourOverlay />
+              <ConsentBanner />
               </TourProvider>
               </LayoutChromeProvider>
             </ActiveCompanyProvider>

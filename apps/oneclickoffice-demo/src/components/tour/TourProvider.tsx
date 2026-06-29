@@ -37,6 +37,31 @@ interface TourContextValue {
 
 const TourContext = createContext<TourContextValue | null>(null);
 
+/**
+ * Tour-Fortschritt an die einbettende Landingpage melden (same-origin).
+ * Läuft die Demo nicht im iframe, gibt es kein Eltern-Fenster → kein Versand.
+ * Die Landingpage (DemoShowcase) wandelt das in dataLayer-Events um.
+ */
+const postTourEvent = (
+  name: "step" | "complete" | "abandon",
+  variant: TourVariant,
+  stepIndex: number,
+) => {
+  if (typeof window === "undefined" || window.parent === window) return;
+  const steps = tourSteps[variant];
+  window.parent.postMessage(
+    {
+      type: "OCO_TOUR_EVENT",
+      name,
+      variant,
+      stepIndex: stepIndex + 1, // 1-basiert für die Auswertung
+      stepTitle: steps[stepIndex]?.title ?? null,
+      totalSteps: steps.length,
+    },
+    window.location.origin,
+  );
+};
+
 export const useTour = (): TourContextValue => {
   const ctx = useContext(TourContext);
   if (!ctx) throw new Error("useTour must be used within TourProvider");
@@ -60,19 +85,32 @@ export const TourProvider = ({ children }: { children: ReactNode }) => {
     setVariant(v);
   }, []);
 
-  const end = useCallback(() => {
+  const reset = useCallback(() => {
     setVariant(null);
     setStepIndex(0);
   }, []);
 
+  // Vom Nutzer geschlossen (X / „Tour beenden") → Abbruch beim aktuellen Schritt.
+  const end = useCallback(() => {
+    if (variant) postTourEvent("abandon", variant, stepIndex);
+    reset();
+  }, [variant, stepIndex, reset]);
+
   const next = useCallback(() => {
     if (!variant) return;
     if (stepIndex >= tourSteps[variant].length - 1) {
-      end();
+      postTourEvent("complete", variant, stepIndex); // letzter Schritt → durchgeklickt
+      reset();
     } else {
       setStepIndex((i) => i + 1);
     }
-  }, [variant, stepIndex, end]);
+  }, [variant, stepIndex, reset]);
+
+  // Jeden angezeigten Schritt melden (Schritt 1 … n).
+  useEffect(() => {
+    if (!variant) return;
+    postTourEvent("step", variant, stepIndex);
+  }, [variant, stepIndex]);
 
   const prev = useCallback(() => {
     setStepIndex((i) => Math.max(0, i - 1));

@@ -1,9 +1,16 @@
-import { ShieldCheck, Plug, MapPin, ArrowDown } from "lucide-react";
+import { ShieldCheck, Plug, MapPin, ArrowDown, ArrowRight, Play } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 import { hero } from "@/lib/landing-content";
+import { track } from "@/lib/analytics";
 
 // Passendes Icon je Badge (Reihenfolge wie in landing-content.badges).
 const badgeIcons = [ShieldCheck, Plug, MapPin];
+
+// CTA-Klick tracken und sanft zur Ziel-Section scrollen (Demo / Anfrage-Formular).
+const goToSection = (id: string, ctaId: string, label: string) => () => {
+  track("cta_click", { cta_id: ctaId, cta_label: label });
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+};
 
 const Hero = () => (
   <section className="relative overflow-hidden w-full section-padding pt-28 md:pt-36 pb-10 md:pb-16">
@@ -42,8 +49,30 @@ const Hero = () => (
         <p className="body-large max-w-[680px] mx-auto mb-8">{hero.subheadline}</p>
       </ScrollReveal>
 
-      {/* Trust-Badges */}
+      {/* Zwei CTAs: Live-Demo austesten (scrollt zur Demo) + Einschätzung (scrollt zum Formular) */}
       <ScrollReveal delay={0.2}>
+        <div className="mb-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <button
+            type="button"
+            onClick={goToSection("demo", "hero_demo", hero.ctaPrimary)}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-7 py-3.5 text-base font-semibold text-primary-foreground shadow-md transition-all hover:-translate-y-0.5 hover:bg-accent-deep sm:w-auto"
+          >
+            <Play className="h-5 w-5 fill-current" />
+            {hero.ctaPrimary}
+          </button>
+          <button
+            type="button"
+            onClick={goToSection("anfrage", "hero_anfrage", hero.ctaSecondary)}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-white px-7 py-3.5 text-base font-semibold text-text-primary shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent/60 hover:text-accent-deep sm:w-auto"
+          >
+            {hero.ctaSecondary}
+            <ArrowRight className="h-5 w-5" />
+          </button>
+        </div>
+      </ScrollReveal>
+
+      {/* Trust-Badges */}
+      <ScrollReveal delay={0.25}>
         <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
           {hero.badges.map((badge, i) => {
             const Icon = badgeIcons[i] ?? ShieldCheck;
@@ -60,7 +89,7 @@ const Hero = () => (
         </div>
       </ScrollReveal>
 
-      <ScrollReveal delay={0.25}>
+      <ScrollReveal delay={0.3}>
         <p className="inline-flex items-center gap-2 text-sm text-text-muted">
           <ArrowDown className="h-4 w-4 animate-bounce" />
           {hero.demoHint}

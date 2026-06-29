@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import ScrollReveal from "./ScrollReveal";
 import { cta } from "@/lib/landing-content";
 import { submitLead, type LeadPayload } from "@/lib/submitLead";
+import { track } from "@/lib/analytics";
 
 /**
  * Mehrstufiger Lead-Wizard: pro Schritt eine Qualifizierungsfrage, nach Auswahl
@@ -23,6 +24,7 @@ const OptinForm = () => {
   const [contact, setContact] = useState({ name: "", email: "", telefon: "" });
   const [submitting, setSubmitting] = useState(false);
   const advanceTimer = useRef<number | null>(null);
+  const started = useRef(false); // Lead-Funnel-Start nur einmal melden
 
   const isContactStep = step === questions.length;
   const updateContact = (key: keyof typeof contact, value: string) =>
@@ -35,6 +37,11 @@ const OptinForm = () => {
 
   // Antwort wählen → kurz das Häkchen zeigen, dann automatisch zum nächsten Schritt.
   const selectAnswer = (key: string, value: string) => {
+    if (!started.current) {
+      started.current = true;
+      track("lead_start", {}); // erste Frage beantwortet → Lead-Funnel begonnen
+    }
+    track("lead_step", { lead_step: step + 1, lead_question: key, lead_answer: value });
     setAnswers((a) => ({ ...a, [key]: value }));
     if (advanceTimer.current) window.clearTimeout(advanceTimer.current);
     advanceTimer.current = window.setTimeout(() => {
@@ -65,6 +72,7 @@ const OptinForm = () => {
 
     try {
       await submitLead(payload);
+      track("lead_submit", { lead_questions: questions.length }); // Conversion
       navigate("/danke");
     } catch {
       toast.error("Senden fehlgeschlagen. Bitte versuche es noch einmal.");
