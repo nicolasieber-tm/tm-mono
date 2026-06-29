@@ -330,19 +330,29 @@ export function buildSeed(): Record<string, any[]> {
     });
   };
 
-  pushInvoice("demo-inv-1", "RE-202603-001", "demo-cli-02", K_HELV, "paid", 540, "2026-03-01", "2026-03-31", [
+  // ---- Rechnungen: 10 bezahlte (~16'000 CHF Einnahmen) + 3 offene ----
+  // Bezahlt: realistische Monatsmandate über mehrere Monate & Klienten verteilt.
+  pushInvoice("demo-inv-1", "RE-202509-001", "demo-cli-09", K_PRIV, "paid", 1800, "2025-09-01", "2025-09-30");
+  pushInvoice("demo-inv-2", "RE-202510-002", "demo-cli-04", K_ZKB, "paid", 1980, "2025-10-01", "2025-10-31");
+  pushInvoice("demo-inv-3", "RE-202511-003", "demo-cli-06", K_HUB, "paid", 1620, "2025-11-01", "2025-11-30");
+  pushInvoice("demo-inv-4", "RE-202512-004", "demo-cli-05", K_MIGR, "paid", 2160, "2025-12-01", "2025-12-31");
+  pushInvoice("demo-inv-5", "RE-202601-005", "demo-cli-08", K_ZKB, "paid", 1800, "2026-01-01", "2026-01-31");
+  pushInvoice("demo-inv-6", "RE-202602-006", "demo-cli-10", K_HUB, "paid", 1980, "2026-02-01", "2026-02-28");
+  pushInvoice("demo-inv-7", "RE-202602-007", "demo-cli-05", K_MIGR, "paid", 1620, "2026-02-01", "2026-02-28");
+  pushInvoice("demo-inv-8", "RE-202603-008", "demo-cli-02", K_HELV, "paid", 540, "2026-03-01", "2026-03-31", [
     { date: "2026-03-04", hours: 1, desc: "Coaching-Session" },
     { date: "2026-03-18", hours: 1, desc: "Coaching-Session" },
     { date: "2026-03-25", hours: 1, desc: "Reflexionsgespräch" },
   ]);
-  pushInvoice("demo-inv-2", "RE-202604-002", "demo-cli-04", K_ZKB, "sent", 360, "2026-04-01", "2026-04-30", [
+  pushInvoice("demo-inv-9", "RE-202604-009", "demo-cli-04", K_ZKB, "paid", 360, "2026-04-01", "2026-04-30", [
     { date: "2026-04-09", hours: 1, desc: "Führungscoaching" },
     { date: "2026-04-23", hours: 1, desc: "Führungscoaching" },
   ]);
-  pushInvoice("demo-inv-3", "RE-202602-003", "demo-cli-05", K_MIGR, "paid", 720, "2026-02-01", "2026-02-28");
-  pushInvoice("demo-inv-4", "RE-202605-004", "demo-cli-06", K_HUB, "paid", 900, "2026-05-01", "2026-05-31");
-  pushInvoice("demo-inv-5", "RE-202605-005", "demo-cli-07", K_HELV, "sent", 450, "2026-05-01", "2026-05-31");
-  pushInvoice("demo-inv-6", "RE-202601-006", "demo-cli-01", K_PRIV, "draft", 270, "2026-01-01", "2026-01-31");
+  pushInvoice("demo-inv-10", "RE-202605-010", "demo-cli-06", K_HUB, "paid", 2160, "2026-05-01", "2026-05-31");
+  // Offen (sent/draft) → erscheinen als offene Rechnungen (zusammen CHF 1'080).
+  pushInvoice("demo-inv-11", "RE-202605-011", "demo-cli-07", K_HELV, "sent", 450, "2026-05-01", "2026-05-31");
+  pushInvoice("demo-inv-12", "RE-202606-012", "demo-cli-04", K_ZKB, "sent", 360, "2026-06-01", "2026-06-30");
+  pushInvoice("demo-inv-13", "RE-202606-013", "demo-cli-01", K_PRIV, "draft", 270, "2026-06-01", "2026-06-30");
 
   // ---- Spesen (2025 + 2026, mehrere Monate) ----
   const expenseDefs: [string, number, string, string, string | null, string | null][] = [
