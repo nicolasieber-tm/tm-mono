@@ -1,6 +1,53 @@
 <!doctype html>
 <html lang="de">
   <head>
+    <!-- Google Consent Mode v2 + Google Tag Manager.
+         Läuft nur im obersten Fenster — die eingebettete Demo (iframe) lädt
+         KEIN GTM. Standard = denied: GA4 sendet bis zur Einwilligung nur
+         cookielose, modellierte Pings. Das Banner (src/lib/analytics.ts →
+         setConsent) schaltet via consent 'update' auf granted/denied. -->
+    <script>
+      (function () {
+        if (window.self !== window.top) return; // nicht im iframe tracken
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        window.gtag = gtag;
+        gtag('consent', 'default', {
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+          analytics_storage: 'denied',
+          functionality_storage: 'denied',
+          personalization_storage: 'denied',
+          security_storage: 'granted',
+          wait_for_update: 500
+        });
+        gtag('set', 'ads_data_redaction', true);
+        gtag('set', 'url_passthrough', true);
+        // Frühere Einwilligung sofort wiederherstellen (vor dem ersten Hit).
+        try {
+          if (localStorage.getItem('oco_cookie_consent') === 'granted') {
+            gtag('consent', 'update', {
+              ad_storage: 'granted',
+              ad_user_data: 'granted',
+              ad_personalization: 'granted',
+              analytics_storage: 'granted',
+              functionality_storage: 'granted',
+              personalization_storage: 'granted'
+            });
+          }
+        } catch (e) { /* localStorage nicht verfügbar */ }
+        (function (w, d, s, l, i) {
+          w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+          var f = d.getElementsByTagName(s)[0], j = d.createElement(s),
+            dl = l != 'dataLayer' ? '&l=' + l : '';
+          j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+          f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-52V9SJ6J');
+      })();
+    </script>
+    <!-- End Consent Mode v2 + GTM -->
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OneClick-Office</title>

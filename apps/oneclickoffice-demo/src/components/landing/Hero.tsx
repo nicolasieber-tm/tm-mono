@@ -1,12 +1,14 @@
 import { ShieldCheck, Plug, MapPin, ArrowDown, ArrowRight, Play } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 import { hero } from "@/lib/landing-content";
+import { track } from "@/lib/analytics";
 
 // Passendes Icon je Badge (Reihenfolge wie in landing-content.badges).
 const badgeIcons = [ShieldCheck, Plug, MapPin];
 
-// Sanft zur Ziel-Section scrollen (Live-Demo / Anfrage-Formular).
-const scrollToSection = (id: string) => () => {
+// CTA-Klick tracken und sanft zur Ziel-Section scrollen (Demo / Anfrage-Formular).
+const goToSection = (id: string, ctaId: string, label: string) => () => {
+  track("cta_click", { cta_id: ctaId, cta_label: label });
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 };
 
@@ -52,7 +54,7 @@ const Hero = () => (
         <div className="mb-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <button
             type="button"
-            onClick={scrollToSection("demo")}
+            onClick={goToSection("demo", "hero_demo", hero.ctaPrimary)}
             className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-7 py-3.5 text-base font-semibold text-primary-foreground shadow-md transition-all hover:-translate-y-0.5 hover:bg-accent-deep sm:w-auto"
           >
             <Play className="h-5 w-5 fill-current" />
@@ -60,7 +62,7 @@ const Hero = () => (
           </button>
           <button
             type="button"
-            onClick={scrollToSection("anfrage")}
+            onClick={goToSection("anfrage", "hero_anfrage", hero.ctaSecondary)}
             className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-white px-7 py-3.5 text-base font-semibold text-text-primary shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent/60 hover:text-accent-deep sm:w-auto"
           >
             {hero.ctaSecondary}

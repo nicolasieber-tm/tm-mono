@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Play, RotateCcw } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 import { demo } from "@/lib/landing-content";
+import { track } from "@/lib/analytics";
 
 // Viewport-Breite des LP-Besuchers → entscheidet, welches Demo-Mockup wir zeigen.
 const useIsMobileViewport = () => {
@@ -29,6 +30,24 @@ const DemoShowcase = () => {
     setActive(false);
   }, [isMobile]);
 
+  // Tour-Fortschritt aus der eingebetteten Demo (iframe) empfangen und als
+  // Funnel-Events der Landingpage tracken: demo_step / demo_complete / demo_abandon.
+  useEffect(() => {
+    const onMessage = (e: MessageEvent) => {
+      if (e.origin !== window.location.origin) return;
+      const d = e.data;
+      if (!d || d.type !== "OCO_TOUR_EVENT") return;
+      track(`demo_${d.name}`, {
+        demo_variant: d.variant,
+        demo_step: d.stepIndex,
+        demo_step_title: d.stepTitle,
+        demo_total_steps: d.totalSteps,
+      });
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
+
   const restart = () => {
     if (iframeRef.current) iframeRef.current.src = src;
   };
@@ -37,8 +56,10 @@ const DemoShowcase = () => {
   // Variante hängt am Viewport: Handy = Erfassen-Tour, Desktop = Abrechnen-Tour.
   const startTour = () => {
     setActive(true);
+    const variant = isMobile ? "mobile" : "desktop";
+    track("demo_start", { demo_variant: variant });
     iframeRef.current?.contentWindow?.postMessage(
-      { type: "OCO_START_TOUR", variant: isMobile ? "mobile" : "desktop" },
+      { type: "OCO_START_TOUR", variant },
       window.location.origin,
     );
   };

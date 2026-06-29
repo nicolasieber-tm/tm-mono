@@ -35,6 +35,7 @@ import KlientenAkte from "./pages/KlientenAkte";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { TourProvider } from "./components/tour/TourProvider";
 import TourOverlay from "./components/tour/TourOverlay";
+import ConsentBanner from "./components/ConsentBanner";
 
 const queryClient = new QueryClient();
 
@@ -230,6 +231,7 @@ const App = () => (
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <TourOverlay />
+              <ConsentBanner />
               </TourProvider>
               </LayoutChromeProvider>
             </ActiveCompanyProvider>
