@@ -301,7 +301,7 @@ const Spesen = () => {
             </div>
 
             {/* Camera Button (Primary) */}
-            <div>
+            <div data-tour="receipt-camera">
               <input
                 type="file"
                 accept="image/*,application/pdf"

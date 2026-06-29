@@ -18,7 +18,7 @@ const MobileNavigation = () => {
   if (chromeHidden) return null;
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-mobile-nav-background border-t-2 border-border z-50 backdrop-blur-xl bg-opacity-95 shadow-lg">
+    <nav data-tour="mobile-nav" className="md:hidden fixed bottom-0 left-0 right-0 bg-mobile-nav-background border-t-2 border-border z-50 backdrop-blur-xl bg-opacity-95 shadow-lg">
       <div className="flex justify-around items-center h-24 px-1 pb-safe">
         {navItems.map((item) => (
           <NavLink

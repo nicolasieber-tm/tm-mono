@@ -539,7 +539,7 @@ const Zeiterfassung = () => {
         </div>
       </div>
 
-      <Card>
+      <Card data-tour="zeit-table">
         <CardHeader>
           <CardTitle>Zeiteinträge</CardTitle>
         </CardHeader>

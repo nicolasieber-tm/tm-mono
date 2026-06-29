@@ -33,6 +33,16 @@ const DemoShowcase = () => {
     if (iframeRef.current) iframeRef.current.src = src;
   };
 
+  // Startet die geführte Tour in der eingebetteten Demo (same-origin postMessage).
+  // Variante hängt am Viewport: Handy = Erfassen-Tour, Desktop = Abrechnen-Tour.
+  const startTour = () => {
+    setActive(true);
+    iframeRef.current?.contentWindow?.postMessage(
+      { type: "OCO_START_TOUR", variant: isMobile ? "mobile" : "desktop" },
+      window.location.origin,
+    );
+  };
+
   // Gemeinsamer iframe + Start-Overlay, vom jeweiligen Mockup umrahmt.
   const frame = (
     <div className="relative h-full w-full">
@@ -47,7 +57,7 @@ const DemoShowcase = () => {
       {!active && (
         <button
           type="button"
-          onClick={() => setActive(true)}
+          onClick={startTour}
           aria-label={demo.activateLabel}
           className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-slate-900/35 backdrop-blur-[1px] transition-colors hover:bg-slate-900/45"
         >
@@ -74,7 +84,12 @@ const DemoShowcase = () => {
             {isMobile ? demo.subheadlineMobile : demo.subheadlineDesktop}
           </p>
         </ScrollReveal>
+      </div>
 
+      {/* Mockup in eigenem, breiterem Wrapper — bricht aus dem 1200px-Container
+          aus, damit die Desktop-App genug Platz hat und Inhalte (z. B. der
+          "Rechnungen generieren"-Bereich) nicht gestaucht wirken. */}
+      <div className="mx-auto w-full max-w-[1360px]">
         <ScrollReveal delay={0.1}>
           {isMobile ? (
             // Phone-Mockup
@@ -84,7 +99,7 @@ const DemoShowcase = () => {
             </div>
           ) : (
             // Browser-Mockup
-            <div className="mx-auto max-w-[1100px] overflow-hidden rounded-2xl border border-border bg-white shadow-2xl shadow-slate-300/50">
+            <div className="mx-auto max-w-[1360px] overflow-hidden rounded-2xl border border-border bg-white shadow-2xl shadow-slate-300/50">
               <div className="flex items-center gap-2 border-b border-border bg-bg-elevated px-4 py-3">
                 <span className="h-3 w-3 rounded-full bg-red-400" />
                 <span className="h-3 w-3 rounded-full bg-yellow-400" />
@@ -93,23 +108,35 @@ const DemoShowcase = () => {
                   {demo.browserUrl}
                 </div>
               </div>
-              <div className="h-[560px] md:h-[660px]">{frame}</div>
+              <div className="h-[560px] md:h-[720px]">{frame}</div>
             </div>
           )}
         </ScrollReveal>
+      </div>
 
+      <div className="section-container text-center">
         <ScrollReveal delay={0.15}>
           <div className="mt-6 flex flex-col items-center gap-3">
             <p className="text-sm text-text-muted">{demo.hint}</p>
             {active && (
-              <button
-                type="button"
-                onClick={restart}
-                className="inline-flex items-center gap-2 text-sm font-medium text-accent-deep hover:underline"
-              >
-                <RotateCcw className="h-4 w-4" />
-                Demo zurücksetzen
-              </button>
+              <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+                <button
+                  type="button"
+                  onClick={startTour}
+                  className="inline-flex items-center gap-2 text-sm font-medium text-accent-deep hover:underline"
+                >
+                  <Play className="h-4 w-4 fill-current" />
+                  Tour erneut starten
+                </button>
+                <button
+                  type="button"
+                  onClick={restart}
+                  className="inline-flex items-center gap-2 text-sm font-medium text-text-muted hover:underline"
+                >
+                  <RotateCcw className="h-4 w-4" />
+                  Demo zurücksetzen
+                </button>
+              </div>
             )}
           </div>
         </ScrollReveal>

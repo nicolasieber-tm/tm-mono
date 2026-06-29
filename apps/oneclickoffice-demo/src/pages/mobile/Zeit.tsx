@@ -200,7 +200,7 @@ const Zeit = () => {
         <p className="text-base text-muted-foreground">Erfassen Sie Ihre Arbeitszeit</p>
       </div>
 
-      <Card className="shadow-md border-0 rounded-[32px]">
+      <Card data-tour="zeit-form" className="shadow-md border-0 rounded-[32px]">
         <CardHeader className="pb-4">
           <CardTitle className="text-2xl">Neue Zeiterfassung</CardTitle>
         </CardHeader>
