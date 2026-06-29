@@ -1,6 +1,8 @@
 import { ClientNotesExplorer } from "@/components/clients/ClientNotesExplorer";
+import { useClientHierarchyMode } from "@/hooks/useClientHierarchyMode";
 
 const MobileNotizen = () => {
+  const { data: mode = "two_level" } = useClientHierarchyMode();
   return (
     <div className="px-2 py-4 pb-28 space-y-4">
       <div className="px-1">
@@ -9,7 +11,7 @@ const MobileNotizen = () => {
           Unternehmen → Klient → Verlauf
         </p>
       </div>
-      <ClientNotesExplorer />
+      <ClientNotesExplorer mode={mode} />
     </div>
   );
 };
