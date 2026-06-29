@@ -11,14 +11,14 @@ export const hero = {
     { text: "In einem Klick.", accent: true },
   ],
   subheadline:
-    "OneClick Office ist das Abrechnungs-System für selbstständige Coaches & Berater in der Schweiz. Erfasse Zeiten und Belege unterwegs am Handy – und rechne am Schreibtisch mit einem Klick ab. Klick dich unten direkt durch die Demo.",
+    "OneClick Office ist das Abrechnungs-System für selbstständige Coaches & Berater in der Schweiz. Erfasse Zeiten und Belege unterwegs am Handy, am Schreibtisch rechnest du mit einem Klick ab. Klick dich unten direkt durch die Demo.",
   // Trust-Badges direkt unter dem Hero.
   badges: [
     "revDSG / DSGVO-konform",
     "Integration in Buchhaltungssysteme",
     "Schweizer Lösung",
   ],
-  demoHint: "Unten kannst du die echte Demo direkt durchklicken – ganz ohne Anmeldung.",
+  demoHint: "Unten kannst du die echte Demo direkt durchklicken, ganz ohne Anmeldung.",
 } as const;
 
 export const demo = {
@@ -26,12 +26,12 @@ export const demo = {
   headline: "Klick dich durch OneClick Office.",
   // Geräteabhängige Subheadline (Desktop = Abrechnen, Mobile = Erfassen).
   subheadlineDesktop:
-    "Das ist die echte Anwendung – kein Video, kein Screenshot. Schau dir an, wie aus erfassten Zeiten und Belegen mit einem Klick fertige Rechnungen werden.",
+    "Das ist die echte Anwendung, kein Video, kein Screenshot. Schau dir an, wie aus erfassten Zeiten und Belegen mit einem Klick fertige Rechnungen werden.",
   subheadlineMobile:
-    "Das ist die echte Handy-App – kein Video. Erfasse Zeiten und fotografiere Belege so, wie du es unterwegs direkt nach dem Termin tust.",
-  activateLabel: "Demo starten",
+    "Das ist die echte Handy-App, kein Video. Erfasse Zeiten und fotografiere Belege so, wie du es unterwegs direkt nach dem Termin tust.",
+  activateLabel: "Geführte Tour starten",
   browserUrl: "demo.oneclick-office.ch",
-  hint: "Eine geführte Tour kommt bald – jetzt kannst du frei durchklicken.",
+  hint: "Du kannst die Tour jederzeit beenden und dich frei durch die Demo klicken.",
   // Start-Routen der eingebetteten Demo je Gerät.
   desktopSrc: "/dashboard",
   mobileSrc: "/mobile/zeit",
@@ -41,11 +41,11 @@ export const aha = {
   kicker: "DER AHA-MOMENT",
   headline: "Jetzt verstehst du, wie OneClick Office funktioniert.",
   subheadline:
-    "Genau dieser Ablauf spart dir jeden Monat den Admin-Tag: unterwegs erfassen, am Ende mit einem Klick abrechnen – ohne Excel, ohne Zettelwirtschaft, ohne Nachbearbeiten.",
+    "Genau dieser Ablauf spart dir jeden Monat den Admin-Tag: unterwegs erfassen, am Ende mit einem Klick abrechnen, ohne Excel, ohne Zettelwirtschaft, ohne Nachbearbeiten.",
   // Nur Mobile: Am Handy zeigt die Live-Demo die Erfassung. Damit Handy-Besucher
   // auch den Abrechnungs-Moment am PC sehen, blenden wir hier den Desktop-Screenshot ein.
   mobileShot: {
-    caption: "Am Monatsende am PC: Klient & Monat wählen, ein Klick – Rechnungen fertig.",
+    caption: "Am Monatsende am PC: Klient & Monat wählen, ein Klick, Rechnungen fertig.",
     src: "/abrechnung-desktop.png",
     alt: "Rechnungen mit einem Klick generieren in der Desktop-Ansicht von OneClick Office",
     browserUrl: "demo.oneclick-office.ch",
@@ -57,13 +57,13 @@ export const cta = {
   // Platzhalter – Titel/Subtitel später mit den geschalteten Ads abstimmen.
   headline: "Hol dir deine persönliche Einschätzung.",
   subheadline:
-    "Beantworte vier kurze Fragen – wir melden uns telefonisch und zeigen dir, wie viel Zeit dir OneClick Office bei deinem Monatsabschluss spart.",
+    "Beantworte vier kurze Fragen, wir melden uns telefonisch und zeigen dir, wie viel Zeit dir OneClick Office bei deinem Monatsabschluss spart.",
   // Qualifizierungs-Fragen (key = späteres Lead-Feld).
   questions: [
     {
       key: "klienten_pro_monat",
       label: "Wie viele Klienten rechnest du pro Monat ungefähr ab?",
-      options: ["1–5", "6–15", "16–30", "über 30"],
+      options: ["1 bis 5", "6 bis 15", "16 bis 30", "über 30"],
     },
     {
       key: "rechnungserstellung",
@@ -88,7 +88,7 @@ export const cta = {
 } as const;
 
 export const danke = {
-  headline: "Danke – deine Anfrage ist eingegangen.",
+  headline: "Danke, deine Anfrage ist eingegangen.",
   subheadline:
     "Wir melden uns in den nächsten Tagen telefonisch bei dir und besprechen deine persönliche Einschätzung.",
   backLabel: "Zurück zur Demo",
@@ -103,7 +103,7 @@ export const testimonial = {
   role: "Sozialpädagogische Familienbegleitung",
   image: "/luca.jpg",
   metrics: [
-    { value: "~8 Std.", label: "Admin-Zeit gespart – pro Monat" },
+    { value: "~8 Std.", label: "Admin-Zeit gespart pro Monat" },
     { value: "1 Klick", label: "statt manueller Rechnungsarbeit" },
   ],
 } as const;

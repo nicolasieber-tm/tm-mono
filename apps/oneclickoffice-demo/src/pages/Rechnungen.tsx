@@ -1892,6 +1892,7 @@ const formatDate = (dateString: string) => {
               </div>
               <div className="flex items-end">
                 <Button
+                  data-tour="generate-button"
                   onClick={handleGenerateInvoices}
                   disabled={generatingInvoices}
                   className="group relative w-full overflow-hidden border-0 bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 font-semibold text-white shadow-lg shadow-orange-500/30 transition-all hover:shadow-xl hover:shadow-orange-500/50 hover:brightness-110 disabled:opacity-70"
@@ -1918,7 +1919,7 @@ const formatDate = (dateString: string) => {
             )}
           </div>
 
-        <div className="mt-4 rounded-lg border bg-muted/50 p-4">
+        <div data-tour="generate-preview" className="mt-4 rounded-lg border bg-muted/50 p-4">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Info className="h-4 w-4 text-primary" />

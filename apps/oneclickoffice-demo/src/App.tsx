@@ -31,6 +31,8 @@ import MainLayout from "./components/layout/MainLayout";
 import NotFound from "./pages/NotFound";
 import KlientenAkte from "./pages/KlientenAkte";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { TourProvider } from "./components/tour/TourProvider";
+import TourOverlay from "./components/tour/TourOverlay";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +46,7 @@ const App = () => (
           <AuthProvider>
             <ActiveCompanyProvider>
               <LayoutChromeProvider>
+              <TourProvider>
               <Routes>
               <Route path="/" element={<Landing />} />
               <Route path="/danke" element={<Danke />} />
@@ -222,6 +225,8 @@ const App = () => (
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              <TourOverlay />
+              </TourProvider>
               </LayoutChromeProvider>
             </ActiveCompanyProvider>
           </AuthProvider>
