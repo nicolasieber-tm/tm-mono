@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import ScrollReveal from "./ScrollReveal";
 import { cta } from "@/lib/landing-content";
 import { submitLead, type LeadPayload } from "@/lib/submitLead";
-import { track } from "@/lib/analytics";
+import { track, trackMeta } from "@/lib/analytics";
 
 /**
  * Mehrstufiger Lead-Wizard: pro Schritt eine Qualifizierungsfrage, nach Auswahl
@@ -72,7 +72,8 @@ const OptinForm = () => {
 
     try {
       await submitLead(payload);
-      track("lead_submit", { lead_questions: questions.length }); // Conversion
+      track("lead_submit", { lead_questions: questions.length }); // Conversion (GA4)
+      trackMeta("Lead"); // Conversion (Meta-Pixel)
       navigate("/danke");
     } catch {
       toast.error("Senden fehlgeschlagen. Bitte versuche es noch einmal.");
