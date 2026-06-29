@@ -17,35 +17,113 @@ import { useTour } from "./TourProvider";
 
 const HOLE_PADDING = 8;
 
+/**
+ * Zielelement mittig in den Blick holen – aber NUR innerhalb des iframes.
+ *
+ * `Element.scrollIntoView()` scrollt alle Scroll-Container der Vorfahrenkette,
+ * und das schließt – weil die Demo in einem iframe läuft – auch die Eltern-
+ * Landingpage mit ein. Dadurch springt beim „Weiter" die ganze Seite. Wir
+ * scrollen deshalb selbst: entweder den nächsten verschachtelten Scroll-
+ * Container oder das iframe-eigene Fenster, niemals `window.parent`.
+ */
+const centerInFrame = (el: Element) => {
+  const win = el.ownerDocument.defaultView;
+  if (!win) return;
+
+  // Fixierte/sticky Elemente (z. B. die Bottom-Navigation) sind ohnehin immer
+  // sichtbar – Scrollen würde sie nicht bewegen, nur unnötig ruckeln.
+  if (win.getComputedStyle(el).position === "fixed") return;
+
+  const doc = el.ownerDocument;
+  const isScrollable = (node: Element) => {
+    const oy = win.getComputedStyle(node).overflowY;
+    return (oy === "auto" || oy === "scroll" || oy === "overlay") && node.scrollHeight > node.clientHeight + 1;
+  };
+
+  // Nächsten scrollbaren Vorfahren INNERHALB des iframes suchen.
+  let scroller: Element | null = el.parentElement;
+  while (
+    scroller &&
+    scroller !== doc.body &&
+    scroller !== doc.documentElement &&
+    !isScrollable(scroller)
+  ) {
+    scroller = scroller.parentElement;
+  }
+
+  const er = el.getBoundingClientRect();
+  if (scroller && scroller !== doc.body && scroller !== doc.documentElement) {
+    // Verschachtelter Container: nur ihn scrollen.
+    const cr = scroller.getBoundingClientRect();
+    const delta = er.top - cr.top - (scroller.clientHeight - er.height) / 2;
+    scroller.scrollTo({ top: scroller.scrollTop + delta, behavior: "smooth" });
+  } else {
+    // Dokument-Ebene des iframes (nicht das Elternfenster!).
+    const top = win.scrollY + er.top - (win.innerHeight - er.height) / 2;
+    win.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+  }
+};
+
 const TourOverlay = () => {
   const { active, currentStep, stepIndex, steps, isFirst, isLast, next, prev, end } = useTour();
   const [rect, setRect] = useState<DOMRect | null>(null);
+  // Der Spotlight startet unsichtbar und blendet erst ein, wenn er an seinem
+  // Ziel ruhig sitzt. So „wandert" er beim Schrittwechsel nie von der vorigen
+  // Position herüber, sondern erscheint einfach dort, wo er hingehört.
+  const [visible, setVisible] = useState(false);
 
   const target = currentStep?.target ?? null;
 
-  // Ziel finden (mit Retry, falls die Route gerade erst gewechselt hat) und in
-  // den Blick scrollen. Bei bereits sichtbaren (z. B. fixierten) Elementen
-  // scrollt "nearest" nicht unnötig.
+  // Ziel finden (mit Retry, falls die Route gerade erst gewechselt hat),
+  // mittig scrollen und – sobald die Position ruhig ist – sanft einblenden.
   useEffect(() => {
     if (!active || !target) {
       setRect(null);
+      setVisible(false);
       return;
     }
+    // Beim Schrittwechsel zuerst ausblenden (snappt sofort auf 0, kein
+    // Herauswandern), dann am neuen Ziel ruhig einblenden.
+    setVisible(false);
+
     let raf = 0;
-    let tries = 0;
+    let tries = 0; // Versuche, das (evtl. erst mountende) Ziel zu finden
+    let frames = 0; // Frames seit gefunden – Obergrenze fürs Warten aufs Scroll-Ende
+    let scrolled = false;
+    let last: { top: number; left: number } | null = null;
+    let stable = 0;
+
     const locate = () => {
       const el = document.querySelector(target);
-      if (el) {
-        // Ziel mittig scrollen, damit die Tour-Karte (am oberen/unteren Rand)
-        // den hervorgehobenen Bereich nicht verdeckt.
-        el.scrollIntoView({ block: "center", behavior: "smooth" });
-        setRect(el.getBoundingClientRect());
-      } else if (tries < 90) {
-        tries += 1;
-        raf = requestAnimationFrame(locate);
-      } else {
-        setRect(null);
+      if (!el) {
+        if (tries < 90) {
+          tries += 1;
+          raf = requestAnimationFrame(locate);
+        } else {
+          setRect(null);
+        }
+        return;
       }
+      // Einmalig mittig scrollen (nur im iframe), damit die Tour-Karte (am
+      // oberen/unteren Rand) den hervorgehobenen Bereich nicht verdeckt.
+      if (!scrolled) {
+        centerInFrame(el);
+        scrolled = true;
+      }
+      // Position schon (unsichtbar) setzen, damit beim Einblenden alles sitzt.
+      const r = el.getBoundingClientRect();
+      setRect(r);
+      // Warten, bis das Smooth-Scrolling die Position nicht mehr verschiebt.
+      const settled =
+        last !== null && Math.abs(r.top - last.top) < 0.5 && Math.abs(r.left - last.left) < 0.5;
+      stable = settled ? stable + 1 : 0;
+      last = { top: r.top, left: r.left };
+      frames += 1;
+      if (stable >= 2 || frames > 90) {
+        setVisible(true); // angekommen → sanft einblenden
+        return;
+      }
+      raf = requestAnimationFrame(locate);
     };
     raf = requestAnimationFrame(locate);
     return () => cancelAnimationFrame(raf);
@@ -105,7 +183,10 @@ const TourOverlay = () => {
             outlineOffset: "2px",
             borderRadius: "16px",
             pointerEvents: "none",
-            transition: "all 0.3s ease-out",
+            // Nur die Deckkraft wird animiert – die Position niemals. Dadurch
+            // erscheint der Rahmen einfach, statt von der Seite hereinzugleiten.
+            opacity: visible ? 1 : 0,
+            transition: visible ? "opacity 0.25s ease-out" : "none",
           }}
         />
       ) : (
