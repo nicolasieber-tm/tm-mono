@@ -19,6 +19,9 @@ export const hero = {
     "Schweizer Lösung",
   ],
   demoHint: "Unten kannst du die echte Demo direkt durchklicken, ganz ohne Anmeldung.",
+  // Zwei Hero-CTAs: primär scrollt zur Live-Demo, sekundär zum Anfrage-Formular.
+  ctaPrimary: "Live-Demo austesten",
+  ctaSecondary: "Persönliche Einschätzung abholen",
 } as const;
 
 export const demo = {

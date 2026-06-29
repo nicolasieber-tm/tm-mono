@@ -73,7 +73,7 @@ const DemoShowcase = () => {
   );
 
   return (
-    <section className="section-padding py-12 md:py-20">
+    <section id="demo" className="section-padding py-12 md:py-20">
       <div className="section-container text-center">
         <ScrollReveal>
           <span className="mb-6 inline-block rounded-full bg-accent-soft px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-accent-deep">
