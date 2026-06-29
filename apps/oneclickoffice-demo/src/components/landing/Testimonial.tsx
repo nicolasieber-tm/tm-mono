@@ -1,4 +1,4 @@
-import { Quote } from "lucide-react";
+import { ArrowRight, Quote } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 import { testimonial } from "@/lib/landing-content";
 
@@ -33,13 +33,26 @@ const Testimonial = () => (
             </div>
           </div>
 
-          <div className="mt-8 grid grid-cols-2 gap-4 border-t border-border pt-7">
-            {testimonial.metrics.map((m) => (
-              <div key={m.label} className="text-center">
-                <p className="text-2xl font-bold text-accent md:text-3xl">{m.value}</p>
-                <p className="mt-1 text-sm text-text-secondary">{m.label}</p>
-              </div>
-            ))}
+          <div className="mt-8 border-t border-border pt-7">
+            <p className="mb-5 text-center text-sm font-medium text-text-muted">
+              Was sich für {testimonial.name.split(" ")[0]} verändert hat
+            </p>
+            <div className="space-y-2.5 text-sm md:text-[15px]">
+              {testimonial.transformation.map((t) => (
+                <div
+                  key={t.after}
+                  className="flex flex-col items-center gap-1.5 rounded-xl bg-bg-elevated/60 px-4 py-3 text-center sm:flex-row sm:gap-4 sm:text-left"
+                >
+                  <span className="text-balance text-text-muted sm:flex-1 sm:text-right">
+                    {t.before}
+                  </span>
+                  <ArrowRight className="h-4 w-4 shrink-0 rotate-90 text-accent sm:rotate-0" />
+                  <span className="text-balance font-semibold text-text-primary sm:flex-1">
+                    {t.after}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </ScrollReveal>

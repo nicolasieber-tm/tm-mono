@@ -38,8 +38,8 @@ export const demo = {
 } as const;
 
 export const aha = {
-  kicker: "DER AHA-MOMENT",
-  headline: "Jetzt verstehst du, wie OneClick Office funktioniert.",
+  kicker: "VOM TERMIN ZUR RECHNUNG",
+  headline: "Das ist der ganze Aufwand.",
   subheadline:
     "Genau dieser Ablauf spart dir jeden Monat den Admin-Tag: unterwegs erfassen, am Ende mit einem Klick abrechnen, ohne Excel, ohne Zettelwirtschaft, ohne Nachbearbeiten.",
   // Nur Mobile: Am Handy zeigt die Live-Demo die Erfassung. Damit Handy-Besucher
@@ -50,6 +50,17 @@ export const aha = {
     alt: "Rechnungen mit einem Klick generieren in der Desktop-Ansicht von OneClick Office",
     browserUrl: "demo.oneclick-office.ch",
   },
+  // Ergänzende Kernvorteile neben der Abrechnung (Spesen, zentrale Übersicht).
+  benefits: [
+    {
+      title: "Spesen? Einfach abfotografieren.",
+      text: "Beleg knipsen, fertig. Keine losen Belege, kein Sortieren, nichts geht mehr verloren.",
+    },
+    {
+      title: "Alles an einem Ort.",
+      text: "Zeiten, Spesen, Belege und Rechnungen laufen zusammen, dazu die ganze Klientenakte mit Notizen und Verlauf. Eine Übersicht statt Zettel, Excel und Ordner.",
+    },
+  ],
 } as const;
 
 export const cta = {
@@ -102,9 +113,18 @@ export const testimonial = {
   name: "Luca Vogel",
   role: "Sozialpädagogische Familienbegleitung",
   image: "/luca.jpg",
-  metrics: [
-    { value: "~8 Std.", label: "Admin-Zeit gespart pro Monat" },
-    { value: "1 Klick", label: "statt manueller Rechnungsarbeit" },
+  // Vorher → Nachher: was sich mit OneClick Office konkret verändert hat.
+  transformation: [
+    { before: "Word, Excel, Kalender, alles verzettelt", after: "Ein System, ein Klick" },
+    { before: "1 bis 1,5 Arbeitstage Admin pro Monat", after: "Noch rund 2 Stunden" },
+    {
+      before: "Belege und Klienteninfos an verschiedenen Orten",
+      after: "Alles an einem Ort, jederzeit griffbereit",
+    },
+    {
+      before: "Stunden am Monatsende zusammensuchen",
+      after: "Direkt nach dem Termin am Handy erfasst",
+    },
   ],
 } as const;
 
