@@ -1,4 +1,11 @@
-import { Smartphone, MousePointerClick, FileCheck2, ArrowRight } from "lucide-react";
+import {
+  Smartphone,
+  MousePointerClick,
+  FileCheck2,
+  ArrowRight,
+  Camera,
+  LayoutGrid,
+} from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 import { aha } from "@/lib/landing-content";
 
@@ -7,6 +14,9 @@ const steps = [
   { icon: MousePointerClick, label: "1 Klick" },
   { icon: FileCheck2, label: "Fertig abgerechnet" },
 ];
+
+// Icons zu den ergänzenden Vorteilen (Reihenfolge = aha.benefits).
+const benefitIcons = [Camera, LayoutGrid];
 
 const AhaTransition = () => (
   <section className="section-padding py-16 md:py-24">
@@ -62,6 +72,31 @@ const AhaTransition = () => (
             {aha.mobileShot.caption}
           </figcaption>
         </figure>
+      </ScrollReveal>
+
+      {/* Ergänzende Vorteile neben der Abrechnung: Spesen + zentrale Übersicht. */}
+      <ScrollReveal delay={0.2}>
+        <div className="mt-14 grid gap-4 text-left sm:grid-cols-2">
+          {aha.benefits.map((benefit, i) => {
+            const Icon = benefitIcons[i];
+            return (
+              <div
+                key={benefit.title}
+                className="rounded-2xl border border-border bg-white/70 p-6"
+              >
+                <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-soft text-accent-deep">
+                  {Icon && <Icon className="h-6 w-6" />}
+                </span>
+                <h3 className="mb-1.5 text-lg font-bold text-text-primary">
+                  {benefit.title}
+                </h3>
+                <p className="text-[15px] leading-relaxed text-text-secondary">
+                  {benefit.text}
+                </p>
+              </div>
+            );
+          })}
+        </div>
       </ScrollReveal>
     </div>
   </section>
