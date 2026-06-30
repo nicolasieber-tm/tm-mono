@@ -34,7 +34,7 @@ export const Navbar = () => {
         style={{ backgroundColor: "hsl(var(--c-surface) / 0.85)" }}
       >
         <Link to="/" className="group relative flex items-center justify-center" aria-label="Trending Media">
-          <img src="/Webseiten_logo.png" alt="Trending Media — Webseiten" className="h-9 w-9 rounded-[10px] object-contain" />
+          <img src="/Webseiten_logo.png" alt="Trending Media: Webseiten" className="h-9 w-9 rounded-[10px] object-contain" />
         </Link>
 
         <span className="hidden sm:block w-px h-5 c-line-soft mx-1" />
