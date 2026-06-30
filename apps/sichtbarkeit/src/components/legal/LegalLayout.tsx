@@ -72,7 +72,7 @@ export const LegalLayout = ({ title, intro, children }: LegalLayoutProps) => {
           <div className="grid">
             <div>
               <h4>Trending Media</h4>
-              <p style={{ maxWidth: "30ch", lineHeight: 1.6 }}>Webseiten und Landingpages für Schweizer KMU — gebaut, um Sichtbarkeit in Anfragen zu verwandeln.</p>
+              <p style={{ maxWidth: "30ch", lineHeight: 1.6 }}>Webseiten und Landingpages für Schweizer KMU, gebaut, um Sichtbarkeit in Anfragen zu verwandeln.</p>
             </div>
             <div>
               <h4>Leistungen</h4>

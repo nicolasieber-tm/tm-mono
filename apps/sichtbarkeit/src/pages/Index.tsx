@@ -128,28 +128,28 @@ const STATS = [
   { v: "CH/EU", l: "Hosting & Datenschutz" },
 ];
 const PAINS = [
-  { illo: "fizzle", tag: "Hübsch, wirkungslos", title: "Schön gemacht — aber es kommt nichts rein", desc: "Die Seite sieht gut aus, doch das Telefon bleibt still. Ohne klare Conversion-Logik ist Design nur Dekoration.", v: "0", l: "Anfragen pro Woche" },
-  { illo: "find", tag: "Unsichtbar", title: "Bei Google nicht zu finden", desc: "Wer Sie nicht kennt, findet Sie nicht. Ohne SEO-Grundlagen landet die Seite auf Seite drei — also nirgendwo.", v: "Seite 3", l: "im Suchergebnis" },
+  { illo: "fizzle", tag: "Hübsch, wirkungslos", title: "Schön gemacht, aber es kommt nichts rein", desc: "Die Seite sieht gut aus, doch das Telefon bleibt still. Ohne klare Conversion-Logik ist Design nur Dekoration.", v: "0", l: "Anfragen pro Woche" },
+  { illo: "find", tag: "Unsichtbar", title: "Bei Google nicht zu finden", desc: "Wer Sie nicht kennt, findet Sie nicht. Ohne SEO-Grundlagen landet die Seite auf Seite drei, also nirgendwo.", v: "Seite 3", l: "im Suchergebnis" },
   { illo: "slow", tag: "Zu langsam", title: "Lädt zu lange, Besucher springen ab", desc: "Jede zusätzliche Sekunde Ladezeit kostet Besucher. Auf dem Handy entscheidet sich das in Millisekunden.", v: "53%", l: "Absprung bei >3s" },
   { illo: "stale", tag: "Veraltet", title: "Seit Jahren nicht angefasst, keiner pflegt sie", desc: "Die Seite ist eingefroren, weil niemand sie aktualisieren kann. Jede Änderung wird zum Projekt.", v: "Jahre", l: "ohne Update" },
 ];
 const SERVICES = [
-  { illo: "web", tag: "Landingpages", title: "Landingpages mit einem klaren Ziel", desc: "Eine Seite, eine Botschaft, eine Handlung. Gebaut für eine konkrete Dienstleistung oder Kampagne — und darauf optimiert, Anfragen auszulösen.", chips: ["Conversion-Logik", "Eine klare Aktion", "A/B-bereit"] },
-  { illo: "device", tag: "Websites", title: "Mehrseitige Webauftritte", desc: "Der vollständige Auftritt für Ihr Unternehmen — sauber strukturiert, mehrsprachig wenn nötig, und so gebaut, dass Sie Inhalte selbst pflegen können.", chips: ["Responsive", "Selbst pflegbar", "Mehrsprachig"] },
+  { illo: "web", tag: "Landingpages", title: "Landingpages mit einem klaren Ziel", desc: "Eine Seite, eine Botschaft, eine Handlung. Gebaut für eine konkrete Dienstleistung oder Kampagne und darauf optimiert, Anfragen auszulösen.", chips: ["Conversion-Logik", "Eine klare Aktion", "A/B-bereit"] },
+  { illo: "device", tag: "Websites", title: "Mehrseitige Webauftritte", desc: "Der vollständige Auftritt für Ihr Unternehmen, sauber strukturiert, mehrsprachig wenn nötig, und so gebaut, dass Sie Inhalte selbst pflegen können.", chips: ["Responsive", "Selbst pflegbar", "Mehrsprachig"] },
   { illo: "rank", tag: "Sichtbarkeit", title: "Gefunden werden (SEO)", desc: "Technisch sauberes Fundament, lokale Sichtbarkeit und echte Performance. Damit Sie dort auftauchen, wo Ihre Kunden suchen.", chips: ["Technisches SEO", "Local SEO", "Core Web Vitals"] },
-  { illo: "funnel", tag: "Conversion", title: "Anfragen automatisieren", desc: "Vom Klick zum Termin: Terminbuchung, smarte Formulare und Anbindung an Ihre Tools. Aus Besuchern werden qualifizierte Leads — ohne manuellen Aufwand.", chips: ["Terminbuchung", "Formulare", "CRM-Anbindung"] },
+  { illo: "funnel", tag: "Conversion", title: "Anfragen automatisieren", desc: "Vom Klick zum Termin: Terminbuchung, smarte Formulare und Anbindung an Ihre Tools. Aus Besuchern werden qualifizierte Leads, ohne manuellen Aufwand.", chips: ["Terminbuchung", "Formulare", "CRM-Anbindung"] },
 ];
 const PROCESS = [
-  { t: "Verstehen", d: "Wir klären, wen Sie erreichen wollen und welche Handlung zählt — Anruf, Anfrage oder Termin. Ohne Ziel kein Design." },
+  { t: "Verstehen", d: "Wir klären, wen Sie erreichen wollen und welche Handlung zählt: Anruf, Anfrage oder Termin. Ohne Ziel kein Design." },
   { t: "Konzipieren", d: "Struktur, Botschaft und Aufbau vor der Optik. Wir entwerfen den Weg, den ein Besucher bis zur Anfrage geht." },
-  { t: "Bauen", d: "Schnell, responsiv und sauber umgesetzt — mit SEO-Grundlagen und Conversion-Elementen von Anfang an eingebaut." },
-  { t: "Launchen & Optimieren", d: "Live gehen ist der Anfang. Wir messen, was funktioniert, und schärfen nach — damit aus Besuchern dauerhaft Anfragen werden." },
+  { t: "Bauen", d: "Schnell, responsiv und sauber umgesetzt, mit SEO-Grundlagen und Conversion-Elementen von Anfang an eingebaut." },
+  { t: "Launchen & Optimieren", d: "Live gehen ist der Anfang. Wir messen, was funktioniert, und schärfen nach, damit aus Besuchern dauerhaft Anfragen werden." },
 ];
 const REASONS = [
   { t: "Auf Conversion getrimmt, nicht auf Effekte", d: "Jedes Element hat einen Job: den Besucher näher an die Anfrage bringen. Schön ist Pflicht, Wirkung ist das Ziel." },
-  { t: "Mobile-first & blitzschnell", d: "Über die Hälfte Ihrer Besucher kommt vom Handy. Wir bauen zuerst für mobil — und für Ladezeiten unter zwei Sekunden." },
+  { t: "Mobile-first & blitzschnell", d: "Über die Hälfte Ihrer Besucher kommt vom Handy. Wir bauen zuerst für mobil und für Ladezeiten unter zwei Sekunden." },
   { t: "Selbst pflegbar", d: "Sie sollen Texte und Bilder selbst ändern können, ohne uns für jede Kleinigkeit zu brauchen. Unabhängigkeit ist Teil der Lieferung." },
-  { t: "SEO ab Tag 1", d: "Saubere Technik, sinnvolle Struktur und schnelle Ladezeiten — die Grundlage, um überhaupt gefunden zu werden, ist eingebaut." },
+  { t: "SEO ab Tag 1", d: "Saubere Technik, sinnvolle Struktur und schnelle Ladezeiten: die Grundlage, um überhaupt gefunden zu werden, ist eingebaut." },
   { t: "Schweiz-konform & DSGVO", d: "Datenschutz, Impressum und Hosting in der Schweiz oder EU. Rechtssicher, ohne dass Sie sich darum kümmern müssen." },
   { t: "Hosting & Wartung aus einer Hand", d: "Domain, Hosting, Updates und Ansprechpartner an einem Ort. Kein Ping-Pong zwischen drei Anbietern." },
 ];
@@ -168,13 +168,47 @@ const PACKAGES = [
   },
 ];
 const FAQS = [
-  { q: "Was kostet eine Website bei Ihnen?", a: "Das hängt vom Umfang ab. Eine fokussierte Landingpage ist deutlich günstiger als ein mehrsprachiger Webauftritt mit laufender Betreuung. Im kostenlosen Erstgespräch geben wir Ihnen einen konkreten, fixen Richtpreis — ohne Überraschungen." },
+  { q: "Was kostet eine Website bei Ihnen?", a: "Das hängt vom Umfang ab. Eine fokussierte Landingpage ist deutlich günstiger als ein mehrsprachiger Webauftritt mit laufender Betreuung. Im kostenlosen Erstgespräch geben wir Ihnen einen konkreten, fixen Richtpreis, ohne Überraschungen." },
   { q: "Wie lange dauert es, bis meine Seite live ist?", a: "Eine Landingpage ist oft in ein bis zwei Wochen live. Ein grösserer Webauftritt dauert je nach Umfang und Inhalten drei bis sechs Wochen. Den Zeitplan legen wir direkt nach dem Erstgespräch gemeinsam fest." },
-  { q: "Kann ich die Seite später selbst bearbeiten?", a: "Ja. Wir bauen so, dass Sie Texte, Bilder und Inhalte selbst aktualisieren können. Auf Wunsch zeigen wir Ihnen das in einem kurzen Onboarding — oder übernehmen die Pflege für Sie." },
-  { q: "Kümmern Sie sich auch um Hosting und Domain?", a: "Ja, auf Wunsch komplett. Domain, Hosting in der Schweiz oder EU, technische Updates und Backups — alles aus einer Hand, mit einem festen Ansprechpartner." },
-  { q: "Sorgt die Seite dafür, dass ich bei Google gefunden werde?", a: "Die technischen SEO-Grundlagen — saubere Struktur, schnelle Ladezeiten, mobile Optimierung — sind immer dabei. Für aktive Sichtbarkeit (Rankings für bestimmte Suchbegriffe) gibt es das Paket «Website + Wachstum» mit laufender Betreuung." },
-  { q: "Ich habe schon eine Website. Lohnt sich ein Neubau?", a: "Nicht immer — manchmal reicht ein gezielter Relaunch oder eine zusätzliche Landingpage. Im Erstgespräch schauen wir uns Ihre aktuelle Seite ehrlich an und sagen Ihnen, was sich wirklich lohnt." },
+  { q: "Kann ich die Seite später selbst bearbeiten?", a: "Ja. Wir bauen so, dass Sie Texte, Bilder und Inhalte selbst aktualisieren können. Auf Wunsch zeigen wir Ihnen das in einem kurzen Onboarding oder übernehmen die Pflege für Sie." },
+  { q: "Kümmern Sie sich auch um Hosting und Domain?", a: "Ja, auf Wunsch komplett. Domain, Hosting in der Schweiz oder EU, technische Updates und Backups, alles aus einer Hand, mit einem festen Ansprechpartner." },
+  { q: "Sorgt die Seite dafür, dass ich bei Google gefunden werde?", a: "Die technischen SEO-Grundlagen (saubere Struktur, schnelle Ladezeiten, mobile Optimierung) sind immer dabei. Für aktive Sichtbarkeit (Rankings für bestimmte Suchbegriffe) gibt es das Paket «Website + Wachstum» mit laufender Betreuung." },
+  { q: "Ich habe schon eine Website. Lohnt sich ein Neubau?", a: "Nicht immer, manchmal reicht ein gezielter Relaunch oder eine zusätzliche Landingpage. Im Erstgespräch schauen wir uns Ihre aktuelle Seite ehrlich an und sagen Ihnen, was sich wirklich lohnt." },
 ];
+
+/* ---- contact funnel: vier kurze Fragen, dann direkt der Kalender ---- */
+type FunnelStep = { key: string; q: string; help?: string; opts: string[] };
+const FUNNEL_STEPS: FunnelStep[] = [
+  {
+    key: "bestehendeWebsite",
+    q: "Haben Sie bereits eine bestehende Website?",
+    help: "Damit wir den Ausgangspunkt kennen.",
+    opts: ["Ja, soll überarbeitet werden", "Ja, soll komplett neu", "Nein, noch keine", "Unsicher"],
+  },
+  {
+    key: "projektart",
+    q: "Was für eine Website schwebt Ihnen vor?",
+    help: "Eine grobe Richtung genügt.",
+    opts: ["Kleine Visitenkarten-Website (1–3 Seiten)", "Klassische Unternehmens-Website (4–10 Seiten)", "Umfangreiche Website oder Shop", "Update der bestehenden Seite"],
+  },
+  {
+    key: "texteVorhanden",
+    q: "Sind Texte und Bilder bereits vorhanden?",
+    help: "Falls nicht, unterstützen wir Sie dabei.",
+    opts: ["Ja, vollständig", "Teilweise", "Nein, brauche Unterstützung", "Noch unklar"],
+  },
+  {
+    key: "zeitrahmen",
+    q: "Wann möchten Sie umsetzen?",
+    opts: ["So schnell wie möglich", "In 1–3 Monaten", "In 3–6 Monaten", "Erst informieren"],
+  },
+];
+const FUNNEL_LABEL: Record<string, string> = {
+  bestehendeWebsite: "Bestehende Website",
+  projektart: "Projektart",
+  texteVorhanden: "Texte/Bilder",
+  zeitrahmen: "Zeitrahmen",
+};
 
 const n2 = (i: number) => String(i + 1).padStart(2, "0");
 
@@ -202,6 +236,78 @@ function FaqItem({ f, open, onToggle }: { f: { q: string; a: string }; open: boo
       </button>
       <div className="faq-a" ref={ref}>
         <div className="faq-a-in">{f.a}</div>
+      </div>
+    </div>
+  );
+}
+
+function ContactFunnel() {
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [done, setDone] = useState(false);
+
+  const total = FUNNEL_STEPS.length;
+  const pct = done ? 100 : Math.round(((step + 1) / total) * 100);
+
+  const pick = (key: string, value: string) => {
+    setAnswers((a) => ({ ...a, [key]: value }));
+    if (step < total - 1) setStep((s) => s + 1);
+    else setDone(true);
+  };
+
+  const calSrc = (() => {
+    const notes = FUNNEL_STEPS
+      .map((s) => (answers[s.key] ? `${FUNNEL_LABEL[s.key]}: ${answers[s.key]}` : ""))
+      .filter(Boolean)
+      .join("\n");
+    const params = new URLSearchParams({ embed: "true", theme: "light" });
+    if (notes) params.set("notes", notes);
+    return `${CAL}?${params.toString()}`;
+  })();
+
+  if (done) {
+    return (
+      <div className="fn-done">
+        <div className="ap-cal">
+          <div className="bar"><i /><i /><i /><span>cal.com / Erstgespräch</span></div>
+          <iframe src={calSrc} title="Erstgespräch buchen" loading="lazy" />
+        </div>
+        <button className="fn-redo" type="button" onClick={() => { setDone(false); setStep(0); }}>
+          ‹ Antworten ändern
+        </button>
+      </div>
+    );
+  }
+
+  const cur = FUNNEL_STEPS[step];
+  return (
+    <div className="ap-funnel">
+      <div className="fn-top">
+        <span>Frage {step + 1} von {total}</span>
+        <span>{pct}%</span>
+      </div>
+      <div className="fn-bar"><i style={{ width: `${pct}%` }} /></div>
+      <div className="fn-q" key={cur.key}>
+        <h3>{cur.q}</h3>
+        {cur.help && <p className="fn-help">{cur.help}</p>}
+        <div className="fn-opts">
+          {cur.opts.map((o) => (
+            <button
+              key={o}
+              type="button"
+              className={`fn-opt${answers[cur.key] === o ? " on" : ""}`}
+              onClick={() => pick(cur.key, o)}
+            >
+              <span>{o}</span>
+              <span className="fn-rad"><StrokeIcon name="check" color="currentColor" size={14} /></span>
+            </button>
+          ))}
+        </div>
+        {step > 0 && (
+          <button className="fn-back" type="button" onClick={() => setStep((s) => s - 1)}>
+            ‹ Zurück
+          </button>
+        )}
       </div>
     </div>
   );
@@ -301,7 +407,7 @@ const Index = () => {
 
       <section className="ap-sec alt" id="problem">
         <div className="wide">
-          <Shead k="Diagnose" h="Warum Ihre Website keine Anfragen bringt" intro="Eine Website ist kein digitaler Flyer. Diese vier Punkte hören wir immer wieder — und genau da setzen wir an." />
+          <Shead k="Diagnose" h="Warum Ihre Website keine Anfragen bringt" intro="Eine Website ist kein digitaler Flyer. Diese vier Punkte hören wir immer wieder, und genau da setzen wir an." />
           <div className="ap-grid c4 reveal">
             {PAINS.map((p) => (
               <div className="ap-card" key={p.title}>
@@ -318,7 +424,7 @@ const Index = () => {
 
       <section className="ap-sec" id="leistungen">
         <div className="wide">
-          <Shead k="Leistungen" h="Vom ersten Klick zur Anfrage." intro="Wir bauen nicht nur Seiten, die gut aussehen — sondern den ganzen Weg vom Besucher zum Kunden." />
+          <Shead k="Leistungen" h="Vom ersten Klick zur Anfrage." intro="Wir bauen nicht nur Seiten, die gut aussehen, sondern den ganzen Weg vom Besucher zum Kunden." />
           <div className="ap-grid c2 reveal">
             {SERVICES.map((s) => (
               <div className="ap-card" key={s.title}>
@@ -353,7 +459,7 @@ const Index = () => {
 
       <section className="ap-sec">
         <div className="wide">
-          <Shead k="Was immer dabei ist" h="Kein Schnickschnack. Nur, was wirkt." intro="Jede Seite, die wir bauen, bringt diese Grundlagen mit — ohne Aufpreis, ohne Diskussion." />
+          <Shead k="Was immer dabei ist" h="Kein Schnickschnack. Nur, was wirkt." intro="Jede Seite, die wir bauen, bringt diese Grundlagen mit, ohne Aufpreis, ohne Diskussion." />
           <div className="ap-grid c2 reveal">
             {REASONS.map((r) => (
               <div className="ap-reason" key={r.t}>
@@ -398,17 +504,14 @@ const Index = () => {
             <div>
               <div className="ck">Kontakt · 30 Min unverbindlich</div>
               <h2>Reden wir über Ihre neue Website.</h2>
-              <p className="lead-txt">30 Minuten, ehrlich und unverbindlich. Wir schauen uns Ihre Situation an und sagen offen, welche Lösung wirklich zu Ihnen passt — auch wenn das weniger ist, als Sie erwarten.</p>
+              <p className="lead-txt">30 Minuten, ehrlich und unverbindlich. Wir schauen uns Ihre Situation an und sagen offen, welche Lösung wirklich zu Ihnen passt, auch wenn das weniger ist, als Sie erwarten.</p>
               <ul className="ap-guar">
                 <li><span className="gi"><StrokeIcon name="cal" color="url(#webgrad)" size={22} /></span>Termin direkt im Kalender wählen</li>
                 <li><span className="gi"><StrokeIcon name="zap" color="url(#webgrad)" size={22} /></span>Konkreter Richtpreis statt Sales-Pitch</li>
                 <li><span className="gi"><StrokeIcon name="chat" color="url(#webgrad)" size={22} /></span>Persönliche Antwort, kein Auto-Reply</li>
               </ul>
             </div>
-            <div className="ap-cal">
-              <div className="bar"><i /><i /><i /><span>cal.com / Erstgespräch</span></div>
-              <iframe src={`${CAL}?embed=true&theme=light`} title="Erstgespräch buchen" loading="lazy" />
-            </div>
+            <ContactFunnel />
           </div>
         </div>
       </section>
@@ -429,7 +532,7 @@ const Index = () => {
           <div className="grid">
             <div>
               <h4>Trending Media</h4>
-              <p style={{ maxWidth: "30ch", lineHeight: 1.6 }}>Webseiten und Landingpages für Schweizer KMU — gebaut, um Sichtbarkeit in Anfragen zu verwandeln.</p>
+              <p style={{ maxWidth: "30ch", lineHeight: 1.6 }}>Webseiten und Landingpages für Schweizer KMU, gebaut, um Sichtbarkeit in Anfragen zu verwandeln.</p>
             </div>
             <div>
               <h4>Leistungen</h4>
