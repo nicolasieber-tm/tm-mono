@@ -99,7 +99,7 @@ const TEAM = [
 ];
 const FAQS = [
   { q: "Wie läuft das Erstgespräch ab?", a: "30 Minuten per Video-Call. Wir hören zu, ordnen Ihre Situation ein und sagen offen, ob und wo wir der richtige Partner sind. Kein Sales-Pitch, keine Folgekosten, keine Verpflichtung." },
-  { q: "Was kostet ein typisches Projekt?", a: "Das hängt stark vom Umfang ab. Eine Prozessautomatisierung beginnt im niedrigen vierstelligen Bereich, individuelle Software bewegt sich je nach Tiefe im fünfstelligen Bereich. Nach dem Erstgespräch erhalten Sie einen konkreten, fixen Rahmen." },
+  { q: "Was kostet ein typisches Projekt?", a: "Das hängt vom Umfang Ihrer Idee ab. Genau deshalb starten wir mit einem kostenlosen Erstgespräch: Erst wenn klar ist, was Sie brauchen, erhalten Sie ein konkretes, fixes Angebot." },
   { q: "Wie lange dauert die Umsetzung?", a: "Erste produktive Resultate sind oft in 2 bis 6 Wochen sichtbar. Grössere Lösungen werden in klar definierten Etappen ausgerollt, damit Nutzen früh entsteht." },
   { q: "Für welche Branchen arbeiten Sie?", a: "Schwerpunkt sind Schweizer KMU im Dienstleistungs-, Handwerks- und Servicebereich. Unser Vorgehen funktioniert überall dort, wo manuelle Abläufe digitalisiert werden sollen." },
   { q: "Wo werden meine Daten gespeichert?", a: "Standardmässig in der Schweiz oder in der EU. Spezifische Anforderungen (CH-Hosting, on-premise, FINMA) berücksichtigen wir im Architektur-Entscheid." },
