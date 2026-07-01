@@ -14,7 +14,7 @@ const faqs = [
   },
   {
     q: "Was kostet ein typisches Projekt?",
-    a: "Das hängt stark vom Umfang ab. Eine Prozessautomatisierung beginnt im niedrigen vierstelligen Bereich, individuelle Software bewegt sich je nach Tiefe im fünfstelligen Bereich. Nach dem Erstgespräch erhalten Sie einen konkreten, fixen Rahmen — keine offenen Stundenpakete.",
+    a: "Das hängt vom Umfang Ihrer Idee ab. Genau deshalb starten wir mit einem kostenlosen Erstgespräch: Erst wenn klar ist, was Sie brauchen, erhalten Sie ein konkretes, fixes Angebot.",
   },
   {
     q: "Wie lange dauert die Umsetzung?",
