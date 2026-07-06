@@ -1,5 +1,10 @@
 # Build context: monorepo root (set in Railway: Root Directory = /)
 # Railway service config: Dockerfile Path = apps/sichtbarkeit/Dockerfile
+#
+# SPA-Serving via public/serve.json (cleanUrls:false + Rewrite **→/index.html)
+# statt des CLI-Flags --single: cleanUrls muss aus bleiben, damit statische
+# .html-Dateien (/demo, /buchungstool-demo/*) exakt ausgeliefert werden und
+# nicht vom SPA-Fallback verschluckt werden. Siehe testimonials.md, "Modul 4".
 FROM oven/bun:1 AS build
 WORKDIR /app
 
@@ -22,4 +27,4 @@ WORKDIR /app
 COPY --from=build /app/apps/sichtbarkeit/dist ./dist
 EXPOSE 8080
 ENV PORT=8080
-CMD ["sh", "-c", "bunx --bun serve dist -l tcp://0.0.0.0:$PORT --single"]
+CMD ["sh", "-c", "bunx --bun serve dist -l tcp://0.0.0.0:$PORT"]

@@ -1,0 +1,12 @@
+{
+  "name": "buchungstool-admin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Admin-Backend-Vorschau für das Buchungstool (Termine, Angebote, Kalender) – statische Vorschau",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

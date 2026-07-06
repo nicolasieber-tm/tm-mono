@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Termin buchen — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* =================================================================
+   Kunden-Buchungs-Frontend — DEMO-Nachbau
+   Flow: Angebot -> Datum -> Zeit -> Kontakt -> Bestätigung.
+   Reine Klick-Demo, nichts wird gespeichert. Look angelehnt an das
+   echte /book-Overlay (beiger Rahmen #E4CFCC, roter Akzent #F23636).
+   Wird per <iframe> in die /demo-Seite (Kundenansicht) geladen.
+   ================================================================= */
+:root{
+  --rot:#F23636; --rot-d:#d62b2b; --beige:#E4CFCC;
+  --ink:#1f2128; --ink-2:#6b6f78; --line:#ece7e6; --soft:#faf6f5;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{ font-family:"Inter",-apple-system,system-ui,sans-serif; color:var(--ink);
+  -webkit-font-smoothing:antialiased; letter-spacing:-.01em;
+  display:grid; place-items:center; padding:24px;
+  background:
+    radial-gradient(120% 80% at 50% -10%, #3a2e2c 0%, #211b1a 55%, #161313 100%);
+}
+/* Modal (= das Overlay-Fenster) */
+.bk{ width:100%; max-width:440px; background:#fff; border-radius:20px;
+  border:1px solid var(--beige); box-shadow:0 30px 80px -30px rgba(0,0,0,.6);
+  overflow:hidden; display:flex; flex-direction:column; max-height:640px; }
+.bk-top{ padding:22px 24px 0; }
+.bk-kick{ font-size:.72rem; font-weight:700; letter-spacing:.14em; color:var(--rot); text-transform:uppercase; }
+.bk-title{ font-size:1.5rem; font-weight:700; letter-spacing:-.02em; margin-top:6px; }
+.bk-prog{ display:flex; gap:6px; margin-top:16px; }
+.bk-prog i{ height:5px; flex:1; border-radius:99px; background:var(--beige); transition:background .3s; }
+.bk-prog i.done{ background:var(--rot); }
+.bk-body{ padding:20px 24px; overflow-y:auto; flex:1; }
+.bk-foot{ padding:16px 24px; border-top:1px solid var(--line); display:flex; gap:12px; align-items:center; }
+
+/* Buttons */
+.btn{ font:inherit; font-weight:600; border:0; border-radius:99px; cursor:pointer; padding:12px 22px; transition:.18s; }
+.btn-primary{ background:var(--rot); color:#fff; flex:1; }
+.btn-primary:hover{ background:var(--rot-d); }
+.btn-primary:disabled{ background:#e7c9c7; cursor:not-allowed; }
+.btn-ghost{ background:transparent; color:var(--ink-2); padding:12px 8px; }
+.btn-ghost:hover{ color:var(--ink); }
+
+/* Angebot-Liste */
+.opt{ width:100%; text-align:left; background:var(--soft); border:1.5px solid var(--line); border-radius:14px;
+  padding:15px 16px; margin-bottom:10px; cursor:pointer; display:flex; align-items:center; gap:14px; transition:.18s; }
+.opt:hover{ border-color:var(--rot); }
+.opt.sel{ border-color:var(--rot); background:#fff5f4; }
+.opt .dot{ width:20px; height:20px; border-radius:50%; border:2px solid var(--beige); flex:none; display:grid; place-items:center; }
+.opt.sel .dot{ border-color:var(--rot); }
+.opt.sel .dot::after{ content:""; width:10px; height:10px; border-radius:50%; background:var(--rot); }
+.opt .o-main b{ display:block; font-size:1rem; font-weight:600; }
+.opt .o-main span{ font-size:.84rem; color:var(--ink-2); }
+.opt .o-price{ margin-left:auto; font-size:.9rem; font-weight:600; color:var(--rot); white-space:nowrap; }
+
+/* Kalender */
+.cal-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.cal-head b{ font-size:1.05rem; font-weight:600; }
+.cal-nav{ width:34px; height:34px; border-radius:50%; border:1px solid var(--line); background:#fff; cursor:pointer; font-size:1rem; color:var(--ink-2); }
+.cal-nav:hover{ border-color:var(--rot); color:var(--rot); }
+.cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:5px; }
+.cal-grid .dow{ font-size:.7rem; font-weight:600; color:var(--ink-2); text-align:center; padding:4px 0; }
+.cal-grid button{ aspect-ratio:1; border:0; background:var(--soft); border-radius:10px; font:inherit; font-size:.9rem; font-weight:500; cursor:pointer; color:var(--ink); transition:.15s; }
+.cal-grid button:hover:not(:disabled){ background:#fff5f4; color:var(--rot); }
+.cal-grid button.sel{ background:var(--rot); color:#fff; }
+.cal-grid button:disabled{ color:#cdcdd2; cursor:not-allowed; background:transparent; }
+.cal-grid .pad{ visibility:hidden; }
+
+/* Zeit-Slots */
+.slots{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.slots button{ border:1.5px solid var(--line); background:#fff; border-radius:12px; padding:13px 0; font:inherit; font-weight:600; cursor:pointer; transition:.15s; }
+.slots button:hover:not(:disabled){ border-color:var(--rot); color:var(--rot); }
+.slots button.sel{ background:var(--rot); color:#fff; border-color:var(--rot); }
+.slots button:disabled{ color:#cdcdd2; background:var(--soft); cursor:not-allowed; }
+
+/* Formular */
+.field{ margin-bottom:14px; }
+.field label{ display:block; font-size:.82rem; font-weight:600; color:var(--ink-2); margin-bottom:6px; }
+.field input{ width:100%; font:inherit; padding:12px 14px; border:1.5px solid var(--line); border-radius:12px; background:var(--soft); }
+.field input:focus{ outline:none; border-color:var(--rot); background:#fff; }
+.field textarea{ width:100%; font:inherit; padding:12px 14px; border:1.5px solid var(--line); border-radius:12px; background:var(--soft); resize:vertical; min-height:74px; }
+.field textarea:focus{ outline:none; border-color:var(--rot); background:#fff; }
+.field .err{ display:none; color:var(--rot-d); font-size:.78rem; font-weight:500; margin-top:6px; }
+.field.invalid .err{ display:block; }
+.field.invalid input{ border-color:var(--rot-d); background:#fdecea; }
+
+/* Zusammenfassung */
+.sum{ background:var(--soft); border:1px solid var(--line); border-radius:14px; padding:18px; }
+.sum-row{ display:flex; justify-content:space-between; padding:9px 0; font-size:.92rem; border-bottom:1px dashed var(--line); }
+.sum-row:last-child{ border-bottom:0; }
+.sum-row span{ color:var(--ink-2); }
+.sum-row b{ font-weight:600; text-align:right; }
+
+/* Erfolg */
+.done-screen{ text-align:center; padding:18px 0; }
+.done-screen .check{ width:72px; height:72px; border-radius:50%; background:#eafaf0; color:#1f9d57; display:grid; place-items:center; margin:0 auto 18px; }
+.done-screen .check svg{ width:38px; height:38px; }
+.done-screen h3{ font-size:1.35rem; font-weight:700; }
+.done-screen p{ color:var(--ink-2); margin-top:8px; font-size:.95rem; line-height:1.5; }
+</style>
+</head>
+<body>
+<div class="bk">
+  <div class="bk-top">
+    <div class="bk-kick" id="kick">Schritt 1 von 5</div>
+    <div class="bk-title" id="title">Angebot wählen</div>
+    <div class="bk-prog" id="prog"></div>
+  </div>
+  <div class="bk-body" id="body"></div>
+  <div class="bk-foot" id="foot"></div>
+</div>
+
+<script>
+// Default-Angebote — bewusst identisch zu den OFFERS-Defaults im Admin-Tool
+const DEFAULT_ANGEBOTE = [
+  { id:"a1", name:"Angebot 1", meta:"30 Minuten", preis:"kostenlos" },
+  { id:"a2", name:"Angebot 2", meta:"1–2 Stunden", preis:"CHF 150" },
+  { id:"a3", name:"Angebot 3", meta:"flexibel",    preis:"CHF 160/Std." },
+  { id:"a4", name:"Angebot 4", meta:"ganzer Tag",  preis:"CHF 900" },
+];
+// Im Admin geänderte Angebote/Preise übernehmen (geteilter sessionStorage)
+function ladeAngebote(){
+  try {
+    const o = JSON.parse(sessionStorage.getItem("btdemo_offers") || "null");
+    if (Array.isArray(o)) {
+      return o.filter(x => x.active !== false).map(x => ({
+        id: x.id, name: x.name, meta: x.dur || "",
+        preis: (!x.price || x.price == 0) ? "kostenlos" : ("CHF " + x.price + (x.unit === "pro Stunde" ? "/Std." : ""))
+      }));
+    }
+  } catch(e){}
+  return DEFAULT_ANGEBOTE;
+}
+const ANGEBOTE = ladeAngebote();
+const STEPS = ["Angebot wählen","Datum wählen","Uhrzeit wählen","Ihre Kontaktdaten","Bestätigung"];
+const SLOTS = ["09:00","10:00","11:00","13:00","14:00","15:00","16:00","17:00"];
+const BELEGT_SLOTS = new Set(["10:00","14:00"]);   // Demo: ein paar belegt
+const MONTHS = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+const DOW = ["Mo","Di","Mi","Do","Fr","Sa","So"];
+
+const state = { step:0, angebot:null, datum:null, zeit:null, name:"", email:"", tel:"", bemerkung:"",
+  calY:2026, calM:7 /*August*/, done:false };
+
+const body = document.getElementById("body");
+const foot = document.getElementById("foot");
+
+function fmtDatum(d){ return d ? `${d.day}. ${MONTHS[d.m]} ${d.y}` : "–"; }
+
+function renderProgress(){
+  document.getElementById("prog").innerHTML = STEPS.map((_,i)=>`<i class="${i<=state.step?'done':''}"></i>`).join("");
+  document.getElementById("kick").textContent = state.done ? "Fertig" : `Schritt ${state.step+1} von 5`;
+  document.getElementById("title").textContent = state.done ? "Gebucht" : STEPS[state.step];
+}
+
+function render(){
+  renderProgress();
+  if (state.done){ renderDone(); return; }
+  if (state.step===0) renderAngebot();
+  if (state.step===1) renderDatum();
+  if (state.step===2) renderZeit();
+  if (state.step===3) renderKontakt();
+  if (state.step===4) renderBestaetigung();
+  renderFoot();
+}
+
+function renderAngebot(){
+  body.innerHTML = ANGEBOTE.map(a=>`
+    <button class="opt ${state.angebot===a.id?'sel':''}" data-id="${a.id}">
+      <span class="dot"></span>
+      <span class="o-main"><b>${a.name}</b><span>${a.meta}</span></span>
+      <span class="o-price">${a.preis}</span>
+    </button>`).join("");
+  body.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ state.angebot=b.dataset.id; render(); });
+}
+
+function renderDatum(){
+  const first = new Date(state.calY, state.calM, 1);
+  let startDow = (first.getDay()+6)%7; // Mo=0
+  const days = new Date(state.calY, state.calM+1, 0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+  let cells = "";
+  DOW.forEach(d=> cells += `<div class="dow">${d}</div>`);
+  for(let i=0;i<startDow;i++) cells += `<button class="pad" disabled></button>`;
+  for(let d=1; d<=days; d++){
+    const date = new Date(state.calY, state.calM, d);
+    const past = date < today;
+    const belegt = ([3,9,10,17,24].includes(d)); // Demo: belegte Tage
+    const sonntag = date.getDay()===0;            // So gesperrt (Planer zeigt nur Mo–Sa)
+    const disabled = past || belegt || sonntag;
+    const sel = state.datum && state.datum.day===d && state.datum.m===state.calM && state.datum.y===state.calY;
+    cells += `<button data-day="${d}" class="${sel?'sel':''}" ${disabled?'disabled':''}>${d}</button>`;
+  }
+  body.innerHTML = `
+    <div class="cal-head">
+      <button class="cal-nav" id="cal-prev">‹</button>
+      <b>${MONTHS[state.calM]} ${state.calY}</b>
+      <button class="cal-nav" id="cal-next">›</button>
+    </div>
+    <div class="cal-grid">${cells}</div>`;
+  body.querySelectorAll("[data-day]").forEach(b=> b.onclick=()=>{
+    state.datum={ day:+b.dataset.day, m:state.calM, y:state.calY }; render();
+  });
+  document.getElementById("cal-prev").onclick=()=>{ if(state.calM===0){state.calM=11;state.calY--}else state.calM--; render(); };
+  document.getElementById("cal-next").onclick=()=>{ if(state.calM===11){state.calM=0;state.calY++}else state.calM++; render(); };
+}
+
+// Belegte Uhrzeiten für das gewählte Datum: statische Demo-Belegung + bereits gebuchte Slots
+function belegteZeiten(){
+  const set = new Set(BELEGT_SLOTS);
+  if(!state.datum) return set;
+  const pad = n => String(n).padStart(2,"0");
+  const iso = `${state.datum.y}-${pad(state.datum.m+1)}-${pad(state.datum.day)}`;
+  try {
+    JSON.parse(sessionStorage.getItem("btdemo_termine") || "[]")
+      .forEach(b => { if(b.iso===iso && b.status!=="abgesagt" && b.time) set.add(b.time); });
+  } catch(e){}
+  return set;
+}
+function renderZeit(){
+  const belegt = belegteZeiten();
+  body.innerHTML = `<div class="slots">${SLOTS.map(s=>{
+    const isB = belegt.has(s);
+    return `<button data-t="${s}" class="${state.zeit===s?'sel':''}" ${isB?'disabled':''}>${s}</button>`;
+  }).join("")}</div>`;
+  body.querySelectorAll("[data-t]").forEach(b=> b.onclick=()=>{ state.zeit=b.dataset.t; render(); });
+}
+
+function renderKontakt(){
+  body.innerHTML = `
+    <div class="field" id="fld-name"><label>Name</label><input id="f-name" value="${state.name}" placeholder="Vor- und Nachname"><div class="err">Bitte geben Sie Ihren Namen an.</div></div>
+    <div class="field" id="fld-email"><label>E-Mail</label><input id="f-email" type="email" value="${state.email}" placeholder="name@beispiel.ch"><div class="err">Bitte geben Sie eine gültige E-Mail-Adresse an (mit @).</div></div>
+    <div class="field"><label>Telefon</label><input id="f-tel" value="${state.tel}" placeholder="079 123 45 67"></div>
+    <div class="field"><label>Bemerkungen <span style="font-weight:400;color:#a9adb5">(optional)</span></label><textarea id="f-bem" placeholder="Wünsche, Fragen oder Hinweise …">${state.bemerkung}</textarea></div>`;
+  const g=id=>document.getElementById(id);
+  const sync=()=>{ state.name=g("f-name").value; state.email=g("f-email").value; state.tel=g("f-tel").value; state.bemerkung=g("f-bem").value;
+    // Fehler verschwinden lassen, sobald das Feld korrigiert ist
+    if(state.name.trim()) g("fld-name").classList.remove("invalid");
+    if(/.+@.+\..+/.test(state.email)) g("fld-email").classList.remove("invalid");
+  };
+  ["f-name","f-email","f-tel","f-bem"].forEach(id=> g(id).oninput=sync);
+}
+
+function renderBestaetigung(){
+  const a = ANGEBOTE.find(x=>x.id===state.angebot)||{};
+  body.innerHTML = `
+    <div class="sum">
+      <div class="sum-row"><span>Angebot</span><b>${a.name||"–"}</b></div>
+      <div class="sum-row"><span>Datum</span><b>${fmtDatum(state.datum)}</b></div>
+      <div class="sum-row"><span>Uhrzeit</span><b>${state.zeit||"–"}</b></div>
+      <div class="sum-row"><span>Name</span><b>${state.name||"–"}</b></div>
+      <div class="sum-row"><span>E-Mail</span><b>${state.email||"–"}</b></div>
+      ${state.bemerkung.trim() ? `<div class="sum-row"><span>Bemerkung</span><b>${state.bemerkung}</b></div>` : ""}
+    </div>`;
+}
+
+function renderDone(){
+  const a = ANGEBOTE.find(x=>x.id===state.angebot)||{};
+  body.innerHTML = `
+    <div class="done-screen">
+      <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h3>Termin gebucht!</h3>
+      <p>${a.name} am <b>${fmtDatum(state.datum)}</b> um <b>${state.zeit}</b>.<br>Eine Bestätigung ging an ${state.email||"Ihre E-Mail"}.</p>
+    </div>`;
+  foot.innerHTML = `<button class="btn btn-primary" id="restart">Neue Buchung</button>`;
+  document.getElementById("restart").onclick=()=>{ Object.assign(state,{step:0,angebot:null,datum:null,zeit:null,name:"",email:"",tel:"",bemerkung:"",done:false}); render(); };
+}
+
+// Buchung in sessionStorage ablegen, damit der Admin-Bereich (gleiche Origin) sie sieht
+function speichereBuchung(){
+  const a = ANGEBOTE.find(x=>x.id===state.angebot) || {};
+  const d = state.datum;
+  const wd = ["So","Mo","Di","Mi","Do","Fr","Sa"][ new Date(d.y,d.m,d.day).getDay() ];
+  const pad = n => String(n).padStart(2,"0");
+  const eintrag = {
+    d: String(d.day).padStart(2,"0"),
+    m: MONTHS[d.m].slice(0,3),
+    iso: `${d.y}-${pad(d.m+1)}-${pad(d.day)}`,   // maschinenlesbar für Slot-/Planer-Abgleich
+    date: `${wd}, ${d.day}. ${MONTHS[d.m]} ${d.y}`,
+    time: state.zeit,
+    name: state.name,
+    offer: a.name || "",
+    ort: "Online-Buchung",
+    price: a.preis || "",
+    status: "neu",
+    mail: state.email,
+    tel: state.tel,
+    msg: state.bemerkung || ""
+  };
+  try {
+    const arr = JSON.parse(sessionStorage.getItem("btdemo_termine") || "[]");
+    arr.unshift(eintrag);
+    sessionStorage.setItem("btdemo_termine", JSON.stringify(arr));
+  } catch(e){}
+}
+
+function canNext(){
+  if(state.step===0) return !!state.angebot;
+  if(state.step===1) return !!state.datum;
+  if(state.step===2) return !!state.zeit;
+  // Schritt 3 (Kontakt): Button bleibt klickbar, Validierung beim Klick (validateKontakt)
+  return true;
+}
+function validateKontakt(){
+  const nameOk = !!state.name.trim();
+  const emailOk = /.+@.+\..+/.test(state.email);
+  document.getElementById("fld-name").classList.toggle("invalid", !nameOk);
+  document.getElementById("fld-email").classList.toggle("invalid", !emailOk);
+  return nameOk && emailOk;
+}
+function renderFoot(){
+  const last = state.step===4;
+  foot.innerHTML =
+    (state.step>0 ? `<button class="btn btn-ghost" id="back">← Zurück</button>` : "") +
+    `<button class="btn btn-primary" id="next" ${canNext()?"":"disabled"}>${last?"Verbindlich buchen":"Weiter"}</button>`;
+  const b=document.getElementById("back"); if(b) b.onclick=()=>{ state.step--; render(); };
+  document.getElementById("next").onclick=()=>{
+    if(state.step===3 && !validateKontakt()) return;   // zeigt Fehlermeldung, bleibt im Schritt
+    if(!canNext()) return;
+    if(last){ speichereBuchung(); state.done=true; render(); } else { state.step++; render(); }
+  };
+}
+function updateFoot(){ const n=document.getElementById("next"); if(n) n.disabled=!canNext(); }
+
+render();
+</script>
+</body>
+</html>
