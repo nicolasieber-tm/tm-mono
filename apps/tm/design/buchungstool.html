@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Buchungstool: Pingpong → ein Link — Design-Werkstatt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* =================================================================
+   STANDALONE DESIGN-WERKSTATT — Buchungstool: Prozess-Story
+   -----------------------------------------------------------------
+   "E-Mail/Telefon-Pingpong  →  ein Link, Self-Service-Buchung"
+   NICHT live.
+
+   Zwei Cases (Tabs):
+     - web      : Buchungstool in Webseite integriert  -> SICHTBARKEIT-Seite
+     - fotograf : ein Link, hunderte Mitarbeiter buchen -> TM-Hauptseite (Automation)
+   Tool-Ansicht rechts = Platzhalter-Kalender (SVG); durch echten
+   Screenshot der BUCHUNGSANSICHT ersetzen (nicht Dashboard). Siehe testimonials.md.
+   ================================================================= */
+
+:root {
+  --bg:#fdfbf8; --bg-alt:#fff; --fg:#1b1a1e;
+  --muted:rgba(27,26,30,.6); --muted2:rgba(27,26,30,.45);
+  --accent:#8b5cf6; --border:rgba(0,0,0,.07); --card:#fff;
+  --shadow:0 1px 2px rgba(60,40,20,.05), 0 20px 44px -24px rgba(80,40,140,.22);
+  --grad:linear-gradient(105deg,#b18bff,#8b5cf6 40%,#7b3fe4 70%,#5b8def);
+  --warn:#c2553a;   /* gedaempftes Rot fuer den "Vorher"-Schmerz */
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--fg);
+  font-family:"Inter",-apple-system,system-ui,sans-serif; letter-spacing:-.01em; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:1080px; margin:0 auto; padding:0 24px; }
+
+.lab-bar { background:#1b1a1e; color:#fff; font-size:.82rem; padding:10px 24px; text-align:center; }
+.lab-bar b { color:#b18bff; }
+
+.ap-sec { padding:100px 0; }
+.ap-shead { text-align:center; max-width:760px; margin:0 auto 36px; }
+.ap-shead .kick { font-size:.95rem; font-weight:600; margin-bottom:12px;
+  background:var(--grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; }
+.ap-shead h2 { font-size:clamp(2rem,4.6vw,3.4rem); line-height:1.08; letter-spacing:-.03em; font-weight:700; }
+.ap-shead .intro { margin-top:18px; font-size:1.2rem; line-height:1.5; color:var(--muted); }
+
+/* Tabs */
+.bk-tabs { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin:0 auto 40px; }
+.bk-tabs button { font:inherit; font-size:.9rem; font-weight:500; cursor:pointer; padding:10px 20px;
+  border-radius:980px; border:1px solid var(--border); background:#fff; color:var(--muted);
+  transition:transform .2s,color .2s,box-shadow .2s; }
+.bk-tabs button:hover { color:var(--fg); transform:translateY(-1px); }
+.bk-tabs button.on { color:var(--fg); border-color:transparent; box-shadow:var(--shadow); position:relative; }
+.bk-tabs button.on::before { content:""; position:absolute; inset:0; border-radius:inherit; padding:1.5px;
+  background:var(--grad); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
+
+/* Split */
+.bk-split { display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:stretch; }
+@media (max-width:820px) { .bk-split { grid-template-columns:1fr; } }
+.bk-side { border:1px solid var(--border); border-radius:22px; padding:30px; box-shadow:var(--shadow);
+  display:flex; flex-direction:column; background:var(--card); }
+.bk-side.before { background:linear-gradient(180deg,#fbf3f0,#fff); }
+.bk-tag { font-size:.78rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-bottom:6px; }
+.bk-side.before .bk-tag { color:var(--warn); }
+.bk-side.after .bk-tag { color:var(--accent); }
+.bk-side h3 { font-size:1.3rem; font-weight:600; letter-spacing:-.02em; margin-bottom:20px; }
+
+/* VORHER: Chat-Pingpong */
+.bk-chat { display:flex; flex-direction:column; gap:10px; flex:1; }
+.bk-msg { max-width:78%; padding:11px 15px; border-radius:16px; font-size:.92rem; line-height:1.4;
+  opacity:0; transform:translateY(8px); animation:bkIn .5s cubic-bezier(.22,1,.36,1) forwards; }
+.bk-msg.out { align-self:flex-end; background:#ece7f6; color:#3a2f55; border-bottom-right-radius:5px; }
+.bk-msg.in  { align-self:flex-start; background:#fff; border:1px solid #f0ddd6; color:#5a463f; border-bottom-left-radius:5px; }
+.bk-msg .meta { display:block; font-size:.7rem; color:var(--muted2); margin-top:4px; }
+@keyframes bkIn { to { opacity:1; transform:none; } }
+
+/* NACHHER: Steps + Tool */
+.bk-steps { display:flex; flex-direction:column; gap:14px; margin-bottom:22px; }
+.bk-step { display:flex; gap:13px; align-items:center; font-size:1rem; color:var(--fg); }
+.bk-step .n { flex:none; width:30px; height:30px; border-radius:50%; display:grid; place-items:center;
+  font-size:.85rem; font-weight:600; color:#fff; background:var(--grad); }
+.bk-tool { margin-top:auto; border-radius:16px; overflow:hidden; border:1px solid var(--border);
+  box-shadow:0 18px 40px -22px rgba(80,40,140,.4); background:#fff; }
+.bk-tool .bar { display:flex; align-items:center; gap:6px; padding:10px 14px; border-bottom:1px solid var(--border); }
+.bk-tool .bar i { width:9px; height:9px; border-radius:50%; background:rgba(0,0,0,.12); display:block; }
+.bk-tool .bar .addr { margin-left:8px; font-size:.72rem; color:var(--muted2); }
+.bk-tool img { display:block; width:100%; height:auto; }
+
+/* Metrik-Footer je Seite */
+.bk-metric { margin-top:24px; padding-top:18px; border-top:1px solid var(--border); display:flex; gap:22px; }
+.bk-metric .m b { display:block; font-size:1.5rem; font-weight:700; letter-spacing:-.02em; line-height:1; }
+.bk-side.before .bk-metric .m b { color:var(--warn); }
+.bk-side.after  .bk-metric .m b { background:var(--grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; }
+.bk-metric .m span { font-size:.78rem; color:var(--muted2); }
+
+/* Verbindungspfeil zwischen den Seiten */
+.bk-arrow { display:flex; align-items:center; justify-content:center; }
+.bk-cap { margin-top:26px; text-align:center; font-size:.9rem; color:var(--muted); }
+.bk-cap b { color:var(--fg); font-weight:600; }
+</style>
+</head>
+<body>
+
+<div class="lab-bar">🎨 <b>Design-Werkstatt</b> — Buchungstool: Pingpong → ein Link. Tabs: Web-Tool (→ Sichtbarkeit) / Fotograf (→ TM). Tool-Bild = Platzhalter.</div>
+
+<section class="ap-sec">
+  <div class="wrap">
+    <div class="ap-shead">
+      <div class="kick">Vorher → Nachher</div>
+      <h2 id="bk-h2">Vom Termin-Pingpong zum einen Link.</h2>
+      <p class="intro" id="bk-intro">Früher kostete jeder Termin Tage an Hin und Her. Heute genügt ein Link, den Rest erledigen Ihre Kunden selbst.</p>
+    </div>
+
+    <div class="bk-tabs" id="bk-tabs"><!-- per JS --></div>
+
+    <div class="bk-split">
+      <div class="bk-side before">
+        <div class="bk-tag">Vorher</div>
+        <h3 id="bk-before-title">E-Mail- &amp; Telefon-Pingpong</h3>
+        <div class="bk-chat" id="bk-chat"><!-- per JS --></div>
+        <div class="bk-metric" id="bk-before-metric"><!-- per JS --></div>
+      </div>
+
+      <div class="bk-side after">
+        <div class="bk-tag">Nachher</div>
+        <h3 id="bk-after-title">Ein Link. Self-Service.</h3>
+        <div class="bk-steps" id="bk-steps"><!-- per JS --></div>
+        <div class="bk-tool">
+          <div class="bar"><i></i><i></i><i></i><span class="addr" id="bk-addr">buchung.kunde.ch</span></div>
+          <img id="bk-tool-img" alt="Buchungsansicht" />
+        </div>
+        <div class="bk-metric" id="bk-after-metric"><!-- per JS --></div>
+      </div>
+    </div>
+    <p class="bk-cap" id="bk-cap"></p>
+  </div>
+</section>
+
+<script>
+/* ---- Platzhalter-Kalender (Buchungsansicht) als Inline-SVG.
+        Ersetzen durch echten Screenshot der BUCHUNGSANSICHT:
+          web      -> z.B. /referenz_buchung_web.png      (in apps/sichtbarkeit/public)
+          fotograf -> z.B. /referenz_buchung_fotograf.png  (in apps/tm/public)        ---- */
+const calSvg = (accent) => "data:image/svg+xml;utf8," + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#ffffff"/>
+  <text x="48" y="80" font-family="Inter,sans-serif" font-weight="700" font-size="40" fill="#1b1a1e">Termin wählen</text>
+  <text x="48" y="124" font-family="Inter,sans-serif" font-size="24" fill="#8a8594">Freie Slots · diese Woche</text>
+  <g font-family="Inter,sans-serif" font-size="22" fill="#8a8594">
+    <text x="60" y="200">Mo</text><text x="240" y="200">Di</text><text x="420" y="200">Mi</text><text x="600" y="200">Do</text><text x="780" y="200">Fr</text>
+  </g>
+  ${[0,1,2,3,4].map(c=>{const x=48+c*180;return [0,1,2,3].map(r=>{const y=230+r*120;const taken=(c+r)%3===0;const sel=(c===2&&r===1);
+    return `<rect x="${x}" y="${y}" width="150" height="92" rx="14" fill="${sel?accent:taken?'#f2f0f5':'#faf7ff'}" stroke="${sel?accent:'#ece6f8'}"/>`+
+      `<text x="${x+24}" y="${y+54}" font-family="Inter,sans-serif" font-weight="600" font-size="24" fill="${sel?'#fff':taken?'#c9c4d2':'#7b3fe4'}">${taken?'belegt':(9+r)+':00'}</text>`;
+  }).join('')}).join('')}
+  <rect x="48" y="700" width="300" height="40" rx="8" fill="${accent}" opacity="0.12"/>
+  <text x="64" y="728" font-family="Inter,sans-serif" font-weight="600" font-size="22" fill="${accent}">✓ Mi 10:00 ausgewählt</text>
+</svg>`);
+
+const CASES = {
+  web: {
+    label: "Buchungstool auf der Webseite",
+    h2: "Vom Termin-Pingpong zum einen Link.",
+    intro: "Früher kostete jeder Termin Tage an Hin und Her. Heute buchen Ihre Kunden direkt auf Ihrer Website, rund um die Uhr.",
+    beforeTitle: "E-Mail- & Telefon-Pingpong",
+    afterTitle: "Direkt auf der Website buchen",
+    addr: "ihre-website.ch/termin",
+    accent: "#8b5cf6",
+    // tool: "/buchungstool_web.jpg",  // echter Screenshot passt optisch nicht -> Platzhalter-Kalender
+    chat: [
+      { s:"in",  t:"Guten Tag, hätten Sie nächste Woche Zeit für einen Termin?" },
+      { s:"out", t:"Gerne! Wie wäre Dienstag 14 Uhr?" },
+      { s:"in",  t:"Da kann ich leider nicht. Donnerstag?" },
+      { s:"out", t:"Donnerstag bin ich ausgebucht. Freitag früh?" },
+      { s:"in",  t:"Können Sie mich kurz anrufen?", meta:"3 Tage später" },
+    ],
+    steps: [
+      { t:"Buchungstool ist in die Website integriert" },
+      { t:"Kunde wählt selbst einen freien Slot" },
+      { t:"Bestätigung & Kalendereintrag automatisch" },
+    ],
+    beforeMetric: [ {b:"~5 Tage", s:"bis ein Termin steht"}, {b:"10+", s:"Nachrichten pro Termin"} ],
+    afterMetric:  [ {b:"30 Sek.", s:"bis gebucht"}, {b:"0", s:"manuelle Nachrichten"} ],
+    cap: "Buchungstool, nahtlos in die Website integriert.",
+  },
+  fotograf: {
+    label: "Fotograf · ein Link für hunderte Mitarbeitende",
+    h2: "Ein Link statt hunderte Termin-Mails.",
+    intro: "Ein Fotograf mit Grosskunden: Statt mit jeder Firma hunderte Termine einzeln abzustimmen, teilt er einen Link, jede:r Mitarbeitende bucht selbst.",
+    beforeTitle: "Hunderte Termine, einzeln koordiniert",
+    afterTitle: "Ein Link an die Firma",
+    addr: "buchung.fotograf.ch/grosskunde-ag",
+    accent: "#8b5cf6",
+    chat: [
+      { s:"in",  t:"Wir bräuchten Foto-Termine für 200 Mitarbeitende." },
+      { s:"out", t:"Alles klar, schicken Sie mir die Verfügbarkeiten?" },
+      { s:"in",  t:"Anbei eine Excel-Liste mit 200 Namen…" },
+      { s:"out", t:"Frau Meier kann doch nicht am Dienstag, neuer Vorschlag?" },
+      { s:"in",  t:"Können wir das per Telefon durchgehen?", meta:"Woche 2" },
+    ],
+    steps: [
+      { t:"Fotograf legt Zeitfenster fest, teilt einen Link" },
+      { t:"Jede:r Mitarbeitende bucht selbst einen Slot" },
+      { t:"Keine Excel-Listen, keine Rückfragen mehr" },
+    ],
+    beforeMetric: [ {b:"Wochen", s:"Koordination pro Grosskunde"}, {b:"200+", s:"Mails & Anrufe"} ],
+    afterMetric:  [ {b:"1 Link", s:"für den ganzen Betrieb"}, {b:"100%", s:"Self-Service"} ],
+    cap: "Ein Link, den hunderte Mitarbeitende selbst nutzen.",
+  },
+};
+
+const chat = document.getElementById("bk-chat");
+const steps = document.getElementById("bk-steps");
+const tabs = document.getElementById("bk-tabs");
+
+function metricHTML(arr){ return arr.map(m=>`<div class="m"><b>${m.b}</b><span>${m.s}</span></div>`).join(""); }
+
+function load(key){
+  const c = CASES[key];
+  document.getElementById("bk-h2").textContent = c.h2;
+  document.getElementById("bk-intro").textContent = c.intro;
+  document.getElementById("bk-before-title").textContent = c.beforeTitle;
+  document.getElementById("bk-after-title").textContent = c.afterTitle;
+  document.getElementById("bk-addr").textContent = c.addr;
+  document.getElementById("bk-cap").innerHTML = "<b>So sieht's aus:</b> " + c.cap;
+  document.getElementById("bk-tool-img").src = c.tool ? c.tool : calSvg(c.accent);
+
+  // Chat mit gestaffelter Animation neu aufbauen
+  chat.innerHTML = "";
+  c.chat.forEach((m,i)=>{
+    const el = document.createElement("div");
+    el.className = "bk-msg " + m.s;
+    el.style.animationDelay = (i*0.5)+"s";
+    el.innerHTML = m.t + (m.meta?`<span class="meta">${m.meta}</span>`:"");
+    chat.appendChild(el);
+  });
+  steps.innerHTML = c.steps.map((s,i)=>`<div class="bk-step"><span class="n">${i+1}</span><span>${s.t}</span></div>`).join("");
+  document.getElementById("bk-before-metric").innerHTML = metricHTML(c.beforeMetric);
+  document.getElementById("bk-after-metric").innerHTML = metricHTML(c.afterMetric);
+
+  [...tabs.children].forEach(b=>b.classList.toggle("on", b.dataset.k===key));
+}
+
+Object.keys(CASES).forEach(k=>{
+  const b = document.createElement("button");
+  b.textContent = CASES[k].label; b.dataset.k = k;
+  b.addEventListener("click", ()=>load(k));
+  tabs.appendChild(b);
+});
+load("web");
+</script>
+</body>
+</html>

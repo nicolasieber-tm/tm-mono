@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Testimonials — Design-Werkstatt · Trending Media</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* =================================================================
+   STANDALONE DESIGN-WERKSTATT — Testimonials / Kundenstimmen
+   -----------------------------------------------------------------
+   Diese Datei ist NICHT live. Sie dient zum Designen der Section,
+   bevor sie in die React-Apps (tm / sichtbarkeit / auron) wandert.
+   Sie kopiert den "Vivid"-Skin aus apple-home.css inline, damit sie
+   ohne Build im Browser geoeffnet werden kann (Doppelklick reicht).
+   Einbau-Anleitung + Datenmodell: siehe testimonials.md
+   ================================================================= */
+
+/* ---- Vivid-Skin (1:1 aus apple-home.css) ---- */
+:root, .ap-vivid {
+  --bg:#fdfbf8; --bg-alt:#fff; --fg:#1b1a1e;
+  --muted:rgba(27,26,30,.6); --muted2:rgba(27,26,30,.45);
+  --accent:#2b9fd6; --accent-fg:#fff; --border:rgba(0,0,0,.07);
+  --card:#fff; --cardAlt:#fdfbf8;
+  --shadow:0 1px 2px rgba(60,40,20,.05), 0 20px 44px -24px rgba(120,80,40,.2);
+  --shadowH:0 30px 64px -28px rgba(120,80,40,.32);
+  --grad:linear-gradient(105deg,#ff9a3c,#ff6a2c 24%,#8b5cf6 58%,#2f9fd6 88%,#6cc6f5);
+  --chipBg:rgba(27,26,30,.06); --chipFg:rgba(27,26,30,.6);
+  /* Produkt-Akzente (decken sich mit den Apps) */
+  --c-web:#8b5cf6; --c-auron:#ff7a3c; --c-auto:#2b9fd6;
+  --g-web:linear-gradient(135deg,#9d6bff,#7b3fe4);
+  --g-auron:linear-gradient(135deg,#ff9a3c,#ff5e2c);
+  --g-auto:linear-gradient(135deg,#3bb0e6,#1f7fc0);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--fg);
+  font-family:"Inter",-apple-system,system-ui,sans-serif; letter-spacing:-.01em;
+  -webkit-font-smoothing:antialiased; }
+.ap a { color:inherit; text-decoration:none; }
+.wrap { max-width:1040px; margin:0 auto; padding:0 24px; }
+
+/* Werkstatt-Banner (nur hier, fliegt beim Einbau raus) */
+.lab-bar { background:#1b1a1e; color:#fff; font-size:.82rem; padding:10px 24px;
+  text-align:center; letter-spacing:0; }
+.lab-bar b { color:#ff9a3c; }
+.lab-toggle { max-width:1040px; margin:28px auto 0; padding:0 24px; display:flex;
+  gap:10px; align-items:center; flex-wrap:wrap; font-size:.85rem; color:var(--muted); }
+.lab-toggle button { font:inherit; font-size:.8rem; cursor:pointer; border:1px solid var(--border);
+  background:#fff; color:var(--fg); padding:7px 14px; border-radius:980px; transition:.2s; }
+.lab-toggle button.on { background:#1b1a1e; color:#fff; border-color:#1b1a1e; }
+
+/* ---- Section-Grundgeruest (aus dem System) ---- */
+.ap-sec { padding:100px 0; }
+.ap-sec.alt { background:var(--bg-alt); }
+.ap-shead { text-align:center; max-width:740px; margin:0 auto 50px; }
+.ap-shead .kick { font-size:.95rem; font-weight:600; margin-bottom:12px;
+  background:var(--grad); -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:transparent; }
+.ap-shead h2 { font-size:clamp(2rem,4.6vw,3.4rem); line-height:1.08; letter-spacing:-.03em; font-weight:700; }
+.ap-shead .intro { margin-top:18px; font-size:1.2rem; line-height:1.5; color:var(--muted); }
+
+/* ---- Filter-Pills (nur auf der TM-Hauptseite noetig) ---- */
+.t-filter { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin:0 auto 46px; }
+.t-filter button { font:inherit; font-size:.85rem; font-weight:500; cursor:pointer;
+  padding:9px 18px; border-radius:980px; border:1px solid var(--border);
+  background:#fff; color:var(--muted); transition:transform .2s, color .2s, border-color .2s, box-shadow .2s; }
+.t-filter button:hover { color:var(--fg); transform:translateY(-1px); }
+.t-filter button.on { color:var(--fg); border-color:transparent; box-shadow:var(--shadow);
+  position:relative; }
+.t-filter button.on::before { content:""; position:absolute; inset:0; border-radius:inherit;
+  padding:1.5px; background:var(--grad);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
+
+/* ---- Testimonial-Grid ---- */
+.t-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+@media (max-width:760px) { .t-grid { grid-template-columns:1fr; } }
+
+/* ---- Testimonial-Card ---- */
+.t-card { position:relative; background:var(--card); border:1px solid var(--border);
+  border-radius:22px; padding:32px; box-shadow:var(--shadow);
+  display:flex; flex-direction:column;
+  transition:transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s; }
+.ap-sec.alt .t-card { background:var(--cardAlt); }
+.t-card:hover { transform:translateY(-4px); box-shadow:var(--shadowH); }
+/* feiner farbiger Faden oben, je nach Produkt */
+.t-card::after { content:""; position:absolute; left:32px; right:32px; top:0; height:3px;
+  border-radius:0 0 3px 3px; background:var(--card-grad,var(--grad)); opacity:.9; }
+.t-card[data-product="web"]    { --card-accent:var(--c-web);   --card-grad:var(--g-web); }
+.t-card[data-product="auron"]  { --card-accent:var(--c-auron); --card-grad:var(--g-auron); }
+.t-card[data-product="auto"]   { --card-accent:var(--c-auto);  --card-grad:var(--g-auto); }
+
+/* Featured (breit) — z.B. das staerkste Testimonial */
+.t-card.featured { grid-column:1/-1; }
+@media (min-width:761px) {
+  .t-card.featured { display:grid; grid-template-columns:1.3fr .9fr; gap:36px; align-items:center; padding:40px; }
+  .t-card.featured .t-foot { margin-top:22px; }
+}
+
+.t-head { display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+.t-quotemark { font-family:Georgia,serif; font-size:2.3rem; line-height:.7; font-weight:700;
+  background:var(--card-grad,var(--grad)); -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:transparent; }
+.t-tag { font-size:.78rem; font-weight:600; color:var(--card-accent,var(--accent));
+  text-transform:uppercase; letter-spacing:.04em; }
+
+.t-quote { font-size:1.08rem; line-height:1.6; letter-spacing:-.01em; color:var(--fg); font-weight:400; }
+.t-card.featured .t-quote { font-size:1.25rem; line-height:1.55; letter-spacing:-.015em; font-weight:400; }
+.t-quote .hl { background:var(--card-grad,var(--grad)); -webkit-background-clip:text;
+  background-clip:text; -webkit-text-fill-color:transparent; color:transparent; font-weight:600; }
+
+/* Vorher -> Heute Story-Element */
+.t-ba { margin-top:22px; display:flex; align-items:stretch; gap:12px; }
+.t-ba .col { flex:1; background:var(--bg); border:1px solid var(--border); border-radius:14px;
+  padding:14px 16px; }
+.ap-sec:not(.alt) .t-ba .col { background:var(--bg-alt); }
+.t-ba .col .k { font-size:.7rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--muted2); display:block; margin-bottom:5px; }
+.t-ba .col .v { font-size:.95rem; line-height:1.35; color:var(--fg); font-weight:500; }
+.t-ba .col.after .v { color:var(--card-accent,var(--accent)); }
+.t-ba .arrow { align-self:center; color:var(--card-accent,var(--accent)); font-size:1.2rem; flex:none; }
+@media (max-width:420px) { .t-ba { flex-direction:column; } .t-ba .arrow { transform:rotate(90deg); } }
+
+/* Highlight-Metrik (optional, statt/zusaetzlich zu Vorher-Heute) */
+.t-metric { margin-top:20px; display:flex; align-items:baseline; gap:10px; }
+.t-metric b { font-size:1.8rem; font-weight:700; letter-spacing:-.02em;
+  background:var(--card-grad,var(--grad)); -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:transparent; }
+.t-metric span { font-size:.85rem; color:var(--muted2); }
+
+/* Footer: Avatar + Name */
+.t-brand { margin-top:auto; padding-top:22px; }
+.t-brand a { display:inline-block; transition:opacity .2s, transform .2s; }
+.t-brand a:hover { opacity:1; transform:translateY(-1px); }
+.t-brand a .t-logo { opacity:.78; transition:opacity .2s; }
+.t-brand a:hover .t-logo { opacity:1; }
+.t-foot { margin-top:auto; padding-top:22px; display:flex; align-items:center; gap:13px; }
+.t-brand + .t-foot { margin-top:16px; padding-top:0; }
+.t-card .t-body { display:flex; flex-direction:column; }
+.t-avatar { width:46px; height:46px; border-radius:50%; flex:none; object-fit:cover;
+  display:grid; place-items:center; font-weight:600; font-size:1rem; color:#fff;
+  background:var(--card-grad,var(--grad)); }
+.t-who { display:flex; flex-direction:column; line-height:1.3; }
+.t-who .name { font-size:.98rem; font-weight:600; color:var(--fg); }
+.t-who .role { font-size:.83rem; color:var(--muted); }
+.t-logo { display:block; height:44px; width:auto; max-width:100%; object-fit:contain; object-position:left center; opacity:.9; }
+.t-card.featured .t-logo { height:52px; }
+
+/* Demo-Badge — kennzeichnet Platzhalter, die vor dem Go-Live raus muessen */
+.t-demo { position:absolute; top:14px; right:16px; font-size:.62rem; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; color:#b4541a; background:#ffedd9;
+  border:1px solid #ffd6a8; padding:3px 8px; border-radius:980px; }
+body.hide-demo .t-card.is-demo { display:none; }
+body.hide-demo .t-demo { display:none; }
+
+.empty-note { text-align:center; color:var(--muted2); font-size:.9rem; padding:40px 0; display:none; }
+</style>
+</head>
+<body class="ap ap-vivid">
+
+<div class="lab-bar">🎨 <b>Design-Werkstatt</b> — nicht live. Hier wird die Testimonial-Section gestaltet, bevor sie in die echten Seiten wandert. Siehe <b>testimonials.md</b> für Datenmodell &amp; Einbau.</div>
+
+<div class="lab-toggle">
+  <span>Werkstatt-Schalter:</span>
+  <button id="tgl-demo" class="on">Demo-Einträge anzeigen</button>
+  <button id="tgl-alt">Sektion-Hintergrund: hell/weiss</button>
+  <span style="margin-left:auto">↓ Die Filter-Pills sind nur für die TM-Hauptseite (zeigt alle). Unterseiten werden vorgefiltert ausgeliefert.</span>
+</div>
+
+<section class="ap-sec" id="testimonials">
+  <div class="wrap">
+    <div class="ap-shead">
+      <div class="kick">Kundenstimmen</div>
+      <h2>Was sich für unsere Kunden verändert hat.</h2>
+      <p class="intro">Keine Hochglanz-Versprechen, sondern Stimmen aus dem Alltag: vorher, nachher und was dazwischen passiert ist.</p>
+    </div>
+
+    <!-- Filter: nur TM-Hauptseite. Auf Unterseiten weglassen. -->
+    <div class="t-filter" id="t-filter">
+      <button class="on" data-f="all">Alle</button>
+      <button data-f="web">Webseiten</button>
+      <button data-f="auron">Auron</button>
+      <button data-f="auto">Automatisierung</button>
+    </div>
+
+    <div class="t-grid" id="t-grid"><!-- per JS gerendert --></div>
+    <div class="empty-note" id="empty-note">Noch keine Testimonials in dieser Kategorie.</div>
+  </div>
+</section>
+
+<script>
+/* =================================================================
+   DATEN — single source of truth fuer die Werkstatt.
+   Beim Einbau wandert diese Struktur 1:1 in eine testimonials.ts
+   (siehe testimonials.md). Felder:
+     product : "web" | "auron" | "auto"   (steuert Farbe + Filter)
+     quote   : das Zitat. <span class="hl">..</span> hebt eine Phrase hervor.
+     before/after : optionale Vorher->Heute-Story (kurz halten!)
+     metric  : optionale Kennzahl { value, label }
+     name, role, company : Person
+     photo   : optionales Personenfoto (runder Avatar; sonst Initialen)
+     logo    : optionales Firmenlogo (erscheint oberhalb des Personenblocks)
+     website : optionaler Link; macht das Logo klickbar (target=_blank)
+     featured: true -> breite Karte (max. 1 empfohlen)
+     real    : true = echtes, freigegebenes Testimonial
+               false = DEMO/Platzhalter (traegt Badge, vor Go-Live raus)
+   ================================================================= */
+const TESTIMONIALS = [
+  /* ---- ECHT: Mehmet, Verkehrsschule Mittelland (Webseite) — Freigabe Name + Logo erteilt ---- */
+  {
+    product: "web", real: true,
+    quote: "Die Seite wirkt heute <span class=\"hl\">viel professioneller und moderner</span> als vorher und das Feedback von Kunden ist durchwegs positiv. Sie wirkt vertrauenswürdiger und hat einen positiven Einfluss auf meine Sichtbarkeit und die Anfragen. Wer Wert auf eine unkomplizierte Zusammenarbeit legt, ist hier in guten Händen.",
+    before: "Auftritt wirkte in die Jahre gekommen", after: "Modern, professionell, vertrauenswürdig",
+    name: "Mehmet", role: "Inhaber, Verkehrsschule Mittelland", company: "Verkehrsschule Mittelland",
+    photo: "/referenz_mehmet_bild.jpeg",
+    logo: "/referenz_verkehrsschule-mittelland_logo.png",
+    website: "https://www.verkehrsschule-mittelland.ch/",
+  },
+
+  /* ---- ECHT: Beat Gerber, Kohler Elektro Bern AG (Automatisierung) — Freigabe Name + Firma noch bestaetigen ----
+     Zitat fuers Card gekuerzt. Vollstaendiger Originalwortlaut (fuer spaetere Detail-/Langdarstellung):
+
+     "Frueher habe ich meine E-Mails und die dafuer aufgewendete Zeit manuell den jeweiligen Projekten
+      zugeordnet. Das war zeitaufwendig, unuebersichtlich und am Ende oft nur eine Schaetzung. Dadurch gingen
+      regelmaessig verrechenbare Leistungen verloren.
+      Trending Media hat fuer mich eine Automation entwickelt, welche die Projektnummer direkt aus meinen
+      E-Mails erkennt und die entsprechende Zeit automatisch rapportiert. Seitdem wird jede relevante E-Mail
+      zuverlaessig dem richtigen Projekt zugeordnet, ohne dass ich selbst daran denken oder etwas nachtragen muss.
+      Die Loesung spart mir nicht nur administrativen Aufwand, sondern sorgt auch dafuer, dass keine geleistete
+      Arbeit mehr vergessen wird. Dadurch kann ich monatlich zusaetzliche Leistungen im Wert von rund CHF 2'000
+      bis CHF 3'000 korrekt verrechnen. Die Automation hat sich fuer mich deshalb bereits nach kurzer Zeit
+      deutlich bezahlt gemacht.
+      Die Zusammenarbeit mit Trending Media war unkompliziert, persoenlich und sehr loesungsorientiert. Fragen
+      wurden schnell beantwortet und meine Idee wurde in kurzer Zeit in eine zuverlaessige, praxistaugliche
+      Loesung umgesetzt."  — Beat Gerber, Geschaeftsfuehrer Kohler Elektro Bern AG
+  */
+  {
+    product: "auto", real: true,
+    quote: "Trending Media hat eine Automation entwickelt, die die Projektnummer direkt aus meinen E-Mails erkennt und die Zeit automatisch rapportiert. Jede relevante E-Mail wird zuverlässig dem richtigen Projekt zugeordnet, ohne dass ich selbst daran denken muss. <span class=\"hl\">So verrechne ich monatlich rund CHF 2'000 bis 3'000 zusätzlich</span>, Leistungen, die vorher schlicht verloren gingen.",
+    before: "Zeiten von Hand zugeordnet, oft geschätzt", after: "Automatisch dem richtigen Projekt rapportiert",
+    metric: { value: "CHF 2–3k", label: "mehr verrechnet pro Monat" },
+    name: "Beat Gerber", role: "Geschäftsführer, Kohler Elektro Bern AG", company: "Kohler Elektro Bern AG",
+    photo: "/beatgerber_kundenstimme.jpg",
+  },
+
+  /* ---- DEMO: zeigen nur, wie es mit mehr Stimmen aussieht. Vor Go-Live loeschen. ---- */
+  {
+    product: "web", real: false,
+    quote: "Endlich eine Seite, die ich herzeigen kann. Schon im <span class=\"hl\">ersten Monat</span> kamen drei Anfragen über das Formular, das gab es vorher schlicht nicht.",
+    before: "Anfragen nur über Mundpropaganda", after: "Wöchentlich Anfragen über die Seite",
+    name: "Demo Kunde", role: "Inhaber, Beispiel GmbH",
+  },
+  {
+    product: "auron", real: false,
+    quote: "Die Stunden wurden früher am Freitagabend aus dem Kopf zusammengesucht. Heute tippt das jeder Monteur <span class=\"hl\">in zehn Sekunden</span> auf der Baustelle ein.",
+    before: "Zettel & Excel, oft vergessen", after: "Erfasst direkt vor Ort",
+    metric: { value: "~5 h", label: "weniger Büro pro Woche" },
+    name: "Demo Handwerker", role: "Geschäftsführer, Muster Bau AG",
+  },
+  {
+    product: "auto", real: false,
+    quote: "Wir haben jede Rechnung dreimal abgetippt. Diese Doppelarbeit ist komplett weg, die Daten fliessen jetzt automatisch durch.",
+    before: "3× dieselbe Eingabe", after: "Ein Mal, dann automatisch",
+    metric: { value: "12 h", label: "gespart pro Woche" },
+    name: "Demo Kundin", role: "Leiterin Administration, Beispiel AG",
+  },
+  {
+    product: "auto", real: false,
+    quote: "Was mich überrascht hat: nicht das Tool, sondern dass am Ende wirklich <span class=\"hl\">weniger Aufwand</span> übrig blieb statt mehr.",
+    name: "Demo Kunde", role: "Inhaber, Test KMU",
+  },
+];
+
+/* ---- Rendering ---- */
+const PRODUCT_LABEL = { web:"Webseite", auron:"Auron", auto:"Automatisierung" };
+
+function initials(name){ return name.split(" ").filter(Boolean).slice(0,2).map(w=>w[0]).join("").toUpperCase(); }
+
+function card(t){
+  const el = document.createElement("article");
+  el.className = "t-card" + (t.featured ? " featured" : "") + (t.real ? "" : " is-demo");
+  el.dataset.product = t.product;
+
+  const ba = (t.before || t.after) ? `
+    <div class="t-ba">
+      <div class="col before"><span class="k">Vorher</span><span class="v">${t.before||""}</span></div>
+      <span class="arrow">→</span>
+      <div class="col after"><span class="k">Heute</span><span class="v">${t.after||""}</span></div>
+    </div>` : "";
+
+  const metric = t.metric ? `
+    <div class="t-metric"><b>${t.metric.value}</b><span>${t.metric.label}</span></div>` : "";
+
+  const avatar = t.photo
+    ? `<img class="t-avatar" src="${t.photo}" alt="${t.name}" />`
+    : `<div class="t-avatar">${initials(t.name)}</div>`;
+
+  const logoImg = t.logo ? `<img class="t-logo" src="${t.logo}" alt="${t.company||t.name}" />` : "";
+  const brand = t.logo
+    ? `<div class="t-brand">${t.website
+        ? `<a href="${t.website}" target="_blank" rel="noopener" aria-label="${t.company||t.name}">${logoImg}</a>`
+        : logoImg}</div>`
+    : "";
+  const foot = `
+    ${brand}
+    <div class="t-foot">
+      ${avatar}
+      <div class="t-who"><span class="name">${t.name}</span><span class="role">${t.role||""}</span></div>
+    </div>`;
+
+  const demo = t.real ? "" : `<span class="t-demo">Demo</span>`;
+
+  const body = `
+    <div class="t-head">
+      <span class="t-quotemark">&ldquo;</span>
+      <span class="t-tag">${PRODUCT_LABEL[t.product]||""}</span>
+    </div>
+    <p class="t-quote">${t.quote}</p>
+    ${ba}${metric}`;
+
+  el.innerHTML = t.featured
+    ? `${demo}<div class="t-body">${body}</div><div>${foot}</div>`
+    : `${demo}${body}${foot}`;
+  return el;
+}
+
+const grid = document.getElementById("t-grid");
+const emptyNote = document.getElementById("empty-note");
+let activeFilter = "all";
+
+function render(){
+  grid.innerHTML = "";
+  const hideDemo = document.body.classList.contains("hide-demo");
+  const list = TESTIMONIALS.filter(t =>
+    (activeFilter === "all" || t.product === activeFilter) && (!hideDemo || t.real)
+  );
+  list.forEach(t => grid.appendChild(card(t)));
+  emptyNote.style.display = list.length ? "none" : "block";
+}
+
+/* Filter */
+document.getElementById("t-filter").addEventListener("click", e => {
+  const b = e.target.closest("button"); if(!b) return;
+  document.querySelectorAll("#t-filter button").forEach(x=>x.classList.remove("on"));
+  b.classList.add("on"); activeFilter = b.dataset.f; render();
+});
+
+/* Werkstatt-Schalter */
+document.getElementById("tgl-demo").addEventListener("click", e => {
+  document.body.classList.toggle("hide-demo");
+  e.target.classList.toggle("on");
+  e.target.textContent = document.body.classList.contains("hide-demo")
+    ? "Demo-Einträge ausgeblendet" : "Demo-Einträge anzeigen";
+  render();
+});
+document.getElementById("tgl-alt").addEventListener("click", e => {
+  document.getElementById("testimonials").classList.toggle("alt");
+  e.target.classList.toggle("on");
+});
+
+render();
+</script>
+</body>
+</html>

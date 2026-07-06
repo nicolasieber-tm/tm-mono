@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vorher → Nachher — Design-Werkstatt · Sichtbarkeit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* =================================================================
+   STANDALONE DESIGN-WERKSTATT — Vorher → Nachher (Website-Vergleich)
+   -----------------------------------------------------------------
+   Fuer die SICHTBARKEIT-Seite (Web-Produkt, violetter Akzent). NICHT live.
+
+   3 Sektionen (Startseite / Angebote / Über uns) als Tabs. Pro Sektion
+   ein 16:9-Vergleich: Trennlinie ziehen (Maus/Finger) oder Regler/Pfeiltasten.
+
+   Bilder liegen in apps/sichtbarkeit/public (= finaler Ort). Vorschau ueber
+   Server-Root dort (Port 8778). Siehe testimonials.md, "Modul 2".
+   ================================================================= */
+
+:root {
+  --bg:#fdfbf8; --bg-alt:#fff; --fg:#1b1a1e;
+  --muted:rgba(27,26,30,.6); --muted2:rgba(27,26,30,.45);
+  --accent:#8b5cf6; --border:rgba(0,0,0,.07);
+  --card:#fff;
+  --shadow:0 1px 2px rgba(60,40,20,.05), 0 20px 44px -24px rgba(80,40,140,.22);
+  --grad:linear-gradient(105deg,#b18bff,#8b5cf6 40%,#7b3fe4 70%,#5b8def);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--fg);
+  font-family:"Inter",-apple-system,system-ui,sans-serif; letter-spacing:-.01em;
+  -webkit-font-smoothing:antialiased; }
+a { color:inherit; text-decoration:none; }
+.wrap { max-width:1040px; margin:0 auto; padding:0 24px; }
+
+.lab-bar { background:#1b1a1e; color:#fff; font-size:.82rem; padding:10px 24px; text-align:center; }
+.lab-bar b { color:#b18bff; }
+
+.ap-sec { padding:100px 0; }
+.ap-shead { text-align:center; max-width:740px; margin:0 auto 40px; }
+.ap-shead .kick { font-size:.95rem; font-weight:600; margin-bottom:12px;
+  background:var(--grad); -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:transparent; }
+.ap-shead h2 { font-size:clamp(2rem,4.6vw,3.4rem); line-height:1.08; letter-spacing:-.03em; font-weight:700; }
+.ap-shead .intro { margin-top:18px; font-size:1.2rem; line-height:1.5; color:var(--muted); }
+
+/* ---- Tabs ---- */
+.ba-tabs { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin:0 auto 28px; }
+.ba-tabs button { font:inherit; font-size:.9rem; font-weight:500; cursor:pointer;
+  padding:10px 20px; border-radius:980px; border:1px solid var(--border);
+  background:#fff; color:var(--muted); transition:transform .2s, color .2s, box-shadow .2s; }
+.ba-tabs button:hover { color:var(--fg); transform:translateY(-1px); }
+.ba-tabs button.on { color:var(--fg); border-color:transparent; box-shadow:var(--shadow); position:relative; }
+.ba-tabs button.on::before { content:""; position:absolute; inset:0; border-radius:inherit; padding:1.5px;
+  background:var(--grad); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
+
+/* ---- Vergleichs-Karte ---- */
+.ba { max-width:960px; margin:0 auto; }
+.ba-card { background:var(--card); border:1px solid var(--border); border-radius:22px;
+  box-shadow:var(--shadow); overflow:hidden; }
+.ba-bar { display:flex; align-items:center; gap:7px; padding:13px 18px; border-bottom:1px solid var(--border); }
+.ba-bar i { width:11px; height:11px; border-radius:50%; background:rgba(0,0,0,.12); display:block; }
+.ba-bar .addr { margin-left:12px; font-size:.8rem; color:var(--muted2); background:var(--bg);
+  padding:5px 14px; border-radius:980px; border:1px solid var(--border); }
+
+.ba-compare { position:relative; aspect-ratio:16/9; overflow:hidden; cursor:ew-resize;
+  user-select:none; touch-action:none; background:#f0f0f0; }
+.ba-compare img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  display:block; pointer-events:none; -webkit-user-drag:none; }
+.ba-after { z-index:1; }
+.ba-before { position:absolute; inset:0; width:50%; overflow:hidden; z-index:2; }
+.ba-before-inner { position:absolute; inset:0; width:960px; height:100%; }   /* = Karten-Breite, per JS */
+.ba-before-inner img { width:100%; }
+
+.ba-label { position:absolute; top:16px; z-index:4; font-size:.72rem; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; padding:6px 12px; border-radius:980px;
+  background:rgba(27,26,30,.72); color:#fff; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); pointer-events:none; }
+.ba-label.before { left:16px; }
+.ba-label.after { right:16px; }
+
+.ba-handle { position:absolute; top:0; bottom:0; width:3px; z-index:5; background:#fff;
+  transform:translateX(-50%); box-shadow:0 0 0 1px rgba(0,0,0,.08); pointer-events:none; }
+.ba-handle .grip { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:46px; height:46px; border-radius:50%; background:#fff; box-shadow:0 6px 20px -6px rgba(0,0,0,.45);
+  display:grid; place-items:center; color:var(--accent); }
+.ba-handle .grip svg { width:24px; height:24px; }
+
+.ba-ctrl { display:flex; align-items:center; gap:14px; padding:16px 18px; border-top:1px solid var(--border); }
+.ba-ctrl span { font-size:.78rem; font-weight:600; color:var(--muted2); white-space:nowrap; }
+.ba-range { flex:1; -webkit-appearance:none; appearance:none; height:4px; border-radius:980px;
+  background:linear-gradient(90deg,rgba(27,26,30,.25),rgba(139,92,246,.55)); outline:none; }
+.ba-range::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; border-radius:50%;
+  background:#fff; border:2px solid var(--accent); box-shadow:0 2px 8px -2px rgba(0,0,0,.4); cursor:pointer; }
+.ba-range::-moz-range-thumb { width:20px; height:20px; border-radius:50%; background:#fff;
+  border:2px solid var(--accent); cursor:pointer; }
+
+.ba-cap { margin-top:18px; text-align:center; font-size:.9rem; color:var(--muted); }
+.ba-cap b { color:var(--fg); font-weight:600; }
+.ba-hint { margin-top:8px; text-align:center; font-size:.82rem; color:var(--muted2); }
+</style>
+</head>
+<body>
+
+<div class="lab-bar">🎨 <b>Design-Werkstatt</b> — Vorher→Nachher, 3 Sektionen (Tabs). Echte Screenshots aus apps/sichtbarkeit/public.</div>
+
+<section class="ap-sec">
+  <div class="wrap">
+    <div class="ap-shead">
+      <div class="kick">Vorher → Nachher</div>
+      <h2>Der Unterschied auf einen Blick.</h2>
+      <p class="intro">Ziehen Sie die Trennlinie und wechseln Sie zwischen den Bereichen, um zu sehen, was sich verändert hat.</p>
+    </div>
+
+    <div class="ba-tabs" id="ba-tabs"><!-- per JS --></div>
+
+    <div class="ba">
+      <div class="ba-card">
+        <div class="ba-bar">
+          <i></i><i></i><i></i>
+          <span class="addr">verkehrsschule-mittelland.ch</span>
+        </div>
+        <div class="ba-compare" id="ba-compare">
+          <img class="ba-after" id="ba-after-img" alt="Nachher" />
+          <div class="ba-before" id="ba-before">
+            <div class="ba-before-inner" id="ba-before-inner">
+              <img id="ba-before-img" alt="Vorher" />
+            </div>
+          </div>
+          <span class="ba-label before">Vorher</span>
+          <span class="ba-label after">Nachher</span>
+          <div class="ba-handle" id="ba-handle">
+            <span class="grip" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 8 12 13 7"/><polyline points="18 17 13 12 18 7"/></svg>
+            </span>
+          </div>
+        </div>
+        <div class="ba-ctrl">
+          <span>← Vorher</span>
+          <input class="ba-range" id="ba-range" type="range" min="0" max="100" value="50" aria-label="Vergleich Vorher/Nachher" />
+          <span>Nachher →</span>
+        </div>
+      </div>
+      <p class="ba-cap"><b>Verkehrsschule Mittelland</b> — komplett neu aufgebaut</p>
+      <p class="ba-hint">Trennlinie ziehen · oben Bereich wechseln · Regler unten für Tastatur</p>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ---- Sektionen: echte Screenshots (apps/sichtbarkeit/public, public-Root) ---- */
+const SECTIONS = [
+  { key:"hero",     label:"Startseite", before:"/referenz_verkehrsschule_hero_vorher.jpg",     after:"/referenz_verkehrsschule_hero_nachher.jpg" },
+  { key:"angebote", label:"Angebote",   before:"/referenz_verkehrsschule_angebote_vorher.jpg", after:"/referenz_verkehrsschule_angebote_nachher.jpg" },
+  { key:"ueberuns", label:"Über uns",   before:"/referenz_verkehrsschule_ueberuns_vorher.jpg", after:"/referenz_verkehrsschule_ueberuns_nachher.jpg" },
+];
+
+const compare = document.getElementById("ba-compare");
+const before = document.getElementById("ba-before");
+const beforeInner = document.getElementById("ba-before-inner");
+const beforeImg = document.getElementById("ba-before-img");
+const afterImg = document.getElementById("ba-after-img");
+const handle = document.getElementById("ba-handle");
+const range = document.getElementById("ba-range");
+const tabs = document.getElementById("ba-tabs");
+
+let active = 0;
+
+function loadSection(i){
+  active = i;
+  beforeImg.src = SECTIONS[i].before;
+  afterImg.src = SECTIONS[i].after;
+  [...tabs.children].forEach((b, k) => b.classList.toggle("on", k === i));
+}
+function syncWidth(){ beforeInner.style.width = compare.clientWidth + "px"; }
+function setPos(p){
+  p = Math.max(0, Math.min(100, p));
+  before.style.width = p + "%";
+  handle.style.left = p + "%";
+  range.value = p;
+}
+
+/* Tabs aufbauen */
+SECTIONS.forEach((s, i) => {
+  const b = document.createElement("button");
+  b.textContent = s.label;
+  b.addEventListener("click", () => loadSection(i));
+  tabs.appendChild(b);
+});
+
+/* Drag ueberall auf dem Bild (kein Scroll noetig) */
+let dragging = false;
+function posFromX(clientX){
+  const r = compare.getBoundingClientRect();
+  return ((clientX - r.left) / r.width) * 100;
+}
+compare.addEventListener("pointerdown", e => { dragging = true; compare.setPointerCapture(e.pointerId); setPos(posFromX(e.clientX)); });
+compare.addEventListener("pointermove", e => { if (dragging) setPos(posFromX(e.clientX)); });
+compare.addEventListener("pointerup", () => { dragging = false; });
+range.addEventListener("input", () => setPos(+range.value));
+
+window.addEventListener("resize", syncWidth);
+syncWidth();
+loadSection(0);
+setPos(50);
+</script>
+</body>
+</html>
