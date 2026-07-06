@@ -23,6 +23,7 @@ declare global {
   interface Window {
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
+    fbq?: (...args: unknown[]) => void;
   }
 }
 
@@ -82,4 +83,14 @@ export const track = (event: string, params: Record<string, unknown> = {}) => {
   if (!isTopWindow()) return;
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event, ...params });
+};
+
+/**
+ * Meta-Pixel-Event senden (nur im obersten Fenster). Der Pixel selbst wird in
+ * index.html geladen und feuert – wie der PageView – unabhängig vom Cookie-Banner;
+ * hier wird lediglich ein Standard-/Custom-Event nachgeschoben (z. B. „Lead").
+ */
+export const trackMeta = (event: string, params: Record<string, unknown> = {}) => {
+  if (!isTopWindow() || typeof window.fbq !== "function") return;
+  window.fbq("track", event, params);
 };

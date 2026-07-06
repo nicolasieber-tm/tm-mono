@@ -181,7 +181,7 @@ const Datenschutz = () => (
 
         <section>
           <h2 className="mb-2 text-xl font-bold text-text-primary">
-            Cookies, Google Tag Manager und Google Analytics
+            Cookies, Google Tag Manager, Google Analytics und Meta-Pixel
           </h2>
           <p className="mb-4">
             Diese Website verwendet Cookies. Cookies sind kleine Textdateien, die auf Ihrem Gerät
@@ -255,6 +255,37 @@ const Datenschutz = () => (
               className="text-accent-deep hover:underline"
             >
               Datenschutzerklärung von Google
+            </a>
+            .
+          </p>
+
+          <h3 className="mb-2 mt-6 font-bold text-text-primary">Meta-Pixel (Facebook &amp; Instagram)</h3>
+          <p className="mb-4">
+            Diese Website verwendet den „Meta-Pixel", ein Angebot der Meta Platforms Ireland
+            Limited, 4 Grand Canal Square, Dublin 2, Irland. Mit dem Pixel messen wir die Wirksamkeit
+            unserer Werbeanzeigen auf Facebook und Instagram, indem das Verhalten von Besucherinnen
+            und Besuchern statistisch erfasst wird, nachdem diese auf eine Werbeanzeige geklickt
+            haben. So können wir unsere Werbemassnahmen auswerten und für die Zukunft verbessern.
+          </p>
+          <p className="mb-4">
+            Der Pixel registriert insbesondere den Aufruf unserer Seiten. Dabei kann das Cookie
+            „_fbp" gesetzt sowie Ihre IP-Adresse und technische Angaben zu Browser und Gerät an Meta
+            übermittelt werden. Eine direkte Identifizierung Ihrer Person ist dabei nicht
+            beabsichtigt.
+          </p>
+          <p>
+            Anbieter ist die Meta Platforms Ireland Limited; dabei können Daten an die Meta
+            Platforms, Inc. in den USA übermittelt werden. Diese Übermittlung erfolgt auf Grundlage
+            geeigneter Garantien, insbesondere der Standardvertragsklauseln der EU-Kommission sowie –
+            soweit anwendbar – des EU-US Data Privacy Framework. Weitere Informationen finden Sie in
+            der{" "}
+            <a
+              href="https://www.facebook.com/privacy/policy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent-deep hover:underline"
+            >
+              Datenschutzrichtlinie von Meta
             </a>
             .
           </p>
