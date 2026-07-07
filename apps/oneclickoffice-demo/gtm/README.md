@@ -15,7 +15,7 @@ GTM-/GA4-Konfiguration.
 - **Lead-Funnel** (Frage-Wizard im Anfrage-Formular): `lead_start`, `lead_step` (`lead_question`, `lead_answer`), `lead_submit` (Conversion).
 - Pro Event ein **Custom-Event-Trigger** (CE – …) + GA4-Event-Tag.
 - **Data-Layer-Variablen** (DLV – …) für alle Event-Parameter.
-- **Const – GA4 Measurement ID**: zentrale Konstante mit Platzhalter `G-XXXXXXXXXX`.
+- **Const – GA4 Measurement ID**: zentrale Konstante, gesetzt auf die echte GA4-ID `G-ZMMK9VSFQT` (Live-Container). Alle GA4-Tags referenzieren sie.
 
 ### Funnel-Übersicht
 `page_view` → `cta_click` → `demo_start` → `demo_step`/`demo_complete`/`demo_abandon` → `lead_start` → `lead_step` → `lead_submit`
@@ -29,11 +29,9 @@ GTM-/GA4-Konfiguration.
 5. **Vorschau der Änderungen** prüfen → **Bestätigen**.
 
 ## Danach unbedingt erledigen
-1. **Measurement-ID eintragen:** Variablen → **Const – GA4 Measurement ID** →
-   Platzhalter `G-XXXXXXXXXX` durch deine echte GA4-ID ersetzen. (Damit ziehen
-   alle fünf Tags automatisch die richtige ID.)
-   *Alternativ* vor dem Import in der JSON per Suchen/Ersetzen `G-XXXXXXXXXX`
-   durch die echte ID ersetzen.
+1. **Measurement-ID prüfen:** Variablen → **Const – GA4 Measurement ID** muss
+   `G-ZMMK9VSFQT` sein (die echte Live-ID, in dieser JSON bereits eingetragen).
+   Damit ziehen alle GA4-Tags automatisch die richtige ID.
 2. **Veröffentlichen** (Submit → Version veröffentlichen).
 
 ## GA4-Seite (einmalig, in GA4 – nicht in GTM)
@@ -53,13 +51,18 @@ GTM-/GA4-Konfiguration.
 > Pageview aus – die Conversion misst du daher über `lead_submit` (zuverlässiger).
 
 ## Consent Mode v2
-- Standard ist **alles „denied"** (gesetzt in `index.html`, vor dem GTM-Load).
-- Bis zur Einwilligung sendet GA4 nur **cookielose, modellierte Pings**
-  (Traffic bleibt sichtbar, ohne Cookies).
-- „Akzeptieren" im Banner ruft `consent: update → granted` auf (siehe
-  `src/lib/analytics.ts → setConsent`), „Ablehnen" bleibt auf „denied".
+- Standard: **`analytics_storage` = „granted"**, alle **Werbe-Signale (`ad_*`) =
+  „denied"** (gesetzt in `index.html`, vor dem GTM-Load). GA4-Reichweitenmessung
+  läuft damit als **Opt-out** – gezählt wird jeder, der nicht aktiv widerspricht.
+- „Akzeptieren" im Banner ruft `consent: update → granted` (alles) auf,
+  „Ablehnen" setzt **alles auf „denied"** (inkl. Analytics) – siehe
+  `src/lib/analytics.ts → setConsent`.
 - Die GA4-Tags haben die eingebauten Consent-Prüfungen (`analytics_storage`)
   automatisch – es sind keine zusätzlichen Consent-Einstellungen nötig.
+- **Rechtlicher Hinweis:** Opt-out-Analytics ist in der Schweiz (revDSG) für reine
+  Reichweitenmessung meist vertretbar (Datenschutzerklärung + Widerspruchsmöglichkeit).
+  Bei relevantem EU-Traffic (DSGVO) ggf. auf Opt-in (`analytics_storage: 'denied'`)
+  zurückstellen.
 
 ## Funktioniert ein Tag-Import mal nicht?
 Variablen und Trigger importieren immer zuverlässig. Sollte GTM bei einem

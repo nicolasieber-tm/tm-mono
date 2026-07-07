@@ -187,8 +187,11 @@ const Datenschutz = () => (
             Diese Website verwendet Cookies. Cookies sind kleine Textdateien, die auf Ihrem Gerät
             gespeichert werden, um die Website funktionsfähig zu halten sowie deren Nutzung
             statistisch auszuwerten. Wir unterscheiden technisch notwendige Cookies, die für den
-            Betrieb erforderlich sind, sowie Statistik-Cookies, die der Reichweitenmessung dienen
-            und ausschliesslich mit Ihrer Einwilligung gesetzt werden.
+            Betrieb erforderlich sind, sowie Statistik-Cookies, die der anonymen Reichweitenmessung
+            dienen. Diese setzen wir auf Grundlage unseres berechtigten Interesses an einer
+            bedarfsgerechten Gestaltung unserer Website; Sie können der Reichweitenmessung jederzeit
+            mit Wirkung für die Zukunft widersprechen (siehe Abschnitt „Einwilligung, Widerspruch
+            und Consent Mode").
           </p>
 
           <h3 className="mb-2 mt-6 font-bold text-text-primary">Google Tag Manager</h3>
@@ -197,15 +200,16 @@ const Datenschutz = () => (
             Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Der Google Tag Manager
             ist ein organisatorisches Werkzeug, mit dem wir Mess- und Analyse-Tags verwalten und
             ausspielen. Der Tag Manager selbst setzt keine Analyse-Cookies und speichert keine
-            personenbezogenen Daten; er sorgt lediglich für das Laden der nachfolgend beschriebenen
-            Dienste – und zwar erst gemäss Ihrer Einwilligung.
+            personenbezogenen Daten; er sorgt lediglich für das Laden und Steuern der nachfolgend
+            beschriebenen Dienste – und zwar gemäss Ihren Datenschutz-Einstellungen (siehe Consent
+            Mode weiter unten).
           </p>
 
           <h3 className="mb-2 mt-6 font-bold text-text-primary">Google Analytics 4</h3>
           <p className="mb-4">
             Zur Reichweitenmessung setzen wir Google Analytics 4 (GA4) ein, einen Dienst der Google
-            Ireland Limited. Mit Ihrer Einwilligung werden dabei Cookies gesetzt und unter anderem
-            folgende Daten verarbeitet:
+            Ireland Limited. Zur anonymen Reichweitenmessung werden dabei Cookies gesetzt und unter
+            anderem folgende Daten verarbeitet:
           </p>
           <ul className="mb-4 list-disc space-y-2 pl-5">
             <li>Seitenaufrufe und Verweildauer</li>
@@ -225,20 +229,30 @@ const Datenschutz = () => (
           </p>
 
           <h3 className="mb-2 mt-6 font-bold text-text-primary">
-            Einwilligung und Google Consent Mode v2
+            Einwilligung, Widerspruch und Google Consent Mode v2
           </h3>
+          <p className="mb-4">Wir unterscheiden zwei Kategorien der Datenverarbeitung:</p>
           <p className="mb-4">
-            Das Setzen von Analyse-Cookies und die vollständige Auswertung erfolgen ausschliesslich
-            auf Grundlage Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO bzw. der entsprechenden
-            Bestimmungen des Schweizer DSG). Solange Sie nicht eingewilligt haben – oder wenn Sie
-            ablehnen – setzen wir den Google Consent Mode v2 ein: Es werden dann keine
-            Analyse-Cookies gespeichert, und an Google werden höchstens anonyme, cookielose Signale
-            übermittelt, die lediglich eine aggregierte, modellierte Statistik ohne Bezug zu Ihrer
-            Person ermöglichen.
+            <strong>Reichweitenmessung (Google Analytics 4):</strong> Diese erfolgt auf Grundlage
+            unseres berechtigten Interesses (Art. 6 Abs. 1 lit. f DSGVO bzw. der entsprechenden
+            Bestimmungen des Schweizer DSG) und ist standardmässig aktiv. Sie können ihr jederzeit
+            widersprechen – über die Schaltfläche „Ablehnen" im Cookie-Hinweis oder jederzeit
+            nachträglich über den Link „Cookie-Einstellungen" am Seitenende. Nach einem Widerspruch
+            werden keine Analyse-Cookies mehr gesetzt.
           </p>
           <p className="mb-4">
-            Ihre Einwilligung ist freiwillig und kann jederzeit mit Wirkung für die Zukunft
-            widerrufen oder geändert werden – über den Link „Cookie-Einstellungen" am Seitenende.
+            <strong>
+              Werbebezogene Verarbeitung (z.&nbsp;B. Google-Signale, Remarketing):
+            </strong>{" "}
+            Diese aktivieren wir ausschliesslich mit Ihrer ausdrücklichen Einwilligung über die
+            Schaltfläche „Akzeptieren". Ohne Einwilligung bleiben die entsprechenden Signale
+            (ad_storage, ad_user_data, ad_personalization) deaktiviert.
+          </p>
+          <p className="mb-4">
+            Technisch setzen wir den Google Consent Mode v2 ein: Ohne Ihre Einwilligung werden keine
+            werbebezogenen Cookies gesetzt; an Google werden dann höchstens anonyme, cookielose
+            Signale übermittelt. Wählen Sie „Ablehnen", deaktivieren wir zusätzlich die
+            Reichweitenmessung vollständig.
           </p>
 
           <h3 className="mb-2 mt-6 font-bold text-text-primary">Datenübermittlung in die USA</h3>

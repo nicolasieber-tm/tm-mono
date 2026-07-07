@@ -3,9 +3,11 @@
   <head>
     <!-- Google Consent Mode v2 + Google Tag Manager.
          Läuft nur im obersten Fenster — die eingebettete Demo (iframe) lädt
-         KEIN GTM. Standard = denied: GA4 sendet bis zur Einwilligung nur
-         cookielose, modellierte Pings. Das Banner (src/lib/analytics.ts →
-         setConsent) schaltet via consent 'update' auf granted/denied. -->
+         KEIN GTM. Standard: analytics_storage = granted (GA4-Reichweitenmessung
+         als Opt-out — zählt jeden, der nicht aktiv widerspricht), Werbe-Signale
+         (ad_*) bleiben denied bis zur Einwilligung. Das Banner
+         (src/lib/analytics.ts → setConsent) schaltet via consent 'update':
+         „Akzeptieren" = alles granted, „Ablehnen" = alles denied (inkl. Analytics). -->
     <script>
       (function () {
         if (window.self !== window.top) return; // nicht im iframe tracken
@@ -16,7 +18,7 @@
           ad_storage: 'denied',
           ad_user_data: 'denied',
           ad_personalization: 'denied',
-          analytics_storage: 'denied',
+          analytics_storage: 'granted',
           functionality_storage: 'denied',
           personalization_storage: 'denied',
           security_storage: 'granted',
@@ -24,9 +26,10 @@
         });
         gtag('set', 'ads_data_redaction', true);
         gtag('set', 'url_passthrough', true);
-        // Frühere Einwilligung sofort wiederherstellen (vor dem ersten Hit).
+        // Frühere Wahl sofort wiederherstellen (vor dem ersten Hit).
         try {
-          if (localStorage.getItem('oco_cookie_consent') === 'granted') {
+          var savedConsent = localStorage.getItem('oco_cookie_consent');
+          if (savedConsent === 'granted') {
             gtag('consent', 'update', {
               ad_storage: 'granted',
               ad_user_data: 'granted',
@@ -34,6 +37,17 @@
               analytics_storage: 'granted',
               functionality_storage: 'granted',
               personalization_storage: 'granted'
+            });
+          } else if (savedConsent === 'denied') {
+            // Aktiver Widerspruch gilt dauerhaft – auch das per Default granted
+            // gesetzte analytics_storage wieder abschalten.
+            gtag('consent', 'update', {
+              ad_storage: 'denied',
+              ad_user_data: 'denied',
+              ad_personalization: 'denied',
+              analytics_storage: 'denied',
+              functionality_storage: 'denied',
+              personalization_storage: 'denied'
             });
           }
         } catch (e) { /* localStorage nicht verfügbar */ }

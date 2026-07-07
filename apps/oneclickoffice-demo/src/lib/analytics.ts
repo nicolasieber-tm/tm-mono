@@ -1,14 +1,16 @@
 /**
  * Tracking / Consent Mode v2
  * --------------------------
- * Google Tag Manager + die Consent-Defaults (alles auf "denied") werden bereits
- * in index.html geladen – so früh wie möglich und nur im obersten Fenster. Die
- * eingebettete Live-Demo (iframe) lädt KEIN GTM; sie meldet ihren Tour-Fortschritt
- * per postMessage an die Landingpage, die ihn hier in den dataLayer schreibt.
+ * Google Tag Manager + die Consent-Defaults werden bereits in index.html geladen
+ * – so früh wie möglich und nur im obersten Fenster. Standard dort:
+ * analytics_storage = granted (GA4-Reichweitenmessung als Opt-out), Werbe-Signale
+ * (ad_*) = denied bis zur Einwilligung. Die eingebettete Live-Demo (iframe) lädt
+ * KEIN GTM; sie meldet ihren Tour-Fortschritt per postMessage an die Landingpage,
+ * die ihn hier in den dataLayer schreibt.
  *
  * Dieses Modul kümmert sich nur noch um die Einwilligung (consent 'update') und
- * um das Schreiben der Funnel-Events. Bis zur Einwilligung sendet GA4 dank
- * Consent Mode v2 lediglich cookielose, modellierte Pings.
+ * um das Schreiben der Funnel-Events. „Akzeptieren" schaltet alles auf granted,
+ * „Ablehnen" alles auf denied (inkl. Analytics – aktiver Widerspruch gilt).
  */
 
 export const GTM_ID = "GTM-52V9SJ6J";

@@ -5,9 +5,11 @@ import { getConsent, setConsent, OPEN_CONSENT_EVENT } from "@/lib/analytics";
 /**
  * ConsentBanner
  * -------------
- * Opt-in-Cookie-Banner. Zeigt sich nur im obersten Fenster (nicht in der
- * eingebetteten Demo) und nur, solange noch keine Wahl getroffen wurde.
- * „Akzeptieren" lädt Google Tag Manager, „Ablehnen" unterbindet jedes Tracking.
+ * Cookie-Banner (Opt-out für Analytics). Zeigt sich nur im obersten Fenster
+ * (nicht in der eingebetteten Demo) und nur, solange noch keine Wahl getroffen
+ * wurde. GTM + Consent-Defaults stecken bereits in index.html
+ * (analytics_storage = granted, Werbe-Signale ad_* = denied). „Akzeptieren"
+ * schaltet alles auf granted, „Ablehnen" alles auf denied (auch Analytics).
  * Über den Footer-Link (openConsentSettings) lässt sich das Banner erneut öffnen.
  */
 const ConsentBanner = () => {
