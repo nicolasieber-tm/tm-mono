@@ -256,9 +256,11 @@ const DesktopOptin = () => {
 
 // Wählt anhand des Viewports: Mobile bekommt das schlanke Demo-Optin, Desktop
 // den mehrstufigen Qualifizierungs-Wizard. Beide rendern dieselbe Section #anfrage.
-const OptinForm = () => {
+// mobileLeadCta=true zeigt auf Mobile die CTA-Botschaft ("Willst du sehen…?")
+// direkt oben im Formular-Frame – statt eines eigenen Kicker/Titels.
+const OptinForm = ({ mobileLeadCta = false }: { mobileLeadCta?: boolean }) => {
   const isMobile = useIsMobileViewport();
-  return isMobile ? <MobileOptin /> : <DesktopOptin />;
+  return isMobile ? <MobileOptin leadCta={mobileLeadCta} /> : <DesktopOptin />;
 };
 
 export default OptinForm;
