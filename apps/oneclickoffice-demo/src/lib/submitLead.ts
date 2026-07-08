@@ -1,14 +1,20 @@
 import { createClient } from "@supabase/supabase-js";
 
 // Lead-Daten der Landingpage-Anfrage.
+// Pflicht sind nur Name + E-Mail; die übrigen Felder unterscheiden sich je nach
+// Variante (Desktop-Wizard vs. schlankes Mobile-Optin), darum optional.
 export type LeadPayload = {
   name: string;
   email: string;
-  telefon: string;
-  klienten_pro_monat: string;
-  rechnungserstellung: string;
-  zeit_monatsabschluss: string;
-  buchhaltungssystem: string;
+  telefon?: string;
+  // Desktop-Wizard (4 Qualifizierungsfragen)
+  klienten_pro_monat?: string;
+  rechnungserstellung?: string;
+  zeit_monatsabschluss?: string;
+  buchhaltungssystem?: string;
+  // Mobile-Optin (Demo-Zugang per E-Mail)
+  aktuelles_system?: string;
+  rueckruf?: boolean;
 };
 
 /* ---------------------------------------------------------------------
@@ -30,7 +36,10 @@ const leadsClient =
     ? createClient(LEADS_SUPABASE_URL, LEADS_SUPABASE_ANON_KEY)
     : null;
 
-export async function submitLead(payload: LeadPayload): Promise<void> {
+export async function submitLead(
+  payload: LeadPayload,
+  source = "landingpage-demo",
+): Promise<void> {
   if (!leadsClient) {
     // Sink noch nicht verkabelt – Flow trotzdem sauber abschliessen,
     // damit das Formular-UI testbar ist.
@@ -40,7 +49,7 @@ export async function submitLead(payload: LeadPayload): Promise<void> {
 
   const { error } = await leadsClient.from("leads").insert({
     ...payload,
-    source: "landingpage-demo",
+    source,
   });
 
   if (error) throw error;

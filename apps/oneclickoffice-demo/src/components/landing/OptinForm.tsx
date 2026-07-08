@@ -8,13 +8,16 @@ import ScrollReveal from "./ScrollReveal";
 import { cta } from "@/lib/landing-content";
 import { submitLead, type LeadPayload } from "@/lib/submitLead";
 import { track, trackMeta } from "@/lib/analytics";
+import { useIsMobileViewport } from "@/hooks/useIsMobileViewport";
+import MobileOptin from "./MobileOptin";
 
 /**
- * Mehrstufiger Lead-Wizard: pro Schritt eine Qualifizierungsfrage, nach Auswahl
- * geht es automatisch weiter. Der letzte Schritt erfasst die Kontaktdaten.
- * Statt alle Fragen auf einmal zu zeigen, führt das schrittweise zum Opt-in.
+ * Mehrstufiger Lead-Wizard (NUR Desktop): pro Schritt eine Qualifizierungsfrage,
+ * nach Auswahl geht es automatisch weiter. Der letzte Schritt erfasst die
+ * Kontaktdaten. Statt alle Fragen auf einmal zu zeigen, führt das schrittweise
+ * zum Opt-in.
  */
-const OptinForm = () => {
+const DesktopOptin = () => {
   const navigate = useNavigate();
   const questions = cta.questions;
   const totalSteps = questions.length + 1; // Fragen + Kontakt-Schritt
@@ -249,6 +252,13 @@ const OptinForm = () => {
       </div>
     </section>
   );
+};
+
+// Wählt anhand des Viewports: Mobile bekommt das schlanke Demo-Optin, Desktop
+// den mehrstufigen Qualifizierungs-Wizard. Beide rendern dieselbe Section #anfrage.
+const OptinForm = () => {
+  const isMobile = useIsMobileViewport();
+  return isMobile ? <MobileOptin /> : <DesktopOptin />;
 };
 
 export default OptinForm;
