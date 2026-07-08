@@ -133,6 +133,13 @@ body.ap-light { background: #fdfbf8; }
 .ap-cal .bar i { width: 9px; height: 9px; border-radius: 50%; background: rgba(0,0,0,.13); display: block; }
 .ap-cal .bar span { margin-left: 10px; font-size: .78rem; color: var(--muted2); }
 .ap-cal iframe { width: 100%; height: 600px; border: 0; display: block; background: #fff; }
+.ap-cal .ap-book { padding: 48px 34px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.ap-cal .ap-book h3 { font-size: 1.4rem; font-weight: 700; letter-spacing: -.02em; }
+.ap-cal .ap-book p { font-size: 1rem; line-height: 1.5; color: var(--muted); max-width: 40ch; }
+.ap-cal .ap-book-btn { margin-top: 12px; background: var(--grad); color: #fff; font: inherit; font-weight: 600; font-size: 1rem;
+  padding: 15px 34px; border-radius: 980px; border: 0; cursor: pointer; box-shadow: 0 12px 30px -14px rgba(120,70,200,.5);
+  transition: transform .2s ease, box-shadow .2s ease; }
+.ap-cal .ap-book-btn:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -16px rgba(120,70,200,.6); }
 .ap-cta { text-align: center; }
 .ap-cta a { display: inline-block; background: var(--accent); color: var(--accent-fg); padding: 14px 30px; border-radius: 980px; font-weight: 500; margin-top: 40px; transition: filter .2s; }
 .ap-cta a:hover { filter: brightness(1.08); }

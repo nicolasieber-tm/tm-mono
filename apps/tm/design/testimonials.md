@@ -35,7 +35,7 @@ Eine Testimonial-/Kundenstimmen-Section, die als **Vorher → Heute-Story** funk
 | Hauptseite | `apps/tm` (`Index.tsx`) | **alle** Testimonials, mit Produkt-Filter |
 | Webseiten/Landingpages | `apps/sichtbarkeit` (`Index.tsx`) | nur `product:"web"` |
 | Auron | `apps/auron` (`Index.tsx`) | nur `product:"auron"` |
-| ~~OneClickOffice~~ | — | vorerst nicht (kein Material) |
+| OneClickOffice | `apps/oneclickoffice` (`Index.tsx`) | nur `product:"oco"` |
 
 Automatisierungs-Testimonials (`product:"auto"`) erscheinen nur auf der TM-Hauptseite,
 solange es dafür keine eigene Produkt-Unterseite gibt.
@@ -50,7 +50,12 @@ Alles folgt der bestehenden Apple-Designsprache (`apps/tm/DESIGN.md`):
 - **Produkt-Farbcode** pro Karte über einen feinen Gradient-Faden oben + Tag-Farbe:
   - Webseiten → Violett `#8b5cf6`
   - Auron → Orange `#ff7a3c`
-  - Automatisierung → Blau `#2b9fd6`
+  - Automatisierung → Cyan-Blau `#2b9fd6`
+  - OneClickOffice → Indigo-Blau `#2f62e6` (bewusst kräftiger/dunkler als das Automatisierungs-Blau, damit die zwei Blau-Kategorien unterscheidbar bleiben; entspricht der OneClickOffice-App-Marke `hsl(224 76% 53%)`)
+
+  > **Hinweis:** Die anfangs angelegte eigene Kategorie „Buchungstool" (`buchung`, Smaragd) wurde
+  > wieder **entfernt**. Entscheid: Buchung ist nie ein eigenes Produkt, sondern entweder ein
+  > Web-Feature (Sandro → `web`) oder eine individuelle Entwicklung/Automation (Moodpix/André → `auto`).
   - (deckt sich mit den Produktfarben aus `Index.tsx` / den Apps)
 - **Vorher → Heute** als zwei kleine Boxen mit Pfeil = die Kern-Story, kompakt.
 - **Metrik** (z.B. „~5 h weniger Büro/Woche") optional als Gradient-Zahl — die
@@ -99,9 +104,11 @@ außerdem **Freigabe für Name + Firma + Logo** einholen.
 
 | # | Produkt | Kunde | Zitat da? | Freigabe? | Notiz |
 |---|---------|-------|-----------|-----------|-------|
-| 1 | web | Mehmet, Verkehrsschule Mittelland | ✅ | ✅ Name + Logo | eingebaut (normale Karte). Foto `photo:"/referenz_mehmet_bild.jpeg"`, Logo `logo:"/referenz_verkehrsschule-mittelland_logo.png"` (public-Root, produktionskonform). Keine Zahl genannt → ohne Metrik. **⚠️ Foto ist 10 MB — vor Go-Live verkleinern/komprimieren** (z.B. auf ~400px, WebP/JPEG <150 KB). Logo wurde getrimmt (transparenter Rand entfernt: 4000×1218 → 2622×579), damit es bündig mit dem Avatar sitzt. |
-| 2 | auto | Beat Gerber, Kohler Elektro Bern AG | ✅ | ⏳ Name/Firma bestätigen | eingebaut (normale Karte, `real:true`). **Zitat fürs Card gekürzt** (Original 4 Absätze), vollständiger Originalwortlaut als Kommentar direkt darüber in `testimonials.html`. Metrik `{ value:"CHF 2–3k", label:"mehr verrechnet pro Monat" }` (Kunde nannte CHF 2'000–3'000/Monat zusätzlich verrechenbar). Foto `photo:"/beatgerber_kundenstimme.jpg"` (1240px, 137 KB, OK). Kein Logo/Website. `auto` erscheint nur auf der tm-Hauptseite (keine eigene Produkt-Unterseite). |
-| 3 | web | _(eintragen)_ | ⏳ | ⏳ | zweites web in Aussicht |
+| 1 | web | Mehmet, Verkehrsschule Mittelland | ✅ | ✅ Name + Logo | eingebaut (normale Karte). Foto `photo:"/referenz_mehmet_bild.jpeg"`, Logo `logo:"/referenz_verkehrsschule-mittelland_logo.png"` (public-Root, produktionskonform). Keine Zahl genannt → ohne Metrik. ✅ **Foto komprimiert: 9,8 MB → 55 KB** (666×1000, JPEG q78). Original-Backup im Session-Scratchpad + in git-Historie. Logo wurde getrimmt (transparenter Rand entfernt: 4000×1218 → 2622×579), damit es bündig mit dem Avatar sitzt. |
+| 2 | auto | Beat Gerber, Kohler Elektro Bern AG | ✅ | ⏳ Name/Firma bestätigen | eingebaut (normale Karte, `real:true`). **Zitat fürs Card gekürzt** (Original 4 Absätze), vollständiger Originalwortlaut als Kommentar direkt darüber in `testimonials.html`. Metrik-Block **entfernt** (war `CHF 2–3k` — steht bereits wörtlich im Zitat, doppelt gemoppelt). Foto `photo:"/beatgerber_kundenstimme.jpg"` (1240px, 137 KB, OK). Logo `referenz_kohler-elektro-bern_logo.png` (500×200, transparent) ✅ ergänzt (für einheitliche Logo+Name-Optik über alle Karten). Website-URL fehlt noch → Logo noch nicht klickbar. **⚠️ Freigabe Name/Firma/Logo vor Go-Live bestätigen.** `auto` erscheint nur auf der tm-Hauptseite (keine eigene Produkt-Unterseite). |
+| 3 | web | Sandro Dubach, Sandro Dubach Fotografie | ⏳ Platzhalter | ⏳ zugesagt | Buchungstool in Website integriert. Card gebaut (`real:true`). Foto `referenz_sandro-dubach_bild.webp` (1000×1250, 98 KB) ✅, Logo `referenz_sandro-dubach_fotografie_logo.webp` ✅, Website `https://www.sandrodubach.ch/` ✅. **Nur noch Zitat offen** (`[Testimonialtext folgt]`). Erscheint auf TM-Haupt + Sichtbarkeit (web) + später Buchungstool-Unterseite (Modul 3, web-Case). |
+| 4 | oco | Luca Vogel, Praxis Vogel GmbH | ⏳ Platzhalter | ⏳ zugesagt | **OneClickOffice** (neue Kategorie `oco`, Indigo-Blau). Card gebaut (`real:true`). Foto `referenz_luca-vogel_bild.jpg` (1,4 MB → 131 KB, 666×1000) ✅, Logo `referenz_praxis-vogel_logo.png` ✅ — **Original war weiss-auf-transparent (auf hellem Card unsichtbar) → automatisch in Schwarz umgewandelt** (PIL RGB-Invert, Alpha erhalten); weisses Original als Backup im Session-Scratchpad. Logo zeigt „Praxis Luca Vogel — Psychosoziale Beratung und Begleitung". Firmenname im Card = „Praxis Vogel GmbH" (vom User bestätigt). ✅ **Zitat gesetzt** — aus Lucas Frage-Antwort-Katalog verdichtet (Entwurf, vor Go-Live von Luca final freigeben). Zeitersparnis steht in den **Vorher/Heute-Boxen** („1 bis 1.5 Tage Adminaufwand" → „2 Stunden", ohne Kommas, Punkt-Dezimal auf Userwunsch); separater Metrik-Block **entfernt** (wäre doppelt). Website fehlt. Falls offizielles farbiges/dunkles Logo kommt → einfach ersetzen. Erscheint auf TM-Haupt + OneClickOffice-Seite. |
+| 5 | **auto** | André Scheidegger, Moodpix GmbH | ⏳ Platzhalter | ⏳ zugesagt | **B2B-Buchungslink = individuelle Entwicklung/Automation → `product:"auto"`** (nicht mehr eigene Kategorie). Fotograf gibt Kunden einen Link, hunderte/tausende Mitarbeitende buchen selbst Porträt-Slots. Card `real:true`. Foto `referenz_andre-scheidegger_bild.jpg` (Querformat → gesichtszentriert quadratisch zugeschnitten, 500×500, 34 KB) ✅. **Zitat noch Platzhalter**. **Logo folgt** → `logoPending:true` zeigt solange „Moodpix GmbH" als Text oben rechts. Website fehlt. Erscheint auf TM-Haupt (Automation-Kontext) + Modul 3 Fotograf-Case (auf TM). Damit hat `auto` 2 echte Stimmen (Beat + André). |
 | … | | | | | |
 
 > Beim Eintreffen einer Antwort: Rohtext in der HTML-`TESTIMONIALS`-Liste als neuen
@@ -158,10 +165,36 @@ Website-Screenshots („alt" vs. „neu") überblendet. Datei: **`vorher-nachher
   - `referenz_verkehrsschule_angebote_{vorher,nachher}.jpg`
   - `referenz_verkehrsschule_ueberuns_{vorher,nachher}.jpg`
   - (Pfade im JS-Array `SECTIONS`.)
-- **⚠️ ggf. vor Go-Live noch etwas stärker komprimieren:** die 2400 px/q88-Fassung ist
-  bewusst scharf gehalten. Falls die Ladezeit es verlangt, lässt sich der größte
-  Brocken (hero_nachher ~805 KB) noch drücken — z.B. q82 oder 1920 px. Die schärfere
-  Qualität war eine bewusste Entscheidung; lieber scharf als matschig.
+- ✅ **hero_nachher komprimiert:** 805 KB → **470 KB** (aus PNG-Original neu encodiert,
+  1920×1080 / q78). Weiter runter wurde bewusst nicht gemacht (wäre matschig). Original
+  `hero_nachher_q88_805k.jpg` als Backup im Session-Scratchpad. Die anderen 5 Bilder
+  unverändert (300–470 KB, 2400 px).
+- ✅ **4 UX-/Perf-Optimierungen in `vorher-nachher.html` umgesetzt:**
+  1. **Auto-Sweep-Drag-Hinweis** — Trennlinie fährt beim ersten Sichtbarwerden einmal
+     sanft hin & zurück (IntersectionObserver, einmalig, respektiert `prefers-reduced-motion`,
+     bricht bei erster Interaktion ab). CSS-Klasse `.ba-anim` + JS `autoSweep()`.
+  2. **Bilder vorladen** — alle 6 Screenshots werden im Hintergrund geladen → Tab-Wechsel
+     ohne Flackern.
+  3. **Dynamische Bildunterschrift** — `.ba-cap` (`#ba-cap`) wechselt pro Sektion
+     (`cap`-Feld in `SECTIONS`), z.B. „Startseite: vom in die Jahre gekommenen Auftritt zu modern und klar".
+  4. **Fact-Karten unter dem Slider** („Was der Relaunch bringt") — 6 Karten mit Icon +
+     positivem Nutzen, **3×2-Raster** (`.facts`, Media-Queries für 2/1 Spalten):
+     Moderner Auftritt & klarer Aufbau · Nutzerführung optimiert (conversion) · Individuelle
+     Terminbuchung · SEO-Grundlagen eingebaut · Ladezeit optimiert · Mobile-first. Bewusst
+     **ohne** negative „vorher"-Behauptungen (die alte Seite war nicht unbrauchbar).
+  5. **Kundenstimme Mehmet** (`.ba-quote`) als Sektions-Abschluss unter den Facts — er ist der
+     Inhaber genau dieser Seite. Zentriertes Zitat (Highlight „viel professioneller und moderner")
+     + Foto + Name/Rolle + klickbares Verkehrsschul-Logo. **Assets nach `apps/sichtbarkeit/public`
+     kopiert:** `referenz_mehmet_bild.jpeg` (55 KB) + `referenz_verkehrsschule-mittelland_logo.png`
+     (liegen jetzt in tm/public UND sichtbarkeit/public — Mehmet erscheint als `web`-Stimme ohnehin
+     auch auf der Sichtbarkeit-Seite).
+  6. **CTA-Band mit echtem Terminbuchungs-Widget** (`.ba-cta`) als Abschluss — CTA-Muster von der
+     `/demo`-Seite übernommen (gleiches `booking-embed.js`, `data-no-fab`, Button
+     `.cta-btn[data-book-widget]` öffnet das Overlay), aber **eigene WEBSEITE-Widget-ID
+     `333c239f-7b64-433b-9f5e-d6526c46891a`** (nicht das Buchungstool-Widget `794c5466-…` von /demo).
+     **Botschaft bewusst auf WEBSEITE gedreht** (nicht Buchungstool): „Auch so ein Auftritt … wir
+     bauen Ihre Website modern, schnell und auf Anfragen ausgelegt". `data-no-fab` behalten (nur
+     Button-Trigger, kein schwebender FAB). Script lädt extern von `timetracking.trendingmedia.ch`.
 - **⚠️ Original-PNGs** (3840×2160, ~18 MB gesamt) liegen noch im Ordner als
   Re-Komprimierungs-Quelle. **Vor Build/Commit entfernen** — sie dürfen nicht ins Repo:
   `rm apps/sichtbarkeit/public/referenz_verkehrsschule_*.png`
@@ -190,15 +223,34 @@ Screenshot). Datei: **`buchungstool.html`**.
   Platzhalter-SVG (Kalender). Zeigt die **Buchungs-/Slot-Ansicht** (Self-Service-Moment;
   Dashboard wäre zu abstrakt). Ablegen je nach Case: web → `apps/sichtbarkeit/public`,
   fotograf → `apps/tm/public`.
-  - **web:** ⏳ aktuell **Platzhalter-Kalender** (SVG). Der echte Screenshot passte
-    optisch nicht in die Karte (`tool`-Zeile auskommentiert). Bilddateien liegen noch in
-    `apps/sichtbarkeit/public` (`buchungstool_web.jpg`, Original `buchungstool_vorschau.png`)
-    — für später ggf. enger aufs Overlay zuschneiden, dann `tool` wieder aktivieren;
-    sonst vor Go-Live entfernen.
-  - **fotograf:** ⏳ noch Platzhalter — echtes Bild nach `apps/tm/public`.
+  - **web:** ✅ **echter Screenshot aktiv.** Aus `buchungstool_vorschau.png` (3840×2160) das
+    weisse Buchungs-Overlay sauber zugeschnitten (grauer Test-Rahmen weg) → `referenz_buchung_web.png`
+    (900×966, 59 KB) in `apps/sichtbarkeit/public`. Im Web-Case `tool:"/referenz_buchung_web.png"`.
+    Hochformat-Screenshots werden über `.bk-tool.shot img` (max-height 440px, zentriert) kompakt
+    gehalten. Alte `buchungstool_web.jpg` + Original-PNG können vor Go-Live raus.
+  - **Modul 3 bleibt bewusst generisch** (Adressen `ihre-webseite.ch` / `buchung.fotograf.ch/…`,
+    keine Kundennamen) — es zeigt die Fähigkeit für *jeden* Kunden; die namentliche Zuordnung
+    (Sandro/Moodpix) läuft ausschliesslich über die Testimonials (Modul 1).
+  - **fotograf:** ✅ **2 echte B2B-Screenshots als Slider.** `referenz_buchung_b2b_1.jpg`
+    (Zeitplan-Übersicht) + `referenz_buchung_b2b_2.jpg` („Slot wählen" mit echten Verfügbarkeiten,
+    vergebene Slots durchgestrichen — ersetzte die schwächere „Wann passt's dir?"-Ansicht, Backup
+    im Scratchpad), je 1400px/q90 in `apps/tm/public`.
+  - **Vorschau-Hinweis:** Modul 3 hat beide Cases in *einem* File, aber die Bilder liegen live in
+    *verschiedenen* App-Ordnern (Web-Overlay → sichtbarkeit/public, B2B → tm/public). Damit die
+    Werkstatt-Vorschau auf **beiden** Ports (8777/8778) vollständig läuft, sind alle drei Bilder
+    **in beide** Public-Ordner kopiert. Live wird pro Seite nur der jeweilige Case gebaut → dort
+    reicht der eigene Ordner; die Kopie im anderen kann vor Go-Live weg. Im Case `tools:[...]` → `load()` baut einen Crossfade-Slider
+    (`.bk-slider`, `initSlider()`: Auto-Advance 3,8s, Dots, Hover-Pause, reduced-motion-safe;
+    dunkler Frame-Hintergrund `#0b0b0c`, `object-fit:contain`). ⚠️ Screenshot 1 enthält im
+    Hinweis-Feld „André Scheidegger · Moodpix" — für komplett namenlose Variante neu aufnehmen.
 - **Vorschau:** Symlinks in beiden public-Ordnern (`_buchungstool-preview.html`):
   - web-Case: `http://127.0.0.1:8778/_buchungstool-preview.html`
   - fotograf-Case: `http://127.0.0.1:8777/_buchungstool-preview.html`
+- **Fact-Karten pro Case** ✅ (wie Modul 2, wechseln beim Tab-Wechsel): je 4 Karten mit Icon +
+  kurzer Beschreibung. Web (5): „Rund um die Uhr buchbar / Kein Termin-Pingpong / In die Website
+  integriert / Automatische Bestätigung / Direkte Kalenderintegration (nur tatsächlich freie Termine)". Fotograf: „Ein Link für alle / Self-Service / Keine
+  Excel-Listen / Echtzeit-Verfügbarkeit". Daten in `CASES[].facts` + `factsHead`, gerendert in
+  `load()`, Icons in `ICONS`-Map (`svgIcon()`). CSS `.bk-facts` (4→2→1 Spalten).
 - **Einbau:** der `web`-Case als Komponente in `apps/sichtbarkeit`, der `fotograf`-Case
   in `apps/tm` (Index). Pro Seite nur der jeweilige Case (kein Tab-UI live nötig).
 
