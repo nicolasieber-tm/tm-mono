@@ -1,8 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { Play, RotateCcw } from "lucide-react";
+import { Play, RotateCcw, ArrowRight } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 import { demo } from "@/lib/landing-content";
 import { track } from "@/lib/analytics";
+
+// CTA-Klick tracken und sanft zur Anfrage-Section scrollen (gleiches Muster wie im Hero).
+const goToAnfrage = () => {
+  track("cta_click", { cta_id: "demo_anfrage", cta_label: "Persönliche Einschätzung abholen" });
+  document.getElementById("anfrage")?.scrollIntoView({ behavior: "smooth", block: "start" });
+};
 
 // Viewport-Breite des LP-Besuchers → entscheidet, welches Demo-Mockup wir zeigen.
 const useIsMobileViewport = () => {
@@ -137,7 +143,15 @@ const DemoShowcase = () => {
 
       <div className="section-container text-center">
         <ScrollReveal delay={0.15}>
-          <div className="mt-6 flex flex-col items-center gap-3">
+          <div className="mt-8 flex flex-col items-center gap-3">
+            <button
+              type="button"
+              onClick={goToAnfrage}
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-7 py-3.5 text-base font-semibold text-primary-foreground shadow-md transition-all hover:-translate-y-0.5 hover:bg-accent-deep"
+            >
+              Persönliche Einschätzung abholen
+              <ArrowRight className="h-5 w-5" />
+            </button>
             <p className="text-sm text-text-muted">{demo.hint}</p>
             {active && (
               <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
