@@ -22,6 +22,25 @@ export const hero = {
   // Zwei Hero-CTAs: primär scrollt zur Live-Demo, sekundär zum Anfrage-Formular.
   ctaPrimary: "Live-Demo austesten",
   ctaSecondary: "Persönliche Einschätzung abholen",
+  // Eigener Hero NUR für Mobile (≤767px). Am Handy funktioniert die interaktive
+  // Desktop-Demo nicht gut, darum hier klarer Value-Prop + ein CTA, der den
+  // Demo-Zugang per E-Mail einsammelt (Ziel: mehr Leads aus mobilem Ad-Traffic).
+  mobile: {
+    kicker: "KOSTENLOSE LIVE-DEMO",
+    headline: "Spare dir den Admin-Tag beim Monatsabschluss.",
+    // Zwei Absätze: Value-Prop + Handlungsaufforderung (Demo am Desktop, Link per Mail).
+    subheadline: [
+      "OneClick Office ist das Abrechnungssystem für selbstständige Coaches und Berater in der Schweiz. Erfasse Zeiten und Belege direkt nach dem Termin am Handy, am Desktop erstellst du daraus mit einem Klick fertige Rechnungen.",
+      "Teste die Demo am besten auf dem Desktop. Wir senden dir den Demo-Link direkt per E-Mail.",
+    ],
+    cta: "Demo-Zugang kostenlos erhalten",
+    badges: [
+      "Schweizer Lösung",
+      "revDSG und DSGVO konform",
+      "Für Coaches und Berater",
+      "Keine komplizierte ERP-Einführung",
+    ],
+  },
 } as const;
 
 export const demo = {
@@ -99,6 +118,24 @@ export const cta = {
   sendingLabel: "Wird gesendet …",
   privacyNote:
     "Deine Angaben behandeln wir vertraulich (revDSG / DSGVO) und nutzen sie nur, um dich zu kontaktieren.",
+  // Schlankes Optin NUR für Mobile (≤767px): ersetzt am Handy den 4-Fragen-Wizard.
+  // Ziel ist der Demo-Zugang per E-Mail – minimale Reibung, nur zwei Pflichtfelder.
+  mobile: {
+    kicker: "KOSTENLOSER DEMO-ZUGANG",
+    headline: "Demo-Zugang kostenlos erhalten.",
+    subheadline:
+      "Trag dich kurz ein – wir senden dir den Zugang zur Live-Demo per E-Mail, damit du sie in Ruhe am Desktop testen kannst.",
+    fields: {
+      name: { label: "Name", placeholder: "Vor- und Nachname" },
+      email: { label: "E-Mail", placeholder: "name@beispiel.ch" },
+      telefon: { label: "Telefon", placeholder: "+41 …" },
+      system: { label: "Aktuelles System", placeholder: "z. B. Excel, Bexio, Banana …" },
+    },
+    rueckrufLabel: "Ich wünsche einen Rückruf",
+    hint: "Du erhältst den Demo-Zugang per E-Mail. Telefonisch melden wir uns nur, wenn du deine Telefonnummer angibst oder einen Rückruf wünschst.",
+    submitLabel: "Demo-Zugang kostenlos erhalten",
+    sendingLabel: "Wird gesendet …",
+  },
 } as const;
 
 export const danke = {
@@ -106,6 +143,13 @@ export const danke = {
   subheadline:
     "Wir melden uns in den nächsten Tagen telefonisch bei dir und besprechen deine persönliche Einschätzung.",
   backLabel: "Zurück zur Demo",
+  // Variante für den Mobile-Flow „Demo-Zugang per E-Mail" (Route /danke?flow=demo).
+  demo: {
+    headline: "Fast geschafft – dein Demo-Zugang ist unterwegs.",
+    subheadline:
+      "Wir senden dir den Zugang zur Live-Demo per E-Mail zu. Am besten testest du sie in Ruhe am Desktop.",
+    backLabel: "Zurück zur Startseite",
+  },
 } as const;
 
 export const testimonial = {

@@ -3,26 +3,12 @@ import { Play, RotateCcw, ArrowRight } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 import { demo } from "@/lib/landing-content";
 import { track } from "@/lib/analytics";
+import { useIsMobileViewport } from "@/hooks/useIsMobileViewport";
 
 // CTA-Klick tracken und sanft zur Anfrage-Section scrollen (gleiches Muster wie im Hero).
 const goToAnfrage = () => {
   track("cta_click", { cta_id: "demo_anfrage", cta_label: "Persönliche Einschätzung abholen" });
   document.getElementById("anfrage")?.scrollIntoView({ behavior: "smooth", block: "start" });
-};
-
-// Viewport-Breite des LP-Besuchers → entscheidet, welches Demo-Mockup wir zeigen.
-const useIsMobileViewport = () => {
-  const query = "(max-width: 767px)";
-  const [isMobile, setIsMobile] = useState<boolean>(() =>
-    typeof window !== "undefined" ? window.matchMedia(query).matches : false,
-  );
-  useEffect(() => {
-    const mq = window.matchMedia(query);
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-  return isMobile;
 };
 
 const DemoShowcase = () => {
