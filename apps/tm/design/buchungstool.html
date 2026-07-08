@@ -86,6 +86,23 @@ body { background:var(--bg); color:var(--fg);
 .bk-tool .bar i { width:9px; height:9px; border-radius:50%; background:rgba(0,0,0,.12); display:block; }
 .bk-tool .bar .addr { margin-left:8px; font-size:.72rem; color:var(--muted2); }
 .bk-tool img { display:block; width:100%; height:auto; }
+.bk-tool.shot img { width:auto; max-width:100%; height:auto; max-height:440px; margin:0 auto; }  /* echter Screenshot (Hochformat) kompakt & zentriert */
+/* Slider im Tool-Frame: mehrere Screenshots (z.B. B2B-Ansichten), Crossfade + Dots */
+.bk-slider { position:relative; aspect-ratio:5/4; background:#0b0b0c; overflow:hidden; }
+.bk-slider img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity .6s ease; }
+.bk-slider img.on { opacity:1; }
+.bk-dots { position:absolute; left:0; right:0; bottom:11px; display:flex; justify-content:center; gap:7px; z-index:2; }
+.bk-dot { width:7px; height:7px; border-radius:50%; border:0; padding:0; cursor:pointer;
+  background:rgba(255,255,255,.4); transition:background .2s, transform .2s; }
+.bk-dot:hover { background:rgba(255,255,255,.7); }
+.bk-dot.on { background:#fff; transform:scale(1.3); }
+.bk-nav { position:absolute; top:50%; transform:translateY(-50%); z-index:3; width:38px; height:38px;
+  border-radius:50%; border:0; cursor:pointer; background:rgba(255,255,255,.16); color:#fff;
+  font-size:1.6rem; line-height:1; display:grid; place-items:center;
+  -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); transition:background .2s, transform .2s; }
+.bk-nav.prev { left:12px; }
+.bk-nav.next { right:12px; }
+.bk-nav:hover { background:rgba(255,255,255,.32); transform:translateY(-50%) scale(1.07); }
 
 /* Metrik-Footer je Seite */
 .bk-metric { margin-top:24px; padding-top:18px; border-top:1px solid var(--border); display:flex; gap:22px; }
@@ -98,6 +115,19 @@ body { background:var(--bg); color:var(--fg);
 .bk-arrow { display:flex; align-items:center; justify-content:center; }
 .bk-cap { margin-top:26px; text-align:center; font-size:.9rem; color:var(--muted); }
 .bk-cap b { color:var(--fg); font-weight:600; }
+
+/* Fact-Karten pro Case */
+.bk-facts-head { text-align:center; margin:52px auto 20px; font-size:.95rem; font-weight:600;
+  background:var(--grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; }
+.bk-facts { display:flex; flex-wrap:wrap; justify-content:center; gap:14px; max-width:1040px; margin:0 auto; }
+.bk-facts.cols3 { max-width:790px; }   /* 5 Karten → 3 in Reihe 1, 2 zentriert in Reihe 2 */
+.bk-fact { flex:1 1 210px; max-width:250px; background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px 18px; box-shadow:var(--shadow); }
+.bk-fact .ic { width:36px; height:36px; border-radius:10px; display:grid; place-items:center;
+  background:rgba(139,92,246,.1); color:var(--accent); margin-bottom:12px; }
+.bk-fact .ic svg { width:19px; height:19px; }
+.bk-fact h4 { font-size:.98rem; font-weight:600; letter-spacing:-.01em; line-height:1.25; color:var(--fg); }
+.bk-fact p { margin-top:7px; font-size:.82rem; line-height:1.4; color:var(--muted); }
+@media (max-width:460px){ .bk-fact { flex-basis:100%; max-width:none; } }
 </style>
 </head>
 <body>
@@ -126,14 +156,17 @@ body { background:var(--bg); color:var(--fg);
         <div class="bk-tag">Nachher</div>
         <h3 id="bk-after-title">Ein Link. Self-Service.</h3>
         <div class="bk-steps" id="bk-steps"><!-- per JS --></div>
-        <div class="bk-tool">
+        <div class="bk-tool" id="bk-tool">
           <div class="bar"><i></i><i></i><i></i><span class="addr" id="bk-addr">buchung.kunde.ch</span></div>
-          <img id="bk-tool-img" alt="Buchungsansicht" />
+          <div class="bk-view" id="bk-view"><!-- per JS: Einzelbild oder Slider --></div>
         </div>
         <div class="bk-metric" id="bk-after-metric"><!-- per JS --></div>
       </div>
     </div>
     <p class="bk-cap" id="bk-cap"></p>
+
+    <p class="bk-facts-head" id="bk-facts-head"></p>
+    <div class="bk-facts" id="bk-facts"><!-- per JS, pro Case --></div>
   </div>
 </section>
 
@@ -165,9 +198,9 @@ const CASES = {
     intro: "Früher kostete jeder Termin Tage an Hin und Her. Heute buchen Ihre Kunden direkt auf Ihrer Website, rund um die Uhr.",
     beforeTitle: "E-Mail- & Telefon-Pingpong",
     afterTitle: "Direkt auf der Website buchen",
-    addr: "ihre-website.ch/termin",
+    addr: "ihre-webseite.ch",
     accent: "#8b5cf6",
-    // tool: "/buchungstool_web.jpg",  // echter Screenshot passt optisch nicht -> Platzhalter-Kalender
+    tool: "/referenz_buchung_web.png",  // echtes Buchungs-Overlay (generisch gezeigt, nicht kundenspezifisch); sauber aus buchungstool_vorschau.png zugeschnitten
     chat: [
       { s:"in",  t:"Guten Tag, hätten Sie nächste Woche Zeit für einen Termin?" },
       { s:"out", t:"Gerne! Wie wäre Dienstag 14 Uhr?" },
@@ -183,6 +216,14 @@ const CASES = {
     beforeMetric: [ {b:"~5 Tage", s:"bis ein Termin steht"}, {b:"10+", s:"Nachrichten pro Termin"} ],
     afterMetric:  [ {b:"30 Sek.", s:"bis gebucht"}, {b:"0", s:"manuelle Nachrichten"} ],
     cap: "Buchungstool, nahtlos in die Website integriert.",
+    factsHead: "Was das Buchungstool bringt",
+    facts: [
+      { ic:"clock", t:"Rund um die Uhr buchbar", d:"Kunden buchen selbst, auch abends und am Wochenende." },
+      { ic:"bolt",  t:"Kein Termin-Pingpong", d:"Schluss mit E-Mail- und Telefon-Hin-und-Her." },
+      { ic:"embed", t:"In die Website integriert", d:"Nahtlos im eigenen Auftritt, keine externe Seite." },
+      { ic:"check", t:"Automatische Bestätigung", d:"Kalendereintrag und Erinnerung laufen von selbst." },
+      { ic:"sync",  t:"Direkte Kalenderintegration", d:"Mit Ihrem Kalender synchronisiert, es werden nur tatsächlich freie Termine angezeigt." },
+    ],
   },
   fotograf: {
     label: "Fotograf · ein Link für hunderte Mitarbeitende",
@@ -192,6 +233,7 @@ const CASES = {
     afterTitle: "Ein Link an die Firma",
     addr: "buchung.fotograf.ch/grosskunde-ag",
     accent: "#8b5cf6",
+    tools: ["/referenz_buchung_b2b_1.jpg", "/referenz_buchung_b2b_2.jpg"],  // 2 echte B2B-Screenshots → Slider
     chat: [
       { s:"in",  t:"Wir bräuchten Foto-Termine für 200 Mitarbeitende." },
       { s:"out", t:"Alles klar, schicken Sie mir die Verfügbarkeiten?" },
@@ -207,6 +249,13 @@ const CASES = {
     beforeMetric: [ {b:"Wochen", s:"Koordination pro Grosskunde"}, {b:"200+", s:"Mails & Anrufe"} ],
     afterMetric:  [ {b:"1 Link", s:"für den ganzen Betrieb"}, {b:"100%", s:"Self-Service"} ],
     cap: "Ein Link, den hunderte Mitarbeitende selbst nutzen.",
+    factsHead: "Was der eine Link bringt",
+    facts: [
+      { ic:"link",     t:"Ein Link für alle", d:"Der Kunde teilt einen Link an den ganzen Betrieb." },
+      { ic:"users",    t:"Self-Service", d:"Jede:r Mitarbeitende bucht selbst einen freien Slot." },
+      { ic:"table",    t:"Keine Excel-Listen", d:"Keine manuelle Koordination hunderter Termine." },
+      { ic:"calcheck", t:"Echtzeit-Verfügbarkeit", d:"Belegte Zeiten sind gesperrt, keine Doppelbuchung." },
+    ],
   },
 };
 
@@ -216,6 +265,43 @@ const tabs = document.getElementById("bk-tabs");
 
 function metricHTML(arr){ return arr.map(m=>`<div class="m"><b>${m.b}</b><span>${m.s}</span></div>`).join(""); }
 
+/* Icons für die Fact-Karten (Feather-Stil, stroke=currentColor) */
+const ICONS = {
+  clock:'<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/>',
+  bolt:'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+  embed:'<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+  check:'<circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/>',
+  link:'<path d="M9 15l6-6"/><path d="M11 6l1-1a4 4 0 0 1 6 6l-2 2"/><path d="M13 18l-1 1a4 4 0 0 1-6-6l2-2"/>',
+  users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="8" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/>',
+  table:'<rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="9" y1="10" x2="9" y2="20"/>',
+  calcheck:'<rect x="3" y="4" width="18" height="18" rx="2.5"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><path d="M9 15l2 2 4-4"/>',
+  sync:'<polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
+};
+function svgIcon(k){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(ICONS[k]||"")+'</svg>'; }
+
+/* Tool-Slider (mehrere Screenshots): Crossfade, klickbare Dots, Auto-Advance, Pause bei Hover, respektiert reduced-motion */
+let slideTimer = null;
+function initSlider(slider){
+  const slides = [...slider.querySelectorAll(".bk-slide")];
+  const dots = [...slider.querySelectorAll(".bk-dot")];
+  let idx = 0;
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function show(i){
+    idx = (i + slides.length) % slides.length;
+    slides.forEach((s,k)=>s.classList.toggle("on", k===idx));
+    dots.forEach((d,k)=>d.classList.toggle("on", k===idx));
+  }
+  function restart(){ clearInterval(slideTimer); if(!reduce) slideTimer = setInterval(()=>show(idx+1), 3800); }
+  dots.forEach((d,k)=>d.addEventListener("click", ()=>{ show(k); restart(); }));
+  const prev = slider.querySelector(".bk-nav.prev");
+  const next = slider.querySelector(".bk-nav.next");
+  if (prev) prev.addEventListener("click", ()=>{ show(idx-1); restart(); });
+  if (next) next.addEventListener("click", ()=>{ show(idx+1); restart(); });
+  slider.addEventListener("mouseenter", ()=>clearInterval(slideTimer));
+  slider.addEventListener("mouseleave", restart);
+  restart();
+}
+
 function load(key){
   const c = CASES[key];
   document.getElementById("bk-h2").textContent = c.h2;
@@ -224,7 +310,25 @@ function load(key){
   document.getElementById("bk-after-title").textContent = c.afterTitle;
   document.getElementById("bk-addr").textContent = c.addr;
   document.getElementById("bk-cap").innerHTML = "<b>So sieht's aus:</b> " + c.cap;
-  document.getElementById("bk-tool-img").src = c.tool ? c.tool : calSvg(c.accent);
+  // Tool-Ansicht: Slider (mehrere Screenshots), Einzelbild oder Platzhalter-SVG
+  clearInterval(slideTimer);
+  const tool = document.getElementById("bk-tool");
+  const view = document.getElementById("bk-view");
+  if (c.tools && c.tools.length > 1) {
+    tool.classList.remove("shot");
+    view.innerHTML =
+      '<div class="bk-slider">' +
+      c.tools.map((src,i)=>`<img class="bk-slide${i===0?" on":""}" src="${src}" alt="Buchungsansicht ${i+1}" />`).join("") +
+      '<button class="bk-nav prev" aria-label="Vorherige Ansicht">‹</button>' +
+      '<button class="bk-nav next" aria-label="Nächste Ansicht">›</button>' +
+      '<div class="bk-dots">' +
+      c.tools.map((_,i)=>`<button class="bk-dot${i===0?" on":""}" data-i="${i}" aria-label="Ansicht ${i+1}"></button>`).join("") +
+      '</div></div>';
+    initSlider(view.querySelector(".bk-slider"));
+  } else {
+    tool.classList.toggle("shot", !!c.tool);
+    view.innerHTML = `<img alt="Buchungsansicht" src="${c.tool ? c.tool : calSvg(c.accent)}" />`;
+  }
 
   // Chat mit gestaffelter Animation neu aufbauen
   chat.innerHTML = "";
@@ -238,6 +342,11 @@ function load(key){
   steps.innerHTML = c.steps.map((s,i)=>`<div class="bk-step"><span class="n">${i+1}</span><span>${s.t}</span></div>`).join("");
   document.getElementById("bk-before-metric").innerHTML = metricHTML(c.beforeMetric);
   document.getElementById("bk-after-metric").innerHTML = metricHTML(c.afterMetric);
+  document.getElementById("bk-facts-head").textContent = c.factsHead || "Was das bringt";
+  const factsEl = document.getElementById("bk-facts");
+  factsEl.innerHTML = (c.facts||[]).map(f =>
+    `<div class="bk-fact"><div class="ic">${svgIcon(f.ic)}</div><h4>${f.t}</h4><p>${f.d}</p></div>`).join("");
+  factsEl.classList.toggle("cols3", (c.facts||[]).length === 5);
 
   [...tabs.children].forEach(b=>b.classList.toggle("on", b.dataset.k===key));
 }

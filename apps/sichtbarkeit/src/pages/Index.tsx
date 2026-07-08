@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./apple-home.css";
 import "./webseiten.css";
+import BeforeAfter from "../components/BeforeAfter";
 
-const CAL = "https://cal.com/nicolasieber/beratungsgespraech";
 const MAIL = "info@trendingmedia.ch";
+const BOOKING_WIDGET_ID = "333c239f-7b64-433b-9f5e-d6526c46891a";
 
 /* ---- inline stroke icons ---- */
 const IC: Record<string, string> = {
@@ -176,40 +177,6 @@ const FAQS = [
   { q: "Ich habe schon eine Website. Lohnt sich ein Neubau?", a: "Nicht immer, manchmal reicht ein gezielter Relaunch oder eine zusätzliche Landingpage. Im Erstgespräch schauen wir uns Ihre aktuelle Seite ehrlich an und sagen Ihnen, was sich wirklich lohnt." },
 ];
 
-/* ---- contact funnel: vier kurze Fragen, dann direkt der Kalender ---- */
-type FunnelStep = { key: string; q: string; help?: string; opts: string[] };
-const FUNNEL_STEPS: FunnelStep[] = [
-  {
-    key: "bestehendeWebsite",
-    q: "Haben Sie bereits eine bestehende Website?",
-    help: "Damit wir den Ausgangspunkt kennen.",
-    opts: ["Ja, soll überarbeitet werden", "Ja, soll komplett neu", "Nein, noch keine", "Unsicher"],
-  },
-  {
-    key: "projektart",
-    q: "Was für eine Website schwebt Ihnen vor?",
-    help: "Eine grobe Richtung genügt.",
-    opts: ["Kleine Visitenkarten-Website (1–3 Seiten)", "Klassische Unternehmens-Website (4–10 Seiten)", "Umfangreiche Website oder Shop", "Update der bestehenden Seite"],
-  },
-  {
-    key: "texteVorhanden",
-    q: "Sind Texte und Bilder bereits vorhanden?",
-    help: "Falls nicht, unterstützen wir Sie dabei.",
-    opts: ["Ja, vollständig", "Teilweise", "Nein, brauche Unterstützung", "Noch unklar"],
-  },
-  {
-    key: "zeitrahmen",
-    q: "Wann möchten Sie umsetzen?",
-    opts: ["So schnell wie möglich", "In 1–3 Monaten", "In 3–6 Monaten", "Erst informieren"],
-  },
-];
-const FUNNEL_LABEL: Record<string, string> = {
-  bestehendeWebsite: "Bestehende Website",
-  projektart: "Projektart",
-  texteVorhanden: "Texte/Bilder",
-  zeitrahmen: "Zeitrahmen",
-};
-
 const n2 = (i: number) => String(i + 1).padStart(2, "0");
 
 function Shead({ k, h, intro }: { k: string; h: string; intro?: string }) {
@@ -241,78 +208,6 @@ function FaqItem({ f, open, onToggle }: { f: { q: string; a: string }; open: boo
   );
 }
 
-function ContactFunnel() {
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [done, setDone] = useState(false);
-
-  const total = FUNNEL_STEPS.length;
-  const pct = done ? 100 : Math.round(((step + 1) / total) * 100);
-
-  const pick = (key: string, value: string) => {
-    setAnswers((a) => ({ ...a, [key]: value }));
-    if (step < total - 1) setStep((s) => s + 1);
-    else setDone(true);
-  };
-
-  const calSrc = (() => {
-    const notes = FUNNEL_STEPS
-      .map((s) => (answers[s.key] ? `${FUNNEL_LABEL[s.key]}: ${answers[s.key]}` : ""))
-      .filter(Boolean)
-      .join("\n");
-    const params = new URLSearchParams({ embed: "true", theme: "light" });
-    if (notes) params.set("notes", notes);
-    return `${CAL}?${params.toString()}`;
-  })();
-
-  if (done) {
-    return (
-      <div className="fn-done">
-        <div className="ap-cal">
-          <div className="bar"><i /><i /><i /><span>cal.com / Erstgespräch</span></div>
-          <iframe src={calSrc} title="Erstgespräch buchen" loading="lazy" />
-        </div>
-        <button className="fn-redo" type="button" onClick={() => { setDone(false); setStep(0); }}>
-          ‹ Antworten ändern
-        </button>
-      </div>
-    );
-  }
-
-  const cur = FUNNEL_STEPS[step];
-  return (
-    <div className="ap-funnel">
-      <div className="fn-top">
-        <span>Frage {step + 1} von {total}</span>
-        <span>{pct}%</span>
-      </div>
-      <div className="fn-bar"><i style={{ width: `${pct}%` }} /></div>
-      <div className="fn-q" key={cur.key}>
-        <h3>{cur.q}</h3>
-        {cur.help && <p className="fn-help">{cur.help}</p>}
-        <div className="fn-opts">
-          {cur.opts.map((o) => (
-            <button
-              key={o}
-              type="button"
-              className={`fn-opt${answers[cur.key] === o ? " on" : ""}`}
-              onClick={() => pick(cur.key, o)}
-            >
-              <span>{o}</span>
-              <span className="fn-rad"><StrokeIcon name="check" color="currentColor" size={14} /></span>
-            </button>
-          ))}
-        </div>
-        {step > 0 && (
-          <button className="fn-back" type="button" onClick={() => setStep((s) => s - 1)}>
-            ‹ Zurück
-          </button>
-        )}
-      </div>
-    </div>
-  );
-}
-
 const Index = () => {
   const rootRef = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
@@ -322,6 +217,19 @@ const Index = () => {
   useEffect(() => {
     document.body.classList.add("ap-light");
     return () => document.body.classList.remove("ap-light");
+  }, []);
+
+  /* Terminbuchungs-Widget (Trending Media) einmal laden — bindet alle [data-book-widget]-Buttons.
+     data-no-fab: kein schwebender Button; die CTAs öffnen das Overlay. Vorqualifizierungs-Fragen
+     laufen im Widget selbst (im Tool gepflegt), daher kein Seiten-Funnel mehr. */
+  useEffect(() => {
+    const s = document.createElement("script");
+    s.src = "https://timetracking.trendingmedia.ch/booking-embed.js";
+    s.setAttribute("data-widget-id", BOOKING_WIDGET_ID);
+    s.setAttribute("data-no-fab", "");
+    s.async = true;
+    document.body.appendChild(s);
+    return () => { s.remove(); };
   }, []);
 
   useEffect(() => {
@@ -364,6 +272,7 @@ const Index = () => {
             <a href="#problem">Diagnose</a>
             <a href="#leistungen">Leistungen</a>
             <a href="#vorgehen">Vorgehen</a>
+            <a href="#referenz">Referenz</a>
             <a href="#pakete">Pakete</a>
             <a href="#faq">FAQ</a>
           </div>
@@ -375,6 +284,7 @@ const Index = () => {
         <a href="#problem" onClick={() => setMobileOpen(false)}>Diagnose</a>
         <a href="#leistungen" onClick={() => setMobileOpen(false)}>Leistungen</a>
         <a href="#vorgehen" onClick={() => setMobileOpen(false)}>Vorgehen</a>
+        <a href="#referenz" onClick={() => setMobileOpen(false)}>Referenz</a>
         <a href="#pakete" onClick={() => setMobileOpen(false)}>Pakete</a>
         <a href="#faq" onClick={() => setMobileOpen(false)}>FAQ</a>
         <a href="#kontakt" onClick={() => setMobileOpen(false)}>Erstgespräch</a>
@@ -457,6 +367,13 @@ const Index = () => {
         </div>
       </section>
 
+      <section className="ap-sec alt" id="referenz">
+        <div className="wide">
+          <Shead k="Referenz" h={"Ein echtes Vorher → Nachher."} intro="So sieht der Unterschied aus: Ziehen Sie die Trennlinie und wechseln Sie zwischen den Bereichen einer echten Kundenseite." />
+          <BeforeAfter />
+        </div>
+      </section>
+
       <section className="ap-sec">
         <div className="wide">
           <Shead k="Was immer dabei ist" h="Kein Schnickschnack. Nur, was wirkt." intro="Jede Seite, die wir bauen, bringt diese Grundlagen mit, ohne Aufpreis, ohne Diskussion." />
@@ -511,7 +428,14 @@ const Index = () => {
                 <li><span className="gi"><StrokeIcon name="chat" color="url(#webgrad)" size={22} /></span>Persönliche Antwort, kein Auto-Reply</li>
               </ul>
             </div>
-            <ContactFunnel />
+            <div className="ap-cal">
+              <div className="bar"><i /><i /><i /><span>Termin buchen · online</span></div>
+              <div className="ap-book">
+                <h3>In wenigen Klicks zum Termin.</h3>
+                <p>Ein paar kurze Fragen, dann wählen Sie direkt Ihren Wunsch-Slot, alles in einem Schritt.</p>
+                <button type="button" className="ap-book-btn" data-book-widget="">Jetzt Termin buchen →</button>
+              </div>
+            </div>
           </div>
         </div>
       </section>

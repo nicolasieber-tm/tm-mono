@@ -1,0 +1,102 @@
+/* =================================================================
+   Modul 2 — Vorher/Nachher-Slider + Facts + Kundenstimme + CTA
+   Scoped unter .ap; nutzt die App-Tokens aus apple-home.css
+   (--bg, --card, --border, --shadow, --accent, --grad, --muted,
+    --muted2, --fg, --icBg). Klassen mit .ba-* / .ba-fact-Präfix.
+   ================================================================= */
+
+/* ---- Tabs ---- */
+.ap .ba-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 0 auto 28px; }
+.ap .ba-tabs button { font: inherit; font-size: .9rem; font-weight: 500; cursor: pointer;
+  padding: 10px 20px; border-radius: 980px; border: 1px solid var(--border);
+  background: var(--card); color: var(--muted); transition: transform .2s, color .2s, box-shadow .2s; }
+.ap .ba-tabs button:hover { color: var(--fg); transform: translateY(-1px); }
+.ap .ba-tabs button.on { color: var(--fg); border-color: transparent; box-shadow: var(--shadow); position: relative; }
+.ap .ba-tabs button.on::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px;
+  background: var(--grad); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+
+/* ---- Vergleichs-Karte ---- */
+.ap .ba { max-width: 960px; margin: 0 auto; }
+.ap .ba-card { background: var(--card); border: 1px solid var(--border); border-radius: 22px; box-shadow: var(--shadow); overflow: hidden; }
+.ap .ba-bar { display: flex; align-items: center; gap: 7px; padding: 13px 18px; border-bottom: 1px solid var(--border); }
+.ap .ba-bar i { width: 11px; height: 11px; border-radius: 50%; background: rgba(0,0,0,.12); display: block; }
+.ap .ba-bar .addr { margin-left: 12px; font-size: .8rem; color: var(--muted2); background: var(--bg);
+  padding: 5px 14px; border-radius: 980px; border: 1px solid var(--border); }
+
+.ap .ba-compare { position: relative; aspect-ratio: 16/9; overflow: hidden; cursor: ew-resize;
+  user-select: none; touch-action: none; background: #f0f0f0; }
+.ap .ba-compare img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  display: block; pointer-events: none; -webkit-user-drag: none; }
+.ap .ba-after { z-index: 1; }
+.ap .ba-before { position: absolute; inset: 0; width: 50%; overflow: hidden; z-index: 2; }
+.ap .ba-before-inner { position: absolute; inset: 0; width: 960px; height: 100%; }  /* = Karten-Breite, per JS */
+.ap .ba-before-inner img { width: 100%; }
+
+.ap .ba-label { position: absolute; top: 16px; z-index: 4; font-size: .72rem; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase; padding: 6px 12px; border-radius: 980px;
+  background: rgba(27,26,30,.72); color: #fff; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); pointer-events: none; }
+.ap .ba-label.before { left: 16px; }
+.ap .ba-label.after { right: 16px; }
+
+.ap .ba-handle { position: absolute; top: 0; bottom: 0; width: 3px; z-index: 5; background: #fff;
+  transform: translateX(-50%); box-shadow: 0 0 0 1px rgba(0,0,0,.08); pointer-events: none; }
+/* sanfte Auto-Sweep-Animation (Drag-Hinweis) */
+.ap .ba-anim .ba-before, .ap .ba-anim .ba-handle { transition: width .9s ease-in-out, left .9s ease-in-out; }
+.ap .ba-handle .grip { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 46px; height: 46px; border-radius: 50%; background: #fff; box-shadow: 0 6px 20px -6px rgba(0,0,0,.45);
+  display: grid; place-items: center; color: var(--accent); }
+.ap .ba-handle .grip svg { width: 24px; height: 24px; }
+
+.ap .ba-ctrl { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border-top: 1px solid var(--border); }
+.ap .ba-ctrl span { font-size: .78rem; font-weight: 600; color: var(--muted2); white-space: nowrap; }
+.ap .ba-range { flex: 1; -webkit-appearance: none; appearance: none; height: 4px; border-radius: 980px;
+  background: linear-gradient(90deg, rgba(27,26,30,.25), var(--accent)); outline: none; }
+.ap .ba-range::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%;
+  background: #fff; border: 2px solid var(--accent); box-shadow: 0 2px 8px -2px rgba(0,0,0,.4); cursor: pointer; }
+.ap .ba-range::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: #fff;
+  border: 2px solid var(--accent); cursor: pointer; }
+
+.ap .ba-cap { margin-top: 18px; text-align: center; font-size: .9rem; color: var(--muted); }
+.ap .ba-cap b { color: var(--fg); font-weight: 600; }
+.ap .ba-hint { margin-top: 8px; text-align: center; font-size: .82rem; color: var(--muted2); }
+
+/* ---- Fact-Karten ---- */
+.ap .ba-facts-head { text-align: center; margin: 60px auto 22px; font-size: .95rem; font-weight: 600;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.ap .ba-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 960px; margin: 0 auto; }
+.ap .ba-fact { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px 20px; box-shadow: var(--shadow); }
+.ap .ba-fact .ic { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center;
+  background: var(--icBg); color: var(--accent); margin-bottom: 14px; }
+.ap .ba-fact .ic svg { width: 20px; height: 20px; }
+.ap .ba-fact h4 { font-size: 1rem; font-weight: 600; letter-spacing: -.01em; line-height: 1.28; color: var(--fg); }
+.ap .ba-fact p { margin-top: 8px; font-size: .83rem; line-height: 1.4; color: var(--muted); }
+@media (max-width: 760px) { .ap .ba-facts { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 460px) { .ap .ba-facts { grid-template-columns: 1fr; } }
+
+/* ---- Kundenstimme ---- */
+.ap .ba-quote { max-width: 760px; margin: 60px auto 0; text-align: center; }
+.ap .ba-quote .qmark { font-family: Georgia, serif; font-size: 3rem; line-height: .5; font-weight: 700;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.ap .ba-quote blockquote { margin: 16px 0 24px; font-size: 1.18rem; line-height: 1.55; letter-spacing: -.01em; color: var(--fg); }
+.ap .ba-quote blockquote .hl { background: var(--grad); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent; font-weight: 600; }
+.ap .ba-quote figcaption { display: inline-flex; align-items: center; gap: 13px; flex-wrap: wrap; justify-content: center; }
+.ap .ba-quote .q-avatar { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; flex: none; }
+.ap .ba-quote .q-who { display: flex; flex-direction: column; text-align: left; line-height: 1.3; }
+.ap .ba-quote .q-name { font-size: .98rem; font-weight: 600; color: var(--fg); }
+.ap .ba-quote .q-role { font-size: .83rem; color: var(--muted); }
+.ap .ba-quote .q-logo { height: 30px; width: auto; max-width: 130px; object-fit: contain; opacity: .85; display: block; }
+
+/* ---- CTA-Band mit Terminbuchungs-Widget ---- */
+.ap .ba-cta { max-width: 1000px; margin: 64px auto 0; border-radius: 22px; padding: 48px 40px; text-align: center;
+  background: var(--grad); color: #fff; }
+.ap .ba-cta h3 { font-size: clamp(1.6rem, 3.2vw, 2.2rem); font-weight: 700; letter-spacing: -.02em; }
+.ap .ba-cta p { margin-top: 12px; font-size: 1.05rem; opacity: .95; max-width: 48ch; margin-left: auto; margin-right: auto; line-height: 1.5; }
+.ap .ba-cta-acts { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
+.ap .ba-cta .cta-btn { display: inline-block; background: #fff; color: #7b3fe4;
+  font-family: inherit; font-weight: 600; font-size: 1rem; letter-spacing: -.01em;
+  padding: 15px 32px; border-radius: 980px; border: 0; cursor: pointer; transition: transform .2s, background .2s; }
+.ap .ba-cta .cta-btn:hover { transform: translateY(-2px); }
+.ap .ba-cta .cta-btn.ghost { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.55); }
+.ap .ba-cta .cta-btn.ghost:hover { background: rgba(255,255,255,.14); }
