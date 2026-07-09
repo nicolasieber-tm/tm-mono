@@ -225,12 +225,11 @@ const TESTIMONIALS = [
   },
 
   /* ---- ECHT: Sandro Dubach, Sandro Dubach Fotografie (Webseite + integriertes Buchungstool) — Freigabe zugesagt ----
-     ⏳ PLATZHALTER-ZITAT: echter Testimonialtext folgt von Sandro (dann quote unten ersetzen).
-     ⏳ Foto + Firmenlogo folgen: photo/logo/website einkommentieren, sobald Dateien in apps/tm/public liegen.
+     ✅ Zitat erhalten (O-Ton Sandro, 2026-07-09). Foto + Logo + Website gesetzt.
      Erscheint auf: TM-Hauptseite (alle) + Sichtbarkeit (web) + spaeter Buchungstool-Unterseite (Modul 3, web-Case). ---- */
   {
-    product: "web", real: true,
-    quote: "<span class=\"hl\">[Testimonialtext folgt]</span> Sandro Dubach schickt seinen O-Ton in Kürze, hier steht dann seine Vorher/Nachher-Story zum Buchungstool, das direkt in seine Website integriert wurde.",
+    product: "web", real: true, tag: "Webseite · Terminbuchung",
+    quote: "Seit ich das Buchungstool auf meiner Website nutze, hat sich <span class=\"hl\">mein administrativer Aufwand deutlich reduziert</span>. Meine Kundinnen und Kunden können ihre Termine unkompliziert selbst buchen, was mir viel Zeit spart und den gesamten Ablauf effizienter macht. Ich bin mit der Lösung sehr zufrieden und kann das Tool allen empfehlen, die ihre Terminverwaltung vereinfachen möchten.",
     before: "Termine per Telefon & Mail-Pingpong", after: "Kundinnen buchen Fototermine selbst online",
     name: "Sandro Dubach", role: "Inhaber, Sandro Dubach Fotografie", company: "Sandro Dubach Fotografie",
     photo: "/referenz_sandro-dubach_bild.webp",
@@ -369,7 +368,7 @@ function card(t){
   const body = `
     <div class="t-head">
       <span class="t-quotemark">&ldquo;</span>
-      <span class="t-tag">${PRODUCT_LABEL[t.product]||""}</span>
+      <span class="t-tag">${t.tag || PRODUCT_LABEL[t.product]||""}</span>
       ${brand}
     </div>
     <p class="t-quote">${t.quote}</p>
