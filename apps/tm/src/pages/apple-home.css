@@ -158,14 +158,12 @@ body.ap-light { background: #fdfbf8; }
 .ap-cal iframe { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
 
 /* Kontakt-Sektion: Vorschau-Karte, die in den /beratung-Flow führt */
-.ap-book { border-radius: 22px; background: var(--card); border: 1px solid var(--border); box-shadow: var(--shadow); padding: 30px; }
-.ap-book .ck { font-size: .85rem; font-weight: 600; color: var(--accent); }
-.ap-book h3 { margin-top: 8px; font-size: 1.5rem; line-height: 1.2; letter-spacing: -.02em; font-weight: 700; }
-.ap-book ol { margin: 22px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
-.ap-book ol li { display: flex; gap: 13px; align-items: center; font-size: 1rem; color: var(--fg); }
-.ap-book ol li .n { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: .82rem; font-weight: 600; color: #fff; background: var(--grad); }
-.ap-book ol li span.t { color: var(--muted); }
-.ap-book ol li b { font-weight: 600; }
+.ap-book { border-radius: 22px; background: var(--card); border: 1px solid var(--border); box-shadow: var(--shadow); padding: 36px 30px; text-align: center; }
+.ap-book-ic { width: 56px; height: 56px; margin: 0 auto 18px; border-radius: 16px; display: grid; place-items: center; background: var(--icBg); border: 1px solid var(--border); }
+.ap-book h3 { font-size: 1.6rem; line-height: 1.2; letter-spacing: -.02em; font-weight: 700; }
+.ap-book-sub { margin: 10px auto 0; font-size: 1rem; line-height: 1.5; color: var(--muted); max-width: 32ch; }
+.ap-book-facts { margin-top: 22px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.ap-book-facts span { font-size: .82rem; font-weight: 500; color: var(--fg); background: var(--chipBg); border: 1px solid var(--border); padding: 7px 14px; border-radius: 980px; }
 .ap-book .ap-book-cta { margin-top: 26px; display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--accent); color: var(--accent-fg); padding: 14px 28px; border-radius: 980px; font-weight: 500; font-size: 1.02rem; transition: filter .2s; }
 .ap-book .ap-book-cta:hover { filter: brightness(1.08); }
 .ap-book .ap-book-note { margin-top: 12px; text-align: center; font-size: .82rem; color: var(--muted2); font-weight: 500; }
@@ -190,7 +188,11 @@ body.ap-light { background: #fdfbf8; }
   --accent: #2b9fd6; --accent-fg: #fff; --orange: #ff7a3c; --blue: #2b9fd6; --navbg: rgba(253,251,248,.82); --border: rgba(0,0,0,.07);
   --card: #fff; --cardAlt: #fdfbf8; --shadow: 0 1px 2px rgba(60,40,20,.05), 0 20px 44px -24px rgba(120,80,40,.2); --shadowH: 0 30px 64px -28px rgba(120,80,40,.32);
   --grad: linear-gradient(105deg,#ff9a3c,#ff6a2c 24%,#8b5cf6 58%,#2f9fd6 88%,#6cc6f5); --illoBg: linear-gradient(150deg,#fff1e6,#efe7ff 55%,#e8f5fd); --illoColor: #2b9fd6;
-  --chipBg: rgba(27,26,30,.06); --chipFg: rgba(27,26,30,.6); --prodHero: linear-gradient(135deg,#ff9a3c,#ff5e2c); --prodHeroFg: #fff; --prodHeroTag: rgba(255,255,255,.88); --icBg: rgba(43,159,214,.12); --footBg: #f6efe8; }
+  --chipBg: rgba(27,26,30,.06); --chipFg: rgba(27,26,30,.6); --prodHero: linear-gradient(135deg,#ff9a3c,#ff5e2c); --prodHeroFg: #fff; --prodHeroTag: rgba(255,255,255,.88); --icBg: rgba(43,159,214,.12); --footBg: #f6efe8;
+  /* Produkt-Akzente für Kundenstimmen (decken sich mit den Apps) */
+  --c-web: #8b5cf6; --c-auron: #ff7a3c; --c-auto: #2b9fd6; --c-oco: #2f62e6;
+  --g-web: linear-gradient(135deg,#9d6bff,#7b3fe4); --g-auron: linear-gradient(135deg,#ff9a3c,#ff5e2c);
+  --g-auto: linear-gradient(135deg,#3bb0e6,#1f7fc0); --g-oco: linear-gradient(135deg,#4a80f5,#2b52d9); }
 .ap-vivid .ap-hero::before { content: ""; position: absolute; inset: -20% -10% auto; height: 125%; z-index: 0; pointer-events: none; filter: blur(36px);
   background: radial-gradient(38% 48% at 14% 24%,rgba(255,138,60,.34),transparent 60%), radial-gradient(40% 50% at 86% 16%,rgba(45,182,255,.30),transparent 60%), radial-gradient(44% 54% at 52% 50%,rgba(139,92,246,.26),transparent 60%); }
 .ap-vivid .ap-hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 280px; z-index: 0; pointer-events: none;
@@ -209,3 +211,92 @@ body.ap-light { background: #fdfbf8; }
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
 .ap-vivid .ap-hero .acts a.p:hover, .ap-vivid .ap-cta a:hover, .ap-vivid .ap-book .ap-book-cta:hover {
   transform: translateY(-1px); filter: none; box-shadow: 0 14px 34px -16px rgba(120,70,200,.42); }
+
+/* ================= Kundenstimmen / Testimonials ================= */
+/* Filter-Pills (nur ohne product-Prop, d.h. auf der TM-Hauptseite) */
+.t-filter { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 0 auto 46px; }
+.t-filter button { font: inherit; font-size: .85rem; font-weight: 500; cursor: pointer;
+  padding: 9px 18px; border-radius: 980px; border: 1px solid var(--border);
+  background: #fff; color: var(--muted); transition: transform .2s, color .2s, border-color .2s, box-shadow .2s; }
+.t-filter button:hover { color: var(--fg); transform: translateY(-1px); }
+.t-filter button.on { color: var(--fg); border-color: transparent; box-shadow: var(--shadow); position: relative; }
+.t-filter button.on::before { content: ""; position: absolute; inset: 0; border-radius: inherit;
+  padding: 1.5px; background: var(--grad);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+
+/* Grid */
+.t-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 760px) { .t-grid { grid-template-columns: 1fr; } }
+
+/* Card */
+.t-card { position: relative; background: var(--card); border: 1px solid var(--border);
+  border-radius: 22px; padding: 32px; box-shadow: var(--shadow);
+  display: flex; flex-direction: column;
+  transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s; }
+.ap-sec.alt .t-card { background: var(--cardAlt); }
+.t-card:hover { transform: translateY(-4px); box-shadow: var(--shadowH); }
+/* feiner farbiger Faden oben, je nach Produkt */
+.t-card::after { content: ""; position: absolute; left: 32px; right: 32px; top: 0; height: 3px;
+  border-radius: 0 0 3px 3px; background: var(--card-grad,var(--grad)); opacity: .9; }
+.t-card[data-product="web"]   { --card-accent: var(--c-web);   --card-grad: var(--g-web); }
+.t-card[data-product="auron"] { --card-accent: var(--c-auron); --card-grad: var(--g-auron); }
+.t-card[data-product="auto"]  { --card-accent: var(--c-auto);  --card-grad: var(--g-auto); }
+.t-card[data-product="oco"]   { --card-accent: var(--c-oco);   --card-grad: var(--g-oco); }
+
+/* Featured (breit) — z.B. das stärkste Testimonial */
+.t-card.featured { grid-column: 1/-1; }
+@media (min-width: 761px) {
+  .t-card.featured { display: grid; grid-template-columns: 1.3fr .9fr; gap: 36px; align-items: center; padding: 40px; }
+  .t-card.featured .t-foot { margin-top: 22px; }
+}
+
+.t-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.t-quotemark { font-family: Georgia,serif; font-size: 2.3rem; line-height: .7; font-weight: 700;
+  background: var(--card-grad,var(--grad)); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent; }
+.t-tag { font-size: .78rem; font-weight: 600; color: var(--card-accent,var(--accent));
+  text-transform: uppercase; letter-spacing: .04em; }
+
+.t-quote { font-size: 1.08rem; line-height: 1.6; letter-spacing: -.01em; color: var(--fg); font-weight: 400; }
+.t-card.featured .t-quote { font-size: 1.25rem; line-height: 1.55; letter-spacing: -.015em; font-weight: 400; }
+.t-quote .hl { background: var(--card-grad,var(--grad)); -webkit-background-clip: text;
+  background-clip: text; -webkit-text-fill-color: transparent; color: transparent; font-weight: 600; }
+
+/* Vorher → Heute Story-Element */
+.t-ba { margin-top: 22px; display: flex; align-items: stretch; gap: 12px; }
+.t-ba .col { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
+.ap-sec:not(.alt) .t-ba .col { background: var(--bg-alt); }
+.t-ba .col .k { font-size: .7rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--muted2); display: block; margin-bottom: 5px; }
+.t-ba .col .v { font-size: .95rem; line-height: 1.35; color: var(--fg); font-weight: 500; }
+.t-ba .col.after .v { color: var(--card-accent,var(--accent)); }
+.t-ba .arrow { align-self: center; color: var(--card-accent,var(--accent)); font-size: 1.2rem; flex: none; }
+@media (max-width: 420px) { .t-ba { flex-direction: column; } .t-ba .arrow { transform: rotate(90deg); } }
+
+/* Highlight-Metrik (optional) */
+.t-metric { margin-top: 20px; display: flex; align-items: baseline; gap: 10px; }
+.t-metric b { font-size: 1.8rem; font-weight: 700; letter-spacing: -.02em;
+  background: var(--card-grad,var(--grad)); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent; }
+.t-metric span { font-size: .85rem; color: var(--muted2); }
+
+/* Kunden-Logo oben rechts im Kopf */
+.t-brand { margin-left: auto; display: flex; align-items: center; flex: none; padding-left: 12px; }
+.t-brand a { display: inline-block; transition: opacity .2s, transform .2s; }
+.t-brand a:hover { opacity: 1; transform: translateY(-1px); }
+.t-brand a .t-logo { opacity: .78; transition: opacity .2s; }
+.t-brand a:hover .t-logo { opacity: 1; }
+.t-brand-ph { font-size: .82rem; font-weight: 600; font-style: italic; color: var(--muted); white-space: nowrap; }
+
+/* Footer: Avatar + Name */
+.t-foot { margin-top: auto; padding-top: 22px; display: flex; align-items: center; gap: 13px; }
+.t-card .t-body { display: flex; flex-direction: column; }
+.t-avatar { width: 46px; height: 46px; border-radius: 50%; flex: none; object-fit: cover;
+  display: grid; place-items: center; font-weight: 600; font-size: 1rem; color: #fff;
+  background: var(--card-grad,var(--grad)); }
+.t-who { display: flex; flex-direction: column; line-height: 1.3; }
+.t-who .name { font-size: .98rem; font-weight: 600; color: var(--fg); }
+.t-who .role { font-size: .83rem; color: var(--muted); }
+.t-logo { display: block; height: 30px; width: auto; max-width: 120px; object-fit: contain; object-position: right center; opacity: .9; }
+.t-card.featured .t-logo { height: 34px; max-width: 150px; }

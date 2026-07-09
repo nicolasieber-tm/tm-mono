@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import Testimonials from "@/components/sections/Testimonials";
 import "./apple-home.css";
 
 const MAIL = "info@trendingmedia.ch";
+const BOOKING_WIDGET_ID = "ebf5635f-f65f-4758-a8d5-e5fb4a791a4b";
 
 /* ---- inline stroke icons ---- */
 const IC: Record<string, string> = {
@@ -150,6 +152,20 @@ const Index = () => {
     return () => document.body.classList.remove("ap-light");
   }, []);
 
+  /* Terminbuchungs-Widget (Trending Media) einmal laden — bindet alle CTAs mit
+     href="#book-widget" (Event-Delegation im Script). data-no-fab: kein schwebender
+     Button; die Vorqualifizierungs-Fragen laufen im Widget selbst, daher kein
+     separater /beratung-Funnel mehr. */
+  useEffect(() => {
+    const s = document.createElement("script");
+    s.src = "https://timetracking.trendingmedia.ch/booking-embed.js";
+    s.setAttribute("data-widget-id", BOOKING_WIDGET_ID);
+    s.setAttribute("data-no-fab", "");
+    s.async = true;
+    document.body.appendChild(s);
+    return () => { s.remove(); };
+  }, []);
+
   // reveal-on-scroll
   useEffect(() => {
     const root = rootRef.current;
@@ -192,9 +208,10 @@ const Index = () => {
             <a href="#leistungen">Leistungen</a>
             <a href="#vorgehen">Vorgehen</a>
             <a href="#produkte">Produkte</a>
+            <a href="#stimmen">Stimmen</a>
             <a href="#faq">FAQ</a>
           </div>
-          <Link className="cta" to="/beratung">Erstgespräch</Link>
+          <a className="cta" href="#book-widget">Erstgespräch</a>
           <button className="ap-burger" aria-label="Menü öffnen" onClick={() => setMobileOpen((o) => !o)}>≡</button>
         </div>
       </nav>
@@ -202,8 +219,9 @@ const Index = () => {
         <a href="#leistungen" onClick={() => setMobileOpen(false)}>Leistungen</a>
         <a href="#vorgehen" onClick={() => setMobileOpen(false)}>Vorgehen</a>
         <a href="#produkte" onClick={() => setMobileOpen(false)}>Produkte</a>
+        <a href="#stimmen" onClick={() => setMobileOpen(false)}>Stimmen</a>
         <a href="#faq" onClick={() => setMobileOpen(false)}>FAQ</a>
-        <Link to="/beratung" onClick={() => setMobileOpen(false)}>Erstgespräch</Link>
+        <a href="#book-widget" onClick={() => setMobileOpen(false)}>Erstgespräch</a>
       </div>
 
       <section className="ap-hero reveal" id="top">
@@ -212,7 +230,7 @@ const Index = () => {
           <h1>Ihr Unternehmen, <span className="g">digital weitergedacht</span>.</h1>
           <p className="sub">Mit individuellen digitalen Lösungen reduzieren wir manuellen Aufwand, verbinden Systeme und schaffen effizientere Abläufe.</p>
           <div className="acts">
-            <Link className="p" to="/beratung">Erstgespräch buchen</Link>
+            <a className="p" href="#book-widget">Erstgespräch buchen</a>
             <a className="s" href="#leistungen">Mehr erfahren ›</a>
           </div>
           <div className="ap-reassure">100% kostenlos &amp; unverbindlich</div>
@@ -285,7 +303,7 @@ const Index = () => {
             ))}
           </div>
           <div className="ap-cta reveal" style={{ marginTop: 48 }}>
-            <Link to="/beratung">Erstgespräch buchen</Link>
+            <a href="#book-widget">Erstgespräch buchen</a>
           </div>
         </div>
       </section>
@@ -343,6 +361,8 @@ const Index = () => {
         </div>
       </section>
 
+      <Testimonials />
+
       <section className="ap-sec" id="team">
         <div className="wrap">
           <Shead k="Über uns" h="Die Gesichter hinter Trending Media." />
@@ -373,15 +393,16 @@ const Index = () => {
               </ul>
             </div>
             <div className="ap-book">
-              <div className="ck">In 30 Sekunden zum Termin</div>
-              <h3>Erst kurz vorbereiten, dann Termin wählen.</h3>
-              <ol>
-                <li><span className="n">1</span><span><b>Drei kurze Fragen</b> <span className="t">— zu Ihrem Anliegen</span></span></li>
-                <li><span className="n">2</span><span><b>Kontaktdaten</b> <span className="t">— für die Bestätigung</span></span></li>
-                <li><span className="n">3</span><span><b>Termin wählen</b> <span className="t">— Angaben liegen uns vor</span></span></li>
-              </ol>
-              <Link className="ap-book-cta" to="/beratung">Erstgespräch buchen →</Link>
-              <div className="ap-book-note">100% kostenlos &amp; unverbindlich</div>
+              <div className="ap-book-ic"><StrokeIcon name="cal" color="url(#tmgrad)" size={28} /></div>
+              <h3>Direkt zum Termin.</h3>
+              <p className="ap-book-sub">Freien Slot wählen, die Bestätigung kommt sofort in Ihr Postfach.</p>
+              <div className="ap-book-facts">
+                <span>30 Minuten</span>
+                <span>Per Video-Call</span>
+                <span>Kostenlos</span>
+              </div>
+              <a className="ap-book-cta" href="#book-widget">Erstgespräch buchen →</a>
+              <div className="ap-book-note">Keine Verpflichtung, keine Folgekosten.</div>
             </div>
           </div>
         </div>
@@ -419,7 +440,7 @@ const Index = () => {
             </div>
             <div>
               <h4>Kontakt</h4>
-              <Link className="fl" to="/beratung">Erstgespräch</Link>
+              <a className="fl" href="#book-widget">Erstgespräch</a>
               <a className="fl" href={`mailto:${MAIL}`}>{MAIL}</a>
               <a className="fl" href="#kontakt">Solothurn · CH</a>
             </div>
