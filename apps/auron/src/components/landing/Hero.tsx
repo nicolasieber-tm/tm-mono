@@ -250,7 +250,7 @@ const Hero = () => {
            className="absolute bottom-12 sm:bottom-4 md:bottom-6 inset-x-0 mx-auto w-full flex justify-center items-center flex-col gap-3 z-30 px-4"
         >
           <Button asChild size="lg" className="text-sm sm:text-base px-6 sm:px-10 h-12 sm:h-14 font-semibold rounded-full shadow-lg sm:shadow-xl shadow-primary/20 hover:shadow-primary/40 sm:hover:-translate-y-0.5 transition-all">
-            <a href="/anfrage" className="inline-flex items-center">
+            <a href="#book-widget" className="inline-flex items-center">
               Beratung buchen
               <ArrowRight className="w-5 h-5 ml-2" />
             </a>

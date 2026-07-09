@@ -270,7 +270,7 @@ const Verwaltung = () => {
             size="lg"
             className="bg-white text-zinc-900 hover:bg-zinc-100 text-base px-8 h-11 font-semibold rounded-full shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all"
           >
-            <a href="/anfrage" className="inline-flex items-center">
+            <a href="#book-widget" className="inline-flex items-center">
               Beratung buchen
               <ArrowRight className="w-5 h-5 ml-2" />
             </a>

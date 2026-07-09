@@ -35,7 +35,7 @@ const BookConsultation = () => {
 
           <motion.div {...reveal(0.2, 20)}>
             <Button asChild size="lg" className="rounded-full px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg group w-full sm:w-auto max-w-full">
-              <a href="/anfrage" className="inline-flex items-center justify-center whitespace-normal">
+              <a href="#book-widget" className="inline-flex items-center justify-center whitespace-normal">
                 <Calendar className="mr-2 h-5 w-5 flex-shrink-0" />
                 <span>Kostenlose Beratung buchen</span>
                 <ArrowRight className="ml-2 h-5 w-5 flex-shrink-0 group-hover:translate-x-1 transition-transform" />

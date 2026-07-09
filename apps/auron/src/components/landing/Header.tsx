@@ -129,7 +129,7 @@ const Header = () => {
 							asChild
 							className="h-11 px-6 rounded-full font-semibold shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all"
 						>
-							<a href="/anfrage">Beratung buchen</a>
+							<a href="#book-widget">Beratung buchen</a>
 						</Button>
 					</div>
 
@@ -169,7 +169,7 @@ const Header = () => {
 										asChild
 										className="w-full text-base h-12 rounded-full font-semibold shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all"
 									>
-										<a href="/anfrage">Beratung buchen</a>
+										<a href="#book-widget">Beratung buchen</a>
 									</Button>
 								</div>
 							</div>

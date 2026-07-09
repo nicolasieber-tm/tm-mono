@@ -8,7 +8,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import Anfrage from "./pages/Anfrage.tsx";
 import Impressum from "./pages/Impressum.tsx";
 import Datenschutz from "./pages/Datenschutz.tsx";
 
@@ -121,7 +120,6 @@ const Routing = () => (
     <HashScrollHandlerLenis />
     <Routes>
       <Route path="/" element={<Index />} />
-      <Route path="/anfrage" element={<Anfrage />} />
       <Route path="/impressum" element={<Impressum />} />
       <Route path="/datenschutz" element={<Datenschutz />} />
       <Route path="*" element={<NotFound />} />
