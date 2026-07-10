@@ -1,6 +1,9 @@
 {
   "cleanUrls": false,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/", "destination": "https://trendingmedia.ch/landingpages", "type": 301 }
+  ],
   "rewrites": [
     { "source": "**", "destination": "/index.html" }
   ]

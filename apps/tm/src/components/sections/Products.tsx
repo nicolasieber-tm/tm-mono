@@ -1,5 +1,6 @@
 import { ArrowUpRight, Clock, FileText, Globe } from "lucide-react";
 import type { ComponentType } from "react";
+import { Link } from "react-router-dom";
 import { useSectionMode, modeToClass } from "@/lib/theme";
 import { SectionBackdrop } from "@/components/SectionBackdrop";
 
@@ -62,9 +63,9 @@ const products: Product[] = [
     tag: "Für KMU & Dienstleister",
     description:
       "Hochkonvertierende Landingpages für KMU und lokale Dienstleister. Klarer Fokus: Sichtbarkeit, qualifizierte Anfragen und Resultate, die sich im Kalender messen lassen.",
-    href: "https://sichtbarkeit.trendingmedia.ch",
+    href: "/landingpages",
     Icon: Globe,
-    domain: "sichtbarkeit.trendingmedia.ch",
+    domain: "trendingmedia.ch/landingpages",
     status: "Live",
     accent: {
       from: "#b18cff",
@@ -115,12 +116,15 @@ export const Products = () => {
           {products.map((p, i) => {
             const Icon = p.Icon;
             const a = p.accent;
+            const internal = p.href.startsWith("/");
+            const CardTag: any = internal ? Link : "a";
+            const cardLinkProps = internal
+              ? { to: p.href }
+              : { href: p.href, target: "_blank", rel: "noopener noreferrer" };
             return (
-              <a
+              <CardTag
                 key={p.name}
-                href={p.href}
-                target="_blank"
-                rel="noopener noreferrer"
+                {...cardLinkProps}
                 className="group c-card-ring relative block h-full rounded-3xl c-surface overflow-hidden"
                 style={{
                   ["--card-accent-from" as string]: a.from,
@@ -256,7 +260,7 @@ export const Products = () => {
                     </div>
                   </div>
                 </div>
-              </a>
+              </CardTag>
             );
           })}
         </div>
