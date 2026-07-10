@@ -10,6 +10,7 @@ import Imprint from "./pages/Imprint.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Privacy from "./pages/Privacy.tsx";
 import Selbstcheck from "./pages/Selbstcheck.tsx";
+import Landingpages from "./landingpages/Landingpages.tsx";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
             <HashScrollHandler />
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/landingpages" element={<Landingpages />} />
               <Route path="/impressum" element={<Imprint />} />
               <Route path="/datenschutz" element={<Privacy />} />
               <Route path="/selbstcheck" element={<Selbstcheck />} />

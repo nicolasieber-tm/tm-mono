@@ -1,0 +1,85 @@
+/* =================================================================
+   Webseiten / Landingpages — product landing page.
+   Reuses the Apple-style system from apple-home.css (imported first),
+   then re-skins it purple-forward and adds a few page-specific blocks.
+   Scoped under .lp.lp-web — imported AFTER apple-home.css so the
+   variable overrides win on equal specificity.
+   ================================================================= */
+
+/* purple-forward skin — same family as the vivid homepage, product accent */
+.lp-web {
+  --accent: #8b5cf6; --accent-fg: #fff;
+  --grad: linear-gradient(105deg,#b18bff,#8b5cf6 36%,#7b3fe4 62%,#5b8def 100%);
+  --illoBg: linear-gradient(150deg,#f1ecff,#efe7ff 55%,#e9f0fd);
+  --illoColor: #8b5cf6;
+  --icBg: rgba(139,92,246,.12);
+  --prodHero: linear-gradient(135deg,#9d6bff,#7b3fe4);
+}
+
+/* purple-forward hero glow (overrides the tri-color vivid glow) */
+.lp-web .lp-hero::before {
+  background:
+    radial-gradient(40% 50% at 16% 22%,rgba(157,107,255,.34),transparent 60%),
+    radial-gradient(40% 50% at 84% 16%,rgba(91,141,237,.28),transparent 60%),
+    radial-gradient(46% 56% at 52% 52%,rgba(123,63,228,.24),transparent 60%);
+}
+
+/* trim the oversized hero bottom padding so the stats band sits close */
+.lp-web .lp-hero { padding: 150px 0 120px; }
+
+/* ---- stats / promise band ---- */
+.lp-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+@media (max-width: 760px) { .lp-stats { grid-template-columns: 1fr 1fr; } }
+.lp-stats .st { background: var(--card); border: 1px solid var(--border); border-radius: 18px;
+  padding: 26px 22px; box-shadow: var(--shadow); text-align: center; }
+.lp-sec.alt .lp-stats .st { background: var(--cardAlt); }
+.lp-stats .st b { display: block; font-size: clamp(1.7rem,3.4vw,2.2rem); font-weight: 700; letter-spacing: -.02em; line-height: 1;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.lp-stats .st span { display: block; margin-top: 8px; font-size: .85rem; line-height: 1.4; color: var(--muted); }
+
+/* ---- package cards ---- */
+.lp-card.pkg { position: relative; }
+.lp-card.pkg .feat { margin: 18px 0 0; display: flex; flex-direction: column; gap: 10px; }
+.lp-card.pkg .feat li { list-style: none; display: flex; gap: 10px; align-items: flex-start;
+  font-size: .92rem; line-height: 1.45; color: var(--muted); }
+.lp-card.pkg .feat li svg { flex: none; margin-top: 2px; }
+.lp-card.pkg .pkg-foot { margin-top: auto; padding-top: 22px; }
+.lp-card.pkg .pkg-foot .pr { font-size: .82rem; color: var(--muted2); margin-bottom: 12px; }
+.lp-card.pkg .pkg-foot a { display: inline-flex; align-items: center; gap: 6px;
+  font-weight: 600; color: var(--accent); font-size: .95rem; }
+.lp-card.pkg.pop::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.6px;
+  background: var(--grad); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+.lp-card.pkg .badge { position: absolute; top: 20px; right: 20px; font-size: .68rem; font-weight: 600; letter-spacing: .02em;
+  color: #fff; background: var(--accent); padding: 4px 11px; border-radius: 980px; }
+
+/* ---- contact funnel: vier Fragen im Kontakt-Abschnitt, dann der Kalender ---- */
+.lp-funnel { background: var(--card); border: 1px solid var(--border); border-radius: 22px;
+  box-shadow: var(--shadow); padding: 26px 24px 24px; }
+.lp-funnel .fn-top { display: flex; justify-content: space-between; font-size: .78rem; font-weight: 600;
+  color: var(--muted2); margin-bottom: 10px; }
+.lp-funnel .fn-bar { height: 6px; border-radius: 980px; background: rgba(0,0,0,.06); overflow: hidden; }
+.lp-funnel .fn-bar i { display: block; height: 100%; border-radius: 980px; background: var(--grad);
+  transition: width .35s cubic-bezier(.22,1,.36,1); }
+.lp-funnel .fn-q { margin-top: 22px; animation: fnUp .4s cubic-bezier(.22,1,.36,1); }
+@keyframes fnUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .lp-funnel .fn-q { animation: none; } }
+.lp-funnel h3 { font-size: 1.25rem; line-height: 1.25; letter-spacing: -.02em; font-weight: 700; color: var(--fg); }
+.lp-funnel .fn-help { margin-top: 6px; font-size: .9rem; color: var(--muted); }
+.lp-funnel .fn-opts { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+.lp-funnel .fn-opt { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  width: 100%; text-align: left; cursor: pointer; font: inherit; font-size: .95rem; color: var(--fg);
+  background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px;
+  transition: border-color .18s, background .18s, transform .18s; }
+.lp-funnel .fn-opt:hover { border-color: var(--accent); background: rgba(139,92,246,.05); transform: translateY(-1px); }
+.lp-funnel .fn-opt.on { border-color: var(--accent); background: rgba(139,92,246,.07); }
+.lp-funnel .fn-rad { flex: none; width: 24px; height: 24px; display: grid; place-items: center; color: transparent;
+  border: 1px solid var(--border); border-radius: 50%; transition: background .18s, border-color .18s, color .18s; }
+.lp-funnel .fn-opt:hover .fn-rad { border-color: var(--accent); }
+.lp-funnel .fn-opt.on .fn-rad { background: var(--accent); border-color: var(--accent); color: #fff; }
+.lp-funnel .fn-back { margin-top: 18px; background: none; border: 0; cursor: pointer; font: inherit;
+  font-size: .85rem; color: var(--muted); padding: 4px 0; transition: color .18s; }
+.lp-funnel .fn-back:hover { color: var(--fg); }
+.fn-done .fn-redo { display: block; margin: 14px auto 0; background: none; border: 0; cursor: pointer;
+  font: inherit; font-size: .85rem; color: var(--muted); transition: color .18s; }
+.fn-done .fn-redo:hover { color: var(--fg); }
