@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Testimonials from "@/components/sections/Testimonials";
+import BookingCaseB2B from "@/components/BookingCaseB2B";
+import EmailAutoCase from "@/components/EmailAutoCase";
 import "./apple-home.css";
 
 const MAIL = "info@trendingmedia.ch";
@@ -302,6 +304,32 @@ const Index = () => {
               </div>
             ))}
           </div>
+          <div className="ap-cta reveal" style={{ marginTop: 48 }}>
+            <a href="#book-widget">Erstgespräch buchen</a>
+          </div>
+        </div>
+      </section>
+
+      <section className="ap-sec alt" id="buchung">
+        <div className="wide">
+          <Shead k="Beispiele aus der Praxis" h="Automatisierungen, die sich täglich auszahlen." intro="Zwei echte Fälle aus laufenden Kundenprojekten – vom Buchungslink für hunderte Mitarbeitende bis zur E-Mail, aus der automatisch der richtige Zeitrapport wird." />
+
+          <div className="ap-case">
+            <div className="ap-case-head reveal">
+              <span className="ap-case-k">Fall 1 · Buchung</span>
+              <h3>Ein Link statt hunderte Termin-Mails</h3>
+            </div>
+            <BookingCaseB2B />
+          </div>
+
+          <div className="ap-case">
+            <div className="ap-case-head reveal">
+              <span className="ap-case-k">Fall 2 · E-Mail-Automation</span>
+              <h3>Aus jeder E-Mail der richtige Zeitrapport</h3>
+            </div>
+            <EmailAutoCase />
+          </div>
+
           <div className="ap-cta reveal" style={{ marginTop: 48 }}>
             <a href="#book-widget">Erstgespräch buchen</a>
           </div>
