@@ -79,7 +79,7 @@ export const LegalPageLayout = ({
               <h4>Produkte</h4>
               <a className="fl" href="https://auron.trendingmedia.ch">AURON</a>
               <a className="fl" href="https://landingpage.oneclick-office.ch">OneClick Office</a>
-              <a className="fl" href="https://sichtbarkeit.trendingmedia.ch">Landingpages</a>
+              <a className="fl" href="/landingpages">Landingpages</a>
             </div>
             <div>
               <h4>Unternehmen</h4>

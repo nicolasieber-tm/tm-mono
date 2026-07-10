@@ -5,7 +5,7 @@ import { useSectionMode, modeToClass } from "@/lib/theme";
 const productLinks = [
   { label: "AURON", href: "https://auron.trendingmedia.ch" },
   { label: "OneClick Office", href: "https://landingpage.oneclick-office.ch" },
-  { label: "Landingpages", href: "https://sichtbarkeit.trendingmedia.ch" },
+  { label: "Landingpages", href: "/landingpages" },
 ];
 
 const companyLinks = [

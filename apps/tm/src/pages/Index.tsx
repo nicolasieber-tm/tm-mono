@@ -94,7 +94,7 @@ const GUARANTEES = [
 const PRODUCTS = [
   { name: "AURON", logo: "/Auron_logo.png", color: "#ff7a3c", grad: "linear-gradient(135deg,#ff9a3c,#ff5e2c)", tag: "Handwerker und Bauunternehmen", domain: "auron.trendingmedia.ch", href: "https://auron.trendingmedia.ch", desc: "Intelligente Zeiterfassung für Handwerks- und Servicebetriebe. Entstanden aus dutzenden Gesprächen mit Betrieben, die ihre Stunden bisher auf Zetteln und in Excel verloren haben." },
   { name: "OneClick Office", logo: "/oneclick-office_logo.png", color: "#2b9fd6", grad: "linear-gradient(135deg,#3bb0e6,#1f7fc0)", tag: "Coaches & Berater", domain: "oneclick-office.ch", href: "https://landingpage.oneclick-office.ch", desc: "Rechnungen, Spesen und Admin-Kram radikal vereinfacht, damit Coaches, Berater und kleine Unternehmen wieder die Arbeit machen, für die sie bezahlt werden." },
-  { name: "Landingpages", logo: "/Webseiten_logo.png", color: "#8b5cf6", grad: "linear-gradient(135deg,#9d6bff,#7b3fe4)", tag: "KMU & Dienstleister", domain: "sichtbarkeit.trendingmedia.ch", href: "https://sichtbarkeit.trendingmedia.ch", desc: "Hochkonvertierende Landingpages für KMU und lokale Dienstleister. Klarer Fokus: Sichtbarkeit, qualifizierte Anfragen und messbare Resultate." },
+  { name: "Landingpages", logo: "/Webseiten_logo.png", color: "#8b5cf6", grad: "linear-gradient(135deg,#9d6bff,#7b3fe4)", tag: "KMU & Dienstleister", domain: "trendingmedia.ch/landingpages", href: "/landingpages", desc: "Hochkonvertierende Landingpages für KMU und lokale Dienstleister. Klarer Fokus: Sichtbarkeit, qualifizierte Anfragen und messbare Resultate." },
 ];
 const TEAM = [
   { name: "Nicola Sieber", role: "Strategy & Operations", img: "/team/nicola.png", desc: "Treibt Digitalisierungsprojekte mit klarem Fokus auf Effizienz voran. Übersetzt komplexe Abläufe in Prozesse, die im Alltag wirklich Zeit sparen." },
@@ -458,7 +458,7 @@ const Index = () => {
               <h4>Produkte</h4>
               <a className="fl" href="https://auron.trendingmedia.ch">AURON</a>
               <a className="fl" href="https://landingpage.oneclick-office.ch">OneClick Office</a>
-              <a className="fl" href="https://sichtbarkeit.trendingmedia.ch">Landingpages</a>
+              <a className="fl" href="/landingpages">Landingpages</a>
             </div>
             <div>
               <h4>Unternehmen</h4>
