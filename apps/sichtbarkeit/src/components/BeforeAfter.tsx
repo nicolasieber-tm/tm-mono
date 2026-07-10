@@ -191,15 +191,6 @@ export default function BeforeAfter() {
           </a>
         </figcaption>
       </figure>
-
-      <div className="ba-cta reveal">
-        <h3>Auch so ein Auftritt für Ihr Unternehmen?</h3>
-        <p>Wir bauen Ihre Website modern, schnell und auf Anfragen ausgelegt — vom Konzept bis zum Go-Live. Buchen Sie direkt ein unverbindliches Gespräch, oder testen Sie das Buchungstool gleich selbst:</p>
-        <div className="ba-cta-acts">
-          <button type="button" className="cta-btn" data-book-widget="">Jetzt Termin buchen →</button>
-          <a className="cta-btn ghost" href="/demo">Live-Demo selbst testen →</a>
-        </div>
-      </div>
     </>
   );
 }

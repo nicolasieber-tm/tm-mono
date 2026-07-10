@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./apple-home.css";
 import "./webseiten.css";
 import BeforeAfter from "../components/BeforeAfter";
+import BookingCase from "../components/BookingCase";
 
 const MAIL = "info@trendingmedia.ch";
 const BOOKING_WIDGET_ID = "333c239f-7b64-433b-9f5e-d6526c46891a";
@@ -157,15 +158,19 @@ const REASONS = [
 const PACKAGES = [
   {
     name: "Landingpage", tag: "Eine Seite, ein Ziel", pop: false,
-    feat: ["Eine fokussierte Seite", "Conversion-optimierter Aufbau", "Terminbuchung oder Formular", "Mobile-first & schnell", "SEO-Grundlagen", "Schweizer Hosting"],
+    feat: ["Eine fokussierte Seite", "Conversion-optimierter Aufbau", "Buchungstool oder Formular", "Mobile-first & schnell", "SEO-Grundlagen", "Schweizer Hosting"],
   },
   {
     name: "Website", tag: "Ihr kompletter Auftritt", pop: true, badge: "Beliebt",
-    feat: ["Mehrere Seiten (z. B. Leistungen, Über uns)", "Eigenes Design auf Ihre Marke", "Selbst pflegbares CMS", "On-Page-SEO inklusive", "Terminbuchung & Formulare", "Hosting & Wartung"],
+    feat: ["Mehrere Seiten (z. B. Leistungen, Über uns)", "Eigenes Design auf Ihre Marke", "Selbst pflegbares CMS", "On-Page-SEO inklusive", "Buchungstool & Formulare", "Hosting & Wartung"],
   },
   {
     name: "Website + Wachstum", tag: "Auftritt, der mitarbeitet", pop: false,
     feat: ["Alles aus «Website»", "Laufende SEO-Betreuung", "Performance-Monitoring", "A/B-Tests & Optimierung", "Inhalts-Updates auf Wunsch", "Fester Ansprechpartner"],
+  },
+  {
+    name: "Buchungstool", tag: "Für Ihre bestehende Website", pop: false,
+    feat: ["Buchungstool in Ihre aktuelle Seite integriert", "Kunden buchen selbst, rund um die Uhr", "Automatische Bestätigung & Kalender-Sync", "Vorqualifizierung mit eigenen Fragen", "Kein Website-Neubau nötig", "Einrichtung & Einbau übernehmen wir"],
   },
 ];
 const FAQS = [
@@ -374,6 +379,13 @@ const Index = () => {
         </div>
       </section>
 
+      <section className="ap-sec" id="buchung">
+        <div className="wide">
+          <Shead k="Und so bucht ein Kunde darauf" h="Vom Termin-Pingpong zum einen Link." intro="Zu jeder Website, die wir bauen, gehört die passende Terminbuchung — direkt integriert. Schluss mit E-Mail- und Telefon-Hin-und-Her: Ihre Kunden buchen selbst, rund um die Uhr." />
+          <BookingCase />
+        </div>
+      </section>
+
       <section className="ap-sec">
         <div className="wide">
           <Shead k="Was immer dabei ist" h="Kein Schnickschnack. Nur, was wirkt." intro="Jede Seite, die wir bauen, bringt diese Grundlagen mit, ohne Aufpreis, ohne Diskussion." />
@@ -393,8 +405,8 @@ const Index = () => {
 
       <section className="ap-sec alt" id="pakete">
         <div className="wide">
-          <Shead k="Pakete" h="Drei Wege, online sichtbar zu werden." intro="Vom fokussierten Einstieg bis zum Auftritt, der laufend für Sie arbeitet. Den fixen Richtpreis erhalten Sie im Erstgespräch." />
-          <div className="ap-grid c3 reveal">
+          <Shead k="Pakete" h="Website, Buchungstool oder beides." intro="Vom fokussierten Einstieg über den kompletten Auftritt inklusive Buchungstool — oder nur das Buchungstool für Ihre bestehende Website. Den fixen Richtpreis erhalten Sie im Erstgespräch." />
+          <div className="ap-grid c4 reveal">
             {PACKAGES.map((p) => (
               <div className={`ap-card pkg${p.pop ? " pop" : ""}`} key={p.name}>
                 {p.badge && <span className="badge">{p.badge}</span>}
