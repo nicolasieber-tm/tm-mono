@@ -91,6 +91,25 @@
     <meta name="description" content="OneClick-Office - Zeiterfassung, Spesen und Rechnungen" />
     <meta name="author" content="Trending Media" />
 
+    <!-- Inter non-blocking laden: preconnect + Stylesheet, der den ersten Paint
+         NICHT blockiert (media=print → onload=all). Mit display=swap zeigt der
+         Browser sofort die System-Schrift und tauscht auf Inter, sobald da.
+         Ersetzt den früheren render-blockenden @import in index.css. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      />
+    </noscript>
+
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />

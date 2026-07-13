@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* Inter wird NICHT mehr per @import geladen (das war eine render-blockende
+   Kette: index.css → @import → Google-Fonts-CSS → Font-Dateien und hat FCP/LCP
+   auf Mobile massiv verzögert). Der Font kommt jetzt non-blocking via <link> in
+   index.html; hier nur noch die font-family-Deklaration (siehe unten). */
 
 @tailwind base;
 @tailwind components;
@@ -216,28 +219,11 @@
   }
 }
 
-/* Hero-Reveal: sanftes Einblenden per CSS (ersetzt ScrollReveal im Hero, siehe
-   Hero.tsx). Bewusst reine CSS-Animation, damit der vorgerenderte Hero AUCH
-   OHNE JavaScript sichtbar ist und einfliegt. Der Ruhezustand ist sichtbar
-   (opacity:1), sodass ohne Animation nichts verborgen bleibt. */
-@keyframes heroReveal {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
+/* .hero-reveal ist bewusst OHNE Einblend-Animation: Der Hero soll sofort und
+   voll sichtbar malen. Eine opacity-Fade-Animation (0→1) verzögert sonst die
+   LCP-Messung deutlich (das grösste Element gilt erst als „gemalt", wenn es
+   sichtbar ist). Klasse bleibt als no-op erhalten, damit Hero.tsx unverändert
+   bleibt und wir bei Bedarf hier zentral wieder eine Animation ergänzen könnten. */
 .hero-reveal {
-  animation: heroReveal 0.6s ease-out both;
-  animation-delay: var(--reveal-delay, 0s);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-reveal {
-    animation: none;
-  }
+  opacity: 1;
 }
