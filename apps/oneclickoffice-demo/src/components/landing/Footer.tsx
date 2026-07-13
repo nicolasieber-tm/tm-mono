@@ -7,8 +7,10 @@ const Footer = () => (
     <div className="section-container flex flex-col items-center gap-4 text-center">
       <div className="flex items-center gap-3">
         <img
-          src="/oneclick-office-icon.png"
+          src="/oneclick-office-icon.webp"
           alt="OneClick Office"
+          width={128}
+          height={128}
           className="h-8 w-8 rounded-lg object-cover"
         />
         <span className="font-semibold text-text-primary">OneClick Office</span>

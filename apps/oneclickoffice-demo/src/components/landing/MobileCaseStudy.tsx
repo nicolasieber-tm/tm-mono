@@ -37,8 +37,10 @@ const MobileCaseStudy = () => (
         <div className="rounded-2xl border border-border bg-white p-6 shadow-xl shadow-slate-200/60">
           <div className="flex items-center gap-4">
             <img
-              src="/luca.jpg"
+              src="/luca.webp"
               alt="Luca Vogel"
+              width={256}
+              height={385}
               className="h-16 w-16 shrink-0 rounded-2xl object-cover shadow-md"
             />
             <div>
