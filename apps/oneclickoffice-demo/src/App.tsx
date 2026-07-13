@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,35 +8,54 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { ActiveCompanyProvider } from "@/contexts/ActiveCompanyContext";
 import { LayoutChromeProvider } from "@/contexts/LayoutChromeContext";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
-import Landing from "./pages/Landing";
-import Danke from "./pages/Danke";
-import Impressum from "./pages/Impressum";
-import Datenschutz from "./pages/Datenschutz";
-import Login from "./pages/Login";
-import ResetPassword from "./pages/ResetPassword";
-import Dashboard from "./pages/Dashboard";
-import Unternehmen from "./pages/Unternehmen";
-import Klienten from "./pages/Klienten";
-import KlientDetail from "./pages/KlientDetail";
-import KundeDetail from "./pages/KundeDetail";
-import Zeiterfassung from "./pages/Zeiterfassung";
-import Spesen from "./pages/Spesen";
-import Rechnungen from "./pages/Rechnungen";
-import Mitarbeitende from "./pages/Mitarbeitende";
-import Einstellungen from "./pages/Einstellungen";
-import InvoiceTemplateEditor from "./pages/InvoiceTemplateEditor";
-import SystemStatus from "./pages/SystemStatus";
-import Zeit from "./pages/mobile/Zeit";
-import MobileSpesen from "./pages/mobile/Spesen";
-import MobileNotizen from "./pages/mobile/Notizen";
-import Profil from "./pages/mobile/Profil";
-import MainLayout from "./components/layout/MainLayout";
-import NotFound from "./pages/NotFound";
-import KlientenAkte from "./pages/KlientenAkte";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { TourProvider } from "./components/tour/TourProvider";
 import TourOverlay from "./components/tour/TourOverlay";
 import ConsentBanner from "./components/ConsentBanner";
+
+// Nur die Marketing-Landingpage (Route "/") wird eager geladen — sie ist der
+// Einstieg für den Ad-Traffic. Alles andere (die eigentliche Demo-App mit
+// Dashboard, Rechnungen, Zeiterfassung … samt schwerer Libs wie jspdf, konva,
+// recharts, pdfjs) wird per code-splitting nachgeladen und landet NICHT im
+// Landing-Bundle. Wichtig fürs mobile Ad-Publikum, das die Demo-App (iframe)
+// gar nicht öffnet.
+import Landing from "./pages/Landing";
+// /live ist ein winziger Redirect (Ziel des Demo-Buttons in der Opt-in-Mail) —
+// eager, damit der Sprung in die Demo ohne Zwischen-Chunk sofort passiert.
+import LiveDemo from "./pages/LiveDemo";
+
+const Danke = lazy(() => import("./pages/Danke"));
+const Impressum = lazy(() => import("./pages/Impressum"));
+const Datenschutz = lazy(() => import("./pages/Datenschutz"));
+const Login = lazy(() => import("./pages/Login"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Unternehmen = lazy(() => import("./pages/Unternehmen"));
+const Klienten = lazy(() => import("./pages/Klienten"));
+const KlientDetail = lazy(() => import("./pages/KlientDetail"));
+const KundeDetail = lazy(() => import("./pages/KundeDetail"));
+const Zeiterfassung = lazy(() => import("./pages/Zeiterfassung"));
+const Spesen = lazy(() => import("./pages/Spesen"));
+const Rechnungen = lazy(() => import("./pages/Rechnungen"));
+const Mitarbeitende = lazy(() => import("./pages/Mitarbeitende"));
+const Einstellungen = lazy(() => import("./pages/Einstellungen"));
+const InvoiceTemplateEditor = lazy(() => import("./pages/InvoiceTemplateEditor"));
+const SystemStatus = lazy(() => import("./pages/SystemStatus"));
+const Zeit = lazy(() => import("./pages/mobile/Zeit"));
+const MobileSpesen = lazy(() => import("./pages/mobile/Spesen"));
+const MobileNotizen = lazy(() => import("./pages/mobile/Notizen"));
+const Profil = lazy(() => import("./pages/mobile/Profil"));
+const MainLayout = lazy(() => import("./components/layout/MainLayout"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const KlientenAkte = lazy(() => import("./pages/KlientenAkte"));
+
+// Neutraler Ladezustand, während ein nachgeladenes Chunk kommt. Erscheint NICHT
+// beim ersten Landing-Aufruf (Landing ist eager), nur bei Navigation in die Demo.
+const RouteFallback = () => (
+  <div className="flex min-h-screen items-center justify-center bg-background">
+    <div className="h-8 w-8 animate-spin rounded-full border-2 border-border border-t-accent" />
+  </div>
+);
 
 const queryClient = new QueryClient();
 
@@ -50,8 +70,10 @@ const App = () => (
             <ActiveCompanyProvider>
               <LayoutChromeProvider>
               <TourProvider>
+              <Suspense fallback={<RouteFallback />}>
               <Routes>
               <Route path="/" element={<Landing />} />
+              <Route path="/live" element={<LiveDemo />} />
               <Route path="/danke" element={<Danke />} />
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/datenschutz" element={<Datenschutz />} />
@@ -230,6 +252,7 @@ const App = () => (
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              </Suspense>
               <TourOverlay />
               <ConsentBanner />
               </TourProvider>

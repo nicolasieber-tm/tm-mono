@@ -74,8 +74,10 @@ const DesktopSidebar = () => {
       <div className="p-6 border-b border-sidebar-border">
         <div className="flex items-center gap-3">
           <img
-            src="/oneclick-office-icon.png"
+            src="/oneclick-office-icon.webp"
             alt="OneClick Office"
+            width={128}
+            height={128}
             className="h-10 w-10 rounded-xl object-cover"
           />
           <div>

@@ -19,6 +19,8 @@ const Testimonial = () => (
             <img
               src={testimonial.image}
               alt={testimonial.name}
+              width={256}
+              height={385}
               className="h-24 w-24 flex-shrink-0 rounded-2xl object-cover shadow-md md:h-28 md:w-28"
             />
             <div className="flex-1 text-center md:text-left">

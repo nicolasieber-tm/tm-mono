@@ -4,20 +4,28 @@ import ScrollReveal from "./ScrollReveal";
 // Reihenfolge erzählt den Ablauf: Übersicht → erfassen → Belege → abrechnen.
 const shots = [
   {
-    src: "/oneclick-office_demo_dashboard.png",
+    src: "/oneclick-office_demo_dashboard.webp",
     alt: "Dashboard von OneClick Office mit der Monatsübersicht",
+    width: 1100,
+    height: 595,
   },
   {
-    src: "/oneclick-office_demo_neuereintrag.png",
+    src: "/oneclick-office_demo_neuereintrag.webp",
     alt: "Neuen Zeiteintrag direkt nach dem Termin erfassen",
+    width: 1100,
+    height: 916,
   },
   {
-    src: "/oneclick-office_demo_spesen.png",
+    src: "/oneclick-office_demo_spesen.webp",
     alt: "Spesen und Belege erfassen und dem Klienten zuordnen",
+    width: 1100,
+    height: 590,
   },
   {
-    src: "/oneclick-office_demo_Rechnungen.png",
+    src: "/oneclick-office_demo_Rechnungen.webp",
     alt: "Rechnungen aus erfassten Zeiten und Belegen mit einem Klick erstellen",
+    width: 1100,
+    height: 587,
   },
 ];
 
@@ -49,7 +57,14 @@ const MobileScreenshots = () => (
                   demo.oneclick-office.ch
                 </div>
               </div>
-              <img src={shot.src} alt={shot.alt} loading="lazy" className="block w-full" />
+              <img
+                src={shot.src}
+                alt={shot.alt}
+                loading="lazy"
+                width={shot.width}
+                height={shot.height}
+                className="block h-auto w-full"
+              />
             </figure>
           </ScrollReveal>
         ))}

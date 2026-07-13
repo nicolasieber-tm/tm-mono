@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "vite",
     "dev:demo": "vite --mode demo",
-    "build": "vite build",
-    "build:dev": "vite build --mode development",
-    "build:demo": "vite build --mode demo",
+    "build": "vite build && bun run scripts/prerender-hero.ts",
+    "build:dev": "vite build --mode development && bun run scripts/prerender-hero.ts",
+    "build:demo": "vite build --mode demo && bun run scripts/prerender-hero.ts",
     "preview:demo": "vite preview --mode demo",
     "lint": "eslint .",
     "preview": "vite preview",

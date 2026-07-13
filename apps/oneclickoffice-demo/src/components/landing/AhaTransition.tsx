@@ -67,7 +67,9 @@ const AhaTransition = () => (
               src={aha.mobileShot.src}
               alt={aha.mobileShot.alt}
               loading="lazy"
-              className="block w-full"
+              width={1200}
+              height={454}
+              className="block h-auto w-full"
             />
           </div>
           <figcaption className="mt-3 text-sm text-text-muted">

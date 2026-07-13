@@ -68,7 +68,7 @@ export const aha = {
   // auch den Abrechnungs-Moment am PC sehen, blenden wir hier den Desktop-Screenshot ein.
   mobileShot: {
     caption: "Am Monatsende am PC: Klient & Monat wählen, ein Klick, Rechnungen fertig.",
-    src: "/abrechnung-desktop.png",
+    src: "/abrechnung-desktop.webp",
     alt: "Rechnungen mit einem Klick generieren in der Desktop-Ansicht von OneClick Office",
     browserUrl: "demo.oneclick-office.ch",
   },
@@ -159,7 +159,7 @@ export const testimonial = {
     "Weniger manuelle Adminarbeit. Mehr Zeit für die Klienten, die mich wirklich brauchen.",
   name: "Luca Vogel",
   role: "Sozialpädagogische Familienbegleitung",
-  image: "/luca.jpg",
+  image: "/luca.webp",
   // Vorher → Nachher: was sich mit OneClick Office konkret verändert hat.
   transformation: [
     { before: "Word, Excel, Kalender, alles verzettelt", after: "Ein System, ein Klick" },
