@@ -127,6 +127,46 @@
   </head>
 
   <body>
+    <!-- Statischer Hero: wird beim Build von scripts/prerender-hero.ts befüllt
+         und liegt BEWUSST ausserhalb von #root. React (main.tsx) fasst diesen
+         Container nie an → der Hero wird nach dem JS-Laden NICHT neu gemalt,
+         das grösste Element (LCP) bleibt beim frühen statischen Paint (~1s). -->
+    <div id="hero-static"></div>
+    <script>
+      // Guard: den Hero nur auf der Landing ("/") zeigen. serve --single liefert
+      // für JEDE Route dasselbe index.html — in der eingebetteten Demo-iframe und
+      // auf Unterseiten (z. B. /dashboard, /live) muss der Hero weg, vor dem Paint.
+      (function () {
+        try {
+          if (window.self !== window.top || location.pathname !== "/") {
+            var h = document.getElementById("hero-static");
+            if (h) h.remove();
+          }
+        } catch (e) {}
+      })();
+      // CTA-Verhalten für den statischen Hero (nicht von React gesteuert):
+      // Klick auf einen Hero-Link mit #-Ziel → cta_click in den dataLayer (wie
+      // track()) + sanftes Scrollen zur Ziel-Section.
+      (function () {
+        document.addEventListener("click", function (e) {
+          var a = e.target.closest && e.target.closest('#hero-static a[href^="#"]');
+          if (!a) return;
+          if (window.self === window.top) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+              event: "cta_click",
+              cta_id: a.getAttribute("data-cta-id") || "",
+              cta_label: a.getAttribute("data-cta-label") || "",
+            });
+          }
+          var target = document.getElementById(a.getAttribute("href").slice(1));
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

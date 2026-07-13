@@ -11,7 +11,6 @@ import {
   Mail,
 } from "lucide-react";
 import { hero } from "@/lib/landing-content";
-import { track } from "@/lib/analytics";
 
 // WICHTIG: Diese Komponente wird beim Build per renderToStaticMarkup vorgerendert
 // (scripts/prerender-hero.tsx → in index.html eingesetzt), damit Headline,
@@ -49,7 +48,10 @@ const Reveal = ({
   </div>
 );
 
-// CTA als echter Anker-Link (no-JS-tauglich). Mit JS: Klick tracken + sanft scrollen.
+// CTA als echter Anker-Link. Der Hero liegt in prod statisch AUSSERHALB der
+// React-App (#hero-static, siehe main.tsx/index.html) — darum KEIN React-onClick:
+// Smooth-Scroll + Tracking übernimmt ein delegierter Vanilla-Listener in
+// index.html, der cta_id/cta_label aus den data-Attributen liest.
 const CtaLink = ({
   targetId,
   ctaId,
@@ -66,14 +68,8 @@ const CtaLink = ({
   <a
     href={`#${targetId}`}
     className={className}
-    onClick={(e) => {
-      const target = document.getElementById(targetId);
-      if (target) {
-        e.preventDefault();
-        track("cta_click", { cta_id: ctaId, cta_label: label });
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }}
+    data-cta-id={ctaId}
+    data-cta-label={label}
   >
     {children}
   </a>
