@@ -94,7 +94,7 @@ const GUARANTEES = [
 const PRODUCTS = [
   { name: "AURON", logo: "/Auron_logo.png", color: "#ff7a3c", grad: "linear-gradient(135deg,#ff9a3c,#ff5e2c)", tag: "Handwerker und Bauunternehmen", domain: "auron.trendingmedia.ch", href: "https://auron.trendingmedia.ch", desc: "Intelligente Zeiterfassung für Handwerks- und Servicebetriebe. Entstanden aus dutzenden Gesprächen mit Betrieben, die ihre Stunden bisher auf Zetteln und in Excel verloren haben." },
   { name: "OneClick Office", logo: "/oneclick-office_logo.png", color: "#2b9fd6", grad: "linear-gradient(135deg,#3bb0e6,#1f7fc0)", tag: "Coaches & Berater", domain: "oneclick-office.ch", href: "https://landingpage.oneclick-office.ch", desc: "Rechnungen, Spesen und Admin-Kram radikal vereinfacht, damit Coaches, Berater und kleine Unternehmen wieder die Arbeit machen, für die sie bezahlt werden." },
-  { name: "Landingpages", logo: "/Webseiten_logo.png", color: "#8b5cf6", grad: "linear-gradient(135deg,#9d6bff,#7b3fe4)", tag: "KMU & Dienstleister", domain: "sichtbarkeit.trendingmedia.ch", href: "https://sichtbarkeit.trendingmedia.ch", desc: "Hochkonvertierende Landingpages für KMU und lokale Dienstleister. Klarer Fokus: Sichtbarkeit, qualifizierte Anfragen und messbare Resultate." },
+  { name: "Landingpages", logo: "/Webseiten_logo.png", color: "#8b5cf6", grad: "linear-gradient(135deg,#9d6bff,#7b3fe4)", tag: "KMU & Dienstleister", domain: "trendingmedia.ch/landingpages", href: "/landingpages", desc: "Hochkonvertierende Landingpages für KMU und lokale Dienstleister. Klarer Fokus: Sichtbarkeit, qualifizierte Anfragen und messbare Resultate." },
 ];
 const TEAM = [
   { name: "Nicola Sieber", role: "Strategy & Operations", img: "/team/nicola.png", desc: "Treibt Digitalisierungsprojekte mit klarem Fokus auf Effizienz voran. Übersetzt komplexe Abläufe in Prozesse, die im Alltag wirklich Zeit sparen." },
@@ -151,7 +151,34 @@ const Index = () => {
   // light body background on this route only (other routes use the dark cosmic theme)
   useEffect(() => {
     document.body.classList.add("ap-light");
-    return () => document.body.classList.remove("ap-light");
+
+    // iOS: der Rubber-Band-Overscroll (Runterziehen) sowie der Statusbar-Bereich
+    // zeigen die <html>-Hintergrundfarbe bzw. theme-color. Ohne Angabe sind sie
+    // weiss → sichtbarer Streifen über dem farbigen Hero. Auf den creme Grundton
+    // setzen (= Hero-Basiston, die Glows liegen nur als Overlay darüber), sodass
+    // der Hintergrund nahtlos bis ganz oben durchläuft. Beim Verlassen der Route
+    // zurücksetzen, damit die dunklen cosmic-Seiten unberührt bleiben.
+    const BG = "#fdfbf8";
+    const html = document.documentElement;
+    const prevHtmlBg = html.style.backgroundColor;
+    html.style.backgroundColor = BG;
+
+    let meta = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement | null;
+    const createdMeta = !meta;
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "theme-color";
+      document.head.appendChild(meta);
+    }
+    const prevTheme = meta.getAttribute("content");
+    meta.setAttribute("content", BG);
+
+    return () => {
+      document.body.classList.remove("ap-light");
+      html.style.backgroundColor = prevHtmlBg;
+      if (createdMeta) meta!.remove();
+      else if (prevTheme !== null) meta!.setAttribute("content", prevTheme);
+    };
   }, []);
 
   /* Terminbuchungs-Widget (Trending Media) einmal laden — bindet alle CTAs mit
@@ -229,7 +256,7 @@ const Index = () => {
       <section className="ap-hero reveal" id="top">
         <div className="wrap">
           <div className="kick">Digitalisierung für Schweizer KMU</div>
-          <h1>Ihr Unternehmen, <span className="g">digital weitergedacht</span>.</h1>
+          <h1><span className="ln1">Ihr Unternehmen,</span> <span className="g">digital weitergedacht</span>.</h1>
           <p className="sub">Mit individuellen digitalen Lösungen reduzieren wir manuellen Aufwand, verbinden Systeme und schaffen effizientere Abläufe.</p>
           <div className="acts">
             <a className="p" href="#book-widget">Erstgespräch buchen</a>
@@ -258,7 +285,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="ap-sec alt">
+      <section className="ap-sec">
         <div className="wide">
           <Shead k="Diagnose" h="Kommt Ihnen das bekannt vor?" intro="Punkte, die wir in fast jedem Erstgespräch hören, kein Zeichen schlechter Organisation, sondern von Werkzeugen, die nicht mitgewachsen sind." />
           <div className="ap-grid c4 reveal">
@@ -275,7 +302,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="ap-sec" id="leistungen">
+      <section className="ap-sec alt" id="leistungen">
         <div className="wide">
           <Shead k="Leistungen" h="Strategie, Software, Umsetzung. Ein Team." intro="Vier Bereiche, ein Anspruch: spürbar weniger Aufwand, mehr Qualität, mehr Zeit für das Eigentliche." />
           <div className="ap-grid c2 reveal">
@@ -292,7 +319,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="ap-sec alt" id="vorgehen">
+      <section className="ap-sec" id="vorgehen">
         <div className="wide">
           <Shead k="Vorgehen" h="Vom echten Problem zur Lösung." />
           <div className="ap-grid c4 reveal">
@@ -391,7 +418,7 @@ const Index = () => {
 
       <Testimonials />
 
-      <section className="ap-sec" id="team">
+      <section className="ap-sec alt" id="team">
         <div className="wrap">
           <Shead k="Über uns" h="Die Gesichter hinter Trending Media." />
           <div className="ap-team reveal">
@@ -407,7 +434,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="ap-sec alt" id="kontakt">
+      <section className="ap-sec" id="kontakt">
         <div className="wide">
           <div className="ap-contact reveal">
             <div>
@@ -436,7 +463,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="ap-sec" id="faq">
+      <section className="ap-sec alt" id="faq">
         <div className="wrap">
           <Shead k="FAQ" h="Häufige Fragen." />
           <div className="ap-faq reveal">
@@ -458,7 +485,7 @@ const Index = () => {
               <h4>Produkte</h4>
               <a className="fl" href="https://auron.trendingmedia.ch">AURON</a>
               <a className="fl" href="https://landingpage.oneclick-office.ch">OneClick Office</a>
-              <a className="fl" href="https://sichtbarkeit.trendingmedia.ch">Landingpages</a>
+              <a className="fl" href="/landingpages">Landingpages</a>
             </div>
             <div>
               <h4>Unternehmen</h4>
