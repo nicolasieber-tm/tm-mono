@@ -33,9 +33,15 @@ const RESEND_API_KEY =
 const MAIL_FROM = Deno.env.get("DEMO_MAIL_FROM") ?? "OneClick Office <demo@oneclick-office.ch>";
 const MAIL_REPLY_TO = Deno.env.get("DEMO_MAIL_REPLY_TO") ?? "demo@oneclick-office.ch";
 const DEMO_URL = Deno.env.get("DEMO_URL") ?? "https://demo.oneclick-office.ch";
+// Ziel des Demo-Buttons: /live führt DIREKT in die Demo-App (Handy → Erfassen,
+// Desktop → Dashboard), statt zurück auf die Marketing-/Opt-in-Landing. DEMO_URL
+// selbst bleibt für die Footer-Marke ("demo.oneclick-office.ch").
+const DEMO_LINK = Deno.env.get("DEMO_LINK") ?? `${DEMO_URL}/live`;
+// E-Mail-Logo als PNG (WebP wird von vielen Mail-Clients nicht unterstützt) und
+// von einer Datei, die sicher existiert (android-chrome-192x192.png liegt in public/).
 const LOGO_URL =
   Deno.env.get("DEMO_MAIL_LOGO_URL") ??
-  "https://demo.oneclick-office.ch/oneclick-office-icon.png";
+  "https://demo.oneclick-office.ch/android-chrome-192x192.png";
 // Shared-Secret: eigenes DEMO_EMAIL_SECRET bevorzugt, sonst das bestehende
 // LEAD_NOTIFY_SECRET (schützt bereits notify-lead).
 const WEBHOOK_SECRET =
@@ -127,7 +133,7 @@ function renderHtml(name: string): string {
         <tr><td style="padding:8px 32px 4px;">
           <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
             <tr><td align="center" bgcolor="${ACCENT}" style="border-radius:8px;">
-              <a href="${DEMO_URL}" target="_blank"
+              <a href="${DEMO_LINK}" target="_blank"
                  style="display:inline-block;padding:14px 28px;font-family:Helvetica,Arial,sans-serif;
                         font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;">
                 Zur Live-Demo
@@ -136,7 +142,7 @@ function renderHtml(name: string): string {
           </table>
         </td></tr>
         <tr><td align="center" style="padding:6px 32px 0;font-family:Helvetica,Arial,sans-serif;
-             font-size:12px;color:#6b7280;word-break:break-all;">${DEMO_URL}</td></tr>
+             font-size:12px;color:#6b7280;word-break:break-all;">${DEMO_LINK}</td></tr>
 
         <tr><td style="padding:24px 32px 8px;font-family:Helvetica,Arial,sans-serif;font-size:14px;
              color:#4b5563;line-height:1.6;">
@@ -161,7 +167,7 @@ function renderText(name: string): string {
     `Vielen Dank${name ? ", " + name : ""}!\n\n` +
     `Danke für dein Interesse an ${BRAND}. Deine Live-Demo steht bereit, ` +
     `kostenlos und ohne Anmeldung:\n\n` +
-    `${DEMO_URL}\n\n` +
+    `${DEMO_LINK}\n\n` +
     `Für den vollen Einblick öffnest du sie am besten am Desktop. Du siehst, wie aus ` +
     `erfassten Zeiten und Belegen mit einem Klick fertige Rechnungen werden.\n\n` +
     `Bis bald,\nOneClick Office Team`

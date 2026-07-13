@@ -20,6 +20,9 @@ import ConsentBanner from "./components/ConsentBanner";
 // Landing-Bundle. Wichtig fürs mobile Ad-Publikum, das die Demo-App (iframe)
 // gar nicht öffnet.
 import Landing from "./pages/Landing";
+// /live ist ein winziger Redirect (Ziel des Demo-Buttons in der Opt-in-Mail) —
+// eager, damit der Sprung in die Demo ohne Zwischen-Chunk sofort passiert.
+import LiveDemo from "./pages/LiveDemo";
 
 const Danke = lazy(() => import("./pages/Danke"));
 const Impressum = lazy(() => import("./pages/Impressum"));
@@ -70,6 +73,7 @@ const App = () => (
               <Suspense fallback={<RouteFallback />}>
               <Routes>
               <Route path="/" element={<Landing />} />
+              <Route path="/live" element={<LiveDemo />} />
               <Route path="/danke" element={<Danke />} />
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/datenschutz" element={<Datenschutz />} />
