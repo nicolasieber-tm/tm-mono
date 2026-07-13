@@ -76,6 +76,11 @@ body.ap-light { background: #fdfbf8; }
   /* trust elements are airy (no cards), so tighten the gap to the diagnosis section on mobile */
   .ap-hero { padding-bottom: 16px; }
   .ap-hero + .ap-sec { padding-top: 72px; }
+  /* Titel als echte Headline mit Typo-Hierarchie: kleine Auftaktzeile
+     »Ihr Unternehmen,« über der grossen Gradient-Aussage, die bewusst in zwei
+     Zeilen bricht. .ln1 mit em-Grösse → Verhältnis bleibt auf jedem Gerät gleich. */
+  .ap-hero h1 { font-size: clamp(2.1rem, 11.8vw, 3.4rem); max-width: none; }
+  .ap-hero h1 .ln1 { display: block; font-size: 0.68em; letter-spacing: -.02em; margin-bottom: 2px; }
 }
 
 .ap-sec { padding: 100px 0; scroll-margin-top: 90px; }
@@ -196,7 +201,7 @@ body.ap-light { background: #fdfbf8; }
 .ap-vivid .ap-hero::before { content: ""; position: absolute; inset: -20% -10% auto; height: 125%; z-index: 0; pointer-events: none; filter: blur(36px);
   background: radial-gradient(38% 48% at 14% 24%,rgba(255,138,60,.34),transparent 60%), radial-gradient(40% 50% at 86% 16%,rgba(45,182,255,.30),transparent 60%), radial-gradient(44% 54% at 52% 50%,rgba(139,92,246,.26),transparent 60%); }
 .ap-vivid .ap-hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 280px; z-index: 0; pointer-events: none;
-  background: linear-gradient(to bottom,transparent,var(--bg-alt)); }
+  background: linear-gradient(to bottom,transparent,var(--bg)); }
 
 .ap-vivid .ap-shead .kick, .ap-vivid .ap-num, .ap-vivid .ap-contact .ck,
 .ap-vivid .ap-card .tag, .ap-vivid .ap-team .role, .ap-vivid .ap-faq .faq-q .qx {
