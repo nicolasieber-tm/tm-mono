@@ -1,4 +1,3 @@
-import Hero from "@/components/landing/Hero";
 import DemoShowcase from "@/components/landing/DemoShowcase";
 import AhaTransition from "@/components/landing/AhaTransition";
 import Testimonial from "@/components/landing/Testimonial";
@@ -14,19 +13,16 @@ import { useIsMobileViewport } from "@/hooks/useIsMobileViewport";
 // Marketing-Landingpage unter "/". Desktop zeigt die interaktive Live-Demo +
 // Referenz; Mobile (≤767px) bekommt eine eigene Abfolge: Screenshots des Ablaufs,
 // drei Schritte, Praxis-Beispiel und ein Mini-FAQ rund ums Demo-Optin.
+//
+// Der Hero wird NICHT hier gerendert: Er liegt vorgerendert und statisch in
+// #hero-static (ausserhalb von #root, siehe main.tsx/index.html), damit React
+// ihn nicht neu malt (LCP). Der obere Blau→Weiss-Verlauf sitzt darum auf
+// #hero-static; dieser <main> beginnt direkt mit den Inhalten unter dem Hero.
 const Landing = () => {
   const isMobile = useIsMobileViewport();
 
   return (
-    <main
-      className="min-h-screen text-foreground"
-      style={{
-        background:
-          "linear-gradient(180deg, hsl(214 95% 93% / 0.5) 0%, hsl(0 0% 100%) 55%)",
-      }}
-    >
-      <Hero />
-
+    <main className="text-foreground">
       {isMobile ? (
         <>
           <MobileScreenshots />

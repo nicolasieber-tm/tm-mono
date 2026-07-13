@@ -27,14 +27,10 @@ import Hero from "../src/components/landing/Hero";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const indexPath = resolve(here, "../dist/index.html");
-const ROOT_TAG = '<div id="root"></div>';
-
-// Guard: serve läuft mit `--single`, liefert also für JEDE Route (auch die
-// eingebettete Demo /dashboard, /mobile/zeit) dasselbe index.html. Damit der
-// vorgerenderte Hero NICHT in der Demo-iframe oder auf Unterseiten aufblitzt,
-// entfernen wir ihn dort vor dem ersten Paint wieder.
-const GUARD_SCRIPT =
-  '<script>(function(){try{if(window.self!==window.top||location.pathname!=="/"){var r=document.getElementById("root");if(r)r.innerHTML="";}}catch(e){}})();</script>';
+// Ziel-Container liegt BEWUSST ausserhalb von #root: React fasst ihn nie an, der
+// Hero wird also nach dem JS-Laden nicht neu gemalt (LCP bleibt beim frühen
+// statischen Paint). Guard + CTA-Listener stehen statisch in index.html.
+const HERO_TAG = '<div id="hero-static"></div>';
 
 try {
   if (!existsSync(indexPath)) {
@@ -43,16 +39,16 @@ try {
   }
 
   let html = readFileSync(indexPath, "utf8");
-  if (!html.includes(ROOT_TAG)) {
-    console.warn(`[prerender-hero] "${ROOT_TAG}" nicht gefunden – übersprungen.`);
+  if (!html.includes(HERO_TAG)) {
+    console.warn(`[prerender-hero] "${HERO_TAG}" nicht gefunden – übersprungen.`);
     process.exit(0);
   }
 
   const heroHtml = renderToStaticMarkup(createElement(Hero));
-  html = html.replace(ROOT_TAG, `<div id="root">${heroHtml}</div>${GUARD_SCRIPT}`);
+  html = html.replace(HERO_TAG, `<div id="hero-static">${heroHtml}</div>`);
   writeFileSync(indexPath, html);
   console.log(
-    `[prerender-hero] Hero in dist/index.html eingesetzt (${heroHtml.length} Zeichen HTML).`,
+    `[prerender-hero] Hero in dist/index.html (#hero-static) eingesetzt (${heroHtml.length} Zeichen HTML).`,
   );
 } catch (err) {
   console.warn("[prerender-hero] fehlgeschlagen – index.html unverändert:", err);
