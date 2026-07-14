@@ -7,12 +7,13 @@ import { useIsMobileViewport } from "@/hooks/useIsMobileViewport";
  * Statt zurück auf die Marketing-/Opt-in-Landing (das war der Funnel-Bruch:
  * wer sich einträgt, bekam einen Link auf genau dieselbe Seite) leitet /live
  * SOFORT in die echte Demo-App. Geräteabhängig wie in der eingebetteten Demo:
- * am Handy in die Erfassen-Ansicht, am Desktop ins Dashboard. Der Demo-Modus
- * authentifiziert automatisch — kein Login, kein erneutes Formular.
+ * am Handy aufs Mobile-Dashboard (Gesamtüberblick als erster Eindruck), am
+ * Desktop ins Dashboard. Der Demo-Modus authentifiziert automatisch — kein
+ * Login, kein erneutes Formular.
  */
 const LiveDemo = () => {
   const isMobile = useIsMobileViewport();
-  return <Navigate to={isMobile ? "/mobile/zeit" : "/dashboard"} replace />;
+  return <Navigate to={isMobile ? "/mobile/dashboard" : "/dashboard"} replace />;
 };
 
 export default LiveDemo;

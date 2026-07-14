@@ -18,10 +18,16 @@ export interface TourStep {
 // Mobile-Tour — der Alltag unterwegs: erfassen, fotografieren, ablegen.
 const mobile: TourStep[] = [
   {
-    route: "/mobile/zeit",
+    route: "/mobile/dashboard",
+    target: '[data-tour="dashboard-week"]',
+    title: "Dein Überblick unterwegs",
+    body: "Beim Öffnen siehst du sofort, wie viel du diese Woche erfasst hast – plus die letzten Zeiten und Belege auf einen Blick.",
+  },
+  {
+    route: "/mobile/dashboard",
     target: '[data-tour="mobile-nav"]',
     title: "Alles mit dem Daumen erreichbar",
-    body: "Zeit, Spesen, Notizen und Profil – die vier Dinge, die du unterwegs brauchst, immer griffbereit unten.",
+    body: "Start, Zeit, Spesen, Notizen und Profil – alles, was du unterwegs brauchst, immer griffbereit unten.",
   },
   {
     route: "/mobile/zeit",

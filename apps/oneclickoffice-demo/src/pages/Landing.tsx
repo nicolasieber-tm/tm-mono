@@ -2,8 +2,9 @@ import DemoShowcase from "@/components/landing/DemoShowcase";
 import AhaTransition from "@/components/landing/AhaTransition";
 import Testimonial from "@/components/landing/Testimonial";
 import OptinForm from "@/components/landing/OptinForm";
+import BookingCta from "@/components/landing/BookingCta";
 import Footer from "@/components/landing/Footer";
-import MobileScreenshots from "@/components/landing/MobileScreenshots";
+import MobileDemoPreview from "@/components/landing/MobileDemoPreview";
 import MobileSteps from "@/components/landing/MobileSteps";
 import MobileCaseStudy from "@/components/landing/MobileCaseStudy";
 import MobileUsps from "@/components/landing/MobileUsps";
@@ -25,7 +26,7 @@ const Landing = () => {
     <main className="text-foreground">
       {isMobile ? (
         <>
-          <MobileScreenshots />
+          <MobileDemoPreview />
           <MobileSteps />
           <MobileCaseStudy />
         </>
@@ -37,8 +38,9 @@ const Landing = () => {
         </>
       )}
 
-      {/* Auf Mobile trägt der Formular-Frame die CTA-Botschaft direkt in sich. */}
-      <OptinForm mobileLeadCta={isMobile} />
+      {/* Mobile: Termin-Buchung (Erstgespräch) statt Opt-in — die Demo lässt sich
+          oben direkt testen, der Termin ist die Conversion. Desktop: Opt-in bleibt. */}
+      {isMobile ? <BookingCta /> : <OptinForm />}
 
       {isMobile && (
         <>
