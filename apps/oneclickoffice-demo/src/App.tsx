@@ -1,9 +1,9 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ActiveCompanyProvider } from "@/contexts/ActiveCompanyContext";
 import { LayoutChromeProvider } from "@/contexts/LayoutChromeContext";
@@ -60,6 +60,21 @@ const RouteFallback = () => (
 
 const queryClient = new QueryClient();
 
+// Der Hero liegt vorgerendert AUSSERHALB von #root (#hero-static, für den LCP).
+// Der Inline-Guard in index.html entfernt ihn nur beim INITIALEN Laden auf
+// Unterseiten. Bei client-seitiger Navigation (Landing → /mobile/dashboard etc.)
+// läuft der Guard nicht → der Landing-Hero bliebe über der Demo stehen. Darum
+// hier route-abhängig aus-/einblenden: in der Demo nur Demo-Inhalt, kein Hero.
+const HeroStaticVisibility = () => {
+  const location = useLocation();
+  useEffect(() => {
+    const hero = document.getElementById("hero-static");
+    if (!hero) return;
+    hero.style.display = location.pathname === "/" ? "" : "none";
+  }, [location.pathname]);
+  return null;
+};
+
 const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
@@ -67,6 +82,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <HeroStaticVisibility />
           <AuthProvider>
             <ActiveCompanyProvider>
               <LayoutChromeProvider>
