@@ -20,6 +20,27 @@ import { useKunden } from "@/hooks/useKunden";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useExpenses } from "@/hooks/useExpenses";
+import ExpenseListItem, { ExpenseRow } from "@/components/mobile/ExpenseListItem";
+import MobileExpenseSheet from "@/components/mobile/MobileExpenseSheet";
+import { isDemoMode } from "@/hooks/useDemoMode";
+
+// Demo: In Produktion liefert ein Postgres-Trigger + Edge-Function das OCR-Ergebnis
+// per Realtime nach. Im Demo-Mock ist Realtime ein No-op, daher wird das Ergebnis
+// hier lokal simuliert (Belegbetrag + Kategorie), damit der Beleg nicht dauerhaft
+// im Status "wird analysiert" hängt.
+const DEMO_CATEGORIES = ["Reisekosten", "Material", "Weiterbildung", "Verpflegung", "Raummiete"];
+const simulateOcrResult = (expenseId: string, onDone: () => void) => {
+  const amount = Math.round((15 + Math.random() * 120) * 20) / 20; // CHF 15–135, auf 0.05 gerundet
+  const category = DEMO_CATEGORIES[Math.floor(Math.random() * DEMO_CATEGORIES.length)];
+  window.setTimeout(async () => {
+    await supabase
+      .from("expenses")
+      .update({ status: "completed", amount, category })
+      .eq("id", expenseId);
+    onDone();
+  }, 2200);
+};
 
 type FailedExpense = {
   id: string;
@@ -45,6 +66,14 @@ const Spesen = () => {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadStatus, setUploadStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
+  const [selectedExpense, setSelectedExpense] = useState<ExpenseRow | null>(null);
+
+  // Zuletzt hochgeladene Spesen dieses Users (aus dem geteilten Cache,
+  // aktualisiert sich automatisch bei Bearbeiten/Löschen und AI-Updates).
+  const { data: allExpenses } = useExpenses();
+  const myRecent = ((allExpenses ?? []) as ExpenseRow[])
+    .filter((e) => e.employee_id === user?.id)
+    .slice(0, 8);
 
   // Failed expenses für diesen User - zum erneuten Analysieren
   const { data: failedExpenses = [] } = useQuery<FailedExpense[]>({
@@ -119,6 +148,7 @@ const Spesen = () => {
               { duration: 5000 }
             );
             queryClient.invalidateQueries({ queryKey: ['mobile-failed-expenses'] });
+            queryClient.invalidateQueries({ queryKey: ['expenses'] });
             supabase.removeChannel(channel);
           } else if (updated.status === 'failed') {
             toast.error(
@@ -126,6 +156,7 @@ const Spesen = () => {
               { duration: 8000 }
             );
             queryClient.invalidateQueries({ queryKey: ['mobile-failed-expenses'] });
+            queryClient.invalidateQueries({ queryKey: ['expenses'] });
             supabase.removeChannel(channel);
           }
         }
@@ -181,9 +212,17 @@ const Spesen = () => {
       // Sofortiges Feedback fuer den User - kein Warten auf AI
       setUploadStatus('success');
       toast.success("Beleg erfolgreich gespeichert – wird analysiert...");
+      queryClient.invalidateQueries({ queryKey: ['expenses'] });
 
       // Phase 2: Realtime Subscription fuer Live-Update wenn AI fertig ist
       subscribeToExpenseUpdate(newExpense.id);
+
+      // Demo: Realtime ist im Mock ein No-op → OCR-Ergebnis simulieren.
+      if (isDemoMode) {
+        simulateOcrResult(newExpense.id, () =>
+          queryClient.invalidateQueries({ queryKey: ['expenses'] })
+        );
+      }
 
       // Formular nach 3s zuruecksetzen
       setTimeout(() => {
@@ -443,6 +482,27 @@ const Spesen = () => {
         </CardContent>
       </Card>
 
+      {/* Zuletzt hochgeladen - erkannter Betrag & Kategorie, antippbar zum Korrigieren */}
+      {myRecent.length > 0 && (
+        <div className="mt-8">
+          <div className="flex items-center justify-between mb-3 px-1">
+            <h3 className="text-lg font-bold text-foreground">Zuletzt hochgeladen</h3>
+            <span className="text-sm text-muted-foreground">{myRecent.length}</span>
+          </div>
+          <Card className="overflow-hidden">
+            <div className="divide-y divide-border">
+              {myRecent.map((exp) => (
+                <ExpenseListItem
+                  key={exp.id}
+                  expense={exp}
+                  onClick={exp.status === 'completed' ? () => setSelectedExpense(exp) : undefined}
+                />
+              ))}
+            </div>
+          </Card>
+        </div>
+      )}
+
       {/* Failed Expenses - "Belege die Aufmerksamkeit brauchen" */}
       {failedExpenses.length > 0 && (
         <Card className="mt-8 border-2 border-orange-300 bg-orange-50/50 shadow-md">
@@ -497,6 +557,8 @@ const Spesen = () => {
           </div>
         </CardContent>
       </Card>
+
+      <MobileExpenseSheet expense={selectedExpense} onOpenChange={(o) => !o && setSelectedExpense(null)} />
     </div>
   );
 };

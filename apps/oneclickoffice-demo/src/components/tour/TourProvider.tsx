@@ -3,6 +3,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -116,7 +117,7 @@ export const TourProvider = ({ children }: { children: ReactNode }) => {
     setStepIndex((i) => Math.max(0, i - 1));
   }, []);
 
-  // Start-Signal von der Landingpage (postMessage) + URL-Param-Fallback.
+  // Start-Signal von der Landingpage (postMessage, nur im eingebetteten iframe).
   useEffect(() => {
     const onMessage = (e: MessageEvent) => {
       const data = e.data;
@@ -129,18 +130,41 @@ export const TourProvider = ({ children }: { children: ReactNode }) => {
       }
     };
     window.addEventListener("message", onMessage);
-    const param = new URLSearchParams(window.location.search).get("tour");
-    if (param === "mobile" || param === "desktop") start(param);
     return () => window.removeEventListener("message", onMessage);
   }, [start]);
 
-  // Vor jedem Schritt auf die richtige Route navigieren (kein Reload).
+  // URL-Param `?tour=mobile|desktop` — startet die Tour auch bei client-seitiger
+  // Navigation (z. B. Landing-Button „Geführte Demo starten"), nicht nur beim
+  // Erstladen. Ref-Guard: pro App-Leben nur EINMAL auto-starten, damit die Tour
+  // nach dem Beenden nicht sofort neu startet, falls der Param noch in der URL steht.
+  const tourParamConsumed = useRef(false);
+  useEffect(() => {
+    if (tourParamConsumed.current) return;
+    const param = new URLSearchParams(location.search).get("tour");
+    if (param === "mobile" || param === "desktop") {
+      tourParamConsumed.current = true;
+      start(param);
+    }
+  }, [location.search, start]);
+
+  // Vor jedem Schritt auf die richtige Route navigieren (kein Reload). replace
+  // statt push: die Tour-Schritte sollen den Browser-Verlauf nicht zumüllen —
+  // so führt „Zurück" aus der Demo direkt auf die Landing statt Schritt für Schritt.
+  //
+  // Verlässt der Nutzer die Demo (Location NICHT mehr eine der Tour-Routen, z. B.
+  // per Browser-Back auf die Landing), wird die Tour BEENDET statt ihn in den
+  // Schritt zurückzuziehen — sonst „schnappt" der native Zurück-Weg zurück in die
+  // Demo (Tour-Drag) und der Besucher sitzt fest.
   useEffect(() => {
     if (!active || !currentStep) return;
-    if (location.pathname !== currentStep.route) {
-      navigate(currentStep.route);
+    if (location.pathname === currentStep.route) return;
+    const inDemo = steps.some((s) => s.route === location.pathname);
+    if (!inDemo) {
+      end();
+      return;
     }
-  }, [active, currentStep, location.pathname, navigate]);
+    navigate(currentStep.route, { replace: true });
+  }, [active, currentStep, location.pathname, navigate, steps, end]);
 
   return (
     <TourContext.Provider

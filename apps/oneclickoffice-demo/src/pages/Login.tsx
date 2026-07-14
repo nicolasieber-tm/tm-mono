@@ -42,9 +42,9 @@ const Login = () => {
       } else {
         toast.success("Erfolgreich angemeldet");
 
-        // Auf mobilen Geräten direkt zur mobilen Zeit-Ansicht navigieren
+        // Auf mobilen Geräten direkt aufs Mobile-Dashboard navigieren
         const isMobile = window.innerWidth < 768;
-        navigate(isMobile ? "/mobile/zeit" : "/dashboard");
+        navigate(isMobile ? "/mobile/dashboard" : "/dashboard");
       }
     } catch (error) {
       toast.error("Ein Fehler ist aufgetreten", {

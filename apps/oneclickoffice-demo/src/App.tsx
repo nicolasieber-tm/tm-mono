@@ -41,6 +41,7 @@ const Mitarbeitende = lazy(() => import("./pages/Mitarbeitende"));
 const Einstellungen = lazy(() => import("./pages/Einstellungen"));
 const InvoiceTemplateEditor = lazy(() => import("./pages/InvoiceTemplateEditor"));
 const SystemStatus = lazy(() => import("./pages/SystemStatus"));
+const MobileDashboard = lazy(() => import("./pages/mobile/Dashboard"));
 const Zeit = lazy(() => import("./pages/mobile/Zeit"));
 const MobileSpesen = lazy(() => import("./pages/mobile/Spesen"));
 const MobileNotizen = lazy(() => import("./pages/mobile/Notizen"));
@@ -205,6 +206,16 @@ const App = () => (
                   <ProtectedRoute>
                     <MainLayout>
                       <InvoiceTemplateEditor />
+                    </MainLayout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/mobile/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <MainLayout>
+                      <MobileDashboard />
                     </MainLayout>
                   </ProtectedRoute>
                 }

@@ -8,7 +8,7 @@ import {
   ArrowDown,
   ArrowRight,
   Play,
-  Mail,
+  Calendar,
 } from "lucide-react";
 import { hero } from "@/lib/landing-content";
 
@@ -99,9 +99,9 @@ const HeroShell = ({
   </section>
 );
 
-// Mobile-Hero (≤767px): klarer Value-Prop + ein CTA, der zum schlanken Optin
-// scrollt. Am Handy ist der Demo-Zugang per E-Mail der bessere Weg als die
-// interaktive Desktop-Demo. Nur <768px sichtbar (md:hidden).
+// Mobile-Hero (≤767px): klarer Value-Prop + ein CTA, der das Buchungs-Widget
+// öffnet (href="#book-widget"). Die interaktive Demo lässt sich direkt darunter
+// testen (MobileDemoPreview), der Termin ist die Conversion. Nur <768px (md:hidden).
 const MobileHero = () => (
   <HeroShell className="md:hidden">
     <Reveal>
@@ -128,12 +128,12 @@ const MobileHero = () => (
     <Reveal delay={0.2}>
       <div className="mb-10">
         <CtaLink
-          targetId="anfrage"
-          ctaId="hero_mobile_optin"
+          targetId="book-widget"
+          ctaId="hero_mobile_booking"
           label={hero.mobile.cta}
           className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-7 py-3.5 text-base font-semibold text-primary-foreground shadow-md transition-all hover:-translate-y-0.5 hover:bg-accent-deep sm:w-auto"
         >
-          <Mail className="h-5 w-5" />
+          <Calendar className="h-5 w-5" />
           {hero.mobile.cta}
         </CtaLink>
       </div>

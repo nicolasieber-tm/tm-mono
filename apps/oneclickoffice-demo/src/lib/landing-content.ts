@@ -28,12 +28,12 @@ export const hero = {
   mobile: {
     kicker: "KOSTENLOSE LIVE-DEMO",
     headline: "Spare dir den Admin-Tag beim Monatsabschluss.",
-    // Zwei Absätze: Value-Prop + Handlungsaufforderung (Demo am Desktop, Link per Mail).
+    // Zwei Absätze: Value-Prop + Handlungsaufforderung (Demo unten testen / Erstgespräch).
     subheadline: [
       "OneClick Office ist das Abrechnungssystem für selbstständige Coaches und Berater in der Schweiz. Erfasse Zeiten und Belege direkt nach dem Termin am Handy, am Desktop erstellst du daraus mit einem Klick fertige Rechnungen.",
-      "Teste die Demo am besten auf dem Desktop. Wir senden dir den Demo-Link direkt per E-Mail.",
+      "Probier die App gleich unten direkt aus – oder buch dir ein kostenloses Erstgespräch.",
     ],
-    cta: "Demo-Zugang kostenlos erhalten",
+    cta: "Kostenloses Erstgespräch buchen",
     badges: [
       "Schweizer Lösung",
       "revDSG und DSGVO konform",
@@ -56,7 +56,7 @@ export const demo = {
   hint: "Du kannst die Tour jederzeit beenden und dich frei durch die Demo klicken.",
   // Start-Routen der eingebetteten Demo je Gerät.
   desktopSrc: "/dashboard",
-  mobileSrc: "/mobile/zeit",
+  mobileSrc: "/mobile/dashboard",
 } as const;
 
 export const aha = {

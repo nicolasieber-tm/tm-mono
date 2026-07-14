@@ -273,6 +273,54 @@ export function buildSeed(): Record<string, any[]> {
     });
   });
 
+  // ---- Aktuelle Woche: heute-relative Einträge ----
+  // Damit Mobile-Dashboard-Hero (last7/weekHours/heute) und Profil-Statistik
+  // (monthHours/monthCount) an einem beliebigen Laufdatum gefüllt sind, statt
+  // an fixen Juni-2026-Seeds zu hängen. Datiert relativ zu new Date().
+  const isoDaysAgo = (n: number) => {
+    const d = new Date();
+    d.setDate(d.getDate() - n);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  };
+  const RECENT_ENTRIES = [
+    { daysAgo: 0, hours: 1.5 },
+    { daysAgo: 0, hours: 1 },
+    { daysAgo: 1, hours: 2 },
+    { daysAgo: 2, hours: 1 },
+    { daysAgo: 3, hours: 1.5 },
+    { daysAgo: 5, hours: 2 },
+  ];
+  RECENT_ENTRIES.forEach((r, ri) => {
+    const [cid, , , kunde] = clientDefs[ri % clientDefs.length];
+    const date = isoDaysAgo(r.daysAgo);
+    const [start, end] = TIME_BY_HOURS[String(r.hours)] ?? ["09:00", "10:00"];
+    time_entries.push({
+      id: `demo-te-${teId++}`,
+      date,
+      start_time: start,
+      end_time: end,
+      total_hours: r.hours,
+      activity_description: sessionDescs[ri % sessionDescs.length],
+      category: time_entry_categories[ri % time_entry_categories.length].name,
+      company_id: kunde,
+      client_id: cid,
+      employee_id: EMP_DEMO,
+      unternehmen_id: DEMO_COMPANY_ID,
+      is_billed: false,
+      invoice_id: null,
+      internal_notes: null,
+      travel_distance_km: null,
+      travel_expense_amount: null,
+      travel_from: null,
+      travel_to: null,
+      created_at: ts(date),
+      updated_at: ts(date),
+    });
+  });
+
   // ---- Rechnungen (inkl. zugehöriger, bereits verrechneter Zeiteinträge) ----
   const invoices: any[] = [];
   const pushInvoice = (
