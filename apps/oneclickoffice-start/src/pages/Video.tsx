@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, X } from "lucide-react";
+import { AlertTriangle, ArrowRight, Check, Clock, FileWarning } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import VideoPlayer from "@/components/VideoPlayer";
@@ -14,9 +14,14 @@ import { track } from "@/lib/analytics";
  * aus der E-Mail. Deshalb bewusst OHNE Zugangsprüfung: ein Gate würde genau die
  * ausschliessen, die später über die Mail zurückkommen.
  *
- * Unter dem Video steht das Wichtigste zum Nachlesen (viele schauen nicht zu
- * Ende) und am Ende die Terminbuchung — die eigentliche Conversion dieser Seite.
+ * Alles unter dem Video ist eine Zusammenfassung des Videos — für die, die
+ * nicht bis zum Ende schauen. Der Aufbau folgt dem Script: woher der Aufwand
+ * kommt, wie wir vorgehen, was dabei herauskommen kann, das Beispiel Luca,
+ * der Ablauf, Termin.
  */
+
+const COST_ICONS = [Clock, AlertTriangle, FileWarning];
+
 const Video = () => {
   const [name, setName] = useState("");
 
@@ -32,21 +37,19 @@ const Video = () => {
   const firstName = name.trim().split(/\s+/)[0] ?? "";
 
   return (
-    <div
-      className="min-h-screen"
-      style={{
-        background: "linear-gradient(180deg, hsl(214 95% 93% / 0.6) 0%, hsl(0 0% 100%) 40%)",
-      }}
-    >
-      <SiteHeader />
+    <div className="min-h-screen bg-background">
+      <div
+        style={{
+          background: "linear-gradient(180deg, hsl(214 95% 93% / 0.6) 0%, hsl(0 0% 100%) 100%)",
+        }}
+      >
+        <SiteHeader />
 
-      <main>
         {/* ---------- Video ---------- */}
-        <section className="section-container pt-8 md:pt-12">
+        <section className="section-container pb-4 pt-8 md:pt-12">
           <div className="mx-auto max-w-[860px] text-center">
             {/* Persönliche Anrede sitzt im Kicker, nicht in der Headline: so
-                bleibt die Headline beim Umtexten unangetastet und es kann keine
-                schiefe Gross-/Kleinschreibung entstehen. */}
+                bleibt die Headline beim Umtexten unangetastet. */}
             <span className="lp-kicker">
               {firstName ? `${firstName}, dein Video ist freigeschaltet` : video.kicker}
             </span>
@@ -54,100 +57,197 @@ const Video = () => {
             <p className="body-large mx-auto mt-4 max-w-[600px]">{video.subheadline}</p>
           </div>
 
-          <div className="mx-auto mt-8 max-w-[880px]">
+          <div className="mx-auto mt-8 max-w-[900px]">
             <VideoPlayer />
           </div>
         </section>
+      </div>
 
-        {/* ---------- Ist-Situation vs. Wunschsituation ---------- */}
+      <main>
+        {/* ---------- 1. Woher der Aufwand kommt ---------- */}
         <section className="section-container py-14 md:py-20">
           <ScrollReveal>
-            <div className="mx-auto max-w-[720px] text-center">
-              <span className="lp-kicker">{video.summary.kicker}</span>
-              <h2 className="headline-h2 mt-5">{video.summary.headline}</h2>
+            <div className="mx-auto max-w-[760px] text-center">
+              <span className="lp-kicker">{video.problem.kicker}</span>
+              <h2 className="headline-h2 mt-5">{video.problem.headline}</h2>
+              <p className="body-large mt-5">{video.problem.intro}</p>
             </div>
           </ScrollReveal>
 
-          <ScrollReveal delay={0.1}>
-            <div className="mx-auto mt-9 grid max-w-[900px] gap-4 md:grid-cols-2 md:gap-5">
-              {/* Vorher */}
-              <div className="rounded-2xl border border-border bg-bg-elevated p-5 md:p-7">
-                <h3 className="mb-5 text-sm font-semibold uppercase tracking-[0.1em] text-text-muted">
-                  {video.summary.beforeTitle}
-                </h3>
-                <ul className="space-y-4">
-                  {video.summary.rows.map((row) => (
-                    <li key={row.before} className="flex gap-3">
-                      <X className="mt-0.5 h-4 w-4 shrink-0 text-text-muted" strokeWidth={2.5} />
-                      <span className="text-[0.9375rem] leading-relaxed text-text-secondary">
-                        {row.before}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <ScrollReveal delay={0.08}>
+            <blockquote className="mx-auto mt-10 max-w-[720px] border-l-[3px] border-accent bg-accent-soft/40 px-6 py-5 text-lg font-medium leading-relaxed text-text-primary md:text-xl">
+              {video.problem.quote}
+            </blockquote>
+          </ScrollReveal>
 
-              {/* Nachher */}
-              <div className="rounded-2xl border-2 border-accent/30 bg-white p-5 shadow-lg shadow-slate-200/60 md:p-7">
-                <h3 className="mb-5 text-sm font-semibold uppercase tracking-[0.1em] text-accent-deep">
-                  {video.summary.afterTitle}
-                </h3>
-                <ul className="space-y-4">
-                  {video.summary.rows.map((row) => (
-                    <li key={row.after} className="flex gap-3">
-                      <ArrowRight
-                        className="mt-0.5 h-4 w-4 shrink-0 text-accent"
-                        strokeWidth={2.5}
-                      />
-                      <span className="text-[0.9375rem] font-medium leading-relaxed text-text-primary">
-                        {row.after}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <ScrollReveal delay={0.12}>
+            <p className="mx-auto mt-8 max-w-[760px] text-[0.9375rem] leading-relaxed text-text-secondary md:text-base">
+              {video.problem.growth}
+            </p>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.16}>
+            <div className="mx-auto mt-10 grid max-w-[900px] gap-4 md:grid-cols-3">
+              {video.problem.costs.map((cost, i) => {
+                const Icon = COST_ICONS[i] ?? Clock;
+                return (
+                  <div key={cost.title} className="rounded-2xl border border-border bg-white p-5">
+                    <Icon className="h-5 w-5 text-accent" />
+                    <h3 className="mt-3 font-semibold text-text-primary">{cost.title}</h3>
+                    <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-text-secondary">
+                      {cost.text}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
           </ScrollReveal>
         </section>
 
-        {/* ---------- Ablauf ---------- */}
+        {/* ---------- 2. Wie wir vorgehen ---------- */}
         <section className="border-y border-border bg-bg-elevated py-14 md:py-20">
           <div className="section-container">
             <ScrollReveal>
-              <div className="mx-auto max-w-[720px] text-center">
-                <span className="lp-kicker">{video.steps.kicker}</span>
-                <h2 className="headline-h2 mt-5">{video.steps.headline}</h2>
+              <div className="mx-auto max-w-[760px] text-center">
+                <span className="lp-kicker">{video.approach.kicker}</span>
+                <h2 className="headline-h2 mt-5 text-balance">{video.approach.headline}</h2>
+                <p className="body-large mt-5">{video.approach.intro}</p>
               </div>
             </ScrollReveal>
 
-            <div className="mx-auto mt-9 grid max-w-[980px] gap-5 md:grid-cols-3">
-              {video.steps.items.map((step, i) => (
-                <ScrollReveal key={step.title} delay={0.08 * i}>
-                  <div className="h-full rounded-2xl border border-border bg-white p-6">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-sm font-bold text-accent-foreground">
+            <ScrollReveal delay={0.08}>
+              <ol className="mx-auto mt-9 max-w-[720px] space-y-3">
+                {video.approach.questions.map((q, i) => (
+                  <li
+                    key={q}
+                    className="flex items-start gap-4 rounded-2xl border border-border bg-white p-5"
+                  >
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-soft text-sm font-bold text-accent-deep">
                       {i + 1}
                     </span>
-                    <h3 className="mt-4 text-lg font-semibold text-text-primary">
-                      {step.title}
-                    </h3>
-                    <p className="mt-2 text-[0.9375rem] leading-relaxed text-text-secondary">
-                      {step.text}
-                    </p>
-                  </div>
-                </ScrollReveal>
-              ))}
-            </div>
+                    <span className="text-[1.0625rem] font-medium leading-relaxed text-text-primary">
+                      {q}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </ScrollReveal>
+
+            {/* Nimmt den Verdacht weg, hier solle Software verkauft werden. */}
+            <ScrollReveal delay={0.12}>
+              <div className="mx-auto mt-8 max-w-[720px] rounded-2xl border-2 border-accent/25 bg-white p-6 md:p-7">
+                <h3 className="text-lg font-bold text-text-primary md:text-xl">
+                  {video.approach.noSalesTitle}
+                </h3>
+                <p className="mt-2.5 leading-relaxed text-text-secondary">
+                  {video.approach.noSalesText}
+                </p>
+              </div>
+            </ScrollReveal>
           </div>
         </section>
 
-        {/* ---------- Referenz ---------- */}
+        {/* ---------- 3. Was dabei herauskommt ---------- */}
         <section className="section-container py-14 md:py-20">
-          <div className="mx-auto max-w-[720px]">
-            <Testimonial />
+          <ScrollReveal>
+            <div className="mx-auto max-w-[760px] text-center">
+              <span className="lp-kicker">{video.solutions.kicker}</span>
+              <h2 className="headline-h2 mt-5 text-balance">{video.solutions.headline}</h2>
+            </div>
+          </ScrollReveal>
+
+          <div className="mx-auto mt-9 grid max-w-[900px] gap-4 md:grid-cols-2">
+            {video.solutions.items.map((item, i) => (
+              <ScrollReveal key={item.title} delay={0.06 * i}>
+                <div className="h-full rounded-2xl border border-border bg-white p-6">
+                  <h3 className="flex items-start gap-2.5 font-semibold text-text-primary">
+                    <Check className="mt-0.5 h-[18px] w-[18px] shrink-0 text-accent" strokeWidth={3} />
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-[0.9375rem] leading-relaxed text-text-secondary">
+                    {item.text}
+                  </p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          <ScrollReveal delay={0.14}>
+            <p className="mx-auto mt-9 max-w-[680px] text-center text-lg font-medium leading-relaxed text-text-primary">
+              {video.solutions.closing}
+            </p>
+          </ScrollReveal>
+        </section>
+
+        {/* ---------- 4. Beispiel Luca ---------- */}
+        <section className="border-y border-border bg-bg-elevated py-14 md:py-20">
+          <div className="section-container">
+            <ScrollReveal>
+              <div className="mx-auto max-w-[760px] text-center">
+                <span className="lp-kicker">{video.example.kicker}</span>
+                <h2 className="headline-h2 mt-5 text-balance">{video.example.headline}</h2>
+                <p className="body-large mt-5">{video.example.intro}</p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.08}>
+              <ul className="mx-auto mt-9 max-w-[720px] space-y-3">
+                {video.example.points.map((point) => (
+                  <li key={point} className="flex items-start gap-3">
+                    <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-accent" strokeWidth={2.5} />
+                    <span className="leading-relaxed text-text-secondary">{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.12}>
+              <div className="mx-auto mt-9 max-w-[720px]">
+                <Testimonial />
+              </div>
+            </ScrollReveal>
+
+            {/* Ohne diese Einschränkung liest sich der Abschnitt als Produktpitch. */}
+            <ScrollReveal delay={0.16}>
+              <div className="mx-auto mt-8 max-w-[720px] rounded-2xl border border-dashed border-accent/40 bg-white p-6 md:p-7">
+                <h3 className="text-lg font-bold text-text-primary md:text-xl">
+                  {video.example.disclaimerTitle}
+                </h3>
+                <p className="mt-2.5 leading-relaxed text-text-secondary">
+                  {video.example.disclaimerText}
+                </p>
+              </div>
+            </ScrollReveal>
           </div>
         </section>
 
-        {/* ---------- Terminbuchung ---------- */}
+        {/* ---------- 5. Ablauf ---------- */}
+        <section className="section-container py-14 md:py-20">
+          <ScrollReveal>
+            <div className="mx-auto max-w-[760px] text-center">
+              <span className="lp-kicker">{video.process.kicker}</span>
+              <h2 className="headline-h2 mt-5">{video.process.headline}</h2>
+            </div>
+          </ScrollReveal>
+
+          <div className="mx-auto mt-9 grid max-w-[980px] gap-5 md:grid-cols-3">
+            {video.process.items.map((step, i) => (
+              <ScrollReveal key={step.title} delay={0.08 * i}>
+                <div className="h-full rounded-2xl border border-border bg-white p-6">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-sm font-bold text-accent-foreground">
+                    {i + 1}
+                  </span>
+                  <h3 className="mt-4 text-lg font-semibold text-text-primary">{step.title}</h3>
+                  <p className="mt-2 text-[0.9375rem] leading-relaxed text-text-secondary">
+                    {step.text}
+                  </p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </section>
+
+        {/* ---------- 6. Terminbuchung ---------- */}
         <BookingCta />
       </main>
 
