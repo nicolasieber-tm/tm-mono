@@ -37,10 +37,11 @@ const MAIL_FROM =
   Deno.env.get("VIDEO_MAIL_FROM") ??
   Deno.env.get("DEMO_MAIL_FROM") ??
   "OneClick Office <demo@oneclick-office.ch>";
+// Antworten sollen NICHT an die Absenderadresse gehen: demo@oneclick-office.ch
+// ist faktisch ein Postfach ohne Betreuung. Wer auf diese Mail antwortet, landet
+// im allgemeinen Postfach, das auch wirklich gelesen wird.
 const MAIL_REPLY_TO =
-  Deno.env.get("VIDEO_MAIL_REPLY_TO") ??
-  Deno.env.get("DEMO_MAIL_REPLY_TO") ??
-  "demo@oneclick-office.ch";
+  Deno.env.get("VIDEO_MAIL_REPLY_TO") ?? "info@trendingmedia.ch";
 
 const SITE_URL = Deno.env.get("VIDEO_SITE_URL") ?? "https://start.oneclick-office.ch";
 const VIDEO_LINK = Deno.env.get("VIDEO_LINK") ?? `${SITE_URL}/video`;
