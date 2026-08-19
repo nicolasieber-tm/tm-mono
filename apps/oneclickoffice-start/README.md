@@ -57,6 +57,39 @@ const TELEFON_REQUIRED = true;
 Auf `false` stellen, falls viel Traffic kommt, aber kaum jemand absendet. Das
 Feld bleibt sichtbar, wird als „optional" ausgewiesen und nicht mehr erzwungen.
 
+## Was nach dem Absenden passiert
+
+Der INSERT in `leads` löst drei Datenbank-Trigger aus:
+
+| Trigger | Wirkung | Gilt für |
+|---|---|---|
+| `leads_to_kunden_pipeline` | legt einen Eintrag in `clients` an (Status „interessiert") | alle **ausser** `lp-start` |
+| `trg_notify_new_lead` | **Telegram-Nachricht** über die Edge Function `notify-lead` | alle Leads |
+| `trg_send_video_email` | **Video-Mail** über die Edge Function `send-video-email` | nur `source = 'lp-start'` |
+
+Leads dieser Seite landen bewusst **nicht** in der Kundenpipeline: Das ist kalter
+Ad-Traffic, der ein Video angefordert hat — kein Kunde. Sonst füllt sich die
+Pipeline mit Kontakten, die nie ein Gespräch hatten.
+
+Antworten auf die Video-Mail gehen an **info@trendingmedia.ch** (Reply-To); die
+Absenderadresse `demo@oneclick-office.ch` ist faktisch ein unbetreutes Postfach.
+
+Die Video-Mail enthält den Link auf `/video` und geht über Resend raus (eigener
+OneClick-Office-Account, Domain verifiziert). Sie ist der Grund, warum das
+Opt-in-Formular „bekommst den Link zusätzlich per E-Mail" verspricht — und sie
+holt die zurück, die das Video nicht zu Ende schauen.
+
+Quelltext: `supabase/functions/send-video-email/`. Änderungen daran müssen
+deployt werden, das Repo allein ändert nichts an der laufenden Funktion.
+
+Zum Prüfen ohne Mailversand (Shared-Secret nötig):
+
+```bash
+curl -X POST https://uzsyjoicirquqjejmutf.supabase.co/functions/v1/send-video-email \
+  -H "Content-Type: application/json" -H "x-webhook-secret: <secret>" \
+  -d '{"diag":true}'
+```
+
 ## Leads
 
 Gehen per PostgREST-Insert in die Tabelle `leads` des Supabase-Projekts

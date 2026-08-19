@@ -44,9 +44,11 @@ export const optin = {
   /* Startbild des Videos. Ein Klick spielt nichts ab, sondern öffnet das
      Formular — das Video kommt erst nach dem Eintrag. */
   poster: {
+    /* Eigens gestaltetes Startbild (nicht aus dem Video gegriffen): Aussage
+       links, Sprecher rechts freigestellt. Die Bildmitte bleibt frei — dort
+       sitzt der Play-Button. Format 1920 x 920, identisch zum Video. */
     src: "/video-poster.webp",
-    alt: "Rechnungen entstehen auf einen Klick statt von Hand",
-    duration: "6:33 Minuten",
+    alt: "Aus 1.5 Tagen Administration pro Monat werden wenige Stunden",
   },
 
   /* Der eine Button. Zweizeilig wie in der Vorlage: Handlung oben, Einwand
