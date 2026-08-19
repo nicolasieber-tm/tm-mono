@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AlertTriangle, ArrowRight, Check, Clock, FileWarning } from "lucide-react";
+import { AlertTriangle, ArrowRight, CalendarCheck, Check, Clock, FileWarning } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import VideoPlayer from "@/components/VideoPlayer";
@@ -59,6 +59,26 @@ const Video = () => {
 
           <div className="mx-auto mt-8 max-w-[900px]">
             <VideoPlayer />
+          </div>
+
+          {/* Sofort-Weg zur Buchung. Das Widget-Script wird weiter unten von
+              BookingCta geladen und bindet per Event-Delegation alle Links mit
+              href="#book-widget" ein — also auch diesen hier. */}
+          <div className="mx-auto mt-7 max-w-[520px] text-center">
+            <a
+              href="#book-widget"
+              onClick={() =>
+                track("cta_click", {
+                  cta_id: "booking_under_video",
+                  cta_label: video.ctaUnderVideo.label,
+                })
+              }
+              className="btn-primary"
+            >
+              <CalendarCheck className="h-5 w-5" />
+              {video.ctaUnderVideo.label}
+            </a>
+            <p className="mt-3 text-sm text-text-muted">{video.ctaUnderVideo.note}</p>
           </div>
         </section>
       </div>

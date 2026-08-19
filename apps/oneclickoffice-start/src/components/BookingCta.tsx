@@ -13,7 +13,9 @@ import ScrollReveal from "./ScrollReveal";
  * Das Script wird bewusst erst per useEffect nachgeladen, damit es den ersten
  * Seitenaufbau nicht blockiert.
  */
-const OCO_BOOKING_WIDGET_ID = "f34ac97e-fd08-43b9-bd4e-3c1f06cef5f0";
+// Eigene Widget-ID dieser Kampagne (nicht die der Demo-Seite) — so lassen sich
+// die Buchungen den Funneln zuordnen.
+const OCO_BOOKING_WIDGET_ID = "9ac37dbb-e0fc-4ea4-89c4-3183c7d4ece4";
 
 const BookingCta = () => {
   useEffect(() => {
