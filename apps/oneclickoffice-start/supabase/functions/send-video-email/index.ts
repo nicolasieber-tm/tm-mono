@@ -95,7 +95,7 @@ function renderHtml(name: string): string {
   return `<!DOCTYPE html>
 <html lang="de"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${BRAND} – dein Video</title></head>
+<title>${BRAND}: dein Video</title></head>
 <body style="margin:0;padding:0;background:#f4f4f5;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f4f4f5;">
     <tr><td align="center" style="padding:32px 16px;">
@@ -121,7 +121,7 @@ function renderHtml(name: string): string {
           <h1 style="margin:6px 0 0;font-size:22px;line-height:1.3;color:#111827;">
             Hier ist dein Video${hi}!</h1>
           <p style="margin:8px 0 0;font-size:15px;color:#4b5563;line-height:1.5;">
-            Du kannst es jederzeit über diesen Link wieder öffnen – falls du unterbrochen wurdest
+            Du kannst es jederzeit über diesen Link wieder öffnen, falls du unterbrochen wurdest
             oder es in Ruhe zu Ende schauen willst.</p>
         </td></tr>
 
@@ -180,7 +180,7 @@ function renderText(name: string): string {
     `Hier ist dein Video${name ? ", " + name : ""}!\n\n` +
     `Du kannst es jederzeit über diesen Link wieder öffnen:\n\n` +
     `${VIDEO_LINK}\n\n` +
-    `Adminaufwand auf wenige Stunden reduzieren – 6:33 Minuten, kostenlos.\n\n` +
+    `Adminaufwand auf wenige Stunden reduzieren. 6:33 Minuten, kostenlos.\n\n` +
     `Im Video geht es darum, welche Schritte im Monat am meisten Zeit kosten und wie sich ` +
     `der Aufwand von ganzen Arbeitstagen auf wenige Stunden bringen lässt. Unter dem Video ` +
     `kannst du direkt ein kostenloses Gespräch buchen.\n\n` +
