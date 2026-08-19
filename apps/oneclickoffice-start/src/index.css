@@ -1,0 +1,117 @@
+/* Inter kommt non-blocking per <link> in index.html — hier bewusst KEIN
+   @import (das wäre eine render-blockende Kette und kostet auf Mobile FCP). */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --muted: 220 13% 96%;
+    --muted-foreground: 220 9% 40%;
+
+    --accent: 217 91% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --success: 142 71% 45%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 217 91% 60%;
+
+    --radius: 0.75rem;
+
+    /* Landingpage-Tokens — Werte identisch zur bestehenden OCO-Landing. */
+    --bg-elevated: 210 40% 98%;
+    --bg-surface: 220 13% 95%;
+    --text-primary: 222 47% 11%;
+    --text-secondary: 215 19% 35%;
+    --text-muted: 215 16% 62%;
+    --accent-soft: 214 95% 93%;
+    --accent-deep: 217 64% 40%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-semibold tracking-tight;
+  }
+
+  /* Beim Scrollen zum Formular soll die Sektion nicht am oberen Rand kleben. */
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 1.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Wird von den übernommenen Rechtsseiten (Impressum/Datenschutz) genutzt. */
+  .section-padding {
+    @apply px-5 py-14 md:px-8 md:py-20;
+  }
+
+  .section-container {
+    /* Aussenrand am Handy bewusst knapp (16 px): Bei langen Headlines zählt
+       dort jede Zeile, die dadurch nicht mehr umbricht. */
+    @apply mx-auto w-full max-w-[1120px] px-4 md:px-8;
+  }
+
+  .lp-kicker {
+    @apply inline-block rounded-full bg-accent-soft px-4 py-2 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-accent-deep md:text-xs;
+  }
+
+  .headline-display {
+    @apply font-bold leading-[1.1] tracking-[-0.02em] text-text-primary;
+    /* Bewusst zurückhaltend skaliert: Die Headline ist eher lang, mit einer
+       grösseren Schrift bricht sie auf fünf Zeilen um und wird unruhig. */
+    font-size: clamp(1.875rem, 4.2vw, 3.125rem);
+  }
+
+  .headline-h2 {
+    @apply font-bold leading-[1.15] tracking-[-0.015em] text-text-primary;
+    font-size: clamp(1.625rem, 3.4vw, 2.5rem);
+  }
+
+  .body-large {
+    @apply text-[1.0625rem] leading-relaxed text-text-secondary md:text-lg;
+  }
+
+  /* Primärer CTA — einheitlich auf beiden Seiten. */
+  .btn-primary {
+    @apply inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-7 py-4 text-base font-semibold text-accent-foreground shadow-lg shadow-accent/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-deep hover:shadow-xl disabled:pointer-events-none disabled:opacity-70 md:text-lg;
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-sm font-medium text-text-primary;
+  }
+
+  .field-input {
+    @apply h-12 w-full rounded-xl border border-input bg-white px-4 text-base text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-accent focus:ring-2 focus:ring-accent/25;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

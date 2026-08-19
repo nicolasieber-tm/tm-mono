@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Consent Mode v2 + Google Tag Manager.
+         Gleiche Container-ID wie demo.oneclick-office.ch — die Seiten lassen
+         sich im GTM jederzeit über den Hostname trennen. Default:
+         analytics_storage = granted (Reichweitenmessung als Opt-out),
+         Werbe-Signale (ad_*) denied bis zur Einwilligung. Das Banner
+         (src/lib/analytics.ts → setConsent) schaltet per consent 'update'. -->
+    <script>
+      (function () {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        window.gtag = gtag;
+        gtag('consent', 'default', {
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+          analytics_storage: 'granted',
+          functionality_storage: 'denied',
+          personalization_storage: 'denied',
+          security_storage: 'granted',
+          wait_for_update: 500
+        });
+        gtag('set', 'ads_data_redaction', true);
+        gtag('set', 'url_passthrough', true);
+        // Frühere Wahl sofort wiederherstellen (vor dem ersten Hit).
+        try {
+          var saved = localStorage.getItem('oco_cookie_consent');
+          if (saved === 'granted') {
+            gtag('consent', 'update', {
+              ad_storage: 'granted', ad_user_data: 'granted',
+              ad_personalization: 'granted', analytics_storage: 'granted',
+              functionality_storage: 'granted', personalization_storage: 'granted'
+            });
+          } else if (saved === 'denied') {
+            gtag('consent', 'update', {
+              ad_storage: 'denied', ad_user_data: 'denied',
+              ad_personalization: 'denied', analytics_storage: 'denied',
+              functionality_storage: 'denied', personalization_storage: 'denied'
+            });
+          }
+        } catch (e) { /* localStorage nicht verfügbar */ }
+        (function (w, d, s, l, i) {
+          w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+          var f = d.getElementsByTagName(s)[0], j = d.createElement(s),
+            dl = l != 'dataLayer' ? '&l=' + l : '';
+          j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+          f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-52V9SJ6J');
+      })();
+    </script>
+    <!-- End Consent Mode v2 + GTM -->
+
+    <!-- Meta Pixel — gleiche ID wie die Demo-Seite, damit die Lernphase der
+         Kampagne und die bestehenden Custom Conversions weiterlaufen.
+         PageView feuert wie dort unabhängig vom Cookie-Banner. -->
+    <script>
+      (function () {
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1040498465323715');
+        fbq('track', 'PageView');
+      })();
+    </script>
+    <!-- End Meta Pixel Code -->
+
+    <title>Kostenloses Video: Adminaufwand auf wenige Stunden reduzieren | OneClick Office</title>
+    <meta
+      name="description"
+      content="Im kostenlosen Video zeigen wir dir den Ablauf, mit dem selbstständige Coaches, Berater und Dienstleister in der Schweiz ihren monatlichen Adminaufwand von ganzen Arbeitstagen auf wenige Stunden reduzieren."
+    />
+    <meta name="author" content="Trending Media" />
+    <!-- Kampagnen-Landingpage: soll nicht in der Google-Suche auftauchen und
+         nicht mit oneclick-office.ch konkurrieren. Ads-Traffic ist davon
+         unberührt (Meta crawlt die Seite, indexiert sie aber nicht). -->
+    <meta name="robots" content="noindex, nofollow" />
+
+    <!-- Inter non-blocking (media=print → onload=all): der erste Paint wartet
+         nicht auf die Schrift, System-Font überbrückt via display=swap. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      />
+    </noscript>
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:title" content="Kostenloses Video für Coaches, Berater &amp; Dienstleister" />
+    <meta
+      property="og:description"
+      content="Der Ablauf, mit dem du deinen monatlichen Adminaufwand von ganzen Arbeitstagen auf wenige Stunden reduzierst."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/android-chrome-512x512.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="/android-chrome-512x512.png" />
+
+    <!-- Hintergrund vorab setzen, damit der erste Paint nicht weiss aufblitzt,
+         bevor das CSS-Bundle da ist. -->
+    <style>
+      html { background: #eff6ff; }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

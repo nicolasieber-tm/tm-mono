@@ -12,10 +12,12 @@
     "dev:sichtbarkeit": "bun --filter @tm/sichtbarkeit dev",
     "dev:oneclickoffice": "bun --filter @tm/oneclickoffice dev",
     "dev:oneclickoffice-demo": "bun --filter @tm/oneclickoffice-demo dev",
+    "dev:oneclickoffice-start": "bun --filter @tm/oneclickoffice-start dev",
     "build:auron": "bun --filter @tm/auron build",
     "build:tm": "bun --filter @tm/tm build",
     "build:sichtbarkeit": "bun --filter @tm/sichtbarkeit build",
     "build:oneclickoffice": "bun --filter @tm/oneclickoffice build",
-    "build:oneclickoffice-demo": "bun --filter @tm/oneclickoffice-demo build"
+    "build:oneclickoffice-demo": "bun --filter @tm/oneclickoffice-demo build",
+    "build:oneclickoffice-start": "bun --filter @tm/oneclickoffice-start build"
   }
 }
