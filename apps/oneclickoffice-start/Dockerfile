@@ -1,5 +1,5 @@
-# Build context: monorepo root (set in Railway: Root Directory = /)
-# Railway service config: Dockerfile Path = apps/tm/Dockerfile
+# Build context: monorepo root (in Railway: Root Directory = /)
+# Railway service config: Dockerfile Path = apps/oneclickoffice-start/Dockerfile
 FROM oven/bun:1 AS build
 WORKDIR /app
 
@@ -17,11 +17,11 @@ COPY packages/testimonials/package.json ./packages/testimonials/
 RUN bun install --frozen-lockfile
 
 COPY . .
-RUN bun run build:tm
+RUN bun run build:oneclickoffice-start
 
 FROM oven/bun:1-slim
 WORKDIR /app
-COPY --from=build /app/apps/tm/dist ./dist
+COPY --from=build /app/apps/oneclickoffice-start/dist ./dist
 EXPOSE 8080
 ENV PORT=8080
 CMD ["sh", "-c", "bunx --bun serve dist -l tcp://0.0.0.0:$PORT --single"]
