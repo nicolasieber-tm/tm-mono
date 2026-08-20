@@ -162,6 +162,38 @@ Werbeanzeigenmanager direkt optimieren. Meta braucht rund 50 Ereignisse pro
 Woche und Anzeigengruppe zum Lernen — reichen die Leads dafür nicht, kann
 ersatzweise auf `ViewContent` oder `InitiateCheckout` optimiert werden.
 
+## Meta Conversions API
+
+Der Browser-Pixel wird bei 20–40 % der Besucher blockiert. Deshalb meldet
+zusätzlich der Server jede Conversion an Meta — daran kommt kein Blocker vorbei.
+
+Ablauf: Lead landet in `leads` → Trigger `trg_meta_capi` → Edge Function
+`meta-capi` → Meta Graph API.
+
+**Deduplizierung:** Die Seite erzeugt beim Absenden eine Kennung
+(`meta_event_id`), gibt sie dem Pixel als `eventID` mit und speichert sie am
+Lead. Der Server meldet mit derselben Kennung. Meta führt beide zu einem
+Ereignis zusammen. Fehlt sie, zählt Meta jede Conversion doppelt.
+
+**Datenschutz:** E-Mail, Telefon und Name verlassen das System ausschliesslich
+als SHA-256-Hash. Die Datenschutzerklärung führt das unter „Conversions API" auf.
+
+### Benötigte Secrets (Supabase → Project Settings → Edge Functions)
+
+| Secret | Zweck |
+|---|---|
+| `META_CAPI_ACCESS_TOKEN` | Zugriffsschlüssel aus dem Events Manager. **Pflicht.** |
+| `META_TEST_EVENT_CODE` | Nur zum Prüfen: Meldungen erscheinen dann unter „Testereignisse". **Für den Echtbetrieb wieder entfernen**, sonst zählt Meta sie nicht als echte Conversions. |
+| `META_PIXEL_ID` | Optional, Standard ist `1040498465323715`. |
+
+Prüfen ohne Versand:
+
+```bash
+curl -X POST https://uzsyjoicirquqjejmutf.supabase.co/functions/v1/meta-capi \
+  -H "Content-Type: application/json" -H "x-webhook-secret: <secret>" \
+  -d '{"diag":true}'
+```
+
 ## Entwickeln
 
 ```bash

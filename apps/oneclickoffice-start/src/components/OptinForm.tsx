@@ -4,6 +4,7 @@ import { ArrowRight, Loader2, ShieldCheck } from "lucide-react";
 import { optin } from "@/lib/content";
 import { submitLead } from "@/lib/submitLead";
 import { track } from "@/lib/analytics";
+import { metaContext, neueEventId } from "@/lib/metaContext";
 
 /**
  * Telefonnummer: Pflicht oder freiwillig?
@@ -70,10 +71,19 @@ const OptinForm = () => {
     setSubmitting(true);
     setErrors({});
 
+    // Eine Kennung für BEIDE Meldungen dieser Conversion: Der Browser-Pixel
+    // meldet sie gleich mit, der Server holt sie später aus der Datenbank.
+    // Ohne diese gemeinsame Kennung würde Meta die Conversion doppelt zählen.
+    const metaEventId = neueEventId();
+
     try {
-      await submitLead(values);
+      await submitLead({
+        ...values,
+        meta_event_id: metaEventId,
+        meta_context: metaContext(),
+      });
       // Meldet an dataLayer, eigene Datenbank und Meta-Pixel ("Lead") zugleich.
-      track("lead_submit", { lead_form: "optin_video" });
+      track("lead_submit", { lead_form: "optin_video" }, metaEventId);
       // Merkt sich, dass dieser Besucher eingetragen ist — die Video-Seite
       // begrüsst ihn dann mit Namen. Kein Zugangsschutz: der Link aus der
       // E-Mail muss ohne diesen Eintrag funktionieren.

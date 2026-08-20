@@ -27,6 +27,10 @@ export type LeadPayload = {
   name: string;
   email: string;
   telefon: string;
+  /** Gemeinsame Kennung für Browser-Pixel und Conversions API (Deduplizierung). */
+  meta_event_id?: string;
+  /** Browser-Angaben, die der Server für die Conversions API braucht. */
+  meta_context?: Record<string, unknown>;
 };
 
 export async function submitLead(
@@ -47,6 +51,8 @@ export async function submitLead(
       email: payload.email.trim().toLowerCase(),
       telefon: payload.telefon.trim(),
       source,
+      meta_event_id: payload.meta_event_id ?? null,
+      meta_context: payload.meta_context ?? {},
     }),
   });
 
