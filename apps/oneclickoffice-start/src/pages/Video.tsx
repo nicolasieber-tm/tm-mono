@@ -101,12 +101,6 @@ const Video = () => {
           </ScrollReveal>
 
           <ScrollReveal delay={0.12}>
-            <p className="mx-auto mt-8 max-w-[760px] text-[0.9375rem] leading-relaxed text-text-secondary md:text-base">
-              {video.problem.growth}
-            </p>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.16}>
             <div className="mx-auto mt-10 grid max-w-[900px] gap-4 md:grid-cols-3">
               {video.problem.costs.map((cost, i) => {
                 const Icon = COST_ICONS[i] ?? Clock;
@@ -171,13 +165,13 @@ const Video = () => {
         <section className="section-container py-14 md:py-20">
           <ScrollReveal>
             <div className="mx-auto max-w-[760px] text-center">
-              <span className="lp-kicker">{video.solutions.kicker}</span>
-              <h2 className="headline-h2 mt-5 text-balance">{video.solutions.headline}</h2>
+              <span className="lp-kicker">{video.outcome.kicker}</span>
+              <h2 className="headline-h2 mt-5 text-balance">{video.outcome.headline}</h2>
             </div>
           </ScrollReveal>
 
-          <div className="mx-auto mt-9 grid max-w-[900px] gap-4 md:grid-cols-2">
-            {video.solutions.items.map((item, i) => (
+          <div className="mx-auto mt-9 grid max-w-[900px] gap-4 md:grid-cols-3">
+            {video.outcome.items.map((item, i) => (
               <ScrollReveal key={item.title} delay={0.06 * i}>
                 <div className="h-full rounded-2xl border border-border bg-white p-6">
                   <h3 className="flex items-start gap-2.5 font-semibold text-text-primary">
@@ -192,9 +186,17 @@ const Video = () => {
             ))}
           </div>
 
+          {/* Der Kernsatz, hervorgehoben wie das Zitat im Problem-Abschnitt. */}
           <ScrollReveal delay={0.14}>
-            <p className="mx-auto mt-9 max-w-[680px] text-center text-lg font-medium leading-relaxed text-text-primary">
-              {video.solutions.closing}
+            <blockquote className="mx-auto mt-10 max-w-[720px] border-l-[3px] border-accent bg-accent-soft/40 px-6 py-5 text-lg font-medium leading-relaxed text-text-primary md:text-xl">
+              {video.outcome.quote}
+            </blockquote>
+          </ScrollReveal>
+
+          {/* Die technischen Wege bewusst klein und nachgestellt. */}
+          <ScrollReveal delay={0.18}>
+            <p className="mx-auto mt-6 max-w-[720px] text-[0.9375rem] leading-relaxed text-text-muted">
+              {video.outcome.howNote}
             </p>
           </ScrollReveal>
         </section>

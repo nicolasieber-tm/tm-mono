@@ -124,8 +124,6 @@ export const video = {
     /* Der Kern-Einwand aus dem Video: die Abläufe sind nicht schlecht, sie sind gewachsen. */
     quote:
       "Das Problem ist meistens nicht, dass die Abläufe schlecht funktionieren. Das Problem ist, dass sie über die Jahre gewachsen sind.",
-    growth:
-      "Erst eine Excel-Tabelle, später eine zweite, für einen anderen Bereich eine zusätzliche Software. Heute liegen Kundendaten an einem Ort, Rechnungen entstehen woanders, und im Hintergrund entsteht immer mehr doppelte Arbeit.",
     /* Was der Aufwand tatsächlich kostet — nicht nur Zeit. */
     costs: [
       { title: "Zeit", text: "Zusammengerechnet gehen jeden Monat mehrere Stunden bis ganze Arbeitstage verloren." },
@@ -153,30 +151,37 @@ export const video = {
       "Wenn du mit einem Programm arbeitest, das sich über Jahre bewährt hat und mit dem du zufrieden bist, bleibt es. Oft ist es ohnehin sinnvoller, bestehende Systeme miteinander zu verbinden, als etwas zu ersetzen.",
   },
 
-  /* ---------- 3. Was dabei herauskommen kann ---------- */
-  solutions: {
+  /* ---------- 3. Was dabei herauskommt ---------- *
+   * Hier stand urspruenglich, WIE die Loesung aussieht (Workflow, verbundene
+   * Systeme, individuelle Loesung). Das ist aber das Werkzeug, nicht das
+   * Ergebnis — und der Abschnitt heisst "Was dabei herauskommt".
+   * Jetzt zuerst das Ergebnis (Zeit, weniger Fehler, Ruhe), danach der
+   * hervorgehobene Kernsatz, und die technischen Wege nur noch als Nachsatz.
+   * Ganz weglassen kann man sie nicht: sie belegen, dass hier nichts Fertiges
+   * verkauft wird. */
+  outcome: {
     kicker: "Was dabei herauskommt",
-    headline: "Manchmal reicht ein kleiner Workflow.",
+    headline: "Am Ende geht es nicht um Software. Es geht um deine Zeit.",
     items: [
       {
-        title: "Ein einzelner Workflow",
-        text: "Daten wandern automatisch von einem Programm ins andere, statt von Hand kopiert zu werden.",
+        title: "Zeit, die zurückkommt",
+        text: "Statt ganzer Arbeitstage bleiben wenige Stunden im Monat. Die Differenz gehört wieder dir und deinen Klienten.",
       },
       {
-        title: "Bestehende Systeme verbinden",
-        text: "Was du schon nutzt, bleibt und spricht künftig nur miteinander. Informationen werden einmal erfasst und landen dort, wo sie hingehören.",
+        title: "Weniger Fehler, weniger Suchen",
+        text: "Was nur einmal erfasst wird, kann nicht mehr falsch übertragen werden. Und es ist da, wenn du es brauchst.",
       },
       {
-        title: "Ein zentraler Prozess",
-        text: "Wenn vieles zusammenläuft, lohnt sich ein Ablauf, über den alles geht, statt fünf Insellösungen.",
-      },
-      {
-        title: "Eine individuelle Lösung",
-        text: "Und manchmal ist es sinnvoll, etwas zu bauen, das genau auf deinen Betrieb zugeschnitten ist.",
+        title: "Ruhe am Monatsende",
+        text: "Nichts mehr zusammensuchen, keine Abende vor dem Rechner. Der Abschluss wird ein Vorgang statt ein Projekt.",
       },
     ],
-    closing:
+    /* Der Kernsatz aus dem Video, bewusst hervorgehoben. */
+    quote:
       "Entscheidend ist nicht, wie gross oder technisch die Lösung ist. Entscheidend ist, wie viel unnötige Arbeit dadurch aus deinem Alltag verschwindet.",
+    /* Die technischen Wege als Nachsatz: belegen die Aussage, ohne sie zu überlagern. */
+    howNote:
+      "Ob dafür ein kleiner automatisierter Workflow reicht, ob wir bestehende Systeme miteinander verbinden oder ob etwas Eigenes sinnvoll ist, zeigt sich erst, wenn wir deinen Ablauf kennen.",
   },
 
   /* ---------- 4. Das Beispiel aus dem Video ---------- */
