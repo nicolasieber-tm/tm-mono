@@ -275,13 +275,15 @@ keine Werbung.
 1. ~~Schema anlegen~~ — **erledigt** (Migration `followup_strecke_lp_start`,
    20.08.2026): Spalte `leads.followup_abgemeldet_am` und Tabelle
    `lead_followups` stehen auf dem Projekt.
-2. Funktion deployen: `supabase functions deploy send-followup --no-verify-jwt`
+2. ~~Funktionen deployen~~ — **erledigt** (20.08.2026): `send-followup`,
+   `send-video-email` und `meta-capi` laufen, alle mit `--no-verify-jwt`
    (der Abmeldelink wird ohne JWT aus der Mail heraus aufgerufen).
-   Ebenfalls neu zu deployen, weil geändert: `send-video-email` und `meta-capi`.
-3. Shared-Secret in den Vault legen und den stündlichen Job einplanen — beide
-   SQL-Schnipsel stehen am Ende von
-   `supabase/migrations/20260820_followup_strecke.sql`. Der Job wird bewusst
-   erst nach dem Deploy eingeplant, sonst läuft er stündlich in einen 404.
+3. **Offen:** Shared-Secret in den Vault legen und den stündlichen Job
+   einplanen. Beide SQL-Schnipsel stehen am Ende von
+   `supabase/migrations/20260820_followup_strecke.sql` — der erste holt das
+   Secret aus der bestehenden Trigger-Funktion, es muss also nichts von Hand
+   herausgesucht werden. Bis dahin läuft die Strecke nicht: Die Funktion ist
+   da, aber niemand ruft sie auf.
 4. Prüfen, ohne zu senden:
 
 ```bash

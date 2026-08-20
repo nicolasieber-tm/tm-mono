@@ -48,22 +48,35 @@ create index if not exists lead_followups_lead_idx on public.lead_followups (lea
 alter table public.lead_followups enable row level security;
 
 -- --- 3. Stündlicher Aufruf ---------------------------------------------
--- Dieser Abschnitt ist NICHT Teil der oben angewendeten Migration.
--- Er wird erst ausgeführt, wenn die Edge Function send-followup deployt ist —
--- sonst klopft der Job stündlich gegen eine Adresse, die es nicht gibt.
+-- Stand 20.08.2026: Die Edge Functions send-followup, send-video-email und
+-- meta-capi sind deployt. Was noch fehlt, sind die beiden Schritte unten.
 --
--- Das Shared-Secret steht bewusst nicht in dieser Datei. Es liegt derzeit
--- hartcodiert in den Trigger-Funktionen (send_video_email_on_lead und andere);
--- sauberer ist der Vault, deshalb liest der Job es von dort.
+-- Warum das Secret nicht in dieser Datei steht: Es liegt derzeit hartcodiert
+-- in den Trigger-Funktionen (send_video_email_on_lead, meta_capi_on_lead,
+-- notify_new_lead - alle drei verwenden denselben Wert). Es hier zu wiederholen
+-- hiesse, ein Geheimnis an einer vierten Stelle zu pflegen. Der Vault ist dafür
+-- da; SCHRITT 1 holt den Wert von dort, wo er schon steht.
+
+-- SCHRITT 1 - Secret in den Vault übernehmen.
+-- Der Ausdruck liest den Wert direkt aus der bestehenden Trigger-Funktion, es
+-- muss also nichts von Hand herausgesucht oder eingetippt werden. Geprüft: Das
+-- Muster greift bei allen drei Funktionen (48 Zeichen).
+-- Rückgabe ist die Secret-ID, nicht der Wert.
 --
--- SCHRITT 1 — Secret einmalig im Vault ablegen (im SQL-Editor ausführen,
---             <SECRET> durch dasselbe Secret ersetzen, das die bestehenden
---             Trigger verwenden):
+--   select vault.create_secret(
+--     (select (regexp_match(pg_get_functiondef(p.oid),
+--              'x-webhook-secret[''"]?\s*[,:]\s*[''"]([^''"]+)[''"]'))[1]
+--        from pg_proc p
+--       where p.proname = 'send_video_email_on_lead'),
+--     'oco_webhook_secret',
+--     'Shared-Secret der lp-start Edge Functions'
+--   );
 --
---   select vault.create_secret('<SECRET>', 'oco_webhook_secret',
---                              'Shared-Secret der lp-start Edge Functions');
---
--- SCHRITT 2 — Job einplanen:
+-- Kontrolle, ohne den Wert zu zeigen:
+--   select name, length(decrypted_secret) from vault.decrypted_secrets
+--    where name = 'oco_webhook_secret';   -- erwartet: 48
+
+-- SCHRITT 2 - Job einplanen.
 --
 --   select cron.schedule(
 --     'followup-lp-start',
@@ -81,6 +94,22 @@ alter table public.lead_followups enable row level security;
 --     );
 --     $job$
 --   );
+--
+-- SCHRITT 3 - einmal von Hand auslösen und nachsehen, ob 200 zurückkommt:
+--
+--   select net.http_post(
+--     url     := 'https://uzsyjoicirquqjejmutf.supabase.co/functions/v1/send-followup?diag=1',
+--     headers := jsonb_build_object(
+--                  'Content-Type',     'application/json',
+--                  'x-webhook-secret', (select decrypted_secret
+--                                         from vault.decrypted_secrets
+--                                        where name = 'oco_webhook_secret')
+--                ),
+--     body    := '{}'::jsonb
+--   );
+--   -- kurz warten, dann:
+--   select status_code, content from net._http_response order by created desc limit 1;
+--   -- 200 = alles steht. 401 = Secret stimmt nicht.
 --
 -- Anhalten:  select cron.unschedule('followup-lp-start');
 -- Nachsehen: select * from cron.job_run_details
