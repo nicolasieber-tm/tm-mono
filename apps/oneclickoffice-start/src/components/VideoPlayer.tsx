@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Play } from "lucide-react";
 import { video, VIDEO_ASPECT_RATIO } from "@/lib/content";
 import { track } from "@/lib/analytics";
@@ -10,7 +10,7 @@ const MILESTONES = [25, 50, 75, 95] as const;
  * Selbst gehosteter MP4-Player.
  *
  * Zwei Dinge sind hier absichtlich so gebaut:
- * 1. preload="none" — das Video wird erst beim Klick geladen. Sonst zieht der
+ * 1. preload="none" — das Video wird erst beim Start geladen. Sonst zieht der
  *    Browser schon beim Seitenaufruf Megabytes, auch bei allen, die nie
  *    abspielen. Das Startbild kommt aus dem poster-Attribut.
  * 2. Solange die Videodatei fehlt (onError), erscheint ein ehrlicher Hinweis
@@ -21,18 +21,35 @@ const VideoPlayer = () => {
   const [started, setStarted] = useState(false);
   const [failed, setFailed] = useState(false);
   const reached = useRef<Set<number>>(new Set());
+  const gemeldet = useRef(false); // „Video gestartet" nur einmal melden
 
-  const handlePlay = () => {
-    const el = ref.current;
-    if (!el) return;
-    el.play().catch(() => {
-      /* Autoplay-Richtlinie o. Ä. — der native Play-Button bleibt ja sichtbar */
+  /* Nur anstossen — als gestartet gilt das Video erst, wenn der Browser das
+     onPlay-Ereignis liefert. Sonst verschwände der Start-Button auch dann,
+     wenn die Wiedergabe blockiert wurde, und der Besucher stünde vor einem
+     Standbild ohne sichtbaren Weg zum Abspielen. */
+  const handlePlay = useCallback(() => {
+    ref.current?.play().catch(() => {
+      /* Wiedergabe-Richtlinie o. Ä. — der Start-Button bleibt sichtbar */
     });
-    if (!started) {
-      setStarted(true);
-      track("video_play", { video_id: "vsl" });
+  }, []);
+
+  /* Wer gerade das Formular abgeschickt hat, hat den Start bereits angefordert:
+     Der Button im Overlay heisst „Video jetzt ansehen". Ohne das hier stünde er
+     hier vor demselben Standbild wie vorher und müsste ein zweites Mal klicken —
+     an der teuersten Stelle des Funnels, direkt nach der Conversion.
+     Der Klick von der vorherigen Seite zählt als Nutzergeste, weil der
+     Seitenwechsel innerhalb derselben Anwendung passiert; die Wiedergabe darf
+     deshalb mit Ton starten. Klappt sie doch nicht, bleibt der Start-Button. */
+  useEffect(() => {
+    let angefordert = false;
+    try {
+      angefordert = sessionStorage.getItem("oco_video_autostart") === "1";
+      if (angefordert) sessionStorage.removeItem("oco_video_autostart");
+    } catch {
+      /* Privatmodus — dann eben mit Klick */
     }
-  };
+    if (angefordert) handlePlay();
+  }, [handlePlay]);
 
   // Fortschritt melden: sagt später, ob das Video zu lang ist oder wo es abreisst.
   const handleTimeUpdate = useCallback(() => {
@@ -72,7 +89,13 @@ const VideoPlayer = () => {
         preload="none"
         playsInline
         controls={started}
-        onPlay={() => setStarted(true)}
+        onPlay={() => {
+          setStarted(true);
+          if (!gemeldet.current) {
+            gemeldet.current = true;
+            track("video_play", { video_id: "vsl" });
+          }
+        }}
         onTimeUpdate={handleTimeUpdate}
         onEnded={() => track("video_complete", { video_id: "vsl" })}
         onError={() => setFailed(true)}
@@ -85,7 +108,7 @@ const VideoPlayer = () => {
       </video>
 
       {/* Eigener Start-Button, solange nichts läuft: grösser und eindeutiger als
-          der native Play-Button, und er trägt das Tracking. */}
+          der native Play-Button. */}
       {!started && (
         <button
           type="button"

@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getConsent, setConsent, OPEN_CONSENT_EVENT } from "@/lib/analytics";
+import {
+  getConsent,
+  setConsent,
+  OPEN_CONSENT_EVENT,
+  OVERLAY_CHANGE_EVENT,
+} from "@/lib/analytics";
 
 /**
  * Cookie-Banner (Opt-out für Analytics). Zeigt sich nur, solange noch keine
@@ -9,15 +14,23 @@ import { getConsent, setConsent, OPEN_CONSENT_EVENT } from "@/lib/analytics";
  */
 const ConsentBanner = () => {
   const [open, setOpen] = useState(false);
+  /* Solange ein Overlay offen ist, tritt das Banner zurück — es sitzt sonst auf
+     dem Handy direkt über dem Absende-Button des Opt-in-Formulars. */
+  const [verdeckt, setVerdeckt] = useState(false);
 
   useEffect(() => {
     if (getConsent() === null) setOpen(true);
     const reopen = () => setOpen(true);
+    const overlay = (e: Event) => setVerdeckt(Boolean((e as CustomEvent).detail));
     window.addEventListener(OPEN_CONSENT_EVENT, reopen);
-    return () => window.removeEventListener(OPEN_CONSENT_EVENT, reopen);
+    window.addEventListener(OVERLAY_CHANGE_EVENT, overlay);
+    return () => {
+      window.removeEventListener(OPEN_CONSENT_EVENT, reopen);
+      window.removeEventListener(OVERLAY_CHANGE_EVENT, overlay);
+    };
   }, []);
 
-  if (!open) return null;
+  if (!open || verdeckt) return null;
 
   const decide = (state: "granted" | "denied") => {
     setConsent(state);

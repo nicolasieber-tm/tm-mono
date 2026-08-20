@@ -31,10 +31,16 @@ export const optin = {
 
   /* `underline` hebt ein Wort mit einem Strich hervor — sparsam einsetzen,
      sonst verliert es die Wirkung. Leer lassen, um darauf zu verzichten. */
+  /* Der Zielwert allein („auf wenige Stunden") schloss aus, wen er eigentlich
+     ansprechen sollte: Wer heute vier Stunden im Monat verwaltet, las bei „von
+     ganzen Arbeitstagen", dass er nicht gemeint ist. Der Ausschluss sass also am
+     Ausgangswert, nicht am Ziel. „Von Tagen auf Stunden" bleibt messbar und
+     lässt beide Grössenordnungen zu. Der Beleg darunter nennt weiterhin die
+     konkrete Zahl — Versprechen offen, Beweis konkret. */
   headline: {
-    before: "Schau dir an, wie du deinen monatlichen Adminaufwand von ganzen Arbeitstagen auf",
-    underline: "wenige Stunden",
-    after: "reduzieren kannst",
+    before: "Schau dir an, wie du deinen monatlichen Adminaufwand von",
+    underline: "Tagen auf Stunden",
+    after: "reduzierst",
   },
 
   /* Kurz halten — eine Zeile, maximal zwei. Trägt hier den Beleg. */
@@ -93,9 +99,20 @@ export const optin = {
  */
 export const video = {
   kicker: "Dein Video ist freigeschaltet",
-  headline: "So reduzierst du deinen Adminaufwand auf wenige Stunden.",
+  headline: "So reduzierst du deinen Adminaufwand von Tagen auf Stunden.",
   subheadline:
     "Nimm dir die paar Minuten in Ruhe. Darunter steht das Wichtigste nochmals zum Nachlesen, dazu die Möglichkeit, direkt ein kostenloses Gespräch zu buchen.",
+
+  /* Löst das Versprechen der Opt-in-Seite ein („bekommst den Link zusätzlich per
+     E-Mail"). Ohne diese Zeile weiss niemand, dass eine Mail unterwegs ist — und
+     wer es nicht weiss, sucht sie später auch nicht. Genau diese Mail ist aber
+     der einzige Weg zurück, wenn jemand das Video hier abbricht.
+     `mitAdresse` wird nur verwendet, wenn die Adresse aus dem Eintrag noch
+     bekannt ist; über den Link aus der Mail ist sie das nicht. */
+  mailHinweis: {
+    mitAdresse: "Den Link haben wir dir zusätzlich an %s geschickt.",
+    ohneAdresse: "Den Link haben wir dir zusätzlich per E-Mail geschickt.",
+  },
 
   /* Video-Quelle. Die MP4 liegt in public/video/ (Details: dortiges README). */
   source: {
@@ -165,7 +182,7 @@ export const video = {
     items: [
       {
         title: "Zeit, die zurückkommt",
-        text: "Statt ganzer Arbeitstage bleiben wenige Stunden im Monat. Die Differenz gehört wieder dir und deinen Klienten.",
+        text: "Aus Tagen werden Stunden im Monat. Die Differenz gehört wieder dir und deinen Klienten.",
       },
       {
         title: "Weniger Fehler, weniger Suchen",

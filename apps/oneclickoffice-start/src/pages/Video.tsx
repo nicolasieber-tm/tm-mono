@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { AlertTriangle, ArrowRight, CalendarCheck, Check, Clock, FileWarning } from "lucide-react";
+import { AlertTriangle, ArrowRight, CalendarCheck, Check, Clock, FileWarning, MailCheck } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import VideoPlayer from "@/components/VideoPlayer";
-import BookingCta from "@/components/BookingCta";
+import BookingCta, { BOOKING_FALLBACK_URL } from "@/components/BookingCta";
 import Testimonial from "@/components/Testimonial";
 import ScrollReveal from "@/components/ScrollReveal";
 import { video } from "@/lib/content";
@@ -24,17 +24,25 @@ const COST_ICONS = [Clock, AlertTriangle, FileWarning];
 
 const Video = () => {
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     track("video_page_view", { page: "video" });
     try {
       setName(sessionStorage.getItem("oco_lead_name") ?? "");
+      setEmail(sessionStorage.getItem("oco_lead_email") ?? "");
     } catch {
       /* Privatmodus — dann eben ohne persönliche Anrede */
     }
   }, []);
 
   const firstName = name.trim().split(/\s+/)[0] ?? "";
+
+  /* Über den Link aus der Mail ist die Adresse nicht bekannt — dann die
+     allgemeine Fassung. */
+  const mailHinweis = email
+    ? video.mailHinweis.mitAdresse.replace("%s", email)
+    : video.mailHinweis.ohneAdresse;
 
   return (
     <div className="min-h-screen bg-background">
@@ -55,18 +63,28 @@ const Video = () => {
             </span>
             <h1 className="headline-h2 mt-5 text-balance">{video.headline}</h1>
             <p className="body-large mx-auto mt-4 max-w-[600px]">{video.subheadline}</p>
+
+            {/* Löst das auf der Opt-in-Seite gegebene Versprechen ein und macht
+                den Weg zurück bekannt, falls hier jemand abbricht. */}
+            <p className="mx-auto mt-4 flex items-center justify-center gap-2 text-sm text-text-muted">
+              <MailCheck className="h-4 w-4 shrink-0 text-accent" />
+              <span>{mailHinweis}</span>
+            </p>
           </div>
 
           <div className="mx-auto mt-8 max-w-[900px]">
             <VideoPlayer />
           </div>
 
-          {/* Sofort-Weg zur Buchung. Das Widget-Script wird weiter unten von
-              BookingCta geladen und bindet per Event-Delegation alle Links mit
-              href="#book-widget" ein — also auch diesen hier. */}
+          {/* Sofort-Weg zur Buchung. Das Widget-Skript wird weiter unten von
+              BookingCta geladen und fängt Klicks auf `data-book-widget` ab —
+              also auch diesen hier. Der href greift, falls es nicht lädt. */}
           <div className="mx-auto mt-7 max-w-[520px] text-center">
             <a
-              href="#book-widget"
+              href={BOOKING_FALLBACK_URL}
+              data-book-widget
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() =>
                 track("cta_click", {
                   cta_id: "booking_under_video",

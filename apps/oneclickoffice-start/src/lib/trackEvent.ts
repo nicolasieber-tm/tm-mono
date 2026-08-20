@@ -6,10 +6,14 @@
  * Frage „von 200 Besuchern wie viele Leads?" braucht es eine Quelle, die jeden
  * mitzählt — und eine, die sich als Funnel auswerten lässt.
  *
- * Bewusst OHNE Personenbezug: keine IP, kein Name, keine E-Mail. Die
- * session_id ist eine Zufallszahl, die nur für die Dauer eines Besuchs im
- * Browser liegt. Damit ist das reine Reichweitenmessung und braucht keine
- * Einwilligung.
+ * Ohne Kontaktdaten: keine IP, kein Name, keine E-Mail. Die session_id ist eine
+ * Zufallszahl, die nur für die Dauer eines Besuchs im Browser liegt.
+ *
+ * Einschränkung, die man kennen muss: Über `meta_context` reisen zusätzlich
+ * Browser-Kennung und Klick-ID mit (für die Conversions API). Das sind
+ * Online-Kennungen, also mehr als reine Reichweitenmessung. Wer im Banner
+ * widerspricht, bekommt sie deshalb nicht mehr mitgeschrieben — dann bleibt
+ * hier tatsächlich nur die anonyme Zählung übrig (siehe metaContext.ts).
  *
  * Grundsatz: Das hier darf NIE etwas kaputt machen. Jeder Fehler wird
  * geschluckt, nichts wird abgewartet — ein Tracking-Ausfall darf einen Lead
@@ -25,6 +29,7 @@ const SOURCE = "lp-start";
 
 const SESSION_KEY = "oco_session_id";
 const UTM_KEY = "oco_utm";
+const FU_KEY = "oco_fu";
 
 import { metaContext } from "./metaContext";
 
@@ -73,6 +78,32 @@ const utmParams = (): Record<string, string> => {
   }
 };
 
+/**
+ * Kennung aus dem Link der Video-Mail (`?fu=…`).
+ *
+ * Wer über die Mail zurückkommt, startet eine neue Sitzung — ohne diese Kennung
+ * liesse sich sein Videofortschritt keinem Eintrag zuordnen. Die Folgestrecke
+ * hielte ihn dann weiter für jemanden, der das Video nie geöffnet hat, und
+ * schickte ihm genau das als Erinnerung.
+ *
+ * Es ist eine Zufalls-UUID ohne Personenbezug, dieselbe, die schon der
+ * Deduplizierung bei Meta dient. Sie bleibt für die Dauer des Besuchs gemerkt,
+ * damit sie auch nach einem Seitenwechsel noch mitgeschrieben wird.
+ */
+const followupKennung = (): string | null => {
+  if (!isBrowser) return null;
+  try {
+    const ausUrl = new URLSearchParams(window.location.search).get("fu");
+    if (ausUrl) {
+      sessionStorage.setItem(FU_KEY, ausUrl.slice(0, 100));
+      return ausUrl.slice(0, 100);
+    }
+    return sessionStorage.getItem(FU_KEY);
+  } catch {
+    return null;
+  }
+};
+
 const device = (): string =>
   isBrowser && window.matchMedia("(max-width: 767px)").matches ? "mobile" : "desktop";
 
@@ -98,7 +129,10 @@ export const trackEvent = (
       device: device(),
       referrer: document.referrer ? document.referrer.slice(0, 500) : null,
       utm: utmParams(),
-      meta,
+      meta: (() => {
+        const fu = followupKennung();
+        return fu ? { ...meta, fu } : meta;
+      })(),
       // Damit der Server dasselbe Ereignis an Meta melden kann, ohne dass es
       // doppelt zählt — und mit den Angaben, die nur der Browser kennt.
       meta_event_id: metaEventId ?? null,

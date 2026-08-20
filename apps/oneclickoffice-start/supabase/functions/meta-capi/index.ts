@@ -91,7 +91,11 @@ function metaEventFuerFunnelSchritt(
   if (event === "cta_click") {
     const id = String(meta.cta_id ?? "");
     if (id === "video_poster" || id === "hero_button") return "ViewContent";
-    if (id.startsWith("booking")) return "Schedule";
+    // Bewusst KEIN "Schedule": Das steht ab jetzt für den tatsächlich gebuchten
+    // Termin, den das Buchungssystem meldet (siehe Buchungs-Zweig unten). Ein
+    // Klick auf den Button ist nur die Absicht — würden beide gleich heissen,
+    // optimierte Meta weiter auf Klicks statt auf Termine.
+    if (id.startsWith("booking")) return "BookingIntent";
   }
   if (event === "video_play") return "VideoStart";
   if (event === "video_progress" && Number(meta.video_percent) === 50) return "VideoHalf";
@@ -128,12 +132,30 @@ serve(async (req) => {
 
   if (!ACCESS_TOKEN) return json(500, { error: "META_CAPI_ACCESS_TOKEN fehlt" });
 
-  const lead = ((body.record ?? body.lead ?? body) ?? {}) as Record<string, unknown>;
+  /**
+   * Drei Quellen:
+   *  - leads               → die Conversion mit Kontaktdaten (Standard)
+   *  - lp_events           → Zwischenschritte ohne Kontaktdaten (Feld `event`)
+   *  - body.booking        → der tatsächlich gebuchte Termin
+   *
+   * Der Buchungs-Zweig schliesst die grösste Lücke im Funnel: Bis hierher
+   * meldete nur der KLICK auf den Buchungs-Button etwas an Meta. Ob daraus je
+   * ein Termin wurde, wusste niemand — weder die Kampagne noch die Auswertung.
+   * Das Buchungssystem ruft diese Funktion nach erfolgreicher Buchung auf:
+   *
+   *   POST /functions/v1/meta-capi
+   *   x-webhook-secret: <dasselbe Secret wie der DB-Trigger>
+   *   { "booking": { "email": "…", "name": "…", "telefon": "…",
+   *                  "event_id": "…", "created_at": "…" } }
+   *
+   * `event_id` sollte die Buchungskennung des Systems sein — dann zählt ein
+   * wiederholter Aufruf desselben Termins bei Meta nicht doppelt.
+   */
+  const buchung = (body.booking ?? null) as Record<string, unknown> | null;
+  const lead = (buchung ?? (body.record ?? body.lead ?? body) ?? {}) as Record<string, unknown>;
 
-  // Zwei Quellen: die leads-Tabelle (Conversion mit Kontaktdaten) und
-  // lp_events (Zwischenschritte ohne). Erkennbar am Feld `event`.
-  const istFunnelSchritt = typeof lead.event === "string";
-  let eventName = "Lead";
+  const istFunnelSchritt = !buchung && typeof lead.event === "string";
+  let eventName = buchung ? "Schedule" : "Lead";
 
   if (istFunnelSchritt) {
     const zugeordnet = metaEventFuerFunnelSchritt(
@@ -154,6 +176,16 @@ serve(async (req) => {
   if (!istFunnelSchritt && !email) return json(422, { error: "kein Lead mit E-Mail" });
 
   const ctx = (lead.meta_context ?? {}) as Record<string, string>;
+
+  /* Aktiver Widerspruch gilt auch hier.
+     Die Meldung läuft serverseitig und damit am Browser vorbei — ohne diese
+     Prüfung liefe sie trotz „Ablehnen" weiter, mit gehashter E-Mail und
+     Telefonnummer. Die Datenschutzerklärung sagt das Gegenteil zu, und der
+     Widerruf über den Fusszeilen-Link wäre sonst wirkungslos. Der Browser legt
+     den Stand beim Schreiben in meta_context ab. */
+  if (ctx.consent === "denied") {
+    return json(200, { ok: true, uebersprungen: "widerspruch" });
+  }
 
   // user_data: alles Personenbezogene ausschliesslich gehasht.
   const userData: Record<string, unknown> = {};
@@ -181,7 +213,7 @@ serve(async (req) => {
         event_time: Math.floor(
           new Date(String(lead.created_at ?? new Date().toISOString())).getTime() / 1000,
         ),
-        event_id: String(lead.meta_event_id ?? lead.id ?? ""),
+        event_id: String(lead.event_id ?? lead.meta_event_id ?? lead.id ?? ""),
         action_source: "website",
         event_source_url: ctx.event_source_url ?? "https://start.oneclick-office.ch/",
         user_data: userData,

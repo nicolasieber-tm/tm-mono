@@ -52,14 +52,33 @@ export type MetaContext = {
   fbc?: string;
   fbp?: string;
   event_source_url?: string;
+  /** "denied", wenn der Besucher aktiv widersprochen hat. Der Server meldet
+      solche Ereignisse nicht an die Conversions API weiter. */
+  consent?: "granted" | "denied";
 };
 
 /** Sammelt, was für eine gute Zuordnung hilft. Alles davon ist optional. */
 export const metaContext = (): MetaContext => {
   if (typeof window === "undefined") return {};
+
+  /* Direkt aus dem Speicher gelesen statt über analytics.ts — sonst zeigen die
+     beiden Module gegenseitig aufeinander. */
+  let consent: "granted" | "denied" | undefined;
+  try {
+    const gespeichert = window.localStorage.getItem("oco_cookie_consent");
+    if (gespeichert === "granted" || gespeichert === "denied") consent = gespeichert;
+  } catch {
+    /* localStorage nicht verfügbar */
+  }
+
+  /* Bei aktivem Widerspruch nur den Vermerk zurückgeben: Gerätekennungen und
+     Klick-ID sind genau die Angaben, die den Besucher wiedererkennbar machen. */
+  if (consent === "denied") return { consent };
+
   const ctx: MetaContext = {
     user_agent: navigator.userAgent,
     event_source_url: window.location.href.split("#")[0],
+    ...(consent ? { consent } : {}),
   };
   const fbc = klickId();
   if (fbc) ctx.fbc = fbc;

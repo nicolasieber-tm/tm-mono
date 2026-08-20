@@ -29,7 +29,9 @@ export type LeadPayload = {
   telefon: string;
   /** Gemeinsame Kennung für Browser-Pixel und Conversions API (Deduplizierung). */
   meta_event_id?: string;
-  /** Browser-Angaben, die der Server für die Conversions API braucht. */
+  /** Browser-Angaben, die der Server für die Conversions API braucht.
+      Enthält auch den Einwilligungsstand: Bei „denied" meldet der Server das
+      Ereignis nicht an Meta weiter und bekommt gar keine Gerätekennungen. */
   meta_context?: Record<string, unknown>;
 };
 

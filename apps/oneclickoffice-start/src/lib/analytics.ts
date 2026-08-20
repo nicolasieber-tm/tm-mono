@@ -20,6 +20,17 @@ const CONSENT_KEY = "oco_cookie_consent"; // "granted" | "denied"
 export const CONSENT_CHANGE_EVENT = "oco:consent-change";
 export const OPEN_CONSENT_EVENT = "oco:open-consent";
 
+/**
+ * Signal: Liegt gerade ein Overlay über der Seite?
+ *
+ * Hintergrund: Das Cookie-Banner klebt unten am Fenster (z-10000), das
+ * Opt-in-Overlay dockt auf dem Handy ebenfalls unten an (z-9000) — und genau
+ * dort sitzt der Absende-Button. Ohne dieses Signal legt sich das Banner bei
+ * jedem Erstbesucher über den Button. Das Banner blendet sich deshalb aus,
+ * solange ein Overlay offen ist, und kommt danach von selbst zurück.
+ */
+export const OVERLAY_CHANGE_EVENT = "oco:overlay-change";
+
 export type ConsentState = "granted" | "denied" | null;
 
 declare global {
@@ -58,7 +69,16 @@ export const getConsent = (): ConsentState => {
   }
 };
 
-/** Einwilligung speichern und an Google Consent Mode melden. */
+/**
+ * Einwilligung speichern und an ALLE beteiligten Dienste melden.
+ *
+ * Wichtig: Der Google Consent Mode steuert ausschliesslich Google-Tags. Der
+ * Meta-Pixel hat einen eigenen Schalter (`fbq('consent', …)`) — ohne ihn liefe
+ * er nach einem „Ablehnen" unverändert weiter. Genau das versprach die
+ * Datenschutzerklärung aber anders herum. Die Voreinstellung bleibt „granted"
+ * (Opt-out, wie in der Schweiz üblich); wer aktiv widerspricht, wird ab hier
+ * aber tatsächlich nicht mehr für Werbezwecke erfasst.
+ */
 export const setConsent = (state: "granted" | "denied") => {
   if (!isBrowser) return;
   try {
@@ -67,12 +87,25 @@ export const setConsent = (state: "granted" | "denied") => {
     /* localStorage nicht verfügbar — Wahl gilt dann nur für diese Sitzung */
   }
   gtag("consent", "update", consentPayload(state));
+  meldeMetaConsent(state);
   window.dispatchEvent(new CustomEvent(CONSENT_CHANGE_EVENT, { detail: state }));
+};
+
+/** Den Meta-Pixel scharf oder stumm schalten. */
+export const meldeMetaConsent = (state: "granted" | "denied") => {
+  if (!isBrowser || typeof window.fbq !== "function") return;
+  window.fbq("consent", state === "granted" ? "grant" : "revoke");
 };
 
 /** Consent-Banner erneut öffnen (Footer-Link). */
 export const openConsentSettings = () => {
   if (isBrowser) window.dispatchEvent(new Event(OPEN_CONSENT_EVENT));
+};
+
+/** Overlay-Zustand melden — siehe OVERLAY_CHANGE_EVENT. */
+export const meldeOverlay = (offen: boolean) => {
+  if (!isBrowser) return;
+  window.dispatchEvent(new CustomEvent(OVERLAY_CHANGE_EVENT, { detail: offen }));
 };
 
 /**
@@ -93,7 +126,10 @@ const metaEventFuer = (event: string, params: Record<string, unknown>): string |
   if (event === "cta_click") {
     const id = String(params.cta_id ?? "");
     if (id === "video_poster" || id === "hero_button") return "ViewContent"; // Opt-in geöffnet
-    if (id.startsWith("booking")) return "Schedule"; // Richtung Terminbuchung
+    // Nur die Absicht. "Schedule" ist dem tatsächlich gebuchten Termin
+    // vorbehalten, den das Buchungssystem serverseitig meldet — sonst
+    // optimierte Meta weiter auf Klicks statt auf Termine.
+    if (id.startsWith("booking")) return "BookingIntent";
   }
 
   // Video-Fortschritt: eigene Namen, weil es dafür kein passendes
@@ -154,6 +190,8 @@ export const trackMeta = (
   eventId?: string,
 ) => {
   if (!isBrowser || typeof window.fbq !== "function") return;
+  // Aktiver Widerspruch gilt: dann geht an Meta nichts mehr raus.
+  if (getConsent() === "denied") return;
   // Die eventID ist der Schlüssel zur Deduplizierung: Server und Browser melden
   // dieselbe Conversion, Meta führt sie über diese Kennung zusammen.
   if (eventId) window.fbq("track", event, params, { eventID: eventId });

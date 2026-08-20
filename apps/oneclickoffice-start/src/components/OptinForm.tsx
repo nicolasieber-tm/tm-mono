@@ -33,17 +33,23 @@ const OptinForm = () => {
   const [submitting, setSubmitting] = useState(false);
   const started = useRef(false); // „Formular begonnen" nur einmal melden
 
-  const update = (key: keyof typeof values, value: string) => {
-    setValues((v) => ({ ...v, [key]: value }));
-    // Fehler verschwindet, sobald der Nutzer das Feld anfasst — nicht erst beim
-    // nächsten Absenden.
-    if (errors[key]) setErrors((e) => ({ ...e, [key]: undefined }));
-  };
-
+  /* Hängt bewusst an der ERSTEN Eingabe, nicht am Fokus: Am Desktop setzt das
+     Overlay den Cursor automatisch ins erste Feld — über onFocus hätte damit
+     jeder Öffner „Formular begonnen" gemeldet, ohne ein Zeichen zu tippen.
+     Das verzerrte sowohl die eigene Quote als auch das Meta-Signal
+     InitiateCheckout. */
   const handleFirstInput = () => {
     if (started.current) return;
     started.current = true;
     track("lead_start", { lead_form: "optin_video" });
+  };
+
+  const update = (key: keyof typeof values, value: string) => {
+    handleFirstInput();
+    setValues((v) => ({ ...v, [key]: value }));
+    // Fehler verschwindet, sobald der Nutzer das Feld anfasst — nicht erst beim
+    // nächsten Absenden.
+    if (errors[key]) setErrors((e) => ({ ...e, [key]: undefined }));
   };
 
   const validate = (): Errors => {
@@ -89,8 +95,13 @@ const OptinForm = () => {
       // E-Mail muss ohne diesen Eintrag funktionieren.
       try {
         sessionStorage.setItem("oco_lead_name", values.name.trim());
+        // Für die Bestätigungszeile auf der Video-Seite („… an dich geschickt").
+        sessionStorage.setItem("oco_lead_email", values.email.trim().toLowerCase());
+        // Signal an den Player: Dieser Besucher hat den Start schon angefordert,
+        // das Video soll ohne zweiten Klick loslaufen.
+        sessionStorage.setItem("oco_video_autostart", "1");
       } catch {
-        /* Privatmodus o. Ä. — dann eben ohne Namen */
+        /* Privatmodus o. Ä. — dann eben ohne Namen und ohne Autostart */
       }
       navigate("/video");
     } catch (error) {
@@ -128,7 +139,6 @@ const OptinForm = () => {
             placeholder={fields.name.placeholder}
             value={values.name}
             onChange={(e) => update("name", e.target.value)}
-            onFocus={handleFirstInput}
             aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? "err-name" : undefined}
           />
@@ -153,7 +163,6 @@ const OptinForm = () => {
             placeholder={fields.email.placeholder}
             value={values.email}
             onChange={(e) => update("email", e.target.value)}
-            onFocus={handleFirstInput}
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? "err-email" : undefined}
           />
@@ -183,7 +192,6 @@ const OptinForm = () => {
             placeholder={fields.telefon.placeholder}
             value={values.telefon}
             onChange={(e) => update("telefon", e.target.value)}
-            onFocus={handleFirstInput}
             aria-invalid={Boolean(errors.telefon)}
             aria-describedby={errors.telefon ? "err-telefon" : undefined}
           />

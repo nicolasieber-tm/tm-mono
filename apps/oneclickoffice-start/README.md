@@ -185,7 +185,8 @@ als SHA-256-Hash. Die Datenschutzerklärung führt das unter „Conversions API"
 | Opt-in geöffnet | `ViewContent` | `lp_events` |
 | Formular begonnen | `InitiateCheckout` | `lp_events` |
 | **Lead** | `Lead` | `leads` (mit gehashten Kontaktdaten) |
-| Termin-CTA geklickt | `Schedule` | `lp_events` |
+| Termin-CTA geklickt | `BookingIntent` | `lp_events` |
+| **Termin gebucht** | `Schedule` | Webhook des Buchungssystems |
 | Video gestartet / halb / ganz | `VideoStart` / `VideoHalf` / `VideoComplete` | `lp_events` |
 
 Zwei Trigger: `trg_meta_capi` auf `leads`, `trg_meta_capi_event` auf `lp_events`.
@@ -196,6 +197,27 @@ nutzlose HTTP-Aufrufe.
 `lead_submit` meldet der lp_events-Trigger **nicht**: Den Lead meldet bereits der
 Trigger auf `leads`, und von dort mit gehashten Kontaktdaten — was Meta eine viel
 sicherere Zuordnung erlaubt.
+
+**`Schedule` heisst der gebuchte Termin, nicht der Klick.** Vorher meldete schon
+der Klick auf den Buchungs-Button `Schedule` — Meta optimierte damit auf Klicks,
+und ob je ein Termin daraus wurde, wusste niemand. Der Klick heisst jetzt
+`BookingIntent`; `Schedule` ist der tatsächlichen Buchung vorbehalten.
+
+Damit das Ereignis ankommt, muss das Buchungssystem nach erfolgreicher Buchung
+einmal hier anklopfen:
+
+```bash
+curl -X POST https://uzsyjoicirquqjejmutf.supabase.co/functions/v1/meta-capi \
+  -H "Content-Type: application/json" -H "x-webhook-secret: <secret>" \
+  -d '{"booking":{"email":"kunde@example.ch","name":"Vorname Nachname",
+       "telefon":"+41 79 …","event_id":"<Buchungsnummer>","created_at":"2026-08-20T10:00:00Z"}}'
+```
+
+`event_id` sollte die Buchungsnummer des Systems sein — dann zählt ein
+wiederholter Aufruf desselben Termins bei Meta nicht doppelt. **Bis dieser
+Webhook eingerichtet ist, kommt kein `Schedule` mehr an.** Wer heute im
+Anzeigenmanager auf `Schedule` optimiert, muss vorher auf `BookingIntent`
+umstellen oder den Webhook zuerst einrichten.
 
 **Warum das für die Kampagnensteuerung zählt:** Meta braucht rund 50 Ereignisse
 pro Woche und Anzeigengruppe zum Lernen. Diese Zahl erreichen Leads bei kleinem
@@ -217,6 +239,58 @@ curl -X POST https://uzsyjoicirquqjejmutf.supabase.co/functions/v1/meta-capi \
   -H "Content-Type: application/json" -H "x-webhook-secret: <secret>" \
   -d '{"diag":true}'
 ```
+
+## Follow-up-Strecke
+
+Nach der Video-Mail folgen bis zu drei weitere Mails, je nachdem, wie weit
+jemand gekommen ist. Vorher endete der Funnel nach einer einzigen Mail — wer das
+Video nie öffnete oder es zu Ende sah und trotzdem nicht buchte, wurde nie
+wieder angesprochen.
+
+| Stufe | Frühestens | Bedingung | Betreff |
+|---|---|---|---|
+| 1 | nach 24 h | Video nie gestartet | „Dein Video wartet noch" |
+| 2 | nach 3 Tagen | begonnen, nicht beendet | „Der Teil, der meistens überrascht" |
+| 3 | nach 5 Tagen | zu Ende gesehen, kein Buchungs-Klick | „Was ein Erstgespräch bei uns nicht ist" |
+
+Ein Lead bekommt pro Lauf höchstens eine Mail, und jede Stufe höchstens einmal.
+Dafür sorgt der Unique-Index auf `lead_followups (lead_id, stufe)` — nicht die
+Programmlogik. Eingetragen wird **vor** dem Versand: Eine ausgefallene Mail ist
+verkraftbar, eine doppelte nicht.
+
+**Woher der Fortschritt kommt:** aus `lp_events`, verbunden über
+`meta_event_id`. Der Link in der Video-Mail trägt diese Kennung als `?fu=…` mit,
+damit auch eine spätere Rückkehr aus der Mail dem Lead zugeordnet wird —
+sonst bekäme jemand „du hast das Video noch nicht angesehen", obwohl er es
+aus der Mail heraus zu Ende gesehen hat.
+
+**Abmeldung:** Jede Folgemail trägt einen Abmeldelink und den
+`List-Unsubscribe`-Kopf (seit den Gmail-/Yahoo-Anforderungen 2024 relevant für
+die Zustellung). Eine Abmeldung setzt `leads.followup_abgemeldet_am`; die
+Video-Mail selbst geht weiterhin raus — sie ist die angeforderte Auslieferung,
+keine Werbung.
+
+### In Betrieb nehmen
+
+1. Migration ausführen: `supabase/migrations/20260820_followup_strecke.sql`.
+   **Vorher `<PROJEKT-REF>` und `<SECRET>` darin ersetzen** — der Cron-Job ruft
+   die Funktion sonst ins Leere.
+2. Funktion deployen: `supabase functions deploy send-followup --no-verify-jwt`
+   (der Abmeldelink wird ohne JWT aus der Mail heraus aufgerufen).
+3. Prüfen, ohne zu senden:
+
+```bash
+curl -X POST "https://uzsyjoicirquqjejmutf.supabase.co/functions/v1/send-followup?diag=1" \
+  -H "Content-Type: application/json" -H "x-webhook-secret: <secret>"
+```
+
+Benötigte Secrets: dieselben wie `send-video-email`, zusätzlich
+`TELEGRAM_BOT_TOKEN` und `TELEGRAM_CHAT_ID` für Störungsmeldungen sowie
+optional `BOOKING_URL` (Standard ist das Buchungs-Widget dieser Kampagne).
+
+**Vor dem Scharfschalten** einen Testlead anlegen und die drei Mails an die
+eigene Adresse durchspielen — die Texte sprechen den Empfänger auf seinen
+Fortschritt an, und eine falsch zugeordnete Stufe fällt sofort unangenehm auf.
 
 ## Entwickeln
 

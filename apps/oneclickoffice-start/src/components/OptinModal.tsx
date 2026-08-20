@@ -1,5 +1,6 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { X } from "lucide-react";
+import { meldeOverlay } from "@/lib/analytics";
 
 /**
  * Formular-Overlay.
@@ -24,6 +25,13 @@ type Props = {
 const OptinModal = ({ open, onClose, children }: Props) => {
   const panelRef = useRef<HTMLDivElement>(null);
   const restoreFocusTo = useRef<HTMLElement | null>(null);
+
+  /* Dem Cookie-Banner melden, dass ein Overlay im Weg liegt: Es klebt unten am
+     Fenster und läge auf dem Handy sonst genau über dem Absende-Button. */
+  useEffect(() => {
+    meldeOverlay(open);
+    return () => meldeOverlay(false);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
