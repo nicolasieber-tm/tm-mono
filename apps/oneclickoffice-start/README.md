@@ -178,6 +178,30 @@ Ereignis zusammen. Fehlt sie, zählt Meta jede Conversion doppelt.
 **Datenschutz:** E-Mail, Telefon und Name verlassen das System ausschliesslich
 als SHA-256-Hash. Die Datenschutzerklärung führt das unter „Conversions API" auf.
 
+### Was serverseitig gemeldet wird
+
+| Funnel-Schritt | Meta-Ereignis | Quelle |
+|---|---|---|
+| Opt-in geöffnet | `ViewContent` | `lp_events` |
+| Formular begonnen | `InitiateCheckout` | `lp_events` |
+| **Lead** | `Lead` | `leads` (mit gehashten Kontaktdaten) |
+| Termin-CTA geklickt | `Schedule` | `lp_events` |
+| Video gestartet / halb / ganz | `VideoStart` / `VideoHalf` / `VideoComplete` | `lp_events` |
+
+Zwei Trigger: `trg_meta_capi` auf `leads`, `trg_meta_capi_event` auf `lp_events`.
+Der zweite ist bewusst eng gefiltert — `lp_events` sammelt jeden Seitenaufruf
+und vier Fortschrittsmeldungen pro Video; ohne Filter entstünden tausende
+nutzlose HTTP-Aufrufe.
+
+`lead_submit` meldet der lp_events-Trigger **nicht**: Den Lead meldet bereits der
+Trigger auf `leads`, und von dort mit gehashten Kontaktdaten — was Meta eine viel
+sicherere Zuordnung erlaubt.
+
+**Warum das für die Kampagnensteuerung zählt:** Meta braucht rund 50 Ereignisse
+pro Woche und Anzeigengruppe zum Lernen. Diese Zahl erreichen Leads bei kleinem
+Budget nicht. Deshalb wird auf `ViewContent` (Opt-in geöffnet) optimiert — und
+genau deshalb darf ausgerechnet dieses Ereignis nicht vom Browser abhängen.
+
 ### Benötigte Secrets (Supabase → Project Settings → Edge Functions)
 
 | Secret | Zweck |

@@ -72,6 +72,33 @@ function normalisiereTelefon(roh: string): string | null {
 const normalisiereName = (v: string): string =>
   (v ?? "").trim().toLowerCase().replace(/[^\p{L}\s-]/gu, "");
 
+/**
+ * Welches Meta-Ereignis zu einem Funnel-Schritt aus lp_events gehört.
+ *
+ * MUSS identisch zu metaEventFuer() in src/lib/analytics.ts bleiben — Browser
+ * und Server melden dasselbe Ereignis, und nur wenn beide denselben Namen UND
+ * dieselbe event_id verwenden, führt Meta sie zusammen statt doppelt zu zählen.
+ *
+ * lead_submit fehlt hier bewusst: Den Lead meldet bereits der Trigger auf der
+ * leads-Tabelle, samt gehashter Kontaktdaten. Von dort ist die Meldung
+ * wertvoller, weil Meta die Person darüber viel sicherer zuordnen kann.
+ */
+function metaEventFuerFunnelSchritt(
+  event: string,
+  meta: Record<string, unknown>,
+): string | null {
+  if (event === "lead_start") return "InitiateCheckout";
+  if (event === "cta_click") {
+    const id = String(meta.cta_id ?? "");
+    if (id === "video_poster" || id === "hero_button") return "ViewContent";
+    if (id.startsWith("booking")) return "Schedule";
+  }
+  if (event === "video_play") return "VideoStart";
+  if (event === "video_progress" && Number(meta.video_percent) === 50) return "VideoHalf";
+  if (event === "video_complete") return "VideoComplete";
+  return null;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return json(405, { error: "method not allowed" });
@@ -103,21 +130,44 @@ serve(async (req) => {
 
   const lead = ((body.record ?? body.lead ?? body) ?? {}) as Record<string, unknown>;
 
+  // Zwei Quellen: die leads-Tabelle (Conversion mit Kontaktdaten) und
+  // lp_events (Zwischenschritte ohne). Erkennbar am Feld `event`.
+  const istFunnelSchritt = typeof lead.event === "string";
+  let eventName = "Lead";
+
+  if (istFunnelSchritt) {
+    const zugeordnet = metaEventFuerFunnelSchritt(
+      String(lead.event),
+      (lead.meta ?? {}) as Record<string, unknown>,
+    );
+    // Nicht jeder Funnel-Schritt ist für Meta interessant (Seitenaufrufe etwa).
+    if (!zugeordnet) return json(200, { ok: true, uebersprungen: String(lead.event) });
+    eventName = zugeordnet;
+  }
+
   const email = String(lead.email ?? "").trim().toLowerCase();
   const telefon = normalisiereTelefon(String(lead.telefon ?? ""));
   const nameTeile = String(lead.name ?? "").trim().split(/\s+/);
   const vorname = normalisiereName(nameTeile[0] ?? "");
   const nachname = normalisiereName(nameTeile.slice(1).join(" "));
 
-  if (!email) return json(422, { error: "kein Lead mit E-Mail" });
+  if (!istFunnelSchritt && !email) return json(422, { error: "kein Lead mit E-Mail" });
 
   const ctx = (lead.meta_context ?? {}) as Record<string, string>;
 
   // user_data: alles Personenbezogene ausschliesslich gehasht.
-  const userData: Record<string, unknown> = { em: [await sha256(email)] };
+  const userData: Record<string, unknown> = {};
+  if (email) userData.em = [await sha256(email)];
   if (telefon) userData.ph = [await sha256(telefon)];
   if (vorname) userData.fn = [await sha256(vorname)];
   if (nachname) userData.ln = [await sha256(nachname)];
+
+  // Bei Zwischenschritten gibt es keine Kontaktdaten. Ohne mindestens einen
+  // Anhaltspunkt lehnt Meta das Ereignis ab, deshalb die Besuchskennung als
+  // external_id — gehasht, sie ist ohnehin nur eine Zufallszahl. Sie verbindet
+  // ausserdem alle Schritte desselben Besuchs miteinander.
+  const sessionId = String(lead.session_id ?? "");
+  if (sessionId) userData.external_id = [await sha256(sessionId)];
   // Diese beiden verbessern die Zuordnung erheblich und sind NICHT zu hashen.
   if (ctx.fbc) userData.fbc = ctx.fbc;
   if (ctx.fbp) userData.fbp = ctx.fbp;
@@ -126,7 +176,7 @@ serve(async (req) => {
   const nutzlast: Record<string, unknown> = {
     data: [
       {
-        event_name: "Lead",
+        event_name: eventName,
         // Zeitpunkt des Leads, nicht der Meldung — Meta akzeptiert bis 7 Tage rückwirkend.
         event_time: Math.floor(
           new Date(String(lead.created_at ?? new Date().toISOString())).getTime() / 1000,
@@ -138,7 +188,11 @@ serve(async (req) => {
       },
     ],
   };
-  if (TEST_EVENT_CODE) nutzlast.test_event_code = TEST_EVENT_CODE;
+  // Test-Code: aus dem Secret, oder pro Aufruf im Body überschreibbar. Letzteres
+  // hilft beim Prüfen — der Code, den Meta im Testereignisse-Fenster anzeigt,
+  // wechselt gelegentlich, und so muss dafür kein Secret angefasst werden.
+  const testCode = String(body.test_event_code ?? "") || TEST_EVENT_CODE;
+  if (testCode) nutzlast.test_event_code = testCode;
 
   const res = await fetch(
     `https://graph.facebook.com/${API_VERSION}/${PIXEL_ID}/events?access_token=${encodeURIComponent(ACCESS_TOKEN)}`,
