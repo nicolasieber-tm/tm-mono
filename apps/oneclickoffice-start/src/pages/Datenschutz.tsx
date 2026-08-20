@@ -287,6 +287,31 @@ const Datenschutz = () => (
             übermittelt werden. Eine direkte Identifizierung Ihrer Person ist dabei nicht
             beabsichtigt.
           </p>
+          <h3 className="mb-2 mt-6 font-bold text-text-primary">
+            Conversions API (serverseitige Übermittlung)
+          </h3>
+          <p className="mb-4">
+            Ergänzend zum Meta-Pixel übermitteln wir den Abschluss einer Anmeldung über unser
+            Formular über die sogenannte Conversions API direkt von unserem Server an Meta. Der
+            Grund dafür ist technischer Natur: Browser-Erweiterungen und Schutzmechanismen
+            verhindern häufig die Übermittlung durch den Pixel, sodass wir die Wirksamkeit unserer
+            Werbeanzeigen sonst nur lückenhaft messen könnten.
+          </p>
+          <p className="mb-4">
+            Dabei werden die von Ihnen angegebenen Kontaktdaten (E-Mail-Adresse, Telefonnummer,
+            Vor- und Nachname) <strong>ausschliesslich in verschlüsselter Form</strong> übertragen:
+            als sogenannte SHA-256-Hashwerte, aus denen sich die ursprünglichen Angaben nicht
+            zurückrechnen lassen. Meta gleicht diese Werte mit den ebenfalls verschlüsselten
+            Angaben vorhandener Nutzerkonten ab, um die Anmeldung der auslösenden Werbeanzeige
+            zuzuordnen. Zusätzlich übermitteln wir technische Angaben zu Browser und Gerät sowie,
+            sofern vorhanden, die Kennung des Anzeigenklicks.
+          </p>
+          <p className="mb-4">
+            Rechtsgrundlage ist Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO bzw. die
+            entsprechenden Bestimmungen des Schweizer DSG), die Sie über die Schaltfläche
+            „Akzeptieren" im Cookie-Hinweis erteilen und über den Link „Cookie-Einstellungen" am
+            Seitenende jederzeit für die Zukunft widerrufen können.
+          </p>
           <p>
             Anbieter ist die Meta Platforms Ireland Limited; dabei können Daten an die Meta
             Platforms, Inc. in den USA übermittelt werden. Diese Übermittlung erfolgt auf Grundlage

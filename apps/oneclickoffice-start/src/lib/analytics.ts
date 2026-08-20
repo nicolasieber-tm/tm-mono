@@ -109,7 +109,11 @@ const metaEventFuer = (event: string, params: Record<string, unknown>): string |
  * Alle drei sind fire-and-forget: Ein Tracking-Ausfall darf nie einen Lead
  * kosten.
  */
-export const track = (event: string, params: Record<string, unknown> = {}) => {
+export const track = (
+  event: string,
+  params: Record<string, unknown> = {},
+  metaEventId?: string,
+) => {
   if (!isBrowser) return;
 
   window.dataLayer = window.dataLayer || [];
@@ -118,7 +122,7 @@ export const track = (event: string, params: Record<string, unknown> = {}) => {
   trackEvent(event, params);
 
   const metaEvent = metaEventFuer(event, params);
-  if (metaEvent) trackMeta(metaEvent);
+  if (metaEvent) trackMeta(metaEvent, {}, metaEventId);
 };
 
 /**
@@ -126,7 +130,14 @@ export const track = (event: string, params: Record<string, unknown> = {}) => {
  * wie der PageView — unabhängig vom Cookie-Banner; hier wird nur ein Standard-
  * oder Custom-Event nachgeschoben (z. B. „Lead").
  */
-export const trackMeta = (event: string, params: Record<string, unknown> = {}) => {
+export const trackMeta = (
+  event: string,
+  params: Record<string, unknown> = {},
+  eventId?: string,
+) => {
   if (!isBrowser || typeof window.fbq !== "function") return;
-  window.fbq("track", event, params);
+  // Die eventID ist der Schlüssel zur Deduplizierung: Server und Browser melden
+  // dieselbe Conversion, Meta führt sie über diese Kennung zusammen.
+  if (eventId) window.fbq("track", event, params, { eventID: eventId });
+  else window.fbq("track", event, params);
 };
