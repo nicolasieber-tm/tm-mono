@@ -56,7 +56,7 @@ const VideoPlayer = () => {
         <p className="font-semibold text-text-primary">Das Video ist gleich da.</p>
         <p className="max-w-[380px] text-sm text-text-secondary">
           Wir laden es in diesem Moment hoch. Du bekommst den Link zusätzlich per
-          E-Mail — schau in ein paar Minuten nochmals rein.
+          E-Mail. Schau in ein paar Minuten nochmals rein.
         </p>
       </div>
     );

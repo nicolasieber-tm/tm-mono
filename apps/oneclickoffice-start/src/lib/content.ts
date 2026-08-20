@@ -95,7 +95,7 @@ export const video = {
   kicker: "Dein Video ist freigeschaltet",
   headline: "So reduzierst du deinen Adminaufwand auf wenige Stunden.",
   subheadline:
-    "Nimm dir die paar Minuten in Ruhe. Darunter steht das Wichtigste nochmals zum Nachlesen — und die Möglichkeit, direkt ein kostenloses Gespräch zu buchen.",
+    "Nimm dir die paar Minuten in Ruhe. Darunter steht das Wichtigste nochmals zum Nachlesen, dazu die Möglichkeit, direkt ein kostenloses Gespräch zu buchen.",
 
   /* Video-Quelle. Die MP4 liegt in public/video/ (Details: dortiges README). */
   source: {
@@ -107,22 +107,30 @@ export const video = {
     captions: "",
   },
 
+  /* Direkt unter dem Video: wer jetzt schon überzeugt ist, soll nicht erst
+     durch die ganze Zusammenfassung scrollen müssen. Öffnet dasselbe
+     Buchungs-Overlay wie der CTA am Seitenende. */
+  ctaUnderVideo: {
+    label: "Kostenloses Erstgespräch buchen",
+    note: "Unverbindlich · wir schauen uns deinen Ablauf gemeinsam an",
+  },
+
   /* ---------- 1. Woher der Aufwand kommt ---------- */
   problem: {
     kicker: "Woher der Aufwand kommt",
     headline: "Nicht ein grosses Problem. Viele kleine.",
     intro:
-      "Rechnungen schreiben, Excel-Tabellen pflegen, Kundendaten verwalten, Spesen erfassen, Dokumente erstellen, Informationen von einem Programm ins nächste übertragen. Jede Aufgabe für sich wirkt harmlos — hier zehn Minuten, dort zwanzig.",
+      "Rechnungen schreiben, Excel-Tabellen pflegen, Kundendaten verwalten, Spesen erfassen, Dokumente erstellen, Informationen von einem Programm ins nächste übertragen. Jede Aufgabe für sich wirkt harmlos: hier zehn Minuten, dort zwanzig.",
     /* Der Kern-Einwand aus dem Video: die Abläufe sind nicht schlecht, sie sind gewachsen. */
     quote:
       "Das Problem ist meistens nicht, dass die Abläufe schlecht funktionieren. Das Problem ist, dass sie über die Jahre gewachsen sind.",
     growth:
-      "Irgendwann fing es mit einer Excel-Tabelle an. Später kam eine zweite dazu. Für einen anderen Bereich wurde eine zusätzliche Software eingeführt. Heute liegen Kundendaten an einem Ort, Rechnungen entstehen woanders, und gewisse Informationen müssen jedes Mal von Hand übertragen werden. Es funktioniert irgendwie — aber im Hintergrund entsteht immer mehr doppelte Arbeit.",
+      "Erst eine Excel-Tabelle, später eine zweite, für einen anderen Bereich eine zusätzliche Software. Heute liegen Kundendaten an einem Ort, Rechnungen entstehen woanders, und im Hintergrund entsteht immer mehr doppelte Arbeit.",
     /* Was der Aufwand tatsächlich kostet — nicht nur Zeit. */
     costs: [
       { title: "Zeit", text: "Zusammengerechnet gehen jeden Monat mehrere Stunden bis ganze Arbeitstage verloren." },
       { title: "Fehler", text: "Was von Hand übertragen wird, wird irgendwann falsch übertragen." },
-      { title: "Verlorene Daten", text: "Informationen liegen verstreut — und sind dann nicht da, wenn du sie brauchst." },
+      { title: "Verlorene Daten", text: "Informationen liegen verstreut und sind dann nicht da, wenn du sie brauchst." },
     ],
   },
 
@@ -156,7 +164,7 @@ export const video = {
       },
       {
         title: "Bestehende Systeme verbinden",
-        text: "Was du schon nutzt, bleibt — es spricht künftig nur miteinander. Informationen werden einmal erfasst und landen dort, wo sie hingehören.",
+        text: "Was du schon nutzt, bleibt und spricht künftig nur miteinander. Informationen werden einmal erfasst und landen dort, wo sie hingehören.",
       },
       {
         title: "Ein zentraler Prozess",
@@ -187,7 +195,7 @@ export const video = {
     /* Ohne diese Einschränkung wirkt der Abschnitt wie ein Produktpitch. */
     disclaimerTitle: "Deine Lösung muss nicht so aussehen.",
     disclaimerText:
-      "Vielleicht liegt dein grösster Zeitfresser darin, dass Daten zwischen zwei bestehenden Programmen hin und her wandern — dann automatisieren wir genau diesen Schritt. Vielleicht arbeitest du mit mehreren grossen Excel-Tabellen und führst jeden Monat stundenlang Informationen zusammen — dann ist etwas ganz anderes sinnvoll. Und vielleicht passt es tatsächlich fast so, wie wir es für Luca gebaut haben.",
+      "Vielleicht liegt dein grösster Zeitfresser darin, dass Daten zwischen zwei bestehenden Programmen hin und her wandern. Dann automatisieren wir genau diesen Schritt. Und vielleicht passt es tatsächlich fast so, wie wir es für Luca gebaut haben.",
   },
 
   /* ---------- 5. Ablauf ---------- */
@@ -201,7 +209,7 @@ export const video = {
       },
       {
         title: "Wir prüfen die Umsetzung",
-        text: "Anschliessend klären wir, welche Lösung für deinen Fall wirklich sinnvoll ist — vom kleinen Workflow bis zur individuellen Lösung.",
+        text: "Anschliessend klären wir, welche Lösung für deinen Fall wirklich sinnvoll ist, vom kleinen Workflow bis zur individuellen Lösung.",
       },
       {
         title: "Konkreter Vorschlag mit Kosten",
