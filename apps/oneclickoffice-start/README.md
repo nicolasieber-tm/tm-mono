@@ -215,7 +215,12 @@ curl -X POST https://uzsyjoicirquqjejmutf.supabase.co/functions/v1/meta-capi \
 
 `event_id` sollte die Buchungsnummer des Systems sein — dann zählt ein
 wiederholter Aufruf desselben Termins bei Meta nicht doppelt. **Bis dieser
-Webhook eingerichtet ist, kommt kein `Schedule` mehr an.** Wer heute im
+Webhook eingerichtet ist, kommt kein `Schedule` mehr an.**
+
+> Vollständige Anleitung zum Weitergeben an das Buchungssystem:
+> [`docs/buchungs-webhook.md`](docs/buchungs-webhook.md) — mit Payload-Beschreibung,
+> Code-Beispiel, Testweg über den Events Manager und Hinweisen dazu, wann *nicht*
+> gemeldet werden darf (Verschiebungen, Stornierungen). Wer heute im
 Anzeigenmanager auf `Schedule` optimiert, muss vorher auf `BookingIntent`
 umstellen oder den Webhook zuerst einrichten.
 
