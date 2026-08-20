@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRight, Loader2, ShieldCheck } from "lucide-react";
 import { optin } from "@/lib/content";
 import { submitLead } from "@/lib/submitLead";
-import { track, trackMeta } from "@/lib/analytics";
+import { track } from "@/lib/analytics";
 
 /**
  * Telefonnummer: Pflicht oder freiwillig?
@@ -72,8 +72,8 @@ const OptinForm = () => {
 
     try {
       await submitLead(values);
-      track("lead_submit", { lead_form: "optin_video" }); // Conversion (GA4)
-      trackMeta("Lead"); // Conversion (Meta-Pixel)
+      // Meldet an dataLayer, eigene Datenbank und Meta-Pixel ("Lead") zugleich.
+      track("lead_submit", { lead_form: "optin_video" });
       // Merkt sich, dass dieser Besucher eingetragen ist — die Video-Seite
       // begrüsst ihn dann mit Namen. Kein Zugangsschutz: der Link aus der
       // E-Mail muss ohne diesen Eintrag funktionieren.

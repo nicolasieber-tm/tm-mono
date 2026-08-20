@@ -105,14 +105,62 @@ Gehen per PostgREST-Insert in die Tabelle `leads` des Supabase-Projekts
 Bewusst ohne `@supabase/supabase-js`: die Lib kostet rund 40 KB gzip, gebraucht
 wird ein einziger INSERT.
 
+## Funnel-Zahlen (eigenes Tracking)
+
+Die Seite meldet jeden Schritt zusätzlich in die eigene Datenbank (Tabelle
+`lp_events` im selben Supabase-Projekt wie die Leads). Anonym: keine IP, kein
+Name, keine E-Mail — nur Ereignis, Zeitpunkt, Gerätetyp, UTM-Parameter und eine
+Zufallskennung pro Besuch.
+
+Grund: Meta-Pixel und GA4 verlieren durch Adblocker und abgelehnte Cookies je
+nach Publikum 20–40 % der Ereignisse und zeigen keine durchgängige
+Funnel-Ansicht. Für „von 200 Besuchern wie viele Leads?" braucht es eine Quelle,
+die jeden mitzählt.
+
+Auswertung per SQL:
+
+```sql
+select * from v_lp_funnel_total;   -- Gesamtbild mit Übergangsquoten
+select * from v_lp_funnel_daily;   -- pro Tag und Gerät
+```
+
+`v_lp_funnel_total` zeigt die vier Quoten, auf die es ankommt:
+
+| Spalte | Frage |
+|---|---|
+| `quote_geoeffnet_pct` | Wie viele Besucher öffnen überhaupt das Formular? |
+| `quote_begonnen_pct` | Wie viele der Öffner fangen an zu tippen? |
+| `quote_abgeschickt_pct` | Wie viele der Anfänger schicken ab? Hier zeigt sich, ob das Formular bremst (z. B. die Telefon-Pflicht). |
+| `quote_gesamt_pct` | Besucher zu Lead. |
+
+Gezählt werden **Besuche**, nicht Ereignisse — wer dreimal auf den Button tippt,
+zählt einmal.
+
 ## Tracking
 
 Gleiche IDs wie die Demo-Seite — GTM `GTM-52V9SJ6J`, Meta-Pixel
 `1040498465323715`, Consent Mode v2 (siehe `index.html`). Die beiden Seiten
 lassen sich im GTM über den Hostname trennen.
 
-Ereignisse: `optin_view`, `cta_click`, `lead_start`, `lead_submit` (+ Meta
-`Lead`), `video_page_view`, `video_play`, `video_progress`, `video_complete`.
+Ereignisse: `optin_view`, `cta_click`, `lead_start`, `lead_submit`,
+`video_page_view`, `video_play`, `video_progress`, `video_complete`.
+
+Jedes davon geht über `track()` in `src/lib/analytics.ts` an drei Stellen
+gleichzeitig: dataLayer (GTM), eigene Datenbank und — für die Schritte, auf die
+sich optimieren lässt — den Meta-Pixel:
+
+| Funnel-Schritt | Meta-Ereignis |
+|---|---|
+| Seitenaufruf | `PageView` |
+| Opt-in geöffnet | `ViewContent` |
+| Formular begonnen | `InitiateCheckout` |
+| Lead abgeschickt | `Lead` |
+| Richtung Terminbuchung | `Schedule` |
+
+Bewusst Meta-Standardereignisse statt eigener Namen: Nur auf die lässt sich im
+Werbeanzeigenmanager direkt optimieren. Meta braucht rund 50 Ereignisse pro
+Woche und Anzeigengruppe zum Lernen — reichen die Leads dafür nicht, kann
+ersatzweise auf `ViewContent` oder `InitiateCheckout` optimiert werden.
 
 ## Entwickeln
 

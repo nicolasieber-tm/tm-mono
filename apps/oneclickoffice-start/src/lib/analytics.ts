@@ -13,6 +13,8 @@
  * gibt es keine eingebettete Demo, die Seite läuft immer im Top-Fenster.
  */
 
+import { trackEvent } from "./trackEvent";
+
 const CONSENT_KEY = "oco_cookie_consent"; // "granted" | "denied"
 export const CONSENT_CHANGE_EVENT = "oco:consent-change";
 export const OPEN_CONSENT_EVENT = "oco:open-consent";
@@ -73,14 +75,50 @@ export const openConsentSettings = () => {
 };
 
 /**
- * Funnel-Event in den dataLayer schreiben. Ob daraus ein voller oder ein
- * cookieloser GA4-Hit wird, entscheidet Consent Mode v2 in GTM — deshalb hier
- * bewusst kein zusätzlicher Block.
+ * Welche Funnel-Schritte der Meta-Pixel als eigenes Ereignis melden soll.
+ *
+ * Hintergrund: Der Pixel meldete bisher nur den fertigen Lead. Meta braucht
+ * aber rund 50 Ereignisse pro Woche und Anzeigengruppe, um zuverlässig zu
+ * lernen — bei kleinem Budget erreicht man das mit Leads allein oft nicht.
+ * Mit diesen Zwischenschritten lässt sich notfalls auf ein häufigeres Ereignis
+ * optimieren, und im Werbeanzeigenmanager wird sichtbar, wo Leute abspringen.
+ *
+ * Bewusst Meta-Standardereignisse statt eigener Namen: nur auf die kann im
+ * Anzeigenmanager direkt optimiert werden.
+ */
+const metaEventFuer = (event: string, params: Record<string, unknown>): string | null => {
+  if (event === "lead_submit") return "Lead"; // die eigentliche Conversion
+  if (event === "lead_start") return "InitiateCheckout"; // Formular begonnen
+  if (event === "cta_click") {
+    const id = String(params.cta_id ?? "");
+    if (id === "video_poster" || id === "hero_button") return "ViewContent"; // Opt-in geöffnet
+    if (id.startsWith("booking")) return "Schedule"; // Richtung Terminbuchung
+  }
+  return null;
+};
+
+/**
+ * Ein Funnel-Ereignis an alle drei Stellen melden:
+ *
+ * 1. dataLayer (GTM/GA4) — ob daraus ein voller oder ein cookieloser Hit wird,
+ *    entscheidet Consent Mode v2 in GTM.
+ * 2. Eigene Datenbank — die einzige Quelle, die auch mit Adblocker zählt und
+ *    sich als Funnel auswerten lässt.
+ * 3. Meta-Pixel — nur für die Schritte, auf die sich optimieren lässt.
+ *
+ * Alle drei sind fire-and-forget: Ein Tracking-Ausfall darf nie einen Lead
+ * kosten.
  */
 export const track = (event: string, params: Record<string, unknown> = {}) => {
   if (!isBrowser) return;
+
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event, ...params });
+
+  trackEvent(event, params);
+
+  const metaEvent = metaEventFuer(event, params);
+  if (metaEvent) trackMeta(metaEvent);
 };
 
 /**
