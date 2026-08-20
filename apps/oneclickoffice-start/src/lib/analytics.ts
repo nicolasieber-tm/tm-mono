@@ -14,6 +14,7 @@
  */
 
 import { trackEvent } from "./trackEvent";
+import { neueEventId } from "./metaContext";
 
 const CONSENT_KEY = "oco_cookie_consent"; // "granted" | "denied"
 export const CONSENT_CHANGE_EVENT = "oco:consent-change";
@@ -94,6 +95,16 @@ const metaEventFuer = (event: string, params: Record<string, unknown>): string |
     if (id === "video_poster" || id === "hero_button") return "ViewContent"; // Opt-in geöffnet
     if (id.startsWith("booking")) return "Schedule"; // Richtung Terminbuchung
   }
+
+  // Video-Fortschritt: eigene Namen, weil es dafür kein passendes
+  // Standardereignis gibt. Darauf lässt sich nicht direkt optimieren, aber
+  // genau daraus entstehen die wertvollsten Retargeting-Zielgruppen — wer das
+  // Video zur Hälfte sah und trotzdem keinen Termin buchte, ist der wärmste
+  // Kontakt, den es gibt.
+  if (event === "video_play") return "VideoStart";
+  if (event === "video_progress" && Number(params.video_percent) === 50) return "VideoHalf";
+  if (event === "video_complete") return "VideoComplete";
+
   return null;
 };
 
@@ -119,10 +130,17 @@ export const track = (
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event, ...params });
 
-  trackEvent(event, params);
-
   const metaEvent = metaEventFuer(event, params);
-  if (metaEvent) trackMeta(metaEvent, {}, metaEventId);
+
+  // Eine Kennung für BEIDE Meldungen desselben Ereignisses: Browser-Pixel und
+  // Server (der es später aus der Datenbank nachmeldet). Ohne sie würde Meta
+  // doppelt zählen. Beim Lead wird sie von aussen übergeben, weil sie dort
+  // zusätzlich am Lead-Datensatz hängt.
+  const eventId = metaEventId ?? (metaEvent ? neueEventId() : undefined);
+
+  trackEvent(event, params, eventId);
+
+  if (metaEvent) trackMeta(metaEvent, {}, eventId);
 };
 
 /**

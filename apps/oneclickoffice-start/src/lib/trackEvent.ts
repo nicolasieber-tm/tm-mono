@@ -26,6 +26,8 @@ const SOURCE = "lp-start";
 const SESSION_KEY = "oco_session_id";
 const UTM_KEY = "oco_utm";
 
+import { metaContext } from "./metaContext";
+
 const isBrowser = typeof window !== "undefined";
 
 /** Zufällige Kennung pro Besuch. Überlebt Seitenwechsel, nicht den Tab-Schluss. */
@@ -80,7 +82,11 @@ const device = (): string =>
  * keepalive sorgt dafür, dass die Meldung auch dann noch rausgeht, wenn der
  * Nutzer im selben Moment die Seite wechselt (z. B. beim Absenden).
  */
-export const trackEvent = (event: string, meta: Record<string, unknown> = {}): void => {
+export const trackEvent = (
+  event: string,
+  meta: Record<string, unknown> = {},
+  metaEventId?: string,
+): void => {
   if (!isBrowser) return;
 
   try {
@@ -93,6 +99,10 @@ export const trackEvent = (event: string, meta: Record<string, unknown> = {}): v
       referrer: document.referrer ? document.referrer.slice(0, 500) : null,
       utm: utmParams(),
       meta,
+      // Damit der Server dasselbe Ereignis an Meta melden kann, ohne dass es
+      // doppelt zählt — und mit den Angaben, die nur der Browser kennt.
+      meta_event_id: metaEventId ?? null,
+      meta_context: metaContext(),
     });
 
     void fetch(`${SUPABASE_URL}/rest/v1/lp_events`, {
