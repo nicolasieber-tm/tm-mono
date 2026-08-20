@@ -6,10 +6,14 @@
 -- sah und trotzdem nicht buchte, wurde nie wieder angesprochen — obwohl der
 -- Klick, der ihn hergebracht hat, bereits bezahlt war.
 --
--- Diese Migration legt an, was der Versand dafür braucht:
+-- Teil 1 und 2 sind am 20.08.2026 auf uzsyjoicirquqjejmutf angewendet
+-- (Migration `followup_strecke_lp_start`):
 --   1. eine Abmeldespalte an leads (Pflicht, sobald mehr als eine Mail geht)
 --   2. eine Protokolltabelle, die Doppelversand ausschliesst
---   3. einen stündlichen Job, der die Versand-Funktion aufruft
+--
+-- Teil 3 (der stündliche Job) steht unten als Anleitung und ist NOCH NICHT
+-- eingeplant — er setzt voraus, dass die Edge Function deployt und das
+-- Shared-Secret im Vault hinterlegt ist.
 --
 -- Idempotent: lässt sich gefahrlos erneut ausführen.
 -- ============================================================================
@@ -43,31 +47,42 @@ create index if not exists lead_followups_lead_idx on public.lead_followups (lea
 -- anon. Die Edge Function arbeitet mit dem Service-Role-Schlüssel und umgeht RLS.
 alter table public.lead_followups enable row level security;
 
--- --- 3. Stündlicher Aufruf -------------------------------------------------
--- Die Funktion selbst entscheidet, welche Leads fällig sind; der Job muss nur
--- regelmässig anklopfen. Stündlich reicht, weil die Abstände in Tagen zählen.
-create extension if not exists pg_cron;
-create extension if not exists pg_net;
-
--- Vorherige Fassung entfernen, damit ein erneuter Lauf nicht doppelt plant.
-select cron.unschedule('followup-lp-start')
-where exists (select 1 from cron.job where jobname = 'followup-lp-start');
-
--- HINWEIS ZUM EINSETZEN:
--- <PROJEKT-REF> und <SECRET> vor dem Ausführen ersetzen. Das Secret ist
--- dasselbe, das send-video-email und meta-capi bereits prüfen
--- (VIDEO_EMAIL_SECRET bzw. LEAD_NOTIFY_SECRET).
-select cron.schedule(
-  'followup-lp-start',
-  '17 * * * *',                      -- stündlich zur Minute 17, ausserhalb der vollen Stunde
-  $$
-  select net.http_post(
-    url     := 'https://<PROJEKT-REF>.supabase.co/functions/v1/send-followup',
-    headers := jsonb_build_object(
-                 'Content-Type',      'application/json',
-                 'x-webhook-secret',  '<SECRET>'
-               ),
-    body    := '{}'::jsonb
-  );
-  $$
-);
+-- --- 3. Stündlicher Aufruf ---------------------------------------------
+-- Dieser Abschnitt ist NICHT Teil der oben angewendeten Migration.
+-- Er wird erst ausgeführt, wenn die Edge Function send-followup deployt ist —
+-- sonst klopft der Job stündlich gegen eine Adresse, die es nicht gibt.
+--
+-- Das Shared-Secret steht bewusst nicht in dieser Datei. Es liegt derzeit
+-- hartcodiert in den Trigger-Funktionen (send_video_email_on_lead und andere);
+-- sauberer ist der Vault, deshalb liest der Job es von dort.
+--
+-- SCHRITT 1 — Secret einmalig im Vault ablegen (im SQL-Editor ausführen,
+--             <SECRET> durch dasselbe Secret ersetzen, das die bestehenden
+--             Trigger verwenden):
+--
+--   select vault.create_secret('<SECRET>', 'oco_webhook_secret',
+--                              'Shared-Secret der lp-start Edge Functions');
+--
+-- SCHRITT 2 — Job einplanen:
+--
+--   select cron.schedule(
+--     'followup-lp-start',
+--     '17 * * * *',                    -- stündlich, bewusst nicht zur vollen Stunde
+--     $job$
+--     select net.http_post(
+--       url     := 'https://uzsyjoicirquqjejmutf.supabase.co/functions/v1/send-followup',
+--       headers := jsonb_build_object(
+--                    'Content-Type',     'application/json',
+--                    'x-webhook-secret', (select decrypted_secret
+--                                           from vault.decrypted_secrets
+--                                          where name = 'oco_webhook_secret')
+--                  ),
+--       body    := '{}'::jsonb
+--     );
+--     $job$
+--   );
+--
+-- Anhalten:  select cron.unschedule('followup-lp-start');
+-- Nachsehen: select * from cron.job_run_details
+--            where jobid = (select jobid from cron.job where jobname = 'followup-lp-start')
+--            order by start_time desc limit 10;

@@ -63,6 +63,16 @@ const QUELLE = "lp-start";
 /** Wie viele Leads ein Lauf höchstens anfasst — hält Laufzeit und Resend-Last klein. */
 const MAX_PRO_LAUF = 40;
 
+/**
+ * Älteres rührt die Strecke nicht mehr an.
+ *
+ * Zwei Gründe: Eine Erinnerung an jemanden, der sich vor Monaten eingetragen
+ * hat, wirkt befremdlich statt hilfreich. Und ohne diese Grenze würde die
+ * Strecke beim ersten Lauf über den gesamten Altbestand gehen und auf einen
+ * Schlag Mails an Leute schicken, die längst abgeschlossen sind.
+ */
+const MAX_ALTER_TAGE = 14;
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-webhook-secret",
@@ -392,10 +402,13 @@ async function versandlauf() {
   const fruehestens = Math.min(...STUFEN.map((s) => s.nachStunden));
   const grenze = new Date(jetzt - fruehestens * 3600_000).toISOString();
 
+  const aeltesteGrenze = new Date(jetzt - MAX_ALTER_TAGE * 24 * 3600_000).toISOString();
+
   const leads = await dbJson<Lead>(
     `leads?source=eq.${QUELLE}` +
       `&followup_abgemeldet_am=is.null` +
       `&created_at=lt.${encodeURIComponent(grenze)}` +
+      `&created_at=gt.${encodeURIComponent(aeltesteGrenze)}` +
       `&select=id,name,email,meta_event_id,created_at` +
       `&order=created_at.desc&limit=${MAX_PRO_LAUF}`,
   );
@@ -624,6 +637,7 @@ serve(async (req) => {
         betreff: s.betreff,
       })),
       maxProLauf: MAX_PRO_LAUF,
+      maxAlterTage: MAX_ALTER_TAGE,
       resendKey: RESEND_API_KEY ? "gesetzt" : "FEHLT",
       absender: MAIL_FROM,
       datenbank: SUPABASE_URL && SERVICE_KEY ? "erreichbar konfiguriert" : "NICHT konfiguriert",

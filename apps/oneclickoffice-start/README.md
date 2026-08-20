@@ -272,12 +272,17 @@ keine Werbung.
 
 ### In Betrieb nehmen
 
-1. Migration ausführen: `supabase/migrations/20260820_followup_strecke.sql`.
-   **Vorher `<PROJEKT-REF>` und `<SECRET>` darin ersetzen** — der Cron-Job ruft
-   die Funktion sonst ins Leere.
+1. ~~Schema anlegen~~ — **erledigt** (Migration `followup_strecke_lp_start`,
+   20.08.2026): Spalte `leads.followup_abgemeldet_am` und Tabelle
+   `lead_followups` stehen auf dem Projekt.
 2. Funktion deployen: `supabase functions deploy send-followup --no-verify-jwt`
    (der Abmeldelink wird ohne JWT aus der Mail heraus aufgerufen).
-3. Prüfen, ohne zu senden:
+   Ebenfalls neu zu deployen, weil geändert: `send-video-email` und `meta-capi`.
+3. Shared-Secret in den Vault legen und den stündlichen Job einplanen — beide
+   SQL-Schnipsel stehen am Ende von
+   `supabase/migrations/20260820_followup_strecke.sql`. Der Job wird bewusst
+   erst nach dem Deploy eingeplant, sonst läuft er stündlich in einen 404.
+4. Prüfen, ohne zu senden:
 
 ```bash
 curl -X POST "https://uzsyjoicirquqjejmutf.supabase.co/functions/v1/send-followup?diag=1" \
