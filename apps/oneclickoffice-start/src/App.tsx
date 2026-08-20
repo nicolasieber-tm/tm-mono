@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Start from "./pages/Start";
 import ConsentBanner from "./components/ConsentBanner";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Nur die Opt-in-Seite wird eager geladen — sie ist der Einstieg für den
 // Ad-Traffic und muss ohne Umweg erscheinen. Alles andere kommt per
@@ -19,6 +20,7 @@ const RouteFallback = () => (
 
 const App = () => (
   <BrowserRouter>
+    <ScrollToTop />
     <Suspense fallback={<RouteFallback />}>
       <Routes>
         <Route path="/" element={<Start />} />

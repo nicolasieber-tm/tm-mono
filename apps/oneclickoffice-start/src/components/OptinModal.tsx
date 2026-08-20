@@ -81,7 +81,17 @@ const OptinModal = ({ open, onClose, children }: Props) => {
       window.clearTimeout(timer);
       body.style.overflow = prevOverflow;
       body.style.paddingRight = prevPadding;
-      restoreFocusTo.current?.focus?.();
+
+      // Fokus zurückgeben, aber ohne zu scrollen: Schliesst sich das Overlay
+      // durch einen Seitenwechsel (Absenden → /video), zeigt der gemerkte
+      // Fokus auf ein Element der alten Seite. Ein normales focus() würde den
+      // Browser dorthin scrollen und die neue Seite mitten im Text beginnen
+      // lassen. preventScroll behält die Tastaturbedienung, ohne das
+      // auszulösen; zusätzlich nur fokussieren, wenn das Element noch da ist.
+      const zurueck = restoreFocusTo.current;
+      if (zurueck && document.contains(zurueck)) {
+        zurueck.focus({ preventScroll: true });
+      }
     };
   }, [open, onClose]);
 
