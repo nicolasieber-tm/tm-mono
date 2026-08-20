@@ -46,6 +46,21 @@ const MAIL_REPLY_TO =
 const SITE_URL = Deno.env.get("VIDEO_SITE_URL") ?? "https://start.oneclick-office.ch";
 const VIDEO_LINK = Deno.env.get("VIDEO_LINK") ?? `${SITE_URL}/video`;
 
+/**
+ * Der Link bekommt die Ereigniskennung des Leads mit (`fu`).
+ *
+ * Grund: Wer später über diese Mail zurückkommt, startet im Browser eine neue
+ * Sitzung. Ohne Kennung wäre sein Videofortschritt keinem Lead zuzuordnen — die
+ * Folgestrecke hielte ihn weiter für jemanden, der das Video nie geöffnet hat,
+ * und schickte ihm genau das als Erinnerung. Die Kennung ist eine Zufalls-UUID
+ * ohne Personenbezug; die Video-Seite schreibt sie nur ins eigene Tracking.
+ */
+const videoLinkFuer = (metaEventId: string): string => {
+  if (!metaEventId) return VIDEO_LINK;
+  const trenner = VIDEO_LINK.includes("?") ? "&" : "?";
+  return `${link}${trenner}fu=${encodeURIComponent(metaEventId)}`;
+};
+
 // Logo als PNG (WebP unterstützen viele Mail-Clients nicht) von einer Datei,
 // die auf der neuen Domain sicher existiert.
 const LOGO_URL =
@@ -61,6 +76,51 @@ const WEBHOOK_SECRET =
 
 const ACCENT = "#2563eb";
 const BRAND = "OneClick Office";
+
+// Telegram-Kanal des Teams — dieselben Variablen, die notify-lead schon nutzt.
+const TELEGRAM_BOT_TOKEN = Deno.env.get("TELEGRAM_BOT_TOKEN") ?? "";
+const TELEGRAM_CHAT_ID = Deno.env.get("TELEGRAM_CHAT_ID") ?? "";
+
+/**
+ * Meldet Störungen an das Team.
+ *
+ * Warum: Der Aufruf kommt per pg_net aus einem DB-Trigger — fire-and-forget.
+ * Die Antwort dieser Funktion liest niemand. Schlug der Versand fehl, stand der
+ * Lead trotzdem in der Datenbank, das Telegram zum Lead kam an, und das Team
+ * hielt alles für erledigt. Ein falsch gesetztes Secret oder ein fehlender
+ * API-Schlüssel legte den Mailversand für ALLE Leads still, ohne dass es
+ * auffiel — sichtbar erst, wenn jemand die Function-Logs öffnete.
+ *
+ * Darf selbst nie etwas umwerfen: Fehler werden geschluckt.
+ */
+let dauerfehlerGemeldet = false;
+
+async function meldeStoerung(text: string, nurEinmal = false) {
+  if (nurEinmal) {
+    // Ein falsch gesetztes Secret oder ein fehlender Schlüssel betrifft jeden
+    // Aufruf. Ohne diese Bremse liefe das Team in eine Nachrichtenflut.
+    if (dauerfehlerGemeldet) return;
+    dauerfehlerGemeldet = true;
+  }
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+    console.error("Stoerung, aber Telegram nicht konfiguriert:", text);
+    return;
+  }
+  try {
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      // Kein parse_mode: beliebige Zeichen in Fehlermeldungen koennen die
+      // Nachricht dann nicht zerbrechen.
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: `⚠️ Video-Mail (lp-start)\n\n${text}`,
+      }),
+    });
+  } catch (e) {
+    console.error("Telegram-Meldung fehlgeschlagen:", e);
+  }
+}
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -90,13 +150,23 @@ const firstName = (full: string): string => full.trim().split(/\s+/)[0] ?? "";
 /** Basis-E-Mail-Adressvalidierung, bevor wir Resend bemühen. */
 const isEmail = (v: string): boolean => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
-function renderHtml(name: string): string {
+function renderHtml(name: string, link: string): string {
   const hi = name ? `, ${escapeHtml(name)}` : "";
   return `<!DOCTYPE html>
 <html lang="de"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${BRAND}: dein Video</title></head>
 <body style="margin:0;padding:0;background:#f4f4f5;">
+  <!-- Vorschauzeile: erscheint im Posteingang neben dem Betreff, nicht in der
+       geöffneten Mail. Ohne sie zeigt Gmail den ersten Text aus dem Rumpf —
+       hier dreimal hintereinander den Markennamen, direkt neben dem Absender,
+       der auch schon so heisst.
+       Bewusst OHNE Zeitangabe: An dieser Stelle entscheidet jemand, ob er
+       überhaupt öffnet, und eine Minutenzahl liest sich dort als Aufwand.
+       Stattdessen der Beleg, der in dieser Mail sonst gar nicht vorkommt. -->
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Der Ablauf, mit dem aus rund 1.5 Tagen Administration im Monat wenige Stunden wurden.</div>
+  <!-- Füllzeichen, damit der Client nicht doch noch Text aus dem Rumpf nachzieht. -->
+  <div style="display:none;max-height:0;overflow:hidden;">&#8199;&#65279;&#847;&#8199;&#65279;&#847;&#8199;&#65279;&#847;&#8199;&#65279;&#847;&#8199;&#65279;&#847;</div>
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f4f4f5;">
     <tr><td align="center" style="padding:32px 16px;">
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"
@@ -131,7 +201,7 @@ function renderHtml(name: string): string {
             <tr><td style="padding:18px 20px;font-family:Helvetica,Arial,sans-serif;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr><td style="padding:2px 0;font-size:17px;font-weight:600;color:#111827;">
-                  Adminaufwand auf wenige Stunden reduzieren</td></tr>
+                  Adminaufwand von Tagen auf Stunden reduzieren</td></tr>
                 <tr><td style="padding:2px 0;font-size:14px;color:#6b7280;">
                   6:33 Minuten · kostenlos</td></tr>
                 <tr><td style="padding:2px 0;font-size:14px;color:#6b7280;">
@@ -144,7 +214,7 @@ function renderHtml(name: string): string {
         <tr><td style="padding:8px 32px 4px;">
           <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
             <tr><td align="center" bgcolor="${ACCENT}" style="border-radius:8px;">
-              <a href="${VIDEO_LINK}" target="_blank"
+              <a href="${link}" target="_blank"
                  style="display:inline-block;padding:14px 28px;font-family:Helvetica,Arial,sans-serif;
                         font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;">
                 Video jetzt ansehen
@@ -153,12 +223,12 @@ function renderHtml(name: string): string {
           </table>
         </td></tr>
         <tr><td align="center" style="padding:6px 32px 0;font-family:Helvetica,Arial,sans-serif;
-             font-size:12px;color:#6b7280;word-break:break-all;">${VIDEO_LINK}</td></tr>
+             font-size:12px;color:#6b7280;word-break:break-all;">${link}</td></tr>
 
         <tr><td style="padding:24px 32px 8px;font-family:Helvetica,Arial,sans-serif;font-size:14px;
              color:#4b5563;line-height:1.6;">
           Im Video geht es darum, welche Schritte im Monat am meisten Zeit kosten und wie sich
-          der Aufwand von ganzen Arbeitstagen auf wenige Stunden bringen lässt.<br><br>
+          der Aufwand von Tagen auf Stunden bringen lässt.<br><br>
           Wenn du danach wissen willst, was das für deinen Betrieb konkret heisst: Unter dem Video
           kannst du direkt ein kostenloses Gespräch buchen.<br><br>
           Bis bald,<br><strong>OneClick Office Team</strong>
@@ -175,14 +245,14 @@ function renderHtml(name: string): string {
 }
 
 // Reine Text-Variante (Deliverability + Text-only-Clients).
-function renderText(name: string): string {
+function renderText(name: string, link: string): string {
   return (
     `Hier ist dein Video${name ? ", " + name : ""}!\n\n` +
     `Du kannst es jederzeit über diesen Link wieder öffnen:\n\n` +
-    `${VIDEO_LINK}\n\n` +
-    `Adminaufwand auf wenige Stunden reduzieren. 6:33 Minuten, kostenlos.\n\n` +
+    `${link}\n\n` +
+    `Adminaufwand von Tagen auf Stunden reduzieren. 6:33 Minuten, kostenlos.\n\n` +
     `Im Video geht es darum, welche Schritte im Monat am meisten Zeit kosten und wie sich ` +
-    `der Aufwand von ganzen Arbeitstagen auf wenige Stunden bringen lässt. Unter dem Video ` +
+    `der Aufwand von Tagen auf Stunden bringen lässt. Unter dem Video ` +
     `kannst du direkt ein kostenloses Gespräch buchen.\n\n` +
     `Bis bald,\nOneClick Office Team`
   );
@@ -193,7 +263,24 @@ serve(async (req) => {
   if (req.method !== "POST") return json(405, { error: "method not allowed" });
 
   const provided = req.headers.get("x-webhook-secret") ?? "";
-  if (!WEBHOOK_SECRET || provided !== WEBHOOK_SECRET) {
+  if (!WEBHOOK_SECRET) {
+    // Kein Secret hinterlegt: Dann kommt KEINE Video-Mail mehr durch — das ist
+    // eine Fehlkonfiguration, kein Angriff, und muss ans Team.
+    await meldeStoerung(
+      "Kein Shared-Secret gesetzt (VIDEO_EMAIL_SECRET / DEMO_EMAIL_SECRET / " +
+        "LEAD_NOTIFY_SECRET). Es geht derzeit KEINE Video-Mail raus.",
+      true,
+    );
+    return json(401, { error: "unauthorized" });
+  }
+  if (provided !== WEBHOOK_SECRET) {
+    // Falsches Secret: Kann auch von aussen kommen — nur einmal pro Instanz
+    // melden, damit niemand das Team zuschütten kann.
+    await meldeStoerung(
+      "Aufruf mit falschem Shared-Secret abgewiesen. Wenn gerade Leads eintreffen, " +
+        "stimmt das Secret im DB-Trigger nicht mehr mit der Function überein.",
+      true,
+    );
     return json(401, { error: "unauthorized" });
   }
 
@@ -215,7 +302,13 @@ serve(async (req) => {
     });
   }
 
-  if (!RESEND_API_KEY) return json(500, { error: "RESEND_API_KEY not configured" });
+  if (!RESEND_API_KEY) {
+    await meldeStoerung(
+      "Kein Resend-API-Schlüssel hinterlegt. Es geht derzeit KEINE Video-Mail raus.",
+      true,
+    );
+    return json(500, { error: "RESEND_API_KEY not configured" });
+  }
 
   // pg_net-Trigger sendet { record: {...} }; Fallback auf direktes Lead-Objekt.
   const lead = ((body.record ?? body.lead ?? body) ?? {}) as Record<string, unknown>;
@@ -223,6 +316,10 @@ serve(async (req) => {
   const name = firstName(String(lead.name ?? ""));
 
   if (!isEmail(email)) return json(422, { error: "no valid recipient email" });
+
+  // Kennung mitgeben, damit eine spätere Rückkehr über diese Mail dem Lead
+  // zugeordnet werden kann (siehe videoLinkFuer).
+  const link = videoLinkFuer(String(lead.meta_event_id ?? ""));
 
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -234,15 +331,19 @@ serve(async (req) => {
       from: MAIL_FROM,
       to: [email],
       reply_to: MAIL_REPLY_TO,
-      subject: "Dein Video: Adminaufwand auf wenige Stunden reduzieren",
-      html: renderHtml(name),
-      text: renderText(name),
+      subject: "Dein Video: Adminaufwand von Tagen auf Stunden reduzieren",
+      html: renderHtml(name, link),
+      text: renderText(name, link),
     }),
   });
 
   if (!res.ok) {
     const detail = await res.text();
     console.error("resend video mail failed:", res.status, detail);
+    await meldeStoerung(
+      `Versand an ${email} fehlgeschlagen (Resend ${res.status}).\n${detail.slice(0, 400)}\n\n` +
+        "Der Lead ist in der Datenbank, hat aber keinen Video-Link bekommen.",
+    );
     return json(502, { error: `resend ${res.status}`, detail });
   }
 

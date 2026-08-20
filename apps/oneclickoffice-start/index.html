@@ -57,7 +57,9 @@
 
     <!-- Meta Pixel — gleiche ID wie die Demo-Seite, damit die Lernphase der
          Kampagne und die bestehenden Custom Conversions weiterlaufen.
-         PageView feuert wie dort unabhängig vom Cookie-Banner. -->
+         PageView feuert als Opt-out (Schweizer Modell) ohne vorherige
+         Einwilligung — wer aber schon einmal abgelehnt hat, wird unten per
+         fbq('consent','revoke') vor dem ersten Hit stummgeschaltet. -->
     <script>
       (function () {
         !function(f,b,e,v,n,t,s)
@@ -69,15 +71,23 @@
         s.parentNode.insertBefore(t,s)}(window, document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', '1040498465323715');
+        // Frueheren Widerspruch respektieren, BEVOR der erste Hit rausgeht.
+        // Ohne das liefe der Pixel trotz „Ablehnen" weiter — der Google
+        // Consent Mode steuert nur Google-Tags, nicht Meta.
+        try {
+          if (localStorage.getItem('oco_cookie_consent') === 'denied') {
+            fbq('consent', 'revoke');
+          }
+        } catch (e) { /* localStorage nicht verfuegbar */ }
         fbq('track', 'PageView');
       })();
     </script>
     <!-- End Meta Pixel Code -->
 
-    <title>Kostenloses Video: Adminaufwand auf wenige Stunden reduzieren | OneClick Office</title>
+    <title>Kostenloses Video: Adminaufwand von Tagen auf Stunden reduzieren | OneClick Office</title>
     <meta
       name="description"
-      content="Im kostenlosen Video zeigen wir dir den Ablauf, mit dem selbstständige Coaches, Berater und Dienstleister in der Schweiz ihren monatlichen Adminaufwand von ganzen Arbeitstagen auf wenige Stunden reduzieren."
+      content="Im kostenlosen Video zeigen wir dir den Ablauf, mit dem selbstständige Coaches, Berater und Dienstleister in der Schweiz ihren monatlichen Adminaufwand von Tagen auf Stunden reduzieren."
     />
     <meta name="author" content="Trending Media" />
     <!-- Kampagnen-Landingpage: soll nicht in der Google-Suche auftauchen und
@@ -111,7 +121,7 @@
     <meta property="og:title" content="Kostenloses Video für Coaches, Berater &amp; Dienstleister" />
     <meta
       property="og:description"
-      content="Der Ablauf, mit dem du deinen monatlichen Adminaufwand von ganzen Arbeitstagen auf wenige Stunden reduzierst."
+      content="Der Ablauf, mit dem du deinen monatlichen Adminaufwand von Tagen auf Stunden reduzierst."
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/android-chrome-512x512.png" />

@@ -251,8 +251,10 @@ const Datenschutz = () => (
           <p className="mb-4">
             Technisch setzen wir den Google Consent Mode v2 ein: Ohne Ihre Einwilligung werden keine
             werbebezogenen Cookies gesetzt; an Google werden dann höchstens anonyme, cookielose
-            Signale übermittelt. Wählen Sie „Ablehnen", deaktivieren wir zusätzlich die
-            Reichweitenmessung vollständig.
+            Signale übermittelt. Wählen Sie „Ablehnen", übermitteln wir ab diesem Zeitpunkt keine
+            Daten mehr an Google und Meta – auch nicht über unseren Server. Unsere eigene
+            Reichweitenmessung zählt dann nur noch anonym mit: ohne Geräte- und Klickkennungen und
+            ohne Weitergabe an Dritte.
           </p>
 
           <h3 className="mb-2 mt-6 font-bold text-text-primary">Datenübermittlung in die USA</h3>
@@ -307,10 +309,14 @@ const Datenschutz = () => (
             sofern vorhanden, die Kennung des Anzeigenklicks.
           </p>
           <p className="mb-4">
-            Rechtsgrundlage ist Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO bzw. die
-            entsprechenden Bestimmungen des Schweizer DSG), die Sie über die Schaltfläche
-            „Akzeptieren" im Cookie-Hinweis erteilen und über den Link „Cookie-Einstellungen" am
-            Seitenende jederzeit für die Zukunft widerrufen können.
+            Diese Verarbeitung beginnt bereits mit dem Aufruf unserer Seite. Grundlage dafür sind
+            Art. 45c lit. b FMG – wir informieren Sie hier über Bearbeitung und Zweck und weisen
+            Sie auf die Ablehnungsmöglichkeit hin – sowie unser überwiegendes Interesse an der
+            Messung und Optimierung unserer Werbung nach Art. 31 Abs. 1 DSG. Sie können jederzeit
+            widersprechen: über die Schaltfläche „Ablehnen" im Cookie-Hinweis oder über den Link
+            „Cookie-Einstellungen" am Seitenende. Ab dem Widerspruch übermitteln wir nichts mehr an
+            Meta – weder über den Pixel im Browser noch über die Conversions API von unserem
+            Server.
           </p>
           <p>
             Anbieter ist die Meta Platforms Ireland Limited; dabei können Daten an die Meta
