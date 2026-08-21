@@ -120,9 +120,26 @@ die jeden mitzählt.
 Auswertung per SQL:
 
 ```sql
-select * from v_lp_funnel_total;   -- Gesamtbild mit Übergangsquoten
-select * from v_lp_funnel_daily;   -- pro Tag und Gerät
+select * from v_lp_funnel_total;         -- Gesamtbild mit Übergangsquoten
+select * from v_lp_funnel_daily;         -- pro Tag und Gerät
+select * from v_lp_funnel_nach_anzeige;  -- je Anzeige (utm_content)
 ```
+
+`v_lp_funnel_nach_anzeige` beantwortet die Frage, die Metas Statistik nicht
+beantworten kann: **welche Anzeige die richtigen Leute anzieht.** Meta zeigt
+Klicks und Kosten je Anzeige. Regelmässig bringt ein reisserischer Aufhänger
+doppelt so viele Klicks und trotzdem weniger Leads, weil er Neugierige anzieht
+statt Interessenten. Hier steht beides nebeneinander.
+
+Voraussetzung sind die utm-Parameter in der Anzeigen-URL:
+
+```
+https://start.oneclick-office.ch/?utm_source=meta&utm_medium=paid&utm_campaign=<kampagne>&utm_content=<anzeige>
+```
+
+Die Seite liest sie beim ersten Aufruf, merkt sie für den ganzen Besuch und
+hängt sie an jedes Ereignis — auch noch auf der Video-Seite, wohin kein
+Anzeigenlink führt. Es ist nichts einzurichten, nur die URL muss stimmen.
 
 `v_lp_funnel_total` zeigt die vier Quoten, auf die es ankommt:
 
