@@ -298,13 +298,31 @@ async function bearbeite(req: Request): Promise<Response> {
     return json(401, { error: "unauthorized" });
   }
   if (provided !== WEBHOOK_SECRET) {
-    // Falsches Secret: Kann auch von aussen kommen — nur einmal pro Instanz
-    // melden, damit niemand das Team zuschütten kann.
-    await meldeStoerung(
-      "Aufruf mit falschem Shared-Secret abgewiesen. Wenn gerade Leads eintreffen, " +
-        "stimmt das Secret im DB-Trigger nicht mehr mit der Function überein.",
-      true,
-    );
+    /* Falsches Secret. Ob das schlimm ist, hängt am Absender:
+       Der DB-Trigger schickt immer einen Lead-Datensatz mit. Fehlt der, klopft
+       jemand von aussen an - die Funktion ist öffentlich erreichbar, weil der
+       Trigger sie ohne Anmeldung aufrufen können muss. Solche Anfragen sind
+       Alltag und gehören nicht ans Team gemeldet: Wer für jeden Scanner eine
+       Nachricht bekommt, liest irgendwann keine mehr. Genau dann kommt die
+       echte.
+       Der Body wird dafür vorher gelesen; abgewiesen wird trotzdem. */
+    let sahAusWieTrigger = false;
+    try {
+      const probe = await req.clone().json();
+      sahAusWieTrigger = Boolean(probe?.record ?? probe?.lead);
+    } catch {
+      /* kein lesbarer Body -> also kein Trigger */
+    }
+    if (sahAusWieTrigger) {
+      await meldeStoerung(
+        "Ein Lead traf ein, aber das Shared-Secret stimmt nicht: Die Video-Mail " +
+          "wurde NICHT verschickt. Das Secret im DB-Trigger passt nicht mehr zu dem " +
+          "der Function.",
+        true,
+      );
+    } else {
+      console.warn("Aufruf ohne gueltiges Secret und ohne Lead-Daten abgewiesen.");
+    }
     return json(401, { error: "unauthorized" });
   }
 
