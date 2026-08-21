@@ -124,6 +124,11 @@ select * from v_lp_funnel_total;   -- Gesamtbild mit Übergangsquoten
 select * from v_lp_funnel_daily;   -- pro Tag und Gerät
 ```
 
+> Ansicht in Orbit einbauen: [`docs/funnel-ansicht-in-orbit.md`](docs/funnel-ansicht-in-orbit.md).
+> Orbit läuft auf derselben Datenbank, es braucht also keine Schnittstelle —
+> nur eine Abfrage. Seit dem 21.08.2026 dürfen angemeldete Nutzer `lp_events`
+> lesen; vorher lieferten die Views von aussen stillschweigend null Zeilen.
+
 `v_lp_funnel_total` zeigt die vier Quoten, auf die es ankommt:
 
 | Spalte | Frage |
