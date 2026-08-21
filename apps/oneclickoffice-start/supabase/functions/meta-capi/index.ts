@@ -235,12 +235,24 @@ serve(async (req) => {
     },
   );
 
+  /* Was im Protokoll stehen muss, damit sich später beantworten lässt, WAS
+     gemeldet wurde. Ohne Ereignisnamen und Herkunft bleibt im Log nur
+     „angenommen" stehen, und ob eine Buchung ankam, liesse sich nur durch
+     Abgleich der Zeitstempel mit der Ereignistabelle erraten.
+     Die Kennung gehört dazu: An ihr hängt die Deduplizierung bei Meta — kommt
+     dieselbe zweimal, zählt Meta einmal; kommen zwei verschiedene für denselben
+     Vorgang, zählt Meta doppelt. Sie ist entweder eine Zufalls-UUID oder die
+     Buchungsnummer, also ohne Personenbezug. */
+  const herkunft = buchung ? "buchung" : istFunnelSchritt ? "funnel" : "lead";
+  const kennung = String(nutzlast.data ? (nutzlast.data as Record<string, unknown>[])[0].event_id : "") || "(keine)";
+  const spur = `${eventName} [${herkunft}] id=${kennung}`;
+
   const antwort = await res.text();
   if (!res.ok) {
-    console.error("meta capi failed:", res.status, antwort);
-    return json(502, { error: `meta ${res.status}`, detail: antwort });
+    console.error(`meta capi failed: ${spur} ${res.status}`, antwort);
+    return json(502, { error: `meta ${res.status}`, detail: antwort, event: spur });
   }
 
-  console.log("meta capi ok:", antwort);
-  return json(200, { ok: true, meta: JSON.parse(antwort || "{}") });
+  console.log(`meta capi ok: ${spur}`, antwort);
+  return json(200, { ok: true, event: spur, meta: JSON.parse(antwort || "{}") });
 });
