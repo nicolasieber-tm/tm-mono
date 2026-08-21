@@ -22,15 +22,30 @@ const VideoPlayer = () => {
   const [failed, setFailed] = useState(false);
   const reached = useRef<Set<number>>(new Set());
   const gemeldet = useRef(false); // „Video gestartet" nur einmal melden
+  const autostartTimer = useRef<number | null>(null);
 
-  /* Nur anstossen — als gestartet gilt das Video erst, wenn der Browser das
-     onPlay-Ereignis liefert. Sonst verschwände der Start-Button auch dann,
-     wenn die Wiedergabe blockiert wurde, und der Besucher stünde vor einem
-     Standbild ohne sichtbaren Weg zum Abspielen. */
+  /* Nur anstossen. Als gestartet gilt das Video erst, wenn wirklich ein Bild
+     da ist (onPlaying), nicht schon wenn der Browser die Wiedergabe annimmt
+     (onPlay). Der Unterschied ist auf dem iPhone entscheidend: Safari nimmt
+     play() an, blendet damit den Poster aus, hat wegen preload="none" aber
+     noch keinen einzigen Frame dekodiert. Zu sehen war dann nur Schwarz. */
   const handlePlay = useCallback(() => {
     ref.current?.play().catch(() => {
       /* Wiedergabe-Richtlinie o. Ä. — der Start-Button bleibt sichtbar */
     });
+  }, []);
+
+  /* Wiedergabe läuft tatsächlich: erst jetzt Startbild und Button ausblenden. */
+  const handlePlaying = useCallback(() => {
+    if (autostartTimer.current !== null) {
+      window.clearTimeout(autostartTimer.current);
+      autostartTimer.current = null;
+    }
+    setStarted(true);
+    if (!gemeldet.current) {
+      gemeldet.current = true;
+      track("video_play", { video_id: "vsl" });
+    }
   }, []);
 
   /* Wer gerade das Formular abgeschickt hat, hat den Start bereits angefordert:
@@ -48,8 +63,37 @@ const VideoPlayer = () => {
     } catch {
       /* Privatmodus — dann eben mit Klick */
     }
-    if (angefordert) handlePlay();
-  }, [handlePlay]);
+    if (!angefordert) return;
+
+    const el = ref.current;
+    if (!el) return;
+    el.play().catch(() => {
+      /* Sauber abgelehnt: Poster und Startbutton bleiben ohnehin stehen. */
+    });
+
+    /* Der unangenehmere Fall ist der stille: play() wird angenommen, es kommt
+       aber kein Bild. Bleibt das playing-Ereignis aus, nehmen wir den Versuch
+       zurück — load() holt das Startbild wieder her, und der Besucher hat
+       einen sichtbaren Weg zum Abspielen statt einer schwarzen Fläche. */
+    autostartTimer.current = window.setTimeout(() => {
+      autostartTimer.current = null;
+      if (gemeldet.current) return; // läuft ja, alles gut
+      try {
+        el.pause();
+        el.currentTime = 0;
+        el.load();
+      } catch {
+        /* dann eben nicht */
+      }
+    }, 2500);
+
+    return () => {
+      if (autostartTimer.current !== null) {
+        window.clearTimeout(autostartTimer.current);
+        autostartTimer.current = null;
+      }
+    };
+  }, []);
 
   // Fortschritt melden: sagt später, ob das Video zu lang ist oder wo es abreisst.
   const handleTimeUpdate = useCallback(() => {
@@ -89,13 +133,7 @@ const VideoPlayer = () => {
         preload="none"
         playsInline
         controls={started}
-        onPlay={() => {
-          setStarted(true);
-          if (!gemeldet.current) {
-            gemeldet.current = true;
-            track("video_play", { video_id: "vsl" });
-          }
-        }}
+        onPlaying={handlePlaying}
         onTimeUpdate={handleTimeUpdate}
         onEnded={() => track("video_complete", { video_id: "vsl" })}
         onError={() => setFailed(true)}
