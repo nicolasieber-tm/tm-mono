@@ -103,7 +103,20 @@ function metaEventFuerFunnelSchritt(
   return null;
 }
 
+/* Auffangnetz: Stolpert der Code selbst, bricht die Anfrage sonst mit einem
+   nackten "Internal Server Error" ab - ohne Spur im Protokoll, aus der
+   hervorginge, welches Ereignis verloren ging. */
 serve(async (req) => {
+  try {
+    return await bearbeite(req);
+  } catch (e) {
+    const text = e instanceof Error ? `${e.message}\n${e.stack ?? ""}` : String(e);
+    console.error("meta-capi abgestuerzt:", text);
+    return json(500, { error: "interner Fehler", detail: text.slice(0, 300) });
+  }
+});
+
+async function bearbeite(req: Request): Promise<Response> {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return json(405, { error: "method not allowed" });
 
@@ -255,4 +268,4 @@ serve(async (req) => {
 
   console.log(`meta capi ok: ${spur}`, antwort);
   return json(200, { ok: true, event: spur, meta: JSON.parse(antwort || "{}") });
-});
+}
