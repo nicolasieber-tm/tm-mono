@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Play } from "lucide-react";
+import { Play, Volume2 } from "lucide-react";
 import { video, VIDEO_ASPECT_RATIO } from "@/lib/content";
 import { track } from "@/lib/analytics";
 
@@ -23,6 +23,9 @@ const VideoPlayer = () => {
   const reached = useRef<Set<number>>(new Set());
   const gemeldet = useRef(false); // „Video gestartet" nur einmal melden
   const autostartTimer = useRef<number | null>(null);
+  /* Läuft die Wiedergabe gerade ohne Ton, weil der Browser sie mit Ton nicht
+     zugelassen hat? Dann braucht es einen sichtbaren Weg zum Ton. */
+  const [stumm, setStumm] = useState(false);
 
   /* Nur anstossen. Als gestartet gilt das Video erst, wenn wirklich ein Bild
      da ist (onPlaying), nicht schon wenn der Browser die Wiedergabe annimmt
@@ -67,8 +70,24 @@ const VideoPlayer = () => {
 
     const el = ref.current;
     if (!el) return;
+
+    /* Zuerst mit Ton versuchen. Am Rechner klappt das und der Besucher hört
+       den Anfang, so wie es gedacht ist.
+
+       Safari auf dem iPhone lässt Wiedergabe mit Ton nur unmittelbar nach
+       einer Nutzergeste zu. Der Klick auf „Video jetzt ansehen" liegt zu dem
+       Zeitpunkt schon einige Sekunden zurück, weil dazwischen der Eintrag
+       gespeichert wird - die Geste ist damit verbraucht. Ohne Ton ist der
+       Start dagegen immer erlaubt: Das Video läuft an, und ein Fingertipp
+       holt den Ton dazu, von vorne. */
+    el.muted = false;
     el.play().catch(() => {
-      /* Sauber abgelehnt: Poster und Startbutton bleiben ohnehin stehen. */
+      el.muted = true;
+      setStumm(true);
+      el.play().catch(() => {
+        /* Auch stumm abgelehnt: Startbild und Button bleiben stehen. */
+        setStumm(false);
+      });
     });
 
     /* Der unangenehmere Fall ist der stille: play() wird angenommen, es kommt
@@ -81,6 +100,8 @@ const VideoPlayer = () => {
       try {
         el.pause();
         el.currentTime = 0;
+        el.muted = false;
+        setStumm(false);
         el.load();
       } catch {
         /* dann eben nicht */
@@ -93,6 +114,23 @@ const VideoPlayer = () => {
         autostartTimer.current = null;
       }
     };
+  }, []);
+
+  /* Ton dazuholen. Bewusst zurück auf Anfang: Wer die ersten Sekunden stumm
+     gesehen hat, hat den Einstieg verpasst, und genau der trägt das Video.
+     Die Fortschrittsmarken werden mit zurückgesetzt, sonst zählte die zweite
+     Runde nicht mehr mit. */
+  const tonEinschalten = useCallback(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.muted = false;
+    el.currentTime = 0;
+    reached.current.clear();
+    setStumm(false);
+    void el.play().catch(() => {
+      /* dann läuft es eben weiter wie bisher */
+    });
+    track("video_ton_an", { video_id: "vsl" });
   }, []);
 
   // Fortschritt melden: sagt später, ob das Video zu lang ist oder wo es abreisst.
@@ -147,6 +185,22 @@ const VideoPlayer = () => {
 
       {/* Eigener Start-Button, solange nichts läuft: grösser und eindeutiger als
           der native Play-Button. */}
+      {/* Läuft stumm an: ein deutlicher, grossflächiger Weg zum Ton. Die
+          nativen Bedienelemente bleiben darunter erreichbar. */}
+      {started && stumm && (
+        <button
+          type="button"
+          onClick={tonEinschalten}
+          className="absolute inset-x-0 top-0 bottom-[18%] flex items-end justify-center bg-slate-950/25 pb-4 transition-colors hover:bg-slate-950/15"
+          aria-label="Ton einschalten und von vorne beginnen"
+        >
+          <span className="flex items-center gap-2 rounded-full bg-white/95 px-5 py-3 text-sm font-semibold text-text-primary shadow-lg md:text-base">
+            <Volume2 className="h-5 w-5 text-accent" />
+            Tippen für Ton
+          </span>
+        </button>
+      )}
+
       {!started && (
         <button
           type="button"
