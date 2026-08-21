@@ -58,7 +58,7 @@ const VIDEO_LINK = Deno.env.get("VIDEO_LINK") ?? `${SITE_URL}/video`;
 const videoLinkFuer = (metaEventId: string): string => {
   if (!metaEventId) return VIDEO_LINK;
   const trenner = VIDEO_LINK.includes("?") ? "&" : "?";
-  return `${link}${trenner}fu=${encodeURIComponent(metaEventId)}`;
+  return `${VIDEO_LINK}${trenner}fu=${encodeURIComponent(metaEventId)}`;
 };
 
 // Logo als PNG (WebP unterstützen viele Mail-Clients nicht) von einer Datei,
@@ -258,7 +258,31 @@ function renderText(name: string, link: string): string {
   );
 }
 
+/**
+ * Auffangnetz für alles, was nicht vorhergesehen ist.
+ *
+ * Die vorbereiteten Fehlerpfade unten decken ab, was schiefgehen KANN — ein
+ * abgelehnter Versand, ein fehlender Schlüssel. Sie greifen aber nicht, wenn
+ * der Code selbst stolpert: Dann bricht die Anfrage mit einem nackten
+ * "Internal Server Error" ab, die Meldung ans Team bleibt aus, und der Lead
+ * wartet auf eine Mail, von der niemand weiss, dass sie fehlt. Genau so ist am
+ * 21.08.2026 ein Tippfehler in einer Vorlage vier Stunden unbemerkt geblieben.
+ */
 serve(async (req) => {
+  try {
+    return await bearbeite(req);
+  } catch (e) {
+    const text = e instanceof Error ? `${e.message}\n${e.stack ?? ""}` : String(e);
+    console.error("send-video-email abgestuerzt:", text);
+    await meldeStoerung(
+      `Unerwarteter Fehler - es ging KEINE Video-Mail raus:\n${text.slice(0, 500)}`,
+      true,
+    );
+    return json(500, { error: "interner Fehler", detail: text.slice(0, 300) });
+  }
+});
+
+async function bearbeite(req: Request): Promise<Response> {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return json(405, { error: "method not allowed" });
 
@@ -348,4 +372,4 @@ serve(async (req) => {
   }
 
   return json(200, { ok: true, sentTo: email });
-});
+}
