@@ -627,6 +627,65 @@ serve(async (req) => {
     return json(401, { error: "unauthorized" });
   }
 
+  /* Probeversand: schickt eine bestimmte Stufe an eine frei gewählte Adresse,
+     ohne Rücksicht auf Alter und Fortschritt und ohne Protokolleintrag. Damit
+     lassen sich die Texte ansehen, ohne den ganzen Funnel zu durchlaufen — und
+     ohne dass der Empfänger dadurch als versorgt gilt.
+
+       POST ?probe=1   { "an": "…@…", "stufe": 1, "name": "Vorname" }
+
+     `stufe` weglassen heisst: alle drei nacheinander. */
+  if (url.searchParams.get("probe") === "1") {
+    if (!RESEND_API_KEY) return json(500, { error: "RESEND_API_KEY not configured" });
+
+    let körper: Record<string, unknown> = {};
+    try {
+      körper = await req.json();
+    } catch {
+      /* leerer Body ist erlaubt */
+    }
+
+    const an = String(körper.an ?? "").trim();
+    if (!an.includes("@")) return json(422, { error: "Feld 'an' fehlt oder ist keine Adresse" });
+
+    const name = String(körper.name ?? "").trim();
+    const gewuenscht = Number(körper.stufe ?? 0);
+    const zuSenden = gewuenscht ? STUFEN.filter((s) => s.nummer === gewuenscht) : STUFEN;
+    if (zuSenden.length === 0) return json(422, { error: "stufe muss 1, 2 oder 3 sein" });
+
+    // Abmeldelink zeigt auf eine Kennung, die es nicht gibt — der Link ist
+    // klickbar und zeigt die Fehlerseite, statt versehentlich jemanden abzumelden.
+    const abmelde = `${SUPABASE_URL}/functions/v1/send-followup?abmelden=probe-ohne-wirkung`;
+
+    const ergebnis: Record<string, string> = {};
+    for (const stufe of zuSenden) {
+      const { html, text } = stufe.bauen(vorname(name), abmelde);
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${RESEND_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: MAIL_FROM,
+          to: [an],
+          reply_to: MAIL_REPLY_TO,
+          subject: stufe.betreff,
+          html,
+          text,
+          headers: {
+            "List-Unsubscribe": `<${abmelde}>`,
+            "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+          },
+        }),
+      });
+      ergebnis[`stufe${stufe.nummer}`] = res.ok
+        ? `gesendet: ${stufe.betreff}`
+        : `FEHLER ${res.status}: ${(await res.text()).slice(0, 200)}`;
+    }
+    return json(200, { ok: true, an, probeversand: ergebnis });
+  }
+
   // Probelauf: zeigt die Einstellungen, ohne zu senden.
   if (url.searchParams.get("diag") === "1") {
     return json(200, {
