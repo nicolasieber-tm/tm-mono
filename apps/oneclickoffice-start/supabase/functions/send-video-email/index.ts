@@ -155,7 +155,7 @@ function renderHtml(name: string, link: string): string {
   return `<!DOCTYPE html>
 <html lang="de"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${BRAND}: dein Video</title></head>
+<title>${BRAND}: deine Fallstudie</title></head>
 <body style="margin:0;padding:0;background:#f4f4f5;">
   <!-- Vorschauzeile: erscheint im Posteingang neben dem Betreff, nicht in der
        geöffneten Mail. Ohne sie zeigt Gmail den ersten Text aus dem Rumpf —
@@ -164,7 +164,7 @@ function renderHtml(name: string, link: string): string {
        Bewusst OHNE Zeitangabe: An dieser Stelle entscheidet jemand, ob er
        überhaupt öffnet, und eine Minutenzahl liest sich dort als Aufwand.
        Stattdessen der Beleg, der in dieser Mail sonst gar nicht vorkommt. -->
-  <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Der Ablauf, mit dem aus rund 1.5 Tagen Administration im Monat wenige Stunden wurden.</div>
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Der Ablauf, mit dem aus rund 1,5 Arbeitstagen Administration im Monat 1,5 Stunden wurden.</div>
   <!-- Füllzeichen, damit der Client nicht doch noch Text aus dem Rumpf nachzieht. -->
   <div style="display:none;max-height:0;overflow:hidden;">&#8199;&#65279;&#847;&#8199;&#65279;&#847;&#8199;&#65279;&#847;&#8199;&#65279;&#847;&#8199;&#65279;&#847;</div>
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f4f4f5;">
@@ -187,12 +187,12 @@ function renderHtml(name: string, link: string): string {
 
         <tr><td style="padding:12px 32px 4px;font-family:Helvetica,Arial,sans-serif;">
           <p style="margin:0;font-size:13px;font-weight:600;color:${ACCENT};letter-spacing:.04em;
-                    text-transform:uppercase;">Dein Video</p>
+                    text-transform:uppercase;">Deine Fallstudie</p>
           <h1 style="margin:6px 0 0;font-size:22px;line-height:1.3;color:#111827;">
-            Hier ist dein Video${hi}!</h1>
+            Hier ist deine Fallstudie${hi}!</h1>
           <p style="margin:8px 0 0;font-size:15px;color:#4b5563;line-height:1.5;">
-            Du kannst es jederzeit über diesen Link wieder öffnen, falls du unterbrochen wurdest
-            oder es in Ruhe zu Ende schauen willst.</p>
+            Du kannst sie jederzeit über diesen Link wieder öffnen, falls du unterbrochen wurdest
+            oder sie in Ruhe zu Ende schauen willst.</p>
         </td></tr>
 
         <tr><td style="padding:20px 32px 4px;">
@@ -217,7 +217,7 @@ function renderHtml(name: string, link: string): string {
               <a href="${link}" target="_blank"
                  style="display:inline-block;padding:14px 28px;font-family:Helvetica,Arial,sans-serif;
                         font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;">
-                Video jetzt ansehen
+                Fallstudie jetzt ansehen
               </a>
             </td></tr>
           </table>
@@ -227,16 +227,16 @@ function renderHtml(name: string, link: string): string {
 
         <tr><td style="padding:24px 32px 8px;font-family:Helvetica,Arial,sans-serif;font-size:14px;
              color:#4b5563;line-height:1.6;">
-          Im Video geht es darum, welche Schritte im Monat am meisten Zeit kosten und wie sich
+          In der Fallstudie geht es darum, welche Schritte im Monat am meisten Zeit kosten und wie sich
           der Aufwand von Tagen auf Stunden bringen lässt.<br><br>
-          Wenn du danach wissen willst, was das für deinen Betrieb konkret heisst: Unter dem Video
+          Wenn du danach wissen willst, was das für deinen Betrieb konkret heisst: Darunter
           kannst du direkt ein kostenloses Gespräch buchen.<br><br>
           Bis bald,<br><strong>OneClick Office Team</strong>
         </td></tr>
         <tr><td style="padding:20px 32px 28px;border-top:1px solid #eef0f2;
              font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#9ca3af;line-height:1.5;">
           © 2026 ${BRAND} · <a href="${SITE_URL}" style="color:#9ca3af;">start.oneclick-office.ch</a><br>
-          Du erhältst diese E-Mail, weil du auf unserer Website das Video angefordert hast.
+          Du erhältst diese E-Mail, weil du auf unserer Website die Fallstudie angefordert hast.
         </td></tr>
       </table>
     </td></tr>
@@ -247,12 +247,12 @@ function renderHtml(name: string, link: string): string {
 // Reine Text-Variante (Deliverability + Text-only-Clients).
 function renderText(name: string, link: string): string {
   return (
-    `Hier ist dein Video${name ? ", " + name : ""}!\n\n` +
-    `Du kannst es jederzeit über diesen Link wieder öffnen:\n\n` +
+    `Hier ist deine Fallstudie${name ? ", " + name : ""}!\n\n` +
+    `Du kannst sie jederzeit über diesen Link wieder öffnen:\n\n` +
     `${link}\n\n` +
     `Adminaufwand von Tagen auf Stunden reduzieren. 6:33 Minuten, kostenlos.\n\n` +
-    `Im Video geht es darum, welche Schritte im Monat am meisten Zeit kosten und wie sich ` +
-    `der Aufwand von Tagen auf Stunden bringen lässt. Unter dem Video ` +
+    `In der Fallstudie geht es darum, welche Schritte im Monat am meisten Zeit kosten und wie sich ` +
+    `der Aufwand von Tagen auf Stunden bringen lässt. Darunter ` +
     `kannst du direkt ein kostenloses Gespräch buchen.\n\n` +
     `Bis bald,\nOneClick Office Team`
   );
@@ -373,7 +373,7 @@ async function bearbeite(req: Request): Promise<Response> {
       from: MAIL_FROM,
       to: [email],
       reply_to: MAIL_REPLY_TO,
-      subject: "Dein Video: Adminaufwand von Tagen auf Stunden reduzieren",
+      subject: "Deine Fallstudie: Adminaufwand von Tagen auf Stunden reduzieren",
       html: renderHtml(name, link),
       text: renderText(name, link),
     }),

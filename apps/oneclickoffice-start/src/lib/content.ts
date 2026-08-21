@@ -45,7 +45,7 @@ export const optin = {
 
   /* Kurz halten — eine Zeile, maximal zwei. Trägt hier den Beleg. */
   subheadline:
-    "… genau wie Luca, bei dem wir den monatlichen Adminaufwand von rund 1.5 Tagen auf wenige Stunden reduzieren konnten.",
+    "… genau wie Luca, bei dem wir den monatlichen Adminaufwand von rund 1,5 Arbeitstagen auf 1,5 Stunden reduzieren konnten.",
 
   /* Startbild des Videos. Ein Klick spielt nichts ab, sondern öffnet das
      Formular — das Video kommt erst nach dem Eintrag. */
@@ -54,34 +54,34 @@ export const optin = {
        links, Sprecher rechts freigestellt. Die Bildmitte bleibt frei — dort
        sitzt der Play-Button. Format 1920 x 920, identisch zum Video. */
     src: "/video-poster.webp",
-    alt: "Aus 1.5 Tagen Administration pro Monat werden wenige Stunden",
+    alt: "Aus 1,5 Arbeitstagen Administration pro Monat werden 1,5 Stunden",
   },
 
   /* Der eine Button. Zweizeilig wie in der Vorlage: Handlung oben, Einwand
      entkräftet unten. */
   cta: {
-    label: "Jetzt Video kostenlos freischalten",
+    label: "Kostenlose Fallstudie ansehen",
     sub: "100 % kostenfrei",
   },
 
   /* Eine Zeile unter dem Button. Kein Countdown, keine künstliche Knappheit —
      das passt nicht zu einer Schweizer Software für Selbstständige. */
-  note: "Kein Abo, keine Kreditkarte. Du siehst das Video sofort nach dem Eintrag.",
+  note: "Kein Abo, keine Kreditkarte. Du siehst die Fallstudie sofort nach dem Eintrag.",
 
   /* Inhalt des Formular-Overlays. */
   form: {
-    title: "Wohin dürfen wir das Video schicken?",
-    subtitle: "Du siehst es direkt im Anschluss und bekommst den Link zusätzlich per E-Mail.",
+    title: "Wohin dürfen wir die Fallstudie schicken?",
+    subtitle: "Du siehst sie direkt im Anschluss und bekommst den Link zusätzlich per E-Mail.",
     fields: {
       name: { label: "Name", placeholder: "Vor- und Nachname" },
       email: { label: "E-Mail", placeholder: "name@beispiel.ch" },
       telefon: { label: "Telefon", placeholder: "+41 79 123 45 67" },
     },
-    submitLabel: "Video jetzt ansehen",
+    submitLabel: "Fallstudie jetzt ansehen",
     sendingLabel: "Einen Moment …",
     errorMessage: "Senden hat nicht geklappt. Bitte versuch es noch einmal.",
     privacyNote:
-      "Deine Angaben behandeln wir vertraulich (revDSG / DSGVO) und nutzen sie nur, um dir das Video zu schicken und uns bei dir zu melden.",
+      "Deine Angaben behandeln wir vertraulich (revDSG / DSGVO) und nutzen sie nur, um dir die Fallstudie zu schicken und uns bei dir zu melden.",
   },
 } as const;
 
@@ -98,7 +98,7 @@ export const optin = {
  * das verwischen, gehoeren hier nicht hin.
  */
 export const video = {
-  kicker: "Dein Video ist freigeschaltet",
+  kicker: "Deine Fallstudie ist freigeschaltet",
   headline: "So reduzierst du deinen Adminaufwand von Tagen auf Stunden.",
   subheadline:
     "Nimm dir die paar Minuten in Ruhe. Darunter steht das Wichtigste nochmals zum Nachlesen, dazu die Möglichkeit, direkt ein kostenloses Gespräch zu buchen.",
@@ -204,9 +204,9 @@ export const video = {
   /* ---------- 4. Das Beispiel aus dem Video ---------- */
   example: {
     kicker: "Ein konkretes Beispiel",
-    headline: "Bei Luca hiess die Lösung OneClick Office.",
+    headline: "Bei Luca: von 1,5 Arbeitstagen auf 1,5 Stunden.",
     intro:
-      "Vorher brauchte er für seine wiederkehrende Administration und den Monatsabschluss rund eineinhalb Tage pro Monat. Heute sind es wenige Stunden.",
+      "Vorher brauchte er für seine wiederkehrende Administration und den Monatsabschluss rund 1,5 Arbeitstage pro Monat. Heute sind es rund 1,5 Stunden.",
     /* Was sich konkret geändert hat — aus dem Video. */
     points: [
       "Kundendaten, Leistungen, Notizen, Spesen und Rechnungen laufen über einen Weg statt über verschiedene Orte",
@@ -262,7 +262,7 @@ export const testimonial = {
   role: "Sozialpädagogische Familienbegleitung",
   image: "/luca.webp",
   /* Einzeiler für die Startseite. */
-  highlight: "Von rund 1.5 Arbeitstagen Adminaufwand im Monat auf wenige Stunden.",
+  highlight: "Von rund 1,5 Arbeitstagen Adminaufwand im Monat auf rund 1,5 Stunden.",
 } as const;
 
 export const footer = {
