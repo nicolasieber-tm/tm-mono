@@ -283,11 +283,11 @@ const STUFEN: Stufe[] = [
         // jemand öffnet, und eine Zeitangabe liest sich an dieser Stelle als
         // Aufwand. Im Text darunter hilft sie dagegen — wer schon offen hat,
         // will wissen, worauf er sich einlässt.
-        preheader: "Es geht nicht darum, deine Software zu ersetzen — das überrascht die meisten.",
+        preheader: "Es geht nicht darum, deine Software zu ersetzen. Das überrascht die meisten.",
         kicker: "Noch nicht angesehen",
         headline: name ? `${name}, dein Video liegt bereit` : "Dein Video liegt bereit",
         absaetze: [
-          `${anrede} hast dir gestern das Video freischalten lassen — angeschaut hast du es noch nicht. Kein Vorwurf, der Tag ist voll.`,
+          `${anrede} hast dir gestern das Video freischalten lassen. Angesehen hast du es noch nicht. Kein Vorwurf, der Tag ist voll.`,
           "Es dauert <strong>6:33 Minuten</strong>. Darin geht es darum, welche Schritte im Monat am meisten Zeit kosten und wie sich der Aufwand von Tagen auf Stunden bringen lässt.",
         ],
         ctaLabel: "Video jetzt ansehen",
@@ -307,7 +307,7 @@ const STUFEN: Stufe[] = [
       const inhalt = {
         preheader: "Vier Fragen, an denen sich fast immer zeigt, wo die Zeit hängt.",
         kicker: "Weiterschauen",
-        headline: "Du warst schon drin — aber nicht bis zum Ende",
+        headline: "Du warst schon drin, aber nicht bis zum Ende",
         absaetze: [
           `${anrede} hast das Video gestartet und irgendwo unterwegs aufgehört. Der Teil, der die meisten überrascht, kommt weiter hinten: die vier Fragen, an denen sich fast immer zeigt, wo die Zeit tatsächlich verloren geht.`,
           "Und der Satz, der dahintersteht: Es geht nicht darum, dir neue Software zu verkaufen. Läuft ein Programm bei dir seit Jahren gut, bleibt es.",
@@ -330,13 +330,13 @@ const STUFEN: Stufe[] = [
         kicker: "Kostenloses Erstgespräch",
         headline: name ? `${name}, ein Satz zum Gespräch` : "Ein Satz zum Gespräch",
         absaetze: [
-          "Du hast das Video zu Ende geschaut — danke dafür. Einen Termin hast du nicht gebucht, und das hat meistens denselben Grund: die Sorge, in einem Verkaufsgespräch zu landen.",
-          "Ist es nicht. Wir schauen uns an, wie deine Administration heute läuft, und sagen dir, welche Schritte sich sinnvoll vereinfachen lassen — auch dann, wenn die Antwort lautet: bei dir lohnt sich das nicht.",
+          "Du hast das Video zu Ende geschaut, danke dafür. Einen Termin hast du nicht gebucht, und das hat meistens denselben Grund: die Sorge, in einem Verkaufsgespräch zu landen.",
+          "Ist es nicht. Wir schauen uns an, wie deine Administration heute läuft, und sagen dir, welche Schritte sich sinnvoll vereinfachen lassen. Auch dann, wenn die Antwort lautet: bei dir lohnt sich das nicht.",
           "Einen Pauschalpreis nennen wir bewusst erst, wenn klar ist, was bei dir überhaupt Sinn ergibt.",
         ],
         ctaLabel: "Kostenloses Erstgespräch buchen",
         ctaUrl: BUCHUNG_URL,
-        ps: "Wenn gerade nichts ansteht, ist das auch in Ordnung — dann melden wir uns nicht weiter.",
+        ps: "Wenn gerade nichts ansteht, ist das auch in Ordnung. Dann melden wir uns nicht weiter.",
         abmeldeUrl,
       };
       return { html: rahmen(inhalt), text: textFassung(inhalt) };
@@ -575,7 +575,7 @@ const abmeldeSeite = (ok: boolean) =>
 <body style="margin:0;font-family:Helvetica,Arial,sans-serif;background:#f4f4f5;">
 <div style="max-width:520px;margin:12vh auto;background:#fff;border-radius:12px;padding:32px;text-align:center;">
 <h1 style="font-size:20px;color:#111827;margin:0 0 10px;">${
-      ok ? "Erledigt — keine weiteren Mails." : "Dieser Link gilt nicht mehr."
+      ok ? "Erledigt. Keine weiteren Mails." : "Dieser Link gilt nicht mehr."
     }</h1>
 <p style="font-size:15px;color:#4b5563;line-height:1.6;margin:0;">${
       ok
@@ -704,11 +704,11 @@ serve(async (req) => {
   }
 
   if (!RESEND_API_KEY) {
-    await meldeStoerung("Kein Resend-API-Schlüssel hinterlegt — es geht keine Folgemail raus.");
+    await meldeStoerung("Kein Resend-API-Schlüssel hinterlegt. Es geht keine Folgemail raus.");
     return json(500, { error: "RESEND_API_KEY not configured" });
   }
   if (!SUPABASE_URL || !SERVICE_KEY) {
-    await meldeStoerung("SUPABASE_URL oder SERVICE_ROLE_KEY fehlt — Folgestrecke steht still.");
+    await meldeStoerung("SUPABASE_URL oder SERVICE_ROLE_KEY fehlt. Die Folgestrecke steht still.");
     return json(500, { error: "supabase env missing" });
   }
 
