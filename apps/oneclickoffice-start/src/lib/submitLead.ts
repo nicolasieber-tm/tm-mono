@@ -26,6 +26,7 @@ export const LEAD_SOURCE = "lp-start";
 export type LeadPayload = {
   name: string;
   email: string;
+  /** Freiwillig — leer bedeutet: der Besucher hat keine Nummer hinterlassen. */
   telefon: string;
   /** Gemeinsame Kennung für Browser-Pixel und Conversions API (Deduplizierung). */
   meta_event_id?: string;
@@ -51,7 +52,10 @@ export async function submitLead(
     body: JSON.stringify({
       name: payload.name.trim(),
       email: payload.email.trim().toLowerCase(),
-      telefon: payload.telefon.trim(),
+      // Ohne Eingabe bewusst NULL statt "" — sonst sieht ein leeres Feld in der
+      // Auswertung wie eine erfasste Nummer aus, und `telefon is null` findet
+      // die Leads ohne Rückrufnummer nicht.
+      telefon: payload.telefon.trim() || null,
       source,
       meta_event_id: payload.meta_event_id ?? null,
       meta_context: payload.meta_context ?? {},

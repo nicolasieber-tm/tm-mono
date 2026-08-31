@@ -2,7 +2,8 @@
 
 Ziel-Domain: **start.oneclick-office.ch**
 Zweck: Landingpage für die Meta-Ads-Kampagne. Einziges Ziel ist der Lead —
-Name, E-Mail, Telefonnummer. Das Video liegt hinter dem Eintrag.
+Name und E-Mail als Pflicht, Telefonnummer freiwillig. Das Video liegt hinter
+dem Eintrag.
 
 Diese App ersetzt `demo.oneclick-office.ch` als Ad-Ziel. Die Demo-App bleibt
 unverändert bestehen; in den Anzeigen wird lediglich die URL ausgetauscht.
@@ -46,16 +47,26 @@ Der Zeitpunkt will mit Bedacht gewählt sein: Der Play-Button sitzt in der Mitte
 des Bildes und verdeckt dort liegenden Text. Szenen mit Text oben und Screenshot
 in der Mitte funktionieren am besten.
 
-## Telefonnummer optional schalten
+## Telefonnummer: Pflicht oder freiwillig
 
 In `src/components/OptinForm.tsx` steht ganz oben:
 
 ```ts
-const TELEFON_REQUIRED = true;
+const TELEFON_REQUIRED = false;
 ```
 
-Auf `false` stellen, falls viel Traffic kommt, aber kaum jemand absendet. Das
-Feld bleibt sichtbar, wird als „optional" ausgewiesen und nicht mehr erzwungen.
+Aktueller Stand: **freiwillig**. Das Feld ist sichtbar und als „optional"
+ausgewiesen; eingetragene Nummern werden weiterhin auf Plausibilität geprüft
+(mindestens 9 Ziffern), ein leeres Feld landet als `NULL` in `leads.telefon`.
+
+Zurück auf Pflicht: den Schalter auf `true` stellen — Beschriftung, Prüfung und
+Fehlermeldung hängen alle daran.
+
+Was das nach hinten heraus bedeutet: Die Video-Mail und die Follow-up-Strecke
+brauchen die Nummer nicht. Meta bekommt bei der Conversions API dann ein
+Merkmal weniger zum Abgleich (`ph` entfällt), E-Mail und Name bleiben — die
+Zuordnungsqualität sinkt also leicht. Wer die Leads ohne Rückrufnummer sehen
+will: `select … from leads where source = 'lp-start' and telefon is null`.
 
 ## Was nach dem Absenden passiert
 
@@ -147,7 +158,7 @@ Anzeigenlink führt. Es ist nichts einzurichten, nur die URL muss stimmen.
 |---|---|
 | `quote_geoeffnet_pct` | Wie viele Besucher öffnen überhaupt das Formular? |
 | `quote_begonnen_pct` | Wie viele der Öffner fangen an zu tippen? |
-| `quote_abgeschickt_pct` | Wie viele der Anfänger schicken ab? Hier zeigt sich, ob das Formular bremst (z. B. die Telefon-Pflicht). |
+| `quote_abgeschickt_pct` | Wie viele der Anfänger schicken ab? Hier zeigt sich, ob das Formular bremst. Die Telefon-Pflicht als häufigster Verdächtiger ist seit dem 31.08.2026 aufgehoben. |
 | `quote_gesamt_pct` | Besucher zu Lead. |
 
 Gezählt werden **Besuche**, nicht Ereignisse — wer dreimal auf den Button tippt,
