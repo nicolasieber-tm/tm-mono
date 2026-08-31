@@ -9,13 +9,16 @@ import { metaContext, neueEventId } from "@/lib/metaContext";
 /**
  * Telefonnummer: Pflicht oder freiwillig?
  * ---------------------------------------
- * Startaufstellung ist Pflicht — eine Nummer ist für den Rückruf deutlich mehr
- * wert als eine E-Mail-Adresse allein. Falls sich zeigt, dass viel Traffic
- * kommt, aber kaum jemand absendet, ist die Telefonnummer der erste
- * Verdächtige: dann hier auf false stellen. Das Feld bleibt sichtbar, wird aber
- * als „optional" ausgewiesen und nicht mehr erzwungen.
+ * Freiwillig. Die Nummer ist für den Rückruf zwar mehr wert als eine
+ * E-Mail-Adresse allein, aber sie ist auf einer kalten Ads-Landingpage auch die
+ * grösste Hürde vor dem Absenden — und ohne Lead nützt die beste Nummer nichts.
+ * Das Feld bleibt sichtbar und wird als „optional" ausgewiesen; wer eine Nummer
+ * einträgt, wird weiterhin auf Plausibilität geprüft.
+ *
+ * Zurück auf Pflicht: hier auf true stellen — der Rest der Datei hängt an
+ * diesem Schalter.
  */
-const TELEFON_REQUIRED = true;
+const TELEFON_REQUIRED = false;
 
 /** Bewusst grosszügig — echte Adressen abweisen ist teurer als ein Tippfehler. */
 const isEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
