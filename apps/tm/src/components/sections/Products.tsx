@@ -46,7 +46,7 @@ const products: Product[] = [
     tag: "Für Coaches & Berater",
     description:
       "Rechnungen, Spesen und Admin-Kram radikal vereinfacht — damit Coaches, Berater und kleine Unternehmen wieder die Arbeit machen, für die sie bezahlt werden.",
-    href: "https://landingpage.oneclick-office.ch",
+    href: "https://start.oneclick-office.ch",
     Icon: FileText,
     domain: "oneclick-office.ch",
     status: "Live",
