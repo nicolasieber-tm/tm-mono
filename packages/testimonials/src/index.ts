@@ -36,6 +36,18 @@ export type Testimonial = {
   website?: string;
   /** breite Karte (max. 1 empfohlen) */
   featured?: boolean;
+  /** auf der TM-Startseite sofort sichtbar (Rest hinter „Mehr anzeigen").
+   *  Empfehlung: 4 oder 6 markieren (2-spaltiges Raster), gemischt über die Produkte. */
+  highlight?: boolean;
+};
+
+/** Kunde nur fürs Logo-Band (ohne Zitat). */
+export type ClientLogo = {
+  company: string;
+  logo: string;
+  website?: string;
+  /** Anzeigehöhe im Logo-Band in px (Standard 34) — für quadratische oder sehr wuchtige Logos */
+  height?: number;
 };
 
 /** Anzeigename der Produkt-Kategorie (Tag + Filter-Pill) */
@@ -55,6 +67,7 @@ export const TESTIMONIALS: Testimonial[] = [
     before: "Auftritt wirkte in die Jahre gekommen",
     after: "Modern, professionell, vertrauenswürdig",
     name: "Mehmet",
+    highlight: true,
     role: "Inhaber, Verkehrsschule Mittelland",
     company: "Verkehrsschule Mittelland",
     photo: "/referenz_mehmet_bild.jpeg",
@@ -71,6 +84,7 @@ export const TESTIMONIALS: Testimonial[] = [
     before: "Termine per Telefon & Mail-Pingpong",
     after: "Kundinnen buchen Fototermine selbst online",
     name: "Sandro Dubach",
+    highlight: true,
     role: "Inhaber, Sandro Dubach Fotografie",
     company: "Sandro Dubach Fotografie",
     photo: "/referenz_sandro-dubach_bild.webp",
@@ -86,6 +100,7 @@ export const TESTIMONIALS: Testimonial[] = [
     before: "Zeiten von Hand zugeordnet, oft geschätzt",
     after: "Automatisch dem richtigen Projekt rapportiert",
     name: "Beat Gerber",
+    highlight: true,
     role: "Geschäftsführer, Kohler Elektro Bern AG",
     company: "Kohler Elektro Bern AG",
     photo: "/beatgerber_kundenstimme.jpg",
@@ -101,6 +116,7 @@ export const TESTIMONIALS: Testimonial[] = [
     before: "1 bis 1.5 Tage Adminaufwand",
     after: "2 Stunden",
     name: "Luca Vogel",
+    highlight: true,
     role: "Inhaber, Praxis Vogel GmbH",
     company: "Praxis Vogel GmbH",
     photo: "/referenz_luca-vogel_bild.jpg",
@@ -110,7 +126,7 @@ export const TESTIMONIALS: Testimonial[] = [
 
   /* ---- André Scheidegger, Moodpix GmbH (Automatisierung / B2B-Buchungslink) — Freigabe zugesagt ----
      ⏳ O-Ton folgt. Sobald das Zitat da ist: diesen Block einkommentieren, `quote` setzen
-        (und Logo ergänzen → `logoPending` entfernen). Foto liegt bereits in apps/tm/public.
+        Foto + Logo liegen bereits in apps/tm/public.
   {
     product: "auto",
     quote: "…echter O-Ton von André…",
@@ -120,7 +136,24 @@ export const TESTIMONIALS: Testimonial[] = [
     role: "Inhaber, Moodpix GmbH",
     company: "Moodpix GmbH",
     photo: "/referenz_andre-scheidegger_bild.jpg",
-    logoPending: true,
+    logo: "/referenz_moodpix_logo.svg",
+    website: "https://www.moodpix.ch/",
   },
   */
+];
+
+/** Zusätzliche Kunden fürs Logo-Band, die (noch) kein Zitat haben.
+ *  Kunden aus TESTIMONIALS mit `logo` erscheinen automatisch — hier nicht doppelt eintragen.
+ *  Logo als PNG/WebP mit transparentem Hintergrund nach apps/tm/public legen. */
+export const CLIENT_LOGOS: ClientLogo[] = [
+  // { company: "Muster AG", logo: "/referenz_muster-ag_logo.png", website: "https://www.muster.ch/" },
+
+  // Angelika Kofler — Buchungstool, Freigabe ✅. Text folgt in den nächsten Tagen → dann nach
+  // TESTIMONIALS verschieben (product: "web", tag: "Terminbuchung", wie bei Sandro Dubach)
+  { company: "Praxis Olistico", logo: "/referenz_praxis-olistico_logo.png", website: "https://www.praxis-olistico.ch/", height: 52 },
+  // Fabienne Hersche — Buchungstool, Freigabe ✅, voraussichtlich ohne Text → bleibt reines Logo
+  // André Scheidegger — B2B-Buchungslink (auto). Logo von moodpix.ch (Original weiss → dunkel eingefärbt).
+  // Sobald sein Zitat da ist: Testimonial-Block oben einkommentieren, dann diesen Eintrag löschen.
+  { company: "Moodpix GmbH", logo: "/referenz_moodpix_logo.svg", website: "https://www.moodpix.ch/" },
+  { company: "Massagepraxis Hersche", logo: "/referenz_massage-hersche_logo.png", website: "https://www.massagepraxis-fh.ch/", height: 28 },
 ];
