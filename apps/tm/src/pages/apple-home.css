@@ -305,3 +305,22 @@ body.ap-light { background: #fdfbf8; }
 .t-who .role { font-size: .83rem; color: var(--muted); }
 .t-logo { display: block; height: 30px; width: auto; max-width: 120px; object-fit: contain; object-position: right center; opacity: .9; }
 .t-card.featured .t-logo { height: 34px; max-width: 150px; }
+
+/* Logo-Band aller Kunden (nur Startseite) — Logos in Originalfarbe */
+.t-logos { margin: 0 0 44px; text-align: center; }
+.t-logos-k { font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--muted2); margin-bottom: 20px; }
+.t-logos ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap;
+  justify-content: center; align-items: center; gap: 28px 48px; }
+.t-logos img { display: block; height: 34px; width: auto; max-width: 150px; object-fit: contain;
+  transition: transform .2s; }
+.t-logos a:hover img { transform: translateY(-2px); }
+@media (max-width: 760px) { .t-logos ul { gap: 22px 32px; } .t-logos img { height: 28px; max-width: 120px; } }
+
+/* „Mehr anzeigen" unter dem Raster */
+.t-more { text-align: center; margin-top: 32px; }
+.t-more button { font: inherit; font-size: .95rem; font-weight: 500; cursor: pointer;
+  padding: 12px 26px; border-radius: 980px; border: 1px solid var(--border);
+  background: var(--card); color: var(--fg); box-shadow: var(--shadow);
+  transition: transform .2s, box-shadow .2s; }
+.t-more button:hover { transform: translateY(-1px); box-shadow: var(--shadowH); }

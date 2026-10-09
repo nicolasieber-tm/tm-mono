@@ -108,7 +108,9 @@ außerdem **Freigabe für Name + Firma + Logo** einholen.
 | 2 | auto | Beat Gerber, Kohler Elektro Bern AG | ✅ | ⏳ Name/Firma bestätigen | eingebaut (normale Karte, `real:true`). **Zitat fürs Card gekürzt** (Original 4 Absätze), vollständiger Originalwortlaut als Kommentar direkt darüber in `testimonials.html`. Metrik-Block **entfernt** (war `CHF 2–3k` — steht bereits wörtlich im Zitat, doppelt gemoppelt). Foto `photo:"/beatgerber_kundenstimme.jpg"` (1240px, 137 KB, OK). Logo `referenz_kohler-elektro-bern_logo.png` (500×200, transparent) ✅ ergänzt (für einheitliche Logo+Name-Optik über alle Karten). Website-URL fehlt noch → Logo noch nicht klickbar. **⚠️ Freigabe Name/Firma/Logo vor Go-Live bestätigen.** `auto` erscheint nur auf der tm-Hauptseite (keine eigene Produkt-Unterseite). |
 | 3 | web | Sandro Dubach, Sandro Dubach Fotografie | ✅ | ⏳ zugesagt | Buchungstool in Website integriert. Card gebaut (`real:true`). Foto `referenz_sandro-dubach_bild.webp` (1000×1250, 98 KB) ✅, Logo `referenz_sandro-dubach_fotografie_logo.webp` ✅, Website `https://www.sandrodubach.ch/` ✅. ✅ **Zitat gesetzt** (O-Ton Sandro, 2026-07-09; hl = „administrativer Aufwand deutlich reduziert"). Erscheint auf TM-Haupt + Sichtbarkeit (web) + später Buchungstool-Unterseite (Modul 3, web-Case). |
 | 4 | oco | Luca Vogel, Praxis Vogel GmbH | ⏳ Platzhalter | ⏳ zugesagt | **OneClickOffice** (neue Kategorie `oco`, Indigo-Blau). Card gebaut (`real:true`). Foto `referenz_luca-vogel_bild.jpg` (1,4 MB → 131 KB, 666×1000) ✅, Logo `referenz_praxis-vogel_logo.png` ✅ — **Original war weiss-auf-transparent (auf hellem Card unsichtbar) → automatisch in Schwarz umgewandelt** (PIL RGB-Invert, Alpha erhalten); weisses Original als Backup im Session-Scratchpad. Logo zeigt „Praxis Luca Vogel — Psychosoziale Beratung und Begleitung". Firmenname im Card = „Praxis Vogel GmbH" (vom User bestätigt). ✅ **Zitat gesetzt** — aus Lucas Frage-Antwort-Katalog verdichtet (Entwurf, vor Go-Live von Luca final freigeben). Zeitersparnis steht in den **Vorher/Heute-Boxen** („1 bis 1.5 Tage Adminaufwand" → „2 Stunden", ohne Kommas, Punkt-Dezimal auf Userwunsch); separater Metrik-Block **entfernt** (wäre doppelt). Website fehlt. Falls offizielles farbiges/dunkles Logo kommt → einfach ersetzen. Erscheint auf TM-Haupt + OneClickOffice-Seite. |
-| 5 | **auto** | André Scheidegger, Moodpix GmbH | ⏳ Platzhalter | ⏳ zugesagt | **B2B-Buchungslink = individuelle Entwicklung/Automation → `product:"auto"`** (nicht mehr eigene Kategorie). Fotograf gibt Kunden einen Link, hunderte/tausende Mitarbeitende buchen selbst Porträt-Slots. Card `real:true`. Foto `referenz_andre-scheidegger_bild.jpg` (Querformat → gesichtszentriert quadratisch zugeschnitten, 500×500, 34 KB) ✅. **Zitat noch Platzhalter**. **Logo folgt** → `logoPending:true` zeigt solange „Moodpix GmbH" als Text oben rechts. Website fehlt. Erscheint auf TM-Haupt (Automation-Kontext) + Modul 3 Fotograf-Case (auf TM). Damit hat `auto` 2 echte Stimmen (Beat + André). |
+| 5 | **auto** | André Scheidegger, Moodpix GmbH | ⏳ Platzhalter | ⏳ zugesagt | **B2B-Buchungslink = individuelle Entwicklung/Automation → `product:"auto"`** (nicht mehr eigene Kategorie). Fotograf gibt Kunden einen Link, hunderte/tausende Mitarbeitende buchen selbst Porträt-Slots. Card `real:true`. Foto `referenz_andre-scheidegger_bild.jpg` (Querformat → gesichtszentriert quadratisch zugeschnitten, 500×500, 34 KB) ✅. **Zitat noch Platzhalter**. Logo ✅ von moodpix.ch übernommen (`referenz_moodpix_logo.svg`, Original weiss → `#1d1d1f` eingefärbt), vorerst im Logo-Band via `CLIENT_LOGOS`. Website fehlt. Erscheint auf TM-Haupt (Automation-Kontext) + Modul 3 Fotograf-Case (auf TM). Damit hat `auto` 2 echte Stimmen (Beat + André). |
+| 6 | web (Buchungstool) | Angelika Kofler, Praxis Olistico | ⏳ folgt in den nächsten Tagen | ✅ | Vorerst nur Logo-Band (`CLIENT_LOGOS`). Logo war JPEG mit Weiss → freigestellt `referenz_praxis-olistico_logo.png` (Farbe, `height: 52`). Website `https://www.praxis-olistico.ch/`. Bei Zitat → nach `TESTIMONIALS` verschieben (`product:"web"`, `tag:"Terminbuchung"`, Farb-Logo). |
+| 7 | web (Buchungstool) | Fabienne Hersche, Massagepraxis Hersche | ✗ voraussichtlich keins | ✅ | Nur Logo-Band. `referenz_massage-hersche_logo.png` (getrimmt, `height: 28`, da wuchtig). Website `https://www.massagepraxis-fh.ch/`. |
 | … | | | | | |
 
 > Beim Eintreffen einer Antwort: Rohtext in der HTML-`TESTIMONIALS`-Liste als neuen
@@ -142,6 +144,17 @@ gewählt (Entscheidung des Users). Schritte:
 5. **Reveal/Animation** wie umliegende Sections (`.reveal` + Observer).
 6. **Logos** unter `public/` der jeweiligen App ablegen, Pfade in den Daten setzen.
 7. Alle `real:false`-Einträge entfernen. Mobile (<760px → 1 Spalte) testen.
+
+---
+
+## 5a. Startseite: Logo-Band + „Mehr anzeigen" (live, 2026-10-09)
+
+- **Logo-Band** oben in der Section: alle Kunden mit `logo` aus `TESTIMONIALS` automatisch,
+  plus reine Logo-Kunden ohne Zitat aus `CLIENT_LOGOS` (beides in `packages/testimonials/src/index.ts`).
+  In Originalfarbe. Nur Startseite.
+- **Karten:** sofort sichtbar sind die Einträge mit `highlight: true` (Empfehlung 4 oder 6, gemischt
+  über die Produkte). Der Rest erscheint über den Button „Alle N Kundenstimmen anzeigen".
+  Ist nichts markiert, werden die ersten 6 gezeigt. Produkt-Unterseiten zeigen immer alle ihres Produkts.
 
 ---
 
