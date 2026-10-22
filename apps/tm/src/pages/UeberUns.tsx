@@ -1,6 +1,6 @@
 import SiteLayout from "@/components/site/SiteLayout";
 import { ContactSection, PageHero, Shead, StrokeIcon, n2 } from "@/components/site/blocks";
-import { PILLARS, PROCESS, REASONS, TEAM } from "@/data/tm";
+import { PROCESS, REASONS, TEAM } from "@/data/tm";
 
 export default function UeberUns() {
   return (
@@ -34,15 +34,6 @@ export default function UeberUns() {
       <section className="ap-sec" id="manifest">
         <div className="wide">
           <Shead k="Manifest" h="Wie wir arbeiten." />
-          <div className="ap-grid c3 reveal" style={{ marginBottom: 20 }}>
-            {PILLARS.map((p) => (
-              <div className="ap-card" key={p.r}>
-                <div className="ap-num">{p.r}.</div>
-                <h3>{p.t}</h3>
-                <p>{p.d}</p>
-              </div>
-            ))}
-          </div>
           <div className="ap-grid c2 reveal">
             {REASONS.map((r) => (
               <div className="ap-reason" key={r.t}>

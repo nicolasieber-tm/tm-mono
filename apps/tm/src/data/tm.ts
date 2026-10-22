@@ -12,11 +12,6 @@ export const PROCESS = [
   { t: "Entwickeln", d: "Wir entscheiden gemeinsam, was Standard-Software löst, was eigene Software braucht und wo KI tatsächlich Mehrwert schafft, nicht weil es im Trend liegt." },
   { t: "Umsetzen", d: "Wir bauen, integrieren und rollen aus. Danach bleiben wir Ansprechpartner, damit aus dem Projekt ein dauerhaft funktionierender Prozess wird." },
 ];
-export const PILLARS = [
-  { r: "I", t: "Wir starten beim Alltag, nicht bei der Technologie.", d: "Bevor wir über Software sprechen, verstehen wir, wo im Tagesgeschäft Zeit verloren geht: im Büro, vor Ort, im Kundenkontakt." },
-  { r: "II", t: "Wir denken wie Unternehmer.", d: "Wir betreiben selbst Produkte am Markt. Deshalb wissen wir, was operativ funktioniert und was nur in Slides gut aussieht." },
-  { r: "III", t: "Wir setzen auch um.", d: "Konzepte ohne Umsetzung helfen niemandem. Wir liefern Strategie, Software und Rollout aus einer Hand." },
-];
 export const REASONS = [
   { t: "KI dort, wo sie wirklich wirkt", d: "Wir setzen KI nicht als Buzzword ein, sondern dort, wo sie messbar Zeit spart oder bessere Entscheidungen ermöglicht." },
   { t: "Strategie + Umsetzung in einer Hand", d: "Kein Ping-Pong zwischen Beratung, Agentur und IT. Wir analysieren, entwickeln und rollen aus, als ein Team." },
