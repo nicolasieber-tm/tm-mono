@@ -2,7 +2,7 @@
 
 Diese Datei beschreibt die Designsprache der TM-Seiten, damit **neue Seiten ohne
 Raten direkt passen**. Referenz-Implementierung: `src/pages/apple-home.css`
-(Homepage) plus die abgeleiteten `legal.css` und `webseiten.css`.
+(Basis) plus `src/components/site/site.css` (Navigation, Unterseiten, Kundenstimmen) und `legal.css`.
 
 > Faustregel: Eine neue Seite **erbt** das System, sie erfindet es nicht neu.
 > Du schreibst HTML mit den vorhandenen Klassen und überschreibst höchstens ein
@@ -34,25 +34,19 @@ CSS-Custom-Properties, die ein **Skin** setzt:
 
 ```html
 <div class="ap ap-vivid">     <!-- Homepage: Orange→Blau Tri-Color -->
-<div class="ap ap-vivid ap-web"><!-- Webseiten: zusätzlich Purple-Akzent -->
 ```
 
 | Skin | Klasse | Akzent | Einsatz |
 |------|--------|--------|---------|
-| Vivid (Standard) | `.ap-vivid` | `#2b9fd6` Blau, Gradient Orange→Violett→Blau | Homepage, Legal |
-| Web (Produkt) | `.ap-vivid.ap-web` | `#8b5cf6` Violett | Landingpage „Webseiten" |
+| Vivid | `.ap-vivid` | `#2b9fd6` Blau, Gradient Orange→Violett→Blau | **alle Seiten** |
 
-**Eine neue Variante/Seite re-skinnt nur Variablen** (siehe `webseiten.css`):
+Seit der Vereinheitlichung (Okt. 2026) gibt es **keine Produkt-Skins mehr** — auch
+Landingpages, Produktseiten und Kundenstimmen nutzen den TM-Verlauf. Jede Seite
+rendert sich in `SiteLayout` (`src/components/site/`), das Skin, Navigation,
+Footer, Reveal und Terminbuchung bereitstellt; Bausteine (Hero, Section-Kopf,
+FAQ, Kontakt, Kacheln) liegen in `blocks.tsx`, zusätzliche Styles in `site.css`.
 
-```css
-.ap-newpage {
-  --accent: #8b5cf6; --accent-fg: #fff;
-  --grad: linear-gradient(105deg,#b18bff,#8b5cf6 36%,#7b3fe4 62%,#5b8def 100%);
-  --illoBg: linear-gradient(150deg,#f1ecff,#efe7ff 55%,#e9f0fd);
-  --illoColor: #8b5cf6; --icBg: rgba(139,92,246,.12);
-  --prodHero: linear-gradient(135deg,#9d6bff,#7b3fe4);
-}
-```
+**Neue Seite:** `SiteLayout` + Bausteine aus `blocks.tsx` verwenden, keine eigenen Farben einführen.
 
 Wichtig: page-spezifisches CSS **nach** `apple-home.css` importieren, damit die
 Variablen-Overrides bei gleicher Spezifität gewinnen.

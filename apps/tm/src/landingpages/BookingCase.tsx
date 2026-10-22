@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import "../components/bookingcase.css";
 import "./bookingcase.css";
 
 /* Modul 3 (web-Case) — Buchungstool auf der Website: vom Termin-Pingpong zum einen Link.
@@ -119,7 +120,7 @@ export default function BookingCase() {
         <p>Klicken Sie sich durch das echte Tool — einmal als Kunde, der einen Termin bucht, und einmal als Admin, der die Buchungen verwaltet.</p>
         <div className="bk-cta-acts">
           <a className="cta-btn" href="https://sichtbarkeit.trendingmedia.ch/demo" target="_blank" rel="noopener">Live-Demo öffnen →</a>
-          <button type="button" className="cta-btn ghost" data-book-widget="">Termin buchen →</button>
+          <button type="button" className="cta-btn ghost" data-book="">Termin buchen →</button>
         </div>
       </div>
     </>

@@ -193,11 +193,10 @@ body.ap-light { background: #fdfbf8; }
   --accent: #2b9fd6; --accent-fg: #fff; --orange: #ff7a3c; --blue: #2b9fd6; --navbg: rgba(253,251,248,.82); --border: rgba(0,0,0,.07);
   --card: #fff; --cardAlt: #fdfbf8; --shadow: 0 1px 2px rgba(60,40,20,.05), 0 20px 44px -24px rgba(120,80,40,.2); --shadowH: 0 30px 64px -28px rgba(120,80,40,.32);
   --grad: linear-gradient(105deg,#ff9a3c,#ff6a2c 24%,#8b5cf6 58%,#2f9fd6 88%,#6cc6f5); --illoBg: linear-gradient(150deg,#fff1e6,#efe7ff 55%,#e8f5fd); --illoColor: #2b9fd6;
-  --chipBg: rgba(27,26,30,.06); --chipFg: rgba(27,26,30,.6); --prodHero: linear-gradient(135deg,#ff9a3c,#ff5e2c); --prodHeroFg: #fff; --prodHeroTag: rgba(255,255,255,.88); --icBg: rgba(43,159,214,.12); --footBg: #f6efe8;
-  /* Produkt-Akzente für Kundenstimmen (decken sich mit den Apps) */
-  --c-web: #8b5cf6; --c-auron: #ff7a3c; --c-auto: #2b9fd6; --c-oco: #2f62e6;
-  --g-web: linear-gradient(135deg,#9d6bff,#7b3fe4); --g-auron: linear-gradient(135deg,#ff9a3c,#ff5e2c);
-  --g-auto: linear-gradient(135deg,#3bb0e6,#1f7fc0); --g-oco: linear-gradient(135deg,#4a80f5,#2b52d9); }
+  --chipBg: rgba(27,26,30,.06); --chipFg: rgba(27,26,30,.6); --prodHero: var(--grad); --prodHeroFg: #fff; --prodHeroTag: rgba(255,255,255,.88); --icBg: rgba(43,159,214,.12); --footBg: #f6efe8;
+  /* Kundenstimmen: früher je Produkt eine eigene Farbe — heute überall der TM-Verlauf */
+  --c-web: var(--accent); --c-auron: var(--accent); --c-auto: var(--accent); --c-oco: var(--accent);
+  --g-web: var(--grad); --g-auron: var(--grad); --g-auto: var(--grad); --g-oco: var(--grad); }
 .ap-vivid .ap-hero::before { content: ""; position: absolute; inset: -20% -10% auto; height: 125%; z-index: 0; pointer-events: none; filter: blur(36px);
   background: radial-gradient(38% 48% at 14% 24%,rgba(255,138,60,.34),transparent 60%), radial-gradient(40% 50% at 86% 16%,rgba(45,182,255,.30),transparent 60%), radial-gradient(44% 54% at 52% 50%,rgba(139,92,246,.26),transparent 60%); }
 .ap-vivid .ap-hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 280px; z-index: 0; pointer-events: none;

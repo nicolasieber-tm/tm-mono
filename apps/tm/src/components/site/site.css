@@ -1,0 +1,207 @@
+/* =================================================================
+   Site-Rahmen: Navigation mit Dropdowns, Unterseiten-Hero, verlinkte
+   Kacheln, Kundenstimmen-Übersicht und Fallstudien.
+   Baut auf apple-home.css (.ap / .ap-vivid) auf, nutzt nur dessen Tokens.
+   ================================================================= */
+
+/* ---- Navigation: Dropdowns + aktiver Zustand ---- */
+.ap-pill .links a.active, .ap-pill .links .ap-drop > button.active { color: var(--fg); }
+.ap-drop { position: relative; }
+.ap-drop > button { font: inherit; font-size: .85rem; color: var(--muted); padding: 8px 13px; border-radius: 980px;
+  background: none; border: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: color .2s, background .2s; letter-spacing: -.01em; }
+.ap-drop > button:hover, .ap-drop.open > button { color: var(--fg); background: rgba(0,0,0,.05); }
+.ap-drop .chev { font-size: .8rem; line-height: 1; transform: translateY(-2px); transition: transform .2s; }
+.ap-drop.open .chev { transform: translateY(1px) rotate(180deg); }
+/* padding-top überbrückt die Lücke zwischen Button und Panel, damit Hover nicht abreisst */
+.ap-drop-panel { position: absolute; top: 100%; left: 50%; transform: translate(-50%, 6px); padding-top: 10px;
+  min-width: 290px; opacity: 0; pointer-events: none; transition: opacity .18s, transform .18s; z-index: 2; }
+.ap-drop.open .ap-drop-panel, .ap-drop:focus-within .ap-drop-panel { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+.ap-drop-panel::before { content: ""; position: absolute; inset: 10px 0 0; border-radius: 18px; background: rgba(255,255,255,.96);
+  -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); border: 1px solid var(--border); box-shadow: 0 24px 50px -22px rgba(60,40,20,.35); z-index: -1; }
+.ap-pill .links .ap-drop-panel a { display: flex; flex-direction: column; gap: 2px; padding: 12px 16px; margin: 6px; border-radius: 12px; color: var(--fg); }
+.ap-pill .links .ap-drop-panel a:hover { background: rgba(0,0,0,.04); }
+.ap-drop-panel a b { font-size: .92rem; font-weight: 600; }
+.ap-drop-panel a span { font-size: .8rem; color: var(--muted); }
+@media (max-width: 960px) { .ap-pill .links a, .ap-drop > button { padding: 8px 10px; } }
+
+/* Mobile-Menü: Gruppen */
+.ap-mobile .grp { display: flex; flex-direction: column; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.ap-mobile .grp-k { padding: 8px 16px 2px; font-size: .72rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted2); }
+.ap-mobile .m-cta { margin-top: 8px; text-align: center; font-weight: 600; position: relative; }
+.ap-mobile .m-cta::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; background: var(--grad);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+@media (max-width: 900px) { .ap-pill .links { display: none; } .ap-pill .cta { display: none; } .ap-burger { display: inline-flex; margin-left: 36px; } }
+
+/* ---- Unterseiten-Hero ---- */
+.ap-hero.ap-hero-sub { padding: 150px 0 70px; }
+.ap-hero.ap-hero-sub h1 { font-size: clamp(2.4rem, 6vw, 4.4rem); max-width: 18ch; }
+.ap-hero.ap-hero-sub .sub { max-width: 46ch; }
+.ap-hero .hero-logo { width: 64px; height: 64px; border-radius: 16px; object-fit: cover; margin: 0 auto 20px; display: block;
+  box-shadow: 0 10px 30px -12px rgba(60,40,20,.35); }
+.ap-hero .hero-note { margin-top: 14px; font-size: .9rem; color: var(--muted2); font-weight: 500; }
+@media (max-width: 720px) { .ap-hero.ap-hero-sub { padding: 120px 0 40px; } }
+
+/* ---- 3er-Raster (fehlt in apple-home.css) ---- */
+.ap-grid.c3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 900px) { .ap-grid.c3 { grid-template-columns: 1fr; } }
+
+/* ---- Verlinkte Kacheln ---- */
+.ap-linkcard { color: inherit; cursor: pointer; }
+.ap-linkcard .lc-logo { width: 54px; height: 54px; border-radius: 14px; object-fit: cover; margin-bottom: 20px;
+  box-shadow: 0 4px 14px -4px rgba(0,0,0,.3); }
+.ap-linkcard .lc-go { margin-top: auto; padding-top: 22px; display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: .95rem;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.ap-linkcard .lc-go svg { stroke: #2f9fd6; transition: transform .2s; }
+.ap-linkcard:hover .lc-go svg { transform: translateX(3px); }
+.ap-linkcard .chips + .lc-go { padding-top: 22px; }
+
+/* ---- Kennzahlen-Band ---- */
+.ap-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+@media (max-width: 760px) { .ap-stats { grid-template-columns: 1fr 1fr; } }
+.ap-stats .st { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 26px 22px; box-shadow: var(--shadow); text-align: center; }
+.ap-sec.alt .ap-stats .st { background: var(--cardAlt); }
+.ap-stats .st b { display: block; font-size: clamp(1.7rem, 3.4vw, 2.2rem); font-weight: 700; letter-spacing: -.02em; line-height: 1;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.ap-stats .st span { display: block; margin-top: 8px; font-size: .85rem; line-height: 1.4; color: var(--muted); }
+
+/* ---- Pakete (Landingpages) ---- */
+.ap-card.pkg { position: relative; }
+.ap-card.pkg .feat { margin: 18px 0 0; display: flex; flex-direction: column; gap: 10px; }
+.ap-card.pkg .feat li { list-style: none; display: flex; gap: 10px; align-items: flex-start; font-size: .92rem; line-height: 1.45; color: var(--muted); }
+.ap-card.pkg .feat li svg { flex: none; margin-top: 2px; }
+.ap-card.pkg .pkg-foot { margin-top: auto; padding-top: 22px; }
+.ap-card.pkg .pkg-foot .pr { font-size: .82rem; color: var(--muted2); margin-bottom: 12px; }
+.ap-card.pkg .pkg-foot a { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--fg); font-size: .95rem; }
+.ap-card.pkg.pop::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.6px; background: var(--grad);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+.ap-card.pkg .badge { position: absolute; top: 20px; right: 20px; font-size: .68rem; font-weight: 600; letter-spacing: .02em;
+  color: #fff; background: var(--grad); padding: 4px 11px; border-radius: 980px; }
+
+/* ---- Split: Text + Bild (Produkte, Fallstudien) ---- */
+.ap-split { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+.ap-split.rev > :first-child { order: 2; }
+@media (max-width: 860px) { .ap-split { grid-template-columns: 1fr; gap: 32px; } .ap-split.rev > :first-child { order: 0; } }
+.ap-split h2 { font-size: clamp(1.8rem, 3.8vw, 2.6rem); line-height: 1.1; letter-spacing: -.03em; font-weight: 700; }
+.ap-split .kick { font-size: .95rem; font-weight: 600; margin-bottom: 12px;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.ap-split p { margin-top: 16px; font-size: 1.08rem; line-height: 1.6; color: var(--muted); }
+.ap-split ul.ticks { margin-top: 22px; display: flex; flex-direction: column; gap: 12px; }
+.ap-split ul.ticks li { list-style: none; display: flex; gap: 12px; align-items: flex-start; font-size: 1rem; line-height: 1.45; color: var(--fg); }
+.ap-split ul.ticks li svg { flex: none; margin-top: 2px; }
+.ap-shot { border-radius: 22px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); background: var(--card); }
+.ap-shot img { display: block; width: 100%; height: auto; }
+.ap-shot.phone { max-width: 300px; margin: 0 auto; border-radius: 38px; padding: 10px; background: #1b1a1e; }
+.ap-shot.phone img { border-radius: 30px; }
+.ap-shot-ph { aspect-ratio: 16/10; display: grid; place-items: center; text-align: center; padding: 30px; color: var(--muted2);
+  font-size: .9rem; background: var(--illoBg); border-radius: 22px; border: 1px dashed rgba(0,0,0,.12); }
+
+/* ---- Kundenstimmen-Übersicht ---- */
+.ks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 760px) { .ks-grid { grid-template-columns: 1fr; } }
+.ks-card { position: relative; display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--border); border-radius: 22px;
+  overflow: hidden; box-shadow: var(--shadow); color: inherit; transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s; }
+.ap-sec.alt .ks-card { background: var(--cardAlt); }
+.ks-card:hover { transform: translateY(-4px); box-shadow: var(--shadowH); }
+.ks-card::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--grad); }
+.ks-card .ks-in { padding: 30px; display: flex; flex-direction: column; flex: 1; }
+.ks-card .ks-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.ks-card .ks-logo { height: 34px; width: auto; max-width: 150px; object-fit: contain; }
+.ks-tag { font-size: .74rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: 5px 11px; border-radius: 980px;
+  background: var(--chipBg); color: var(--fg); white-space: nowrap; }
+.ks-card h3 { font-size: 1.35rem; line-height: 1.25; font-weight: 600; letter-spacing: -.02em; }
+.ks-card .ks-q { margin-top: 12px; font-size: .98rem; line-height: 1.55; color: var(--muted); }
+.ks-card .ks-metric { margin-top: 20px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.ks-card .ks-metric b { font-size: 1.6rem; font-weight: 700; letter-spacing: -.02em;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.ks-card .ks-metric span { font-size: .85rem; color: var(--muted2); }
+.ks-card .ks-foot { margin-top: auto; padding-top: 22px; display: flex; align-items: center; gap: 12px; }
+.ks-card .ks-foot img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex: none; }
+.ks-card .ks-foot .who { display: flex; flex-direction: column; line-height: 1.3; font-size: .85rem; color: var(--muted); }
+.ks-card .ks-foot .who b { color: var(--fg); font-size: .95rem; font-weight: 600; }
+.ks-card .ks-foot .go { margin-left: auto; font-weight: 600; font-size: .9rem; white-space: nowrap;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+
+/* ---- Fallstudie ---- */
+.ap-hero.cs-hero { padding: 140px 0 40px; text-align: left; }
+.cs-back { display: inline-flex; align-items: center; gap: 6px; font-size: .9rem; color: var(--muted); margin-bottom: 30px; }
+.cs-back:hover { color: var(--fg); }
+.cs-hero .cs-brand { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+.cs-hero .cs-brand img { height: 44px; width: auto; max-width: 190px; object-fit: contain; }
+.ap-hero.cs-hero h1 { font-size: clamp(2.2rem, 5.4vw, 3.9rem); line-height: 1.06; letter-spacing: -.035em; font-weight: 700; max-width: 20ch; margin: 0; }
+.ap-hero.cs-hero .sub { margin: 20px 0 0; font-size: clamp(1.1rem, 2vw, 1.35rem); line-height: 1.45; color: var(--muted); max-width: 52ch; }
+.cs-facts { margin-top: 40px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border);
+  border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
+@media (max-width: 760px) { .cs-facts { grid-template-columns: 1fr 1fr; } }
+.cs-facts > div { background: var(--card); padding: 18px 20px; }
+.cs-facts .k { display: block; font-size: .72rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted2); margin-bottom: 6px; }
+.cs-facts .v { font-size: .98rem; font-weight: 500; line-height: 1.35; color: var(--fg); }
+.cs-facts a.v:hover { text-decoration: underline; }
+
+.cs-result { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+.cs-result .r { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 28px; box-shadow: var(--shadow); }
+.ap-sec.alt .cs-result .r { background: var(--cardAlt); }
+.cs-result .r b { display: block; font-size: clamp(1.7rem, 3.4vw, 2.3rem); font-weight: 700; letter-spacing: -.02em; line-height: 1.1;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.cs-result .r span { display: block; margin-top: 10px; font-size: .92rem; line-height: 1.45; color: var(--muted); }
+
+.cs-story { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px; }
+.cs-block .k { font-size: .95rem; font-weight: 600; margin-bottom: 10px;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; display: inline-block; }
+.cs-block h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); line-height: 1.15; letter-spacing: -.025em; font-weight: 700; }
+.cs-block p { margin-top: 14px; font-size: 1.08rem; line-height: 1.65; color: var(--muted); }
+.cs-block ul { margin-top: 18px; display: flex; flex-direction: column; gap: 12px; }
+.cs-block li { list-style: none; display: flex; gap: 12px; align-items: flex-start; font-size: 1.02rem; line-height: 1.5; color: var(--fg); }
+.cs-block li svg { flex: none; margin-top: 3px; }
+
+.cs-quote { max-width: 860px; margin: 0 auto; text-align: center; }
+.cs-quote .qm { font-family: Georgia, serif; font-size: 4rem; line-height: .6; font-weight: 700; display: block;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.cs-quote blockquote { margin: 18px 0 28px; font-size: clamp(1.2rem, 2.4vw, 1.55rem); line-height: 1.5; letter-spacing: -.015em; color: var(--fg); }
+.cs-quote blockquote .hl { background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; font-weight: 600; }
+.cs-quote figcaption { display: inline-flex; align-items: center; gap: 14px; text-align: left; }
+.cs-quote figcaption img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+.cs-quote figcaption b { display: block; font-size: 1rem; font-weight: 600; }
+.cs-quote figcaption span { font-size: .88rem; color: var(--muted); }
+.cs-ba { margin-top: 36px; display: flex; align-items: stretch; gap: 14px; max-width: 640px; margin-left: auto; margin-right: auto; text-align: left; }
+.cs-ba .col { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px 18px; }
+.cs-ba .col .k { display: block; font-size: .7rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted2); margin-bottom: 5px; }
+.cs-ba .col .v { font-size: .98rem; line-height: 1.35; font-weight: 500; color: var(--fg); }
+.cs-ba .arrow { align-self: center; font-size: 1.2rem; color: var(--muted2); }
+@media (max-width: 480px) { .cs-ba { flex-direction: column; } .cs-ba .arrow { transform: rotate(90deg); } }
+
+.cs-note { max-width: 760px; margin: 0 auto; font-size: .88rem; line-height: 1.5; color: var(--muted2); text-align: center; }
+
+/* ---- CTA-Band ---- */
+.ap-band { border-radius: 26px; padding: 56px 40px; text-align: center; background: var(--grad); color: #fff; }
+.ap-band h2 { font-size: clamp(1.7rem, 3.6vw, 2.5rem); line-height: 1.12; letter-spacing: -.03em; font-weight: 700; max-width: 24ch; margin: 0 auto; }
+.ap-band p { margin: 14px auto 0; font-size: 1.08rem; line-height: 1.5; opacity: .95; max-width: 50ch; }
+.ap-band .acts { margin-top: 28px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.ap-band .acts a { display: inline-block; padding: 15px 30px; border-radius: 980px; font-weight: 600; font-size: 1rem; transition: transform .2s, background .2s; }
+.ap-band .acts a.w { background: #fff; color: #1b1a1e; }
+.ap-band .acts a.g { color: #fff; border: 1.5px solid rgba(255,255,255,.6); }
+.ap-band .acts a:hover { transform: translateY(-2px); }
+.ap-band .acts a.g:hover { background: rgba(255,255,255,.14); }
+@media (max-width: 560px) { .ap-band { padding: 44px 24px; } }
+
+/* ---- Filter-Pills: .t-filter aus apple-home.css wiederverwendet ---- */
+.ap .t-filter button .n { margin-left: 6px; color: var(--muted2); font-size: .78rem; }
+
+/* ---- Kundenstimmen-Karten: Link zur Fallstudie + „Alle"-Link ---- */
+.ap .t-card .t-case { margin-left: auto; font-size: .88rem; font-weight: 600; white-space: nowrap;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.ap .t-more a { display: inline-block; font-size: .95rem; font-weight: 500; padding: 12px 26px; border-radius: 980px; border: 1px solid var(--border);
+  background: var(--card); color: var(--fg); box-shadow: var(--shadow); transition: transform .2s, box-shadow .2s; }
+.ap .t-more a:hover { transform: translateY(-1px); box-shadow: var(--shadowH); }
+
+/* ---- Feature-Icon in Karten ---- */
+.ap-feat-ic { width: 52px; height: 52px; border-radius: 15px; display: grid; place-items: center; background: var(--illoBg); margin-bottom: 20px; }
+
+/* ---- Listen in Karten (Vorher/Nachher) ---- */
+.ap-list { margin-top: 8px; display: flex; flex-direction: column; gap: 14px; }
+.ap-list li { list-style: none; display: flex; gap: 12px; align-items: flex-start; font-size: 1rem; line-height: 1.45; color: var(--fg); }
+.ap-list li svg { flex: none; margin-top: 2px; }
+.ap-list .x { flex: none; width: 18px; text-align: center; color: #c2553a; font-weight: 600; }
+.ap-vivid .ap-card .tag.warn { background: none; -webkit-text-fill-color: #c2553a; color: #c2553a; }
+
+/* einzelne Kundenstimme (Produktseiten) zentriert statt halbe Breite */
+.ap .t-grid > .t-card:only-child { grid-column: 1 / -1; width: 100%; max-width: 620px; margin: 0 auto; }
