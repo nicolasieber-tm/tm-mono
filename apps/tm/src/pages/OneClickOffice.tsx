@@ -44,7 +44,7 @@ export default function OneClickOffice() {
             </div>
             <div className="cs-result" style={{ gridTemplateColumns: "1fr 1fr" }}>
               <div className="r"><b>1–1.5 Tage</b><span>Adminaufwand pro Monat vorher</span></div>
-              <div className="r"><b>2 Std.</b><span>Adminaufwand pro Monat heute</span></div>
+              <div className="r"><b>1.5 Std.</b><span>Adminaufwand pro Monat heute</span></div>
             </div>
           </div>
         </div>

@@ -94,7 +94,7 @@ export const CASES: CaseStudy[] = [
     status: "Im Einsatz seit Anfang 2026",
     title: "Vom Abrechnungstag zur Rechnung auf einen Klick.",
     sub: "Für Luca Vogel haben wir eine Lösung entwickelt, die Zeiterfassung, Spesen und Rechnungsstellung an einem Ort zusammenführt — daraus ist OneClick Office entstanden.",
-    metric: { value: "1–1.5 Tage → 2 Std.", label: "Adminaufwand pro Monat" },
+    metric: { value: "1–1.5 Tage → 1.5 Std.", label: "Adminaufwand pro Monat" },
     challenge: {
       title: "Abrechnung über drei Werkzeuge.",
       text: [
@@ -117,11 +117,11 @@ export const CASES: CaseStudy[] = [
     result: {
       title: "Aus Tagen werden Stunden.",
       text: [
-        "Der monatliche Adminaufwand ist von ein bis anderthalb Arbeitstagen auf rund zwei Stunden gesunken. Aus dieser Lösung ist OneClick Office entstanden — das Produkt für Coaches, Berater und Praxen.",
+        "Der monatliche Adminaufwand ist von ein bis anderthalb Arbeitstagen auf rund anderthalb Stunden gesunken. Aus dieser Lösung ist OneClick Office entstanden — das Produkt für Coaches, Berater und Praxen.",
       ],
       stats: [
         { value: "1–1.5 Tage", label: "Adminaufwand pro Monat vorher" },
-        { value: "2 Std.", label: "Adminaufwand pro Monat heute" },
+        { value: "1.5 Std.", label: "Adminaufwand pro Monat heute" },
         { value: "1 Klick", label: "bis zur fertigen Rechnung" },
       ],
     },

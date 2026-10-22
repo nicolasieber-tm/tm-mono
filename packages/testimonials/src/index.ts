@@ -119,7 +119,7 @@ export const TESTIMONIALS: Testimonial[] = [
     quote:
       'Früher lief meine Abrechnung über Word, Excel und den Kalender, nicht mehr wirklich zeitgemäss und alles andere als effizient. Heute habe ich alles an einem Ort: Spesen hinterlege ich direkt per Foto, egal wo ich gerade bin und die Zeiteinträge mache ich entspannt nach den Terminen am Handy. Am meisten schätze ich <span class="hl">die Rechnung auf einen Klick</span>, das spart mir jeden Monat enorm viel Aufwand.',
     before: "1 bis 1.5 Tage Adminaufwand",
-    after: "2 Stunden",
+    after: "1.5 Stunden",
     name: "Luca Vogel",
     slug: "praxis-vogel",
     highlight: true,
