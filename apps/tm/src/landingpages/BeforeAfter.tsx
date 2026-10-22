@@ -159,7 +159,7 @@ export default function BeforeAfter({ withQuote = true }: { withQuote?: boolean 
             <span>Nachher →</span>
           </div>
         </div>
-        <p className="ba-cap"><b>Verkehrsschule Mittelland</b> — {sec.cap}</p>
+        <p className="ba-cap"><b>Verkehrsschule Mittelland</b> · {sec.cap}</p>
         <p className="ba-hint">Trennlinie ziehen · oben Bereich wechseln · Regler unten für Tastatur</p>
       </div>
 

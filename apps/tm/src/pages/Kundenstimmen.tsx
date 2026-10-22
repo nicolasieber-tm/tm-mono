@@ -47,12 +47,12 @@ export default function Kundenstimmen() {
   return (
     <SiteLayout
       title="Kundenstimmen & Fallstudien · Trending Media"
-      description="Echte Projekte von Schweizer KMU: Automationen, Webseiten und OneClick Office — mit Ausgangslage, Lösung und Resultat."
+      description="Echte Projekte von Schweizer KMU: Automationen, Webseiten und OneClick Office mit Ausgangslage, Lösung und Resultat."
     >
       <PageHero
         kick="Kundenstimmen"
         title={<>Was sich bei unseren Kunden <span className="g">verändert hat</span>.</>}
-        sub="Keine Floskeln, sondern echte Projekte: Ausgangslage, Lösung und Resultat — erzählt von den Unternehmen selbst."
+        sub="Keine Floskeln, sondern echte Projekte: Ausgangslage, Lösung und Resultat, erzählt von den Unternehmen selbst."
         primary={null}
       />
 

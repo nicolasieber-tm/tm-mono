@@ -16,6 +16,7 @@ export type CaseVisual =
   | { kind: "booking" }               // Termin-Pingpong → Buchungstool (web)
   | { kind: "emailauto" }             // E-Mail → Projektzeit (Kohler)
   | { kind: "b2b" }                   // B2B-Buchungslink (Moodpix)
+  | { kind: "oco" }                   // Screenshots OneClick Office
   | { kind: "placeholder"; text: string };
 
 export type CaseStudy = {
@@ -52,13 +53,13 @@ export const CASES: CaseStudy[] = [
     service: "E-Mail-Automation · Zeitrapport",
     status: "Rund ein Jahr im Einsatz",
     title: "Aus jeder E-Mail der richtige Zeitrapport.",
-    sub: "Eine Automation liest die Projektnummer aus eingehenden E-Mails und rapportiert die aufgewendete Zeit beim richtigen Projekt — ohne dass jemand daran denken muss.",
-    metric: { value: "CHF 2'000–3'000", label: "pro Monat zusätzlich verrechnet" },
+    sub: "Eine Automation liest die Projektnummer aus eingehenden E-Mails und rapportiert die aufgewendete Zeit beim richtigen Projekt, ohne dass jemand daran denken muss.",
+    metric: { value: "CHF 2'000 bis 3'000", label: "pro Monat zusätzlich verrechnet" },
     challenge: {
       title: "Verrechenbare Zeit, die nirgends landete.",
       text: [
         "Ein Teil der Projektarbeit passiert per E-Mail. Die Zeit dafür musste von Hand dem richtigen Projekt zugeordnet werden.",
-        "Im Alltag geschah das oft nachträglich und geschätzt — oder gar nicht. Leistungen, die eigentlich verrechenbar gewesen wären, gingen so schlicht verloren.",
+        "Im Alltag geschah das oft nachträglich und geschätzt oder gar nicht. Leistungen, die eigentlich verrechenbar gewesen wären, gingen so schlicht verloren.",
       ],
     },
     solution: {
@@ -70,17 +71,17 @@ export const CASES: CaseStudy[] = [
         "Projektnummer wird automatisch aus Betreff und Text erkannt",
         "Zeit landet beim richtigen Projekt, ohne Nachtragen",
         "Angebunden an Outlook und die bestehende Zeiterfassung",
-        "Umsetzung in rund 3–4 Wochen",
+        "Umsetzung in rund 3 bis 4 Wochen",
       ],
     },
     result: {
       title: "Mehr Umsatz aus derselben Arbeit.",
       text: [
-        "Statt geschätzter Zeiten lagen exakte Rapporte vor. Leistungen, die vorher verloren gingen, wurden sauber verrechnet — die Automation hatte sich nach kurzer Zeit amortisiert.",
+        "Statt geschätzter Zeiten lagen exakte Rapporte vor. Leistungen, die vorher verloren gingen, wurden sauber verrechnet. Die Automation hatte sich nach kurzer Zeit amortisiert.",
       ],
       stats: [
-        { value: "CHF 2–3k", label: "zusätzlich verrechnet pro Monat" },
-        { value: "3–4 Wo.", label: "von der Idee bis zum Einsatz" },
+        { value: "CHF 2'000 bis 3'000", label: "zusätzlich verrechnet pro Monat" },
+        { value: "3 bis 4 Wo.", label: "von der Idee bis zum Einsatz" },
       ],
     },
     visual: { kind: "emailauto" },
@@ -93,13 +94,13 @@ export const CASES: CaseStudy[] = [
     service: "Individuelle Software · Abrechnung",
     status: "Im Einsatz seit Anfang 2026",
     title: "Vom Abrechnungstag zur Rechnung auf einen Klick.",
-    sub: "Für Luca Vogel haben wir eine Lösung entwickelt, die Zeiterfassung, Spesen und Rechnungsstellung an einem Ort zusammenführt — daraus ist OneClick Office entstanden.",
-    metric: { value: "1–1.5 Tage → 1.5 Std.", label: "Adminaufwand pro Monat" },
+    sub: "Für Luca Vogel haben wir eine Lösung entwickelt, die Zeiterfassung, Spesen und Rechnungsstellung an einem Ort zusammenführt. Daraus ist OneClick Office entstanden.",
+    metric: { value: "1 bis 1.5 Tage → 1.5 Std.", label: "Adminaufwand pro Monat" },
     challenge: {
       title: "Abrechnung über drei Werkzeuge.",
       text: [
-        "Die Abrechnung lief über mehrere Werkzeuge: Word, Excel und der Kalender. Zeitgemäss war das nicht mehr, effizient schon gar nicht — jeden Monat kostete das ein bis anderthalb Arbeitstage.",
-        "Zeit, die in der Praxis fehlte — und eine Arbeit, die niemand gerne macht.",
+        "Die Abrechnung lief über mehrere Werkzeuge: Word, Excel und der Kalender. Zeitgemäss war das nicht mehr, effizient schon gar nicht. Jeden Monat kostete das ein bis anderthalb Arbeitstage.",
+        "Zeit, die in der Praxis fehlte, und eine Arbeit, die niemand gerne macht.",
       ],
     },
     solution: {
@@ -117,15 +118,15 @@ export const CASES: CaseStudy[] = [
     result: {
       title: "Aus Tagen werden Stunden.",
       text: [
-        "Der monatliche Adminaufwand ist von ein bis anderthalb Arbeitstagen auf rund anderthalb Stunden gesunken. Aus dieser Lösung ist OneClick Office entstanden — das Produkt für Coaches, Berater und Praxen.",
+        "Der monatliche Adminaufwand ist von ein bis anderthalb Arbeitstagen auf rund anderthalb Stunden gesunken. Aus dieser Lösung ist OneClick Office entstanden: das Produkt für Coaches, Berater und Praxen.",
       ],
       stats: [
-        { value: "1–1.5 Tage", label: "Adminaufwand pro Monat vorher" },
+        { value: "1 bis 1.5 Tage", label: "Adminaufwand pro Monat vorher" },
         { value: "1.5 Std.", label: "Adminaufwand pro Monat heute" },
         { value: "1 Klick", label: "bis zur fertigen Rechnung" },
       ],
     },
-    visual: { kind: "placeholder", text: "Screenshots von OneClick Office folgen" },
+    visual: { kind: "oco" },
   },
   {
     slug: "verkehrsschule-mittelland",
@@ -134,7 +135,7 @@ export const CASES: CaseStudy[] = [
     industry: "Fahrschule",
     service: "Redesign · Kurs- & Buchungsverwaltung · SEO",
     title: "Ein Auftritt, der zur Zielgruppe passt.",
-    sub: "Neue Webseite, ein Verwaltungstool für Kurse und Buchungen und saubere SEO-Grundlagen — für eine Fahrschule, die online so professionell wirken soll wie im Unterricht.",
+    sub: "Neue Webseite, ein Verwaltungstool für Kurse und Buchungen und saubere SEO-Grundlagen für eine Fahrschule, die online so professionell wirken soll wie im Unterricht.",
     challenge: {
       title: "Der Auftritt war in die Jahre gekommen.",
       text: [
@@ -178,7 +179,7 @@ export const CASES: CaseStudy[] = [
     solution: {
       title: "Buchungstool, nahtlos eingebaut.",
       text: [
-        "Die Webseite blieb, wie sie ist — wir haben unser Buchungstool direkt in den bestehenden Auftritt integriert. Es ist mit dem Kalender synchronisiert und zeigt nur tatsächlich freie Termine.",
+        "Die Webseite blieb, wie sie ist. Wir haben unser Buchungstool direkt in den bestehenden Auftritt integriert. Es ist mit dem Kalender synchronisiert und zeigt nur tatsächlich freie Termine.",
       ],
       points: [
         "Kein Website-Neubau nötig",
@@ -206,7 +207,7 @@ export const CASES: CaseStudy[] = [
     challenge: {
       title: "Hunderte Termine, einzeln koordiniert.",
       text: [
-        "Bei Firmenkunden mussten die Fototermine vieler Mitarbeitender abgestimmt werden — über Excel-Listen, E-Mails und Telefon. Jede Verschiebung löste neue Rückfragen aus.",
+        "Bei Firmenkunden mussten die Fototermine vieler Mitarbeitender abgestimmt werden, über Excel-Listen, E-Mails und Telefon. Jede Verschiebung löste neue Rückfragen aus.",
       ],
     },
     solution: {

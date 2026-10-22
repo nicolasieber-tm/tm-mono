@@ -31,7 +31,7 @@ export default function Auron() {
   return (
     <SiteLayout
       title="AURON · Zeiterfassung für Handwerk & Bau · Trending Media"
-      description="AURON erfasst Arbeitszeiten im Hintergrund, erkennt Einsatzorte automatisch und liefert saubere Rapporte — für Schweizer Handwerks- und Bauunternehmen."
+      description="AURON erfasst Arbeitszeiten im Hintergrund, erkennt Einsatzorte automatisch und liefert saubere Rapporte für Schweizer Handwerks- und Bauunternehmen."
     >
       <PageHero
         logo="/Auron_logo.png"

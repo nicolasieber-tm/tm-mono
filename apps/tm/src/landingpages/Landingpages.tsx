@@ -163,7 +163,7 @@ export default function Landingpages() {
 
       <section className="ap-sec alt" id="buchung">
         <div className="wide">
-          <Shead k="Und so bucht ein Kunde darauf" h="Vom Termin-Pingpong zum einen Link." intro="Zu jeder Website, die wir bauen, gehört die passende Terminbuchung — direkt integriert. Schluss mit E-Mail- und Telefon-Hin-und-Her: Ihre Kunden buchen selbst, rund um die Uhr." />
+          <Shead k="Und so bucht ein Kunde darauf" h="Vom Termin-Pingpong zum einen Link." intro="Zu jeder Website, die wir bauen, gehört die passende Terminbuchung, direkt integriert. Schluss mit E-Mail- und Telefon-Hin-und-Her: Ihre Kunden buchen selbst, rund um die Uhr." />
           <BookingCase />
         </div>
       </section>
@@ -189,7 +189,7 @@ export default function Landingpages() {
 
       <section className="ap-sec" id="pakete">
         <div className="wide">
-          <Shead k="Pakete" h="Website, Buchungstool oder beides." intro="Vom fokussierten Einstieg über den kompletten Auftritt inklusive Buchungstool — oder nur das Buchungstool für Ihre bestehende Website. Den fixen Richtpreis erhalten Sie im Erstgespräch." />
+          <Shead k="Pakete" h="Website, Buchungstool oder beides." intro="Vom fokussierten Einstieg über den kompletten Auftritt inklusive Buchungstool oder nur das Buchungstool für Ihre bestehende Website. Den fixen Richtpreis erhalten Sie im Erstgespräch." />
           <div className="ap-grid c4 reveal">
             {PACKAGES.map((p) => (
               <div className={`ap-card pkg${p.pop ? " pop" : ""}`} key={p.name}>

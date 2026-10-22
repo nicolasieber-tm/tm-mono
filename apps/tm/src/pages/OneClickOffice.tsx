@@ -1,13 +1,19 @@
 import { Link } from "react-router-dom";
 import Testimonials from "@/components/sections/Testimonials";
 import SiteLayout from "@/components/site/SiteLayout";
-import { PageHero, Shead, StrokeIcon } from "@/components/site/blocks";
+import { PageHero, Shead, ShotTabs, StrokeIcon, type Shot } from "@/components/site/blocks";
 import { BOOK_HREF } from "@/lib/booking";
 
 /* Produktseite OneClick Office im TM-Design. Der eigentliche Einstieg für
    Interessenten (Video-Fallstudie, Meta-Ads-Funnel) bleibt auf
-   start.oneclick-office.ch — alle Haupt-Buttons führen dorthin. */
+   start.oneclick-office.ch, alle Haupt-Buttons führen dorthin. */
 const OCO_URL = "https://start.oneclick-office.ch";
+
+export const OCO_SHOTS: Shot[] = [
+  { label: "Dashboard", src: "/oco_dashboard.jpg", alt: "OneClick Office Dashboard mit Einnahmen, Ausgaben und offenen Rechnungen" },
+  { label: "Zeiterfassung", src: "/oco_zeiterfassung.jpg", alt: "OneClick Office Zeiterfassung mit Zeiteinträgen pro Klient" },
+  { label: "Rechnungen", src: "/oco_rechnungen.jpg", alt: "OneClick Office Rechnungen generieren" },
+];
 
 const FEATURES = [
   { ic: "phone", t: "Zeiterfassung unterwegs", d: "Leistungen direkt nach dem Termin am Handy erfassen, statt sie am Monatsende zu rekonstruieren." },
@@ -26,7 +32,7 @@ export default function OneClickOffice() {
         logo="/oneclick-office_logo.png"
         kick="Ein Produkt von Trending Media"
         title={<>Abrechnungstag? <span className="g">1 Klick. Fertig.</span></>}
-        sub="OneClick Office bringt Zeiterfassung, Spesen und Rechnungen an einen Ort — für selbstständige Coaches, Berater und Praxen in der Schweiz."
+        sub="OneClick Office bringt Zeiterfassung, Spesen und Rechnungen an einen Ort. Für selbstständige Coaches, Berater und Praxen in der Schweiz."
         primary={{ label: "Video-Fallstudie ansehen", href: OCO_URL, external: true }}
         secondary={{ label: "Funktionen", href: "#funktionen" }}
       >
@@ -39,11 +45,11 @@ export default function OneClickOffice() {
             <div>
               <div className="kick">Die Ausgangslage</div>
               <h2>Ein bis anderthalb Arbeitstage pro Monat für Administration.</h2>
-              <p>Termine im Kalender, Stunden in Excel, Rechnungen in Word: Wer selbstständig berät oder eine Praxis führt, verliert jeden Monat viel Zeit mit Abrechnung — Zeit, die bei den Klientinnen und Klienten fehlt.</p>
+              <p>Termine im Kalender, Stunden in Excel, Rechnungen in Word: Wer selbstständig berät oder eine Praxis führt, verliert jeden Monat viel Zeit mit Abrechnung. Zeit, die bei den Klientinnen und Klienten fehlt.</p>
               <p>OneClick Office ist aus genau dieser Situation entstanden: als individuelle Lösung für eine Praxis, heute als Produkt für alle mit dem gleichen Problem.</p>
             </div>
             <div className="cs-result" style={{ gridTemplateColumns: "1fr 1fr" }}>
-              <div className="r"><b>1–1.5 Tage</b><span>Adminaufwand pro Monat vorher</span></div>
+              <div className="r"><b>1 bis 1.5 Tage</b><span>Adminaufwand pro Monat vorher</span></div>
               <div className="r"><b>1.5 Std.</b><span>Adminaufwand pro Monat heute</span></div>
             </div>
           </div>
@@ -62,7 +68,9 @@ export default function OneClickOffice() {
               </div>
             ))}
           </div>
-          {/* ⏳ Screenshots von OneClick Office folgen — dann hier als .ap-shot einsetzen */}
+          <div style={{ marginTop: 64 }}>
+            <ShotTabs shots={OCO_SHOTS} addr="OneClick Office" />
+          </div>
         </div>
       </section>
 

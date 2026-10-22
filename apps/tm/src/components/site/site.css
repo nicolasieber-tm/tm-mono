@@ -205,3 +205,10 @@
 
 /* einzelne Kundenstimme (Produktseiten) zentriert statt halbe Breite */
 .ap .t-grid > .t-card:only-child { grid-column: 1 / -1; width: 100%; max-width: 620px; margin: 0 auto; }
+
+/* ---- Screenshot-Galerie ---- */
+.ap-shots { max-width: 1000px; margin: 0 auto; }
+.ap-shots .t-filter { margin-bottom: 26px; }
+.ap-shot-bar { display: flex; align-items: center; gap: 6px; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+.ap-shot-bar i { width: 9px; height: 9px; border-radius: 50%; background: rgba(0,0,0,.13); display: block; }
+.ap-shot-bar span { margin-left: 10px; font-size: .78rem; color: var(--muted2); }

@@ -117,7 +117,7 @@ export default function BookingCase() {
 
       <div className="bk-cta reveal">
         <h3>Am besten selbst ausprobieren.</h3>
-        <p>Klicken Sie sich durch das echte Tool — einmal als Kunde, der einen Termin bucht, und einmal als Admin, der die Buchungen verwaltet.</p>
+        <p>Klicken Sie sich durch das echte Tool: einmal als Kunde, der einen Termin bucht, und einmal als Admin, der die Buchungen verwaltet.</p>
         <div className="bk-cta-acts">
           <a className="cta-btn" href="https://sichtbarkeit.trendingmedia.ch/demo" target="_blank" rel="noopener">Live-Demo öffnen →</a>
           <button type="button" className="cta-btn ghost" data-book="">Termin buchen →</button>

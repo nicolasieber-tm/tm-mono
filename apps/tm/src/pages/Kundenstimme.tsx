@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import SiteLayout from "@/components/site/SiteLayout";
-import { StrokeIcon } from "@/components/site/blocks";
+import { ShotTabs, StrokeIcon } from "@/components/site/blocks";
+import { OCO_SHOTS } from "./OneClickOffice";
 import { BOOK_HREF } from "@/lib/booking";
 import { findCase, publishedCases, type CaseVisual } from "@/data/cases";
 import { CaseCard } from "./Kundenstimmen";
@@ -16,6 +17,7 @@ function Visual({ v }: { v: CaseVisual }) {
     case "booking": return <BookingCase />;
     case "emailauto": return <EmailAutoCase />;
     case "b2b": return <BookingCaseB2B />;
+    case "oco": return <ShotTabs shots={OCO_SHOTS} addr="OneClick Office" />;
     case "placeholder": return <div className="ap-shot-ph reveal">{v.text}</div>;
   }
 }

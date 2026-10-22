@@ -317,3 +317,23 @@ export function LinkCard({
     <Link className="ap-card ap-linkcard" to={to}>{inner}</Link>
   );
 }
+
+/* ---- Screenshot-Galerie mit Tabs (Produktansichten) ---- */
+export type Shot = { label: string; src: string; alt: string };
+
+export function ShotTabs({ shots, addr }: { shots: Shot[]; addr?: string }) {
+  const [i, setI] = useState(0);
+  return (
+    <div className="ap-shots reveal">
+      <div className="t-filter">
+        {shots.map((s, k) => (
+          <button type="button" key={s.src} className={k === i ? "on" : undefined} onClick={() => setI(k)}>{s.label}</button>
+        ))}
+      </div>
+      <div className="ap-shot">
+        <div className="ap-shot-bar"><i /><i /><i />{addr && <span>{addr}</span>}</div>
+        <img src={shots[i].src} alt={shots[i].alt} loading="lazy" />
+      </div>
+    </div>
+  );
+}
