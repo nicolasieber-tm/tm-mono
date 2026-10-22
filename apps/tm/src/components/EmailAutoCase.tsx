@@ -15,7 +15,7 @@ const FACTS = [
   { ic: "scan", t: "Erkennt das Projekt", d: "Die Projektnummer wird direkt aus Betreff und Text jeder E-Mail gelesen." },
   { ic: "clock", t: "Rapportiert automatisch", d: "Die aufgewendete Zeit landet beim richtigen Projekt, ganz ohne Nachtragen." },
   { ic: "shield", t: "Nichts geht verloren", d: "Keine geschätzten Zeiten mehr, keine vergessene verrechenbare Leistung." },
-  { ic: "coins", t: "Zahlt sich sofort aus", d: "Rund CHF 2'000–3'000 mehr pro Monat, nach kurzer Zeit amortisiert." },
+  { ic: "coins", t: "Zahlt sich sofort aus", d: "Rund CHF 2'000 bis 3'000 mehr pro Monat, nach kurzer Zeit amortisiert." },
 ];
 
 const FACT_ICONS: Record<string, string> = {
@@ -48,7 +48,7 @@ export default function EmailAutoCase() {
       <div className="ea-wrap reveal">
         <div className="ea-before">
           <span className="ea-before-tag">Vorher</span>
-          Zeiten von Hand dem Projekt zugeordnet, oft nur geschätzt — verrechenbare Leistungen gingen verloren.
+          Zeiten von Hand dem Projekt zugeordnet, oft nur geschätzt. Verrechenbare Leistungen gingen verloren.
         </div>
 
         <div className="ea-tool">
@@ -92,12 +92,12 @@ export default function EmailAutoCase() {
         </div>
 
         <div className={`ea-metric${play ? " play" : ""}`}>
-          <b>+ CHF 2'000–3'000</b>
+          <b>+ CHF 2'000 bis 3'000</b>
           <span>pro Monat zusätzlich verrechnet, statt geschätzt</span>
         </div>
       </div>
 
-      <p className="bk-cap reveal"><b>So läuft&apos;s:</b> Jede relevante E-Mail landet als exakte Zeit beim richtigen Projekt — vollautomatisch.</p>
+      <p className="bk-cap reveal"><b>So läuft&apos;s:</b> Jede relevante E-Mail landet als exakte Zeit beim richtigen Projekt, vollautomatisch.</p>
 
       <p className="bk-facts-head reveal">Was die Automation bringt</p>
       <div className="bk-facts reveal">

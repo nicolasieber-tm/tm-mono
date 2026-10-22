@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import "./beforeafter.css";
 
-/* Modul 2 — Vorher/Nachher-Slider (Verkehrsschule Mittelland) + Facts + Kundenstimme + CTA.
-   Assets liegen in apps/sichtbarkeit/public. Das Buchungs-Widget-Script wird zentral in
-   Index.tsx geladen; hier reicht der Button mit [data-book-widget]. */
+/* Modul 2 — Vorher/Nachher-Slider (Verkehrsschule Mittelland) + Facts + Kundenstimme.
+   Assets liegen in apps/tm/public. Genutzt auf /landingpages und der Fallstudie
+   /kundenstimmen/verkehrsschule-mittelland. */
 
 const SECTIONS = [
   { key: "hero", label: "Startseite", before: "/referenz_verkehrsschule_hero_vorher.jpg", after: "/referenz_verkehrsschule_hero_nachher.jpg", cap: "Startseite: vom in die Jahre gekommenen Auftritt zu modern und klar" },
@@ -29,7 +29,8 @@ const FACT_ICONS: Record<string, string> = {
   phone: '<rect x="5" y="2" width="14" height="20" rx="2.5"/><line x1="12" y1="18" x2="12.01" y2="18"/>',
 };
 
-export default function BeforeAfter() {
+/** `withQuote`: Kundenzitat unter dem Slider (auf der Fallstudie separat, daher abschaltbar) */
+export default function BeforeAfter({ withQuote = true }: { withQuote?: boolean }) {
   const [active, setActive] = useState(0);
   const compareRef = useRef<HTMLDivElement>(null);
   const beforeRef = useRef<HTMLDivElement>(null);
@@ -158,7 +159,7 @@ export default function BeforeAfter() {
             <span>Nachher →</span>
           </div>
         </div>
-        <p className="ba-cap"><b>Verkehrsschule Mittelland</b> — {sec.cap}</p>
+        <p className="ba-cap"><b>Verkehrsschule Mittelland</b> · {sec.cap}</p>
         <p className="ba-hint">Trennlinie ziehen · oben Bereich wechseln · Regler unten für Tastatur</p>
       </div>
 
@@ -175,6 +176,7 @@ export default function BeforeAfter() {
         ))}
       </div>
 
+      {withQuote && (
       <figure className="ba-quote reveal">
         <div className="qmark" aria-hidden="true">&ldquo;</div>
         <blockquote>
@@ -191,6 +193,7 @@ export default function BeforeAfter() {
           </a>
         </figcaption>
       </figure>
+      )}
     </>
   );
 }

@@ -23,7 +23,7 @@
 /* ---- Vorher: Chat-Pingpong ---- */
 .ap .bk-chat { display: flex; flex-direction: column; gap: 10px; }
 .ap .bk-msg { max-width: 82%; padding: 11px 15px; border-radius: 16px; font-size: .92rem; line-height: 1.4; }
-.ap .bk-msg.out { align-self: flex-end; background: #ece7f6; color: #3a2f55; border-bottom-right-radius: 5px; }
+.ap .bk-msg.out { align-self: flex-end; background: #eaf3fa; color: #24384a; border-bottom-right-radius: 5px; }
 .ap .bk-msg.in { align-self: flex-start; background: var(--card); border: 1px solid #f0ddd6; color: #5a463f; border-bottom-left-radius: 5px; }
 .ap .bk-msg .meta { display: block; font-size: .7rem; color: var(--muted2); margin-top: 4px; }
 /* gestaffelt einblenden, sobald der Chat sichtbar wird (.play per IntersectionObserver) */

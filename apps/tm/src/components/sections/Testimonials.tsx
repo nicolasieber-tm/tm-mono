@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   TESTIMONIALS,
   CLIENT_LOGOS,
@@ -7,6 +7,10 @@ import {
   type Testimonial,
   type TestimonialProduct,
 } from "@tm/testimonials";
+import { publishedCases } from "@/data/cases";
+
+/** Kundenstimmen mit veröffentlichter Fallstudie verlinken auf /kundenstimmen/<slug> */
+const CASE_SLUGS = new Set(publishedCases().map((c) => c.slug));
 
 /** Startseite ohne markierte Highlights: so viele Karten sofort zeigen */
 const DEFAULT_VISIBLE = 6;
@@ -28,7 +32,7 @@ function allLogos(): ClientLogo[] {
   return out;
 }
 
-function LogoBand() {
+export function LogoBand() {
   const logos = allLogos();
   if (logos.length === 0) return null;
   return (
@@ -118,6 +122,7 @@ function Card({ t }: { t: Testimonial }) {
     </>
   );
 
+  const caseLink = t.slug && CASE_SLUGS.has(t.slug) ? `/kundenstimmen/${t.slug}` : null;
   const foot = (
     <div className="t-foot">
       {avatar}
@@ -125,6 +130,7 @@ function Card({ t }: { t: Testimonial }) {
         <span className="name">{t.name}</span>
         <span className="role">{t.role || ""}</span>
       </div>
+      {caseLink && <Link className="t-case" to={caseLink}>Fallstudie →</Link>}
     </div>
   );
 
@@ -147,39 +153,43 @@ function Card({ t }: { t: Testimonial }) {
 
 /**
  * Kundenstimmen-Section.
- * - ohne `product`: TM-Hauptseite → Logo-Band aller Kunden, dann die
- *   `highlight`-Stimmen; der Rest klappt über „Mehr anzeigen" auf
+ * - ohne `product`: Startseite → Logo-Band aller Kunden, dann die
+ *   `highlight`-Stimmen und der Link auf /kundenstimmen (alle Fallstudien)
  * - mit `product`: nur die Stimmen dieses Produkts, alle sofort sichtbar
- *
- * Hinweis: Die Produkt-Filter-Pills sind bewusst (noch) nicht aktiv — bei nur
- * 1–2 Stimmen pro Kategorie bringen sie keinen Mehrwert. Sobald pro Produkt
- * ~4–5 echte Stimmen vorliegen, können sie zurückkommen (Vorlage: `t-filter`
- * in apps/tm/design/testimonials.html).
  */
-export default function Testimonials({ product }: { product?: TestimonialProduct }) {
-  const [expanded, setExpanded] = useState(false);
+export default function Testimonials({
+  product,
+  kick = "Kundenstimmen",
+  title = "Was unsere Kunden erzählen.",
+  alt = false,
+}: {
+  product?: TestimonialProduct;
+  kick?: string;
+  title?: string;
+  alt?: boolean;
+}) {
   const list = product ? TESTIMONIALS.filter((t) => t.product === product) : TESTIMONIALS;
+  if (list.length === 0) return null;
 
-  // Startseite: Highlights zuerst; ohne Markierung die ersten DEFAULT_VISIBLE
+  // Startseite: nur Highlights (ohne Markierung die ersten DEFAULT_VISIBLE)
   let visible = list;
-  let hidden: Testimonial[] = [];
   if (!product) {
     const anyHighlight = list.some((t) => t.highlight);
-    const top = anyHighlight ? list.filter((t) => t.highlight) : list.slice(0, DEFAULT_VISIBLE);
-    hidden = list.filter((t) => !top.includes(t));
-    visible = expanded ? [...top, ...hidden] : top;
+    visible = anyHighlight ? list.filter((t) => t.highlight) : list.slice(0, DEFAULT_VISIBLE);
   }
 
   return (
-    <section className="ap-sec" id="stimmen">
+    <section className={`ap-sec${alt ? " alt" : ""}`} id="stimmen">
       <div className="wide">
         <div className="ap-shead reveal">
-          <div className="kick">Kundenstimmen</div>
-          <h2>Was unsere Kunden erzählen.</h2>
-          <p className="intro">
-            Keine Floskeln, sondern echte Vorher → Heute-Geschichten aus dem Alltag von
-            Schweizer KMU.
-          </p>
+          <div className="kick">{kick}</div>
+          <h2>{title}</h2>
+          {!product && (
+            <p className="intro">
+              Keine Floskeln, sondern echte Vorher → Heute-Geschichten aus dem Alltag von
+              Schweizer KMU.
+            </p>
+          )}
         </div>
 
         {!product && <LogoBand />}
@@ -190,13 +200,9 @@ export default function Testimonials({ product }: { product?: TestimonialProduct
           ))}
         </div>
 
-        {hidden.length > 0 && (
-          <div className="t-more">
-            <button type="button" onClick={() => setExpanded((v) => !v)} aria-expanded={expanded}>
-              {expanded ? "Weniger anzeigen" : `Alle ${list.length} Kundenstimmen anzeigen`}
-            </button>
-          </div>
-        )}
+        <div className="t-more">
+          <Link to="/kundenstimmen">Alle Kundenstimmen &amp; Fallstudien →</Link>
+        </div>
       </div>
     </section>
   );

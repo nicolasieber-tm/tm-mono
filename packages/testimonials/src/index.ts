@@ -11,8 +11,10 @@
 export type TestimonialProduct = "web" | "auron" | "auto" | "oco";
 
 export type Testimonial = {
-  /** steuert Farb-Akzent + Filter */
+  /** steuert Kategorie-Tag + Filter */
   product: TestimonialProduct;
+  /** URL-Teil der Fallstudie auf trendingmedia.ch/kundenstimmen/<slug> (falls vorhanden) */
+  slug?: string;
   /** überschreibt den angezeigten Tag-Text (Farbe/Faden bleiben am `product`);
    *  z.B. "Webseite · Terminbuchung", um die konkrete Leistung sichtbar zu machen */
   tag?: string;
@@ -67,6 +69,7 @@ export const TESTIMONIALS: Testimonial[] = [
     before: "Auftritt wirkte in die Jahre gekommen",
     after: "Modern, professionell, vertrauenswürdig",
     name: "Mehmet",
+    slug: "verkehrsschule-mittelland",
     highlight: true,
     role: "Inhaber, Verkehrsschule Mittelland",
     company: "Verkehrsschule Mittelland",
@@ -84,6 +87,7 @@ export const TESTIMONIALS: Testimonial[] = [
     before: "Termine per Telefon & Mail-Pingpong",
     after: "Kundinnen buchen Fototermine selbst online",
     name: "Sandro Dubach",
+    slug: "sandro-dubach",
     highlight: true,
     role: "Inhaber, Sandro Dubach Fotografie",
     company: "Sandro Dubach Fotografie",
@@ -100,12 +104,13 @@ export const TESTIMONIALS: Testimonial[] = [
     before: "Zeiten von Hand zugeordnet, oft geschätzt",
     after: "Automatisch dem richtigen Projekt rapportiert",
     name: "Beat Gerber",
+    slug: "kohler-elektro",
     highlight: true,
     role: "Geschäftsführer, Kohler Elektro Bern AG",
     company: "Kohler Elektro Bern AG",
     photo: "/beatgerber_kundenstimme.jpg",
     logo: "/referenz_kohler-elektro-bern_logo.png",
-    // website: "https://…",   // ⏳ Kohler-Website ergänzen (macht Logo klickbar)
+    website: "https://www.kohlerelektro.ch/",
   },
 
   /* ---- Luca Vogel, Praxis Vogel GmbH (OneClickOffice) — Zitat aus Frage-Antwort-Katalog verdichtet ---- */
@@ -114,14 +119,15 @@ export const TESTIMONIALS: Testimonial[] = [
     quote:
       'Früher lief meine Abrechnung über Word, Excel und den Kalender, nicht mehr wirklich zeitgemäss und alles andere als effizient. Heute habe ich alles an einem Ort: Spesen hinterlege ich direkt per Foto, egal wo ich gerade bin und die Zeiteinträge mache ich entspannt nach den Terminen am Handy. Am meisten schätze ich <span class="hl">die Rechnung auf einen Klick</span>, das spart mir jeden Monat enorm viel Aufwand.',
     before: "1 bis 1.5 Tage Adminaufwand",
-    after: "2 Stunden",
+    after: "1.5 Stunden",
     name: "Luca Vogel",
+    slug: "praxis-vogel",
     highlight: true,
     role: "Inhaber, Praxis Vogel GmbH",
     company: "Praxis Vogel GmbH",
     photo: "/referenz_luca-vogel_bild.jpg",
     logo: "/referenz_praxis-vogel_logo.png",
-    // website: "https://…",   // ⏳ Website-URL ergänzen (macht Logo klickbar)
+    website: "https://praxis-vogel.net/",
   },
 
   /* ---- André Scheidegger, Moodpix GmbH (Automatisierung / B2B-Buchungslink) — Freigabe zugesagt ----
@@ -133,6 +139,7 @@ export const TESTIMONIALS: Testimonial[] = [
     before: "Terminchaos bei hunderten Mitarbeitenden",
     after: "Ein Link, jeder bucht seinen Slot",
     name: "André Scheidegger",
+    slug: "moodpix",
     role: "Inhaber, Moodpix GmbH",
     company: "Moodpix GmbH",
     photo: "/referenz_andre-scheidegger_bild.jpg",
