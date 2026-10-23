@@ -25,6 +25,8 @@ const IC: Record<string, string> = {
   receipt: '<path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/>',
   camera: '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>',
   phone: '<rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/>',
+  mail: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+  call: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>',
   pin: '<path d="M20 10c0 4.99-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 14.99 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>',
 };
 
@@ -239,11 +241,17 @@ export function ContactSection({
   title = "Lassen Sie uns über Ihre Reibungsverluste sprechen.",
   lead = "30 Minuten, ehrlich und unverbindlich. Wir analysieren Ihre Situation und sagen offen, ob und wo wir der richtige Partner sind.",
   guarantees = GUARANTEES,
+  person,
+  callback = false,
   alt = false,
 }: {
   title?: string;
   lead?: string;
   guarantees?: { ic: string; t: string }[];
+  /** Ansprechperson mit Foto unter den Garantien (Branchenseiten) */
+  person?: { name: string; role: string; img: string; mail: string; phone?: string };
+  /** zweiter Weg neben der Buchung: Rückruf anfordern (CallbackDialog muss auf der Seite sein) */
+  callback?: boolean;
   alt?: boolean;
 }) {
   return (
@@ -259,6 +267,25 @@ export function ContactSection({
                 <li key={g.t}><span className="gi"><StrokeIcon name={g.ic} color="url(#tmgrad)" size={22} /></span>{g.t}</li>
               ))}
             </ul>
+            {person && (
+              <div className="ap-person">
+                <img src={person.img} alt={person.name} width={64} height={64} loading="lazy" />
+                <div>
+                  <b>{person.name}</b>
+                  <span className="role">{person.role}</span>
+                  <div className="links">
+                    {person.phone && (
+                      <a href={`tel:${person.phone.replace(/\s/g, "")}`} data-cta="phone_kontakt">
+                        <StrokeIcon name="call" size={16} /> {person.phone}
+                      </a>
+                    )}
+                    <a href={`mailto:${person.mail}`} data-cta="mail_kontakt">
+                      <StrokeIcon name="mail" size={16} /> {person.mail}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           <div className="ap-book">
             <div className="ap-book-ic"><StrokeIcon name="cal" color="url(#tmgrad)" size={28} /></div>
@@ -271,6 +298,12 @@ export function ContactSection({
             </div>
             <a className="ap-book-cta" href={BOOK_HREF}>Erstgespräch buchen →</a>
             <div className="ap-book-note">Keine Verpflichtung, keine Folgekosten.</div>
+            {callback && (
+              <div className="ap-book-alt">
+                <span>Lieber persönlich am Telefon?</span>
+                <a href="#rueckruf"><StrokeIcon name="call" size={16} /> Rückruf anfordern</a>
+              </div>
+            )}
           </div>
         </div>
       </div>

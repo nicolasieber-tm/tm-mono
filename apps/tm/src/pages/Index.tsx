@@ -1,7 +1,9 @@
 import Testimonials from "@/components/sections/Testimonials";
 import SiteLayout from "@/components/site/SiteLayout";
 import { ContactSection, FaqSection, Illo, LinkCard, Shead, StrokeIcon } from "@/components/site/blocks";
+import { Link } from "react-router-dom";
 import { BOOK_HREF } from "@/lib/booking";
+import { NISCHEN } from "@/data/nischen";
 
 /* Startseite = Übersicht: Hero, Diagnose, Leistungen und Produkte als Kacheln
    zu den Unterseiten, Kundenstimmen, Erstgespräch, FAQ. Details (Vorgehen,
@@ -99,6 +101,13 @@ const Index = () => (
             go="Landingpages ansehen"
           />
         </div>
+        {NISCHEN.map((n) => (
+          <Link key={n.path} className="ap-niche-link reveal" to={`/${n.path}`}>
+            <span className="ap-feat-ic"><StrokeIcon name="clock" color="url(#tmgrad)" size={22} /></span>
+            <span className="txt"><b>{n.hero.kick}</b><span>{n.navDesc}, ohne Ihre bestehende Software zu ersetzen.</span></span>
+            <span className="go">Mehr erfahren <StrokeIcon name="arrow" size={16} /></span>
+          </Link>
+        ))}
       </div>
     </section>
 
