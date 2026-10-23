@@ -300,6 +300,40 @@ const Privacy = () => {
         </p>
       </LegalSection>
 
+      <LegalSection title="Eigene, anonyme Reichweitenmessung">
+        <p>
+          Auf einzelnen Seiten (z. B. /handwerk) zählen wir Seitenaufrufe und
+          Klicks auf Buttons wie „Erstgespräch buchen" sowie die Nutzung des
+          Kostenrechners selbst. Dabei speichern wir nur das Ereignis, den
+          Zeitpunkt, die aufgerufene Seite, den Gerätetyp (Handy oder
+          Computer), die verweisende Seite, allfällige Kampagnen-Parameter aus
+          dem Link (utm_…) und eine zufällige Kennung, die nur für die Dauer
+          Ihres Besuchs im Browser liegt (sessionStorage) und beim Schliessen
+          des Tabs gelöscht wird.
+        </p>
+        <p>
+          Wir speichern weder Ihre IP-Adresse noch Namen, E-Mail-Adressen oder
+          Werbe-Kennungen, setzen dafür keine Cookies und geben die Daten nicht
+          an Dritte weiter. Die Daten liegen bei unserem Datenbank-Anbieter
+          Supabase auf Servern in der EU. Zweck ist allein, zu verstehen,
+          welche Inhalte und Kampagnen für Besucherinnen und Besucher nützlich
+          sind.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="Rückruf-Anfragen">
+        <p>
+          Wenn Sie über das Formular „Rückruf anfordern" einen Rückruf
+          wünschen, speichern wir Ihren Namen, Ihren Betrieb und Ihre
+          Telefonnummer sowie die Seite, von der aus Sie angefragt haben, in
+          unserem internen Kundenverwaltungssystem (Datenbank bei Supabase,
+          Server in der EU) und erhalten eine interne Benachrichtigung über
+          Telegram. Wir verwenden diese Angaben ausschliesslich, um Sie
+          zurückzurufen und Ihr Anliegen zu bearbeiten. Sie können die Löschung
+          jederzeit unter info@trendingmedia.ch verlangen.
+        </p>
+      </LegalSection>
+
       <LegalSection title="Hinweis zur Datenweitergabe in die USA">
         <p>
           Auf unserer Website sind unter anderem Tools von Unternehmen mit Sitz

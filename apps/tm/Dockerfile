@@ -24,4 +24,5 @@ WORKDIR /app
 COPY --from=build /app/apps/tm/dist ./dist
 EXPOSE 8080
 ENV PORT=8080
-CMD ["sh", "-c", "bunx --bun serve dist -l tcp://0.0.0.0:$PORT --single"]
+# kein --single: Seiten sind vorgerendert (dist/<pfad>.html), unbekannte Pfade → dist/404.html (App-Shell)
+CMD ["sh", "-c", "bunx --bun serve dist -l tcp://0.0.0.0:$PORT"]

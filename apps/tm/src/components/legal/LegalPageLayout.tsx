@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../pages/apple-home.css";
 import "../../pages/legal.css";
+import { usePageMeta } from "@/lib/head";
 
 const MAIL = "info@trendingmedia.ch";
 
@@ -18,6 +19,7 @@ export const LegalPageLayout = ({
 }: LegalPageLayoutProps) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  usePageMeta(`${title} · Trending Media`);
 
   useEffect(() => {
     document.body.classList.add("ap-light");

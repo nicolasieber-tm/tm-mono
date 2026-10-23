@@ -2,6 +2,8 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useLenis } from "lenis/react";
 import { BOOK_HREF, WIDGET_TM, loadBooking, openBooking } from "@/lib/booking";
+import { NISCHEN } from "@/data/nischen";
+import { usePageMeta } from "@/lib/head";
 import "@/pages/apple-home.css";
 import "./site.css";
 
@@ -17,6 +19,7 @@ const NAV: { label: string; items?: NavItem[]; to?: string }[] = [
     items: [
       { to: "/automationen", label: "Automationen & Software", desc: "Prozesse, KI und massgeschneiderte Tools" },
       { to: "/landingpages", label: "Landingpages & Websites", desc: "Auftritte, die Anfragen bringen" },
+      ...NISCHEN.map((n) => ({ to: `/${n.path}`, label: n.navLabel, desc: n.navDesc })),
     ],
   },
   {
@@ -29,6 +32,33 @@ const NAV: { label: string; items?: NavItem[]; to?: string }[] = [
   { label: "Kundenstimmen", to: "/kundenstimmen" },
   { label: "Über uns", to: "/ueber-uns" },
 ];
+
+/* ---- Reduzierte Navigation (Branchenseiten wie /handwerk) ----
+   Nur Logo, ein paar Links, optional Telefonnummer und Erstgespräch: wer über
+   eine Branchenseite kommt, soll nicht wieder alle Leistungen sehen. */
+export type SlimNav = { links: NavItem[]; phone?: string };
+
+function NavSlim({ links, phone }: SlimNav) {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return (
+    <nav className="ap-nav">
+      <div className={`ap-pill ap-pill-slim${scrolled ? " scrolled" : ""}`}>
+        <Link className="b" to="/"><img className="brandmark" src="/logo-schwarz.png" alt="" />Trending Media</Link>
+        <div className="links">
+          {links.map((l) => <Link key={l.to} to={l.to}>{l.label}</Link>)}
+          {phone && <a className="tel" href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a>}
+        </div>
+        <a className="cta" href={BOOK_HREF}>Erstgespräch</a>
+      </div>
+    </nav>
+  );
+}
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -118,6 +148,7 @@ function Footer() {
             <h4>Leistungen</h4>
             <Link className="fl" to="/automationen">Automationen &amp; Software</Link>
             <Link className="fl" to="/landingpages">Landingpages &amp; Websites</Link>
+            {NISCHEN.map((n) => <Link key={n.path} className="fl" to={`/${n.path}`}>{n.navLabel}</Link>)}
             <Link className="fl" to="/kundenstimmen">Kundenstimmen</Link>
           </div>
           <div>
@@ -145,16 +176,6 @@ function Footer() {
   );
 }
 
-/** Setzt <title> und Meta-Description pro Seite */
-function usePageMeta(title: string, description?: string) {
-  useEffect(() => {
-    document.title = title;
-    if (description) {
-      document.querySelector('meta[name="description"]')?.setAttribute("content", description);
-    }
-  }, [title, description]);
-}
-
 /**
  * Gemeinsamer Rahmen aller Marketing-Seiten: Skin (.ap.ap-vivid), Navigation,
  * Footer, Reveal-Animationen, heller Seitenhintergrund und Terminbuchung.
@@ -167,11 +188,14 @@ export default function SiteLayout({
   title,
   description,
   widgetId = WIDGET_TM,
+  slimNav,
 }: {
   children: ReactNode;
   title: string;
   description?: string;
   widgetId?: string;
+  /** reduzierte Navigation statt der Hauptnavigation */
+  slimNav?: SlimNav;
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
@@ -258,7 +282,7 @@ export default function SiteLayout({
           </linearGradient>
         </defs>
       </svg>
-      <Nav />
+      {slimNav ? <NavSlim {...slimNav} /> : <Nav />}
       <main>{children}</main>
       <Footer />
     </div>

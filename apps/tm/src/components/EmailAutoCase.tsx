@@ -25,7 +25,9 @@ const FACT_ICONS: Record<string, string> = {
   coins: '<circle cx="8" cy="8" r="5"/><path d="M18.1 6.4a5 5 0 0 1 0 9.2"/><path d="M14.9 17.6a5 5 0 0 1-2.9.9"/>',
 };
 
-export default function EmailAutoCase() {
+/** `compact`: nur der animierte Ablauf (E-Mail → Projekt erkannt → Zeit gebucht),
+    ohne Vorher-Box, Kennzahl und Faktenkarten — für Seiten, die das schon zeigen (/handwerk). */
+export default function EmailAutoCase({ compact = false }: { compact?: boolean }) {
   const [play, setPlay] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -46,10 +48,10 @@ export default function EmailAutoCase() {
   return (
     <>
       <div className="ea-wrap reveal">
-        <div className="ea-before">
+        {!compact && <div className="ea-before">
           <span className="ea-before-tag">Vorher</span>
           Zeiten von Hand dem Projekt zugeordnet, oft nur geschätzt. Verrechenbare Leistungen gingen verloren.
-        </div>
+        </div>}
 
         <div className="ea-tool">
           <div className="bar"><i /><i /><i /><span className="addr">Automation · E-Mail → Projektzeit</span></div>
@@ -91,11 +93,12 @@ export default function EmailAutoCase() {
           </div>
         </div>
 
-        <div className={`ea-metric${play ? " play" : ""}`}>
+        {!compact && <div className={`ea-metric${play ? " play" : ""}`}>
           <b>+ CHF 2'000 bis 3'000</b>
           <span>pro Monat zusätzlich verrechnet, statt geschätzt</span>
-        </div>
+        </div>}
       </div>
+      {!compact && <>
 
       <p className="bk-cap reveal"><b>So läuft&apos;s:</b> Jede relevante E-Mail landet als exakte Zeit beim richtigen Projekt, vollautomatisch.</p>
 
@@ -111,6 +114,7 @@ export default function EmailAutoCase() {
           </div>
         ))}
       </div>
+      </>}
     </>
   );
 }
