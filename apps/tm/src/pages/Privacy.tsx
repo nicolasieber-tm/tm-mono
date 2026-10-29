@@ -334,6 +334,138 @@ const Privacy = () => {
         </p>
       </LegalSection>
 
+      <LegalSection id="mail-rapport-test" title="Mail-Rapport-Test (Abklärung für Handwerksbetriebe)">
+        <h3>Zweck</h3>
+        <p>
+          Mit dem Mail-Rapport-Test ermitteln wir für interessierte Betriebe,
+          wie viel Arbeitszeit in projektbezogene E-Mails fliesst. Dazu
+          verbindet der Betrieb freiwillig eines oder mehrere seiner Postfächer
+          (Microsoft 365 / Outlook oder Google Workspace / Gmail) für die Dauer
+          des Tests, in der Regel 14 Tage, mit unserem System. Die Ergebnisse
+          besprechen wir anschliessend gemeinsam mit dem Betrieb.
+        </p>
+
+        <h3>Zugriff</h3>
+        <p>
+          Wir erhalten ausschliesslich Lesezugriff auf das Postfach (Microsoft:
+          «Mail.Read», Google: «gmail.readonly»). Wir senden, löschen,
+          verschieben oder markieren keine Nachrichten. Gelesen werden der
+          Posteingang bzw. die empfangenen Mails sowie die gesendeten Mails im
+          Testzeitraum, auf Wunsch zusätzlich einige Tage davor.
+        </p>
+
+        <h3>Welche Daten wir bearbeiten</h3>
+        <p>
+          Der vollständige Text einer Mail wird nur während der automatischen
+          Verarbeitung im Arbeitsspeicher geladen und danach verworfen. Anhänge
+          werden nicht verarbeitet. Gespeichert werden:
+        </p>
+        <ul>
+          <li>Absender, Empfänger, Datum, Betreff und technische Kennungen der Mail</li>
+          <li>ein kurzer Ausschnitt von höchstens 200 Zeichen, verschlüsselt gespeichert</li>
+          <li>
+            die Ergebnisse der Auswertung: ob die Mail projektbezogen ist,
+            Kategorie sowie erkannte Hinweise wie Kunde, Objektadresse,
+            Projektname oder Projektnummer
+          </li>
+          <li>die Zugangsschlüssel (Tokens) zum Postfach, verschlüsselt gespeichert</li>
+        </ul>
+        <p>
+          Werbung, Newsletter, Systemmeldungen und rein interne Mails werden
+          automatisch aussortiert und nur gezählt.
+        </p>
+
+        <h3>Automatische Auswertung (KI)</h3>
+        <p>
+          Mails, die nicht aussortiert wurden, werden in gekürzter Form (ohne
+          zitierten Verlauf, höchstens 4'000 Zeichen) an einen KI-Dienst
+          übermittelt. Dieser erkennt, ob eine Mail projektbezogen ist, und
+          liest Projekthinweise heraus. Wir nutzen dafür den Dienst «AI Tools»
+          der Infomaniak Network SA mit Verarbeitung in der Schweiz. Infomaniak
+          speichert die übermittelten Inhalte nicht und verwendet sie nicht zum
+          Training von Modellen.
+        </p>
+
+        <h3>Einsicht durch Mitarbeitende</h3>
+        <p>
+          Damit die Auswertung stimmt, können Mitarbeitende von Trending Media
+          Absender, Empfänger, Betreff, den kurzen Ausschnitt und das Ergebnis
+          einzelner Mails einsehen und Zuordnungen korrigieren. Der Betrieb
+          stimmt dem beim Verbinden des Postfachs ausdrücklich zu. Die
+          Ergebnisse sind nur intern einsehbar und werden ausschliesslich für
+          den Auswertungstermin mit dem Betrieb verwendet.
+        </p>
+
+        <h3>Speicherort und Dienstleister</h3>
+        <ul>
+          <li>Datenbank: Supabase, Rechenzentrum in Zürich</li>
+          <li>Anwendung: Railway, Rechenzentrum in den Niederlanden (EU)</li>
+          <li>KI-Auswertung: Infomaniak, Schweiz</li>
+          <li>
+            Netzwerk und DNS: Cloudflare. Der Datenverkehr kann dabei über
+            Server ausserhalb der Schweiz und der EU geleitet werden.
+          </li>
+        </ul>
+        <p>Die Postfächer selbst liegen weiterhin bei Microsoft bzw. Google.</p>
+
+        <h3>Dauer und Löschung</h3>
+        <p>
+          Der Zugriff endet automatisch mit dem Testende. Bei Google widerrufen
+          wir die Freigabe, bei Microsoft löschen wir die Zugangsschlüssel. Alle
+          aus dem Postfach stammenden Daten werden spätestens 30 Tage nach
+          Testende gelöscht. Eine längere Aufbewahrung erfolgt nur mit
+          Zustimmung des Betriebs, etwa wenn er Kunde wird. Der Betrieb kann den
+          Test jederzeit beenden und die sofortige Löschung verlangen. Die
+          Freigabe lässt sich zudem jederzeit selbst entziehen:
+        </p>
+        <ul>
+          <li>
+            Google:{" "}
+            <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">
+              myaccount.google.com/permissions
+            </a>
+          </li>
+          <li>
+            Microsoft:{" "}
+            <a href="https://myapps.microsoft.com" target="_blank" rel="noopener noreferrer">
+              myapps.microsoft.com
+            </a>{" "}
+            bzw.{" "}
+            <a href="https://account.live.com/consent/Manage" target="_blank" rel="noopener noreferrer">
+              account.live.com/consent/Manage
+            </a>
+          </li>
+        </ul>
+
+        <h3>Nutzung von Google-Daten</h3>
+        <p>
+          Die Nutzung und Übertragung von Informationen, die wir von
+          Google-APIs erhalten, erfolgt unter Einhaltung der{" "}
+          <a
+            href="https://developers.google.com/terms/api-services-user-data-policy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Google API Services User Data Policy
+          </a>
+          , einschliesslich der Anforderungen zur eingeschränkten Nutzung
+          («Limited Use»). Insbesondere verwenden wir diese Daten
+          ausschliesslich für die oben beschriebene Auswertung, nicht für
+          Werbung. Wir verkaufen sie nicht und geben sie nicht an Dritte
+          weiter, ausser an die oben genannten Dienstleister zur Erbringung des
+          Tests. Wir verwenden sie nicht zum Entwickeln, Verbessern oder
+          Trainieren allgemeiner KI- oder Machine-Learning-Modelle.
+        </p>
+
+        <h3>Daten Dritter</h3>
+        <p>
+          Die Postfächer enthalten auch Personendaten von Kunden, Lieferanten
+          und weiteren Kontakten des Betriebs. Diese bearbeiten wir im Auftrag
+          des Betriebs und nur zum beschriebenen Zweck. Die Einzelheiten regelt
+          eine Vereinbarung zur Auftragsbearbeitung mit dem Betrieb.
+        </p>
+      </LegalSection>
+
       <LegalSection title="Hinweis zur Datenweitergabe in die USA">
         <p>
           Auf unserer Website sind unter anderem Tools von Unternehmen mit Sitz
