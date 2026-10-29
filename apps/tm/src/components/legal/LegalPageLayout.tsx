@@ -111,12 +111,13 @@ export const LegalPageLayout = ({
 
 type LegalSectionProps = {
   title: string;
+  id?: string;
   children: ReactNode;
 };
 
-export const LegalSection = ({ title, children }: LegalSectionProps) => {
+export const LegalSection = ({ title, id, children }: LegalSectionProps) => {
   return (
-    <section>
+    <section id={id}>
       <h2>{title}</h2>
       {children}
     </section>
