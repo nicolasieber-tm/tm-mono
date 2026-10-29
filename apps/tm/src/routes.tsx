@@ -11,6 +11,7 @@ import Kundenstimme from "./pages/Kundenstimme.tsx";
 import OneClickOffice from "./pages/OneClickOffice.tsx";
 import Auron from "./pages/Auron.tsx";
 import UeberUns from "./pages/UeberUns.tsx";
+import MailRapportTest from "./pages/MailRapportTest.tsx";
 import NischePage from "./pages/Nische.tsx";
 import { NISCHEN } from "./data/nischen";
 import { publishedCases } from "./data/cases";
@@ -33,6 +34,7 @@ export function AppRoutes() {
       <Route path="/impressum" element={<Imprint />} />
       <Route path="/datenschutz" element={<Privacy />} />
       <Route path="/selbstcheck" element={<Selbstcheck />} />
+      <Route path="/mail-rapport-test" element={<MailRapportTest />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
@@ -52,4 +54,5 @@ export const PRERENDER_PATHS = [
   "/impressum",
   "/datenschutz",
   "/selbstcheck",
+  "/mail-rapport-test",
 ];
