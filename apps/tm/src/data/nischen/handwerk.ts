@@ -104,7 +104,7 @@ export const HANDWERK: Nische = {
   },
 
   faqs: [
-    { q: "Was kostet ein Projekt?", a: "Projekte starten ab CHF 5'900 zum Festpreis. Im Erstgespräch schätzen wir ab, was in Ihrem Fall sinnvoll ist." },
+    { q: "Was kostet ein typisches Projekt?", a: "Das hängt vom Umfang Ihrer Idee ab. Genau deshalb starten wir mit einem kostenlosen Erstgespräch: Erst wenn klar ist, was Sie brauchen, erhalten Sie ein konkretes, fixes Angebot." },
     { q: "Müssen wir unsere Software wechseln?", a: "Nein. Wir ergänzen und verbinden, was Sie bereits nutzen. Hat Ihre Software eine Schnittstelle, können wir daran anbinden." },
     { q: "Wie lange dauert die Umsetzung?", a: "Erste Lösungen sind oft nach 3 bis 6 Wochen im Einsatz. Bei Kohler Elektro waren es 3 bis 4 Wochen." },
     { q: "Müssen meine Mitarbeitenden etwas Neues lernen?", a: "Möglichst wenig. Die Automationen laufen im Hintergrund, Ihre Leute arbeiten weiter in Outlook und der gewohnten Software. Wo etwas Neues dazukommt, führen wir es persönlich ein." },
