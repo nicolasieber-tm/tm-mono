@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useLenis } from "lenis/react";
-import { BOOK_HREF, WIDGET_TM, loadBooking, openBooking } from "@/lib/booking";
+import { BOOK_HREF, WIDGET_TM, loadBooking, openBooking, type BookingPrefill } from "@/lib/booking";
 import { NISCHEN } from "@/data/nischen";
 import { usePageMeta } from "@/lib/head";
 import "@/pages/apple-home.css";
@@ -36,9 +36,14 @@ const NAV: { label: string; items?: NavItem[]; to?: string }[] = [
 /* ---- Reduzierte Navigation (Branchenseiten wie /handwerk) ----
    Nur Logo, ein paar Links, optional Telefonnummer und Erstgespräch: wer über
    eine Branchenseite kommt, soll nicht wieder alle Leistungen sehen. */
-export type SlimNav = { links: NavItem[]; phone?: string };
+export type SlimNav = {
+  links: NavItem[];
+  phone?: string;
+  /** eigener Button rechts (Standard: Erstgespräch buchen) */
+  cta?: { label: string; href: string };
+};
 
-function NavSlim({ links, phone }: SlimNav) {
+function NavSlim({ links, phone, cta }: SlimNav) {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -54,7 +59,7 @@ function NavSlim({ links, phone }: SlimNav) {
           {links.map((l) => <Link key={l.to} to={l.to}>{l.label}</Link>)}
           {phone && <a className="tel" href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a>}
         </div>
-        <a className="cta" href={BOOK_HREF}>Erstgespräch</a>
+        <a className="cta" href={cta?.href ?? BOOK_HREF}>{cta?.label ?? "Erstgespräch"}</a>
       </div>
     </nav>
   );
@@ -189,6 +194,7 @@ export default function SiteLayout({
   description,
   widgetId = WIDGET_TM,
   slimNav,
+  bookingPrefill,
 }: {
   children: ReactNode;
   title: string;
@@ -196,11 +202,16 @@ export default function SiteLayout({
   widgetId?: string;
   /** reduzierte Navigation statt der Hauptnavigation */
   slimNav?: SlimNav;
+  /** bekannte Angaben ins Buchungs-Widget übernehmen (z. B. Kursseite) */
+  bookingPrefill?: BookingPrefill;
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
   const lenis = useLenis();
   usePageMeta(title, description);
+  // aktuellste Vorbefüllung, ohne die Klick-Listener neu zu binden
+  const prefillRef = useRef(bookingPrefill);
+  prefillRef.current = bookingPrefill;
 
   // heller Hintergrund inkl. iOS-Overscroll/Statusbar (siehe frühere Index.tsx)
   useEffect(() => {
@@ -238,7 +249,7 @@ export default function SiteLayout({
   useEffect(() => {
     if (window.location.hash === "#book-widget") {
       history.replaceState(null, "", window.location.pathname + window.location.search);
-      openBooking(widgetId);
+      openBooking(widgetId, prefillRef.current);
     } else {
       loadBooking(widgetId).catch(() => {});
     }
@@ -246,7 +257,7 @@ export default function SiteLayout({
       const el = (e.target as HTMLElement | null)?.closest?.(`[data-book], a[href="${BOOK_HREF}"]`);
       if (!el) return;
       e.preventDefault();
-      openBooking(widgetId);
+      openBooking(widgetId, prefillRef.current);
     };
     document.addEventListener("click", onClick);
     return () => document.removeEventListener("click", onClick);

@@ -17,11 +17,25 @@
 export const WIDGET_TM = "ebf5635f-f65f-4758-a8d5-e5fb4a791a4b";
 /** Widget der Landingpages-Seite (eigene Vorqualifizierungs-Fragen) */
 export const WIDGET_WEB = "333c239f-7b64-433b-9f5e-d6526c46891a";
+/** Minikurs (/kurs): 20-Minuten-Automations-Check mit Frage nach den drei Aufgaben */
+export const WIDGET_KURS = "5db0b9be-cf33-4043-813a-f7163e5839a1";
 
 /** Anker für Buchungs-Buttons: <a href={BOOK_HREF}> öffnet das Widget der Seite */
 export const BOOK_HREF = "#termin";
 
-type TMBook = { open: () => void; close: () => void };
+/** Vorbefüllung fürs Widget (booking-embed.js ≥ 2026-11): Kontaktfelder und
+    Antworten auf die Fragen; `antworten` wird über ein Stichwort im Fragetext
+    zugeordnet, z. B. { firma: "…", aufgabe: "…" }. Ältere Embed-Versionen
+    ignorieren das Argument einfach. */
+export type BookingPrefill = {
+  name?: string;
+  email?: string;
+  phone?: string;
+  message?: string;
+  antworten?: Record<string, string>;
+};
+
+type TMBook = { open: (prefill?: BookingPrefill) => void; close: () => void };
 declare global {
   interface Window { TMBook?: TMBook }
 }
@@ -46,8 +60,8 @@ export function loadBooking(widgetId: string): Promise<TMBook> {
   return p;
 }
 
-export function openBooking(widgetId: string) {
-  loadBooking(widgetId).then((b) => b.open()).catch(() => {
+export function openBooking(widgetId: string, prefill?: BookingPrefill) {
+  loadBooking(widgetId).then((b) => b.open(prefill)).catch(() => {
     window.location.href = "mailto:info@trendingmedia.ch?subject=Erstgespr%C3%A4ch";
   });
 }

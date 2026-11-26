@@ -334,6 +334,36 @@ const Privacy = () => {
         </p>
       </LegalSection>
 
+      <LegalSection id="minikurs" title="Kostenloser Minikurs">
+        <p>
+          Wenn Sie sich für unseren kostenlosen Minikurs anmelden, speichern wir
+          Ihren Namen, Ihre E-Mail-Adresse, Ihre Firma und, falls angegeben,
+          Ihre Branche sowie die Seite und Kampagne, über die Sie gekommen
+          sind. Die Angaben liegen in unserem internen Kundenverwaltungssystem
+          (Datenbank bei Supabase, Server in der EU); über neue Anmeldungen
+          werden wir intern per Telegram benachrichtigt.
+        </p>
+        <p>
+          Sie erhalten einen persönlichen Kurslink und fünf Tage lang je eine
+          Lektion per E-Mail, danach höchstens drei weitere Nachrichten mit
+          Praxisbeispielen und einer Einladung zu einem unverbindlichen
+          Gespräch. Die E-Mails versenden wir über den Dienst Resend (Resend,
+          Inc., USA; siehe Hinweis zur Datenweitergabe in die USA).
+        </p>
+        <p>
+          Über Ihren persönlichen Kurslink halten wir fest, welche Lektionen
+          Sie öffnen, ob Sie den Rechner nutzen und welche Aufgaben Sie im Kurs
+          eintragen. Wir nutzen diese Angaben, um den Kurs zu verbessern und
+          Ihnen passende Hinweise zu geben, und können Sie gegebenenfalls
+          persönlich kontaktieren. Videos werden erst nach Ihrem Klick vom
+          jeweiligen Anbieter (YouTube bzw. Vimeo) geladen.
+        </p>
+        <p>
+          Sie können sich jederzeit über den Link in jeder Kurs-E-Mail abmelden
+          und die Löschung Ihrer Angaben unter info@trendingmedia.ch verlangen.
+        </p>
+      </LegalSection>
+
       <LegalSection id="mail-rapport-test" title="Mail-Rapport-Test (Abklärung für Handwerksbetriebe)">
         <h3>Zweck</h3>
         <p>
