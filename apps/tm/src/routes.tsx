@@ -12,6 +12,9 @@ import OneClickOffice from "./pages/OneClickOffice.tsx";
 import Auron from "./pages/Auron.tsx";
 import UeberUns from "./pages/UeberUns.tsx";
 import MailRapportTest from "./pages/MailRapportTest.tsx";
+import KursLanding from "./kurs/KursLanding.tsx";
+import KursRaum from "./kurs/KursRaum.tsx";
+import KursAbmelden from "./kurs/KursAbmelden.tsx";
 import NischePage from "./pages/Nische.tsx";
 import { NISCHEN } from "./data/nischen";
 import { publishedCases } from "./data/cases";
@@ -35,6 +38,11 @@ export function AppRoutes() {
       <Route path="/datenschutz" element={<Privacy />} />
       <Route path="/selbstcheck" element={<Selbstcheck />} />
       <Route path="/mail-rapport-test" element={<MailRapportTest />} />
+      {/* Minikurs: Landingpage öffentlich, Kursseite nur mit persönlichem Link (nicht vorgerendert, noindex) */}
+      <Route path="/kurs" element={<KursLanding />} />
+      <Route path="/kurs/k/:token" element={<KursRaum />} />
+      <Route path="/kurs/k/:token/:nr" element={<KursRaum />} />
+      <Route path="/kurs/abmelden" element={<KursAbmelden />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
@@ -55,4 +63,5 @@ export const PRERENDER_PATHS = [
   "/datenschutz",
   "/selbstcheck",
   "/mail-rapport-test",
+  "/kurs",
 ];

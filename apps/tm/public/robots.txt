@@ -1,16 +1,26 @@
 User-agent: Googlebot
 Allow: /
+Disallow: /kurs/k/
+Disallow: /kurs/abmelden
 
 User-agent: Bingbot
 Allow: /
+Disallow: /kurs/k/
+Disallow: /kurs/abmelden
 
 User-agent: Twitterbot
 Allow: /
+Disallow: /kurs/k/
+Disallow: /kurs/abmelden
 
 User-agent: facebookexternalhit
 Allow: /
+Disallow: /kurs/k/
+Disallow: /kurs/abmelden
 
 User-agent: *
 Allow: /
+Disallow: /kurs/k/
+Disallow: /kurs/abmelden
 
 Sitemap: https://trendingmedia.ch/sitemap.xml
